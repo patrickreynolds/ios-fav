@@ -7,7 +7,30 @@
 		<key>Fave.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>11</integer>
+		</dict>
+		<key>FaveOffline.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>438534B6223336BA00B99EC7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>438534CA223336BB00B99EC7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>438534D5223336BB00B99EC7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
