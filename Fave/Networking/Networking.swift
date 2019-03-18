@@ -20,13 +20,7 @@ struct Networking {
     }
 
     func sendGetRequest(endpoint: FaveEndpoint, completion: @escaping FaveAPICallResultCompletionBlock) {
-        let endpoint = "\n\n\(baseUrl)\(endpoint.path)\n\n"
-
-//        if let token = authenticator.token() {
-//
-//        } else {
-//            completion(nil, Error(domain:"", code:"", userInfo: nil))
-//        }
+        let endpoint = "\(baseUrl)\(endpoint.path)"
 
         let headers: HTTPHeaders = [
             "Authorization": authenticator.token() ?? "",
