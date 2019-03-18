@@ -5,14 +5,15 @@ import Cartography
 import MBProgressHUD
 
 class ProfileViewController: FaveVC {
+
+    private lazy var profileTableHeaderView: ProfileTableViewHeader = {
+        return ProfileTableViewHeader(dependencyGraph: self.dependencyGraph, user: self.dependencyGraph.storage.getUser())
+    }()
+
     private lazy var profileTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 320, height: 667))
 
-        if let user = self.dependencyGraph.storage.getUser() {
-            let tableViewHeader = ProfileTableViewHeader(user: user)
-
-            tableView.tableHeaderView = tableViewHeader
-        }
+        tableView.tableHeaderView = self.profileTableHeaderView
 
         return tableView
     }()
@@ -61,6 +62,19 @@ class ProfileViewController: FaveVC {
         }
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        dependencyGraph.faveService.getCurrentUser { response, error in
+            if let userData = response, let user = User(data: userData) {
+                self.dependencyGraph.storage.saveUser(user: user)
+                self.profileTableHeaderView.updateUserInfo(user: user)
+
+                self.logUserData(userData: userData)
+            }
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -70,5 +84,10 @@ class ProfileViewController: FaveVC {
 
         self.navigationController?.navigationBar.topItem?.title = user.handle
         self.tabBarController?.tabBar.items?[2].title = "Profile"
+    }
+
+    private func logUserData(userData: [String: AnyObject]) {
+        print("\n\nUser keys: \(Array(userData.keys))\n\n")
+        print("User: \(userData.description)")
     }
 }

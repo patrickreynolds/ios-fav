@@ -13,7 +13,7 @@ enum FaveEndpoint {
         case .authentication:
             return "auth/login/external"
         case .user:
-            return "api/users/me"
+            return "api/v1/users/me"
         case .analytics:
             return "api/v1/analytics"
         }

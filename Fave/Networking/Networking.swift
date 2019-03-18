@@ -20,7 +20,7 @@ struct Networking {
     }
 
     func sendGetRequest(endpoint: FaveEndpoint, completion: @escaping FaveAPICallResultCompletionBlock) {
-        let endpoint = "\(baseUrl)\(endpoint.path)"
+        let endpoint = "\n\n\(baseUrl)\(endpoint.path)\n\n"
 
 //        if let token = authenticator.token() {
 //

@@ -36,7 +36,7 @@ class LoggedOutViewController: FaveVC {
     }
 
     var delegate: LoggedOutViewControllerDelegate?
-    let loadingIndicator = UIActivityIndicatorView.init(frame: CGRect.zero)
+    let loadingIndicator = UIActivityIndicatorView(frame: CGRect.zero)
     let logInWithFacebookButton = UIButton.init(frame: CGRect.zero)
 
     init(dependencyGraph: DependencyGraphType) {

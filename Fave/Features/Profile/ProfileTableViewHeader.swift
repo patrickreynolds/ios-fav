@@ -8,7 +8,8 @@ class ProfileTableViewHeader: UIView {
         static let HorizontalSpacing: CGFloat = 48
     }
 
-    let user: User
+    let user: User?
+    let dependencyGraph: DependencyGraphType
 
     let userButton = UIButton(frame: CGRect.zero)
 
@@ -28,17 +29,13 @@ class ProfileTableViewHeader: UIView {
     let profilePictureImageView = UIImageView.init(frame: CGRect.zero)
     
 
-    init(user: User) {
+    init(dependencyGraph: DependencyGraphType, user: User?) {
+        self.dependencyGraph = dependencyGraph
         self.user = user
 
         super.init(frame: CGRect.zero)
 
         self.isUserInteractionEnabled = true
-
-//        nameLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: NSLayoutConstraint.Axis.vertical)
-//        aboutMeLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: NSLayoutConstraint.Axis.vertical)
-//
-//        profilePictureImageView.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
 
         userButton.setTitle("Edit profile", for: .normal)
         userButton.setTitleColor(FaveColors.Black90, for: .normal)
@@ -79,27 +76,25 @@ class ProfileTableViewHeader: UIView {
             button.bottom == view.bottom - 16
         }
 
-        nameLabel.text = ("\(user.firstName) \(user.lastName)")
-
-        let imageData = Data(referencing: user.profilePicture)
-        profilePictureImageView.image = UIImage(data: imageData)
-        profilePictureImageView.layer.cornerRadius = 80 / 2
-        profilePictureImageView.backgroundColor = FaveColors.Black20
+        updateUserInfo(user: user)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func reqeustUserInfo(sender: UIButton!) {
-        print("\(user.description)")
+    func updateUserInfo(user: User?) {
+        nameLabel.text = ("\(user?.firstName ?? "") \(user?.lastName ?? "")")
 
-        //        dependencyGraph.faveService.getCurrentUser { response, error in
-        //            if let user = response {
-        //                print("\n\nUser keys: \(Array(user.keys))\n\n")
-        //
-        //                print("\n\nUser: \(user.description)\n\n")
-        //            }
-        //        }
+        if let unwrappedUser = user {
+            let imageData = Data(referencing: unwrappedUser.profilePicture)
+            profilePictureImageView.image = UIImage(data: imageData)
+            profilePictureImageView.layer.cornerRadius = 80 / 2
+            profilePictureImageView.backgroundColor = FaveColors.Black20
+        }
+    }
+
+    @objc func reqeustUserInfo(sender: UIButton!) {
+        print("\(user?.description ?? "")")
     }
 }
