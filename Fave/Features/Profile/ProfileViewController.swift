@@ -36,13 +36,22 @@ class ProfileViewController: FaveVC {
         return ProfileTableViewHeader(dependencyGraph: self.dependencyGraph, user: self.dependencyGraph.storage.getUser())
     }()
 
+    private lazy var sectionHeaderView: ProfileTableSectionHeaderView = {
+        let sectionHeaderView = ProfileTableSectionHeaderView()
+
+        sectionHeaderView.delegate = self
+
+        return sectionHeaderView
+    }()
+
     private lazy var profileTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 320, height: 667))
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
 
         tableView.delegate = self
         tableView.dataSource = self
 
         tableView.tableHeaderView = self.profileTableHeaderView
+        tableView.tableFooterView = UIView(frame: .zero)
 
         tableView.register(ListTableViewCell.self)
 
@@ -54,9 +63,7 @@ class ProfileViewController: FaveVC {
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
 
-        refreshControl.addTarget(self, action:
-            #selector(handleRefresh(_:)),
-                                 for: UIControl.Event.valueChanged)
+        refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
 
         refreshControl.tintColor = FaveColors.Accent
 
@@ -95,7 +102,7 @@ class ProfileViewController: FaveVC {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if let tableHeaderView = self.profileTableView.tableHeaderView {
+        if let tableHeaderView = profileTableView.tableHeaderView {
             tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
 
             let constraint = NSLayoutConstraint(item: tableHeaderView,
@@ -104,7 +111,7 @@ class ProfileViewController: FaveVC {
                                                 toItem: nil,
                                                 attribute: .width,
                                                 multiplier: 1,
-                                                constant: self.profileTableView.frame.width)
+                                                constant: profileTableView.frame.width)
 
             tableHeaderView.addConstraint(constraint)
 
@@ -129,7 +136,7 @@ class ProfileViewController: FaveVC {
             return
         }
 
-        self.navigationController?.navigationBar.topItem?.title = user.handle
+        navigationController?.navigationBar.topItem?.title = user.handle
     }
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -148,6 +155,8 @@ class ProfileViewController: FaveVC {
                 self.dependencyGraph.storage.saveUser(user: user)
                 self.profileTableHeaderView.updateUserInfo(user: user)
 
+                self.navigationController?.navigationBar.topItem?.title = user.handle
+
                 self.logUserData(userData: userData)
             }
 
@@ -161,11 +170,15 @@ class ProfileViewController: FaveVC {
     }
 }
 
-extension ProfileViewController: UITableViewDelegate {}
+extension ProfileViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        profileTableView.deselectRow(at: indexPath, animated: true)
+    }
+}
 
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.lists.count
+        return lists.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -175,5 +188,23 @@ extension ProfileViewController: UITableViewDataSource {
         cell.populate(list: list)
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return section == 0 ? self.sectionHeaderView : UIView(frame: CGRect.zero)
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 56 : 0
+    }
+}
+
+extension ProfileViewController: ProfileTableSectionHeaderViewDelegate {
+    func listsButtonTapped() {
+        print("\n\nLists Button Tapped\n\n")
+    }
+
+    func addItemButtonTapped() {
+        print("\n\nAdd Item Button Tapped\n\n")
     }
 }

@@ -1,11 +1,3 @@
-//
-//  Item.swift
-//  Fave
-//
-//  Created by Patrick Reynolds on 3/18/19.
-//  Copyright © 2019 Patrick Reynolds. All rights reserved.
-//
-
 import Foundation
 
 struct Item {

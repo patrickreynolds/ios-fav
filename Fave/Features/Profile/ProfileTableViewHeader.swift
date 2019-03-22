@@ -5,13 +5,25 @@ import Cartography
 
 class ProfileTableViewHeader: UIView {
     struct Constants {
-        static let HorizontalSpacing: CGFloat = 48
+        static let HorizontalSpacing: CGFloat = 0
     }
 
     let user: User?
     let dependencyGraph: DependencyGraphType
 
-    let userButton = UIButton(frame: CGRect.zero)
+    private lazy var userButton: UIButton = {
+        let button = UIButton(frame: CGRect.zero)
+
+        button.setTitle("Edit profile", for: .normal)
+        button.setTitleColor(FaveColors.Black90, for: .normal)
+        button.backgroundColor = UIColor.white
+        button.addTarget(self, action: #selector(reqeustUserInfo), for: .touchUpInside)
+        button.layer.cornerRadius = 4
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = FaveColors.Black30.cgColor
+
+        return button
+    }()
 
     let nameLabel = Label(text: "Temp",
                                font: FaveFont(style: .h3, weight: .bold),
@@ -35,15 +47,7 @@ class ProfileTableViewHeader: UIView {
 
         super.init(frame: CGRect.zero)
 
-        self.isUserInteractionEnabled = true
-
-        userButton.setTitle("Edit profile", for: .normal)
-        userButton.setTitleColor(FaveColors.Black90, for: .normal)
-        userButton.backgroundColor = UIColor.white
-        userButton.addTarget(self, action: #selector(reqeustUserInfo), for: .touchUpInside)
-        userButton.layer.cornerRadius = 4
-        userButton.layer.borderWidth = 1.0
-        userButton.layer.borderColor = FaveColors.Black30.cgColor
+        isUserInteractionEnabled = true
 
         addSubview(userButton)
         addSubview(nameLabel)
@@ -65,12 +69,12 @@ class ProfileTableViewHeader: UIView {
 
         constrain(aboutMeLabel, nameLabel) { subtitleLabel, nameLabel in
             subtitleLabel.left == nameLabel.left
-            subtitleLabel.top == nameLabel.bottom
+            subtitleLabel.top == nameLabel.bottom - 8
             subtitleLabel.right == nameLabel.right
         }
 
         constrain(userButton, aboutMeLabel, self) { button, label, view in
-            button.top == label.bottom + 16
+            button.top == label.bottom
             button.left == view.left + 16
             button.right == view.right - 16
             button.bottom == view.bottom - 16
@@ -95,6 +99,6 @@ class ProfileTableViewHeader: UIView {
     }
 
     @objc func reqeustUserInfo(sender: UIButton!) {
-        print("\(user?.description ?? "")")
+        print("\nEdit profile\n")
     }
 }

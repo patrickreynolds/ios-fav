@@ -11,6 +11,8 @@
 		4305F3752240087800F6DE77 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305F3742240087800F6DE77 /* Item.swift */; };
 		4305F37722400A3500F6DE77 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305F37622400A3500F6DE77 /* ListTableViewCell.swift */; };
 		43176570223B644700C1963E /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317656F223B644700C1963E /* Authenticator.swift */; };
+		431CAF3C2240969300F50FC8 /* ProfileSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */; };
+		431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */; };
 		438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BA223336BA00B99EC7 /* AppDelegate.swift */; };
 		438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BC223336BA00B99EC7 /* FeedViewController.swift */; };
 		438534C2223336BB00B99EC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 438534C1223336BB00B99EC7 /* Assets.xcassets */; };
@@ -50,6 +52,7 @@
 		43AFB451223EE6D100B243E1 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */; };
 		43B26BB7223A065600CA2549 /* CreateEntryTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB6223A065600CA2549 /* CreateEntryTabViewController.swift */; };
 		43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB8223A085900CA2549 /* ProfileViewController.swift */; };
+		43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF88102243E10E0096CCA1 /* DictionaryExt.swift */; };
 		DE2303A16BE2436E59DAE2A9 /* Pods_Fave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 959568249CF04E72C443846A /* Pods_Fave.framework */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +78,8 @@
 		4305F3742240087800F6DE77 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		4305F37622400A3500F6DE77 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		4317656F223B644700C1963E /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
+		431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSectionHeaderView.swift; sourceTree = "<group>"; };
+		431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringExt.swift; sourceTree = "<group>"; };
 		438534B7223336BA00B99EC7 /* Fave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		438534BA223336BA00B99EC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		438534BC223336BA00B99EC7 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +125,7 @@
 		43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		43B26BB6223A065600CA2549 /* CreateEntryTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryTabViewController.swift; sourceTree = "<group>"; };
 		43B26BB8223A085900CA2549 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		43BF88102243E10E0096CCA1 /* DictionaryExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExt.swift; sourceTree = "<group>"; };
 		6404CA777F7C8002A35EDFED /* Pods-Fave.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fave.release.xcconfig"; path = "Target Support Files/Pods-Fave/Pods-Fave.release.xcconfig"; sourceTree = "<group>"; };
 		959568249CF04E72C443846A /* Pods_Fave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E94497C4FBECD7E8881FDC90 /* Pods-Fave.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fave.debug.xcconfig"; path = "Target Support Files/Pods-Fave/Pods-Fave.debug.xcconfig"; sourceTree = "<group>"; };
@@ -222,6 +228,8 @@
 				438534EF223338C600B99EC7 /* IntExtensions.swift */,
 				438534F1223338E700B99EC7 /* FaveColors.swift */,
 				43AFB44E223EE47100B243E1 /* CGRectExt.swift */,
+				431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */,
+				43BF88102243E10E0096CCA1 /* DictionaryExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -324,6 +332,7 @@
 				43AFB44C223DE8F500B243E1 /* ProfileTableViewHeader.swift */,
 				43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */,
 				4305F37622400A3500F6DE77 /* ListTableViewCell.swift */,
+				431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -570,15 +579,18 @@
 				438534F2223338E700B99EC7 /* FaveColors.swift in Sources */,
 				4386BFE022334760006A3ED7 /* LoggedOutViewController.swift in Sources */,
 				43AFB44A223DD00500B243E1 /* Storage.swift in Sources */,
+				431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */,
 				4385350022333A0700B99EC7 /* AppConfiguration.swift in Sources */,
 				438534FC223339B200B99EC7 /* AnalyticsEvents.swift in Sources */,
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
 				43AFB44D223DE8F500B243E1 /* ProfileTableViewHeader.swift in Sources */,
+				431CAF3C2240969300F50FC8 /* ProfileSectionHeaderView.swift in Sources */,
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
 				438534F52233391500B99EC7 /* Color.swift in Sources */,
 				4385350B22333B8200B99EC7 /* FaveEndpoint.swift in Sources */,
+				43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */,
 				438534EC2233388900B99EC7 /* SaveCollections.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
