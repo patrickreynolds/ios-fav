@@ -4,7 +4,7 @@ import Cartography
 
 protocol ProfileTableSectionHeaderViewDelegate {
     func listsButtonTapped()
-    func addItemButtonTapped()
+    func addListButtonTapped()
 }
 
 class ProfileTableSectionHeaderView: UIView {
@@ -56,13 +56,13 @@ class ProfileTableSectionHeaderView: UIView {
         addSubview(newListButton)
 
         constrain(listsButton, self) { button, view in
-            button.top == view.top + 16
+            button.top == view.top + 8
             button.left == view.left + 16
             button.bottom == view.bottom - 8
         }
 
         constrain(newListButton, self) { button, view in
-            button.top == view.top + 16
+            button.top == view.top + 8
             button.right == view.right - 16
             button.bottom == view.bottom - 8
         }
@@ -79,6 +79,6 @@ class ProfileTableSectionHeaderView: UIView {
 
     @objc func newListButtonTapped(sender: UIButton!) {
         print("\n\nNew Entry Button Tapped\n\n")
-        delegate?.addItemButtonTapped()
+        delegate?.addListButtonTapped()
     }
 }

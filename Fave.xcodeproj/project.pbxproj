@@ -53,6 +53,8 @@
 		43B26BB7223A065600CA2549 /* CreateEntryTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB6223A065600CA2549 /* CreateEntryTabViewController.swift */; };
 		43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB8223A085900CA2549 /* ProfileViewController.swift */; };
 		43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF88102243E10E0096CCA1 /* DictionaryExt.swift */; };
+		43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881222447BB80096CCA1 /* CreateListViewController.swift */; };
+		43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881422449EFB0096CCA1 /* DividerView.swift */; };
 		DE2303A16BE2436E59DAE2A9 /* Pods_Fave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 959568249CF04E72C443846A /* Pods_Fave.framework */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +128,8 @@
 		43B26BB6223A065600CA2549 /* CreateEntryTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryTabViewController.swift; sourceTree = "<group>"; };
 		43B26BB8223A085900CA2549 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		43BF88102243E10E0096CCA1 /* DictionaryExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExt.swift; sourceTree = "<group>"; };
+		43BF881222447BB80096CCA1 /* CreateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewController.swift; sourceTree = "<group>"; };
+		43BF881422449EFB0096CCA1 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		6404CA777F7C8002A35EDFED /* Pods-Fave.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fave.release.xcconfig"; path = "Target Support Files/Pods-Fave/Pods-Fave.release.xcconfig"; sourceTree = "<group>"; };
 		959568249CF04E72C443846A /* Pods_Fave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E94497C4FBECD7E8881FDC90 /* Pods-Fave.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fave.debug.xcconfig"; path = "Target Support Files/Pods-Fave/Pods-Fave.debug.xcconfig"; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 				438534F42233391500B99EC7 /* Color.swift */,
 				438534F92233397E00B99EC7 /* FaveVC.swift */,
 				4386BFF122335F43006A3ED7 /* Label.swift */,
+				43BF881422449EFB0096CCA1 /* DividerView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -333,6 +338,7 @@
 				43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */,
 				4305F37622400A3500F6DE77 /* ListTableViewCell.swift */,
 				431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */,
+				43BF881222447BB80096CCA1 /* CreateListViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -528,6 +534,7 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
+				"${BUILT_PRODUCTS_DIR}/KMPlaceholderTextView/KMPlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
@@ -545,6 +552,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
@@ -566,6 +574,7 @@
 				43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */,
 				438534EA2233386100B99EC7 /* CartographyExt.swift in Sources */,
 				438534FA2233397E00B99EC7 /* FaveVC.swift in Sources */,
+				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
 				438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */,
 				438534FE223339D500B99EC7 /* Analytics.swift in Sources */,
 				4386BFF222335F43006A3ED7 /* Label.swift in Sources */,
@@ -589,6 +598,7 @@
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
 				438534F52233391500B99EC7 /* Color.swift in Sources */,
+				43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */,
 				4385350B22333B8200B99EC7 /* FaveEndpoint.swift in Sources */,
 				43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */,
 				438534EC2233388900B99EC7 /* SaveCollections.swift in Sources */,

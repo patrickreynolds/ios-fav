@@ -7,6 +7,7 @@ target 'Fave' do
   pod 'MBProgressHUD', '~> 1.1.0'
   pod 'SwiftKeychainWrapper', '~> 3.2.0'
   pod 'R.swift'
+  pod 'KMPlaceholderTextView', '~> 1.4.0'
 
   pod 'FacebookCore'
   pod 'FacebookLogin'

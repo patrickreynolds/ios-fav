@@ -26,9 +26,11 @@ struct AnalyticsService {
     }
 
     func logEvent(event: AnalyticsEvent, completion: FaveAPICallResultCompletionBlock? = nil) {
-        networking.sendPostRequest(endpoint: .analytics, data: event.dictionary) { response, error in
-            completion?(response, error)
-        }
+        print("\n\(event.dictionary)\n")
+
+//        networking.sendPostRequest(endpoint: .analytics, data: event.dictionary) { response, error in
+//            completion?(response, error)
+//        }
     }
 }
 

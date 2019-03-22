@@ -22,8 +22,14 @@ struct Networking {
     func sendGetRequest(endpoint: FaveEndpoint, completion: @escaping FaveAPICallResultCompletionBlock) {
         let endpoint = "\(baseUrl)\(endpoint.path)"
 
+        var authToken: String = ""
+
+        if let token = authenticator.token() {
+            authToken = "bearer \(token)"
+        }
+
         let headers: HTTPHeaders = [
-            "Authorization": authenticator.token() ?? "",
+            "Authorization": authToken,
             "Accept": "application/json",
             "Content-Type": "application/json"
         ]
@@ -44,7 +50,19 @@ struct Networking {
 
         print("Endpoint: \(endpoint)")
 
-        Alamofire.request(endpoint, method: .post, parameters: data).responseJSON { response in
+        var authToken: String = ""
+
+        if let token = authenticator.token() {
+            authToken = "bearer \(token)"
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": authToken,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        ]
+
+        Alamofire.request(endpoint, method: .post, parameters: data, headers: headers).responseJSON { response in
             guard let result = response.result.value else {
                 completion(nil, response.error)
 

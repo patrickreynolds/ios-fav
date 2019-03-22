@@ -195,7 +195,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 56 : 0
+        return section == 0 ? 48 : 0
     }
 }
 
@@ -204,7 +204,12 @@ extension ProfileViewController: ProfileTableSectionHeaderViewDelegate {
         print("\n\nLists Button Tapped\n\n")
     }
 
-    func addItemButtonTapped() {
+    func addListButtonTapped() {
         print("\n\nAdd Item Button Tapped\n\n")
+
+        let createListViewController = CreateListViewController.init(dependencyGraph: self.dependencyGraph)
+        let createListNavigationViewController = UINavigationController(rootViewController: createListViewController)
+
+        present(createListNavigationViewController, animated: true, completion: nil)
     }
 }

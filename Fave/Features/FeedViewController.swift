@@ -62,14 +62,11 @@ class FeedViewController: FaveVC {
         progressHud.show(animated: true)
         progressHud.hide(animated: true, afterDelay: 2.0)
 
-        delay(2.0) {
-            self.showTokenButton(true)
+        self.showTokenButton(true)
 
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                self.welcomeLabel.alpha = 1
-            }, completion: { completed in
-            })
-        }
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.welcomeLabel.alpha = 1
+        }, completion: { completed in })
     }
 
     func showTokenButton(_ shouldShow: Bool) {

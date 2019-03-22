@@ -69,12 +69,12 @@ class ProfileTableViewHeader: UIView {
 
         constrain(aboutMeLabel, nameLabel) { subtitleLabel, nameLabel in
             subtitleLabel.left == nameLabel.left
-            subtitleLabel.top == nameLabel.bottom - 8
+            subtitleLabel.top == nameLabel.bottom
             subtitleLabel.right == nameLabel.right
         }
 
         constrain(userButton, aboutMeLabel, self) { button, label, view in
-            button.top == label.bottom
+            button.top == label.bottom + 16
             button.left == view.left + 16
             button.right == view.right - 16
             button.bottom == view.bottom - 16

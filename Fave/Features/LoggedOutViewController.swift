@@ -142,9 +142,11 @@ class LoggedOutViewController: FaveVC {
 
                     var jwtAuthToken: String?
 
-                    if let response = response, let token = response["token"] as? String {
-                        print("\n\nToken: \(token)\n\n")
-                        jwtAuthToken = token
+                    if let response = response {
+                        if let token = response["token"] as? String {
+                            print("\n\nToken: \(token)\n\n")
+                            jwtAuthToken = token
+                        }
                     }
 
                     if let response = response, let userData = response["user"] as? [String: AnyObject] {

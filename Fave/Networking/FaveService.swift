@@ -2,7 +2,8 @@ import Foundation
 
 protocol FaveServiceType {
     func authenticate(network: String, accessToken: String, completion: @escaping FaveAPICallResultCompletionBlock)
-    func getFlights(origin: String, destination: String, completion: @escaping FaveAPICallResultCompletionBlock)
+    func getCurrentUser(completion: @escaping FaveAPICallResultCompletionBlock)
+    func createList(name: String, description: String, isPublic: Bool, completion: @escaping FaveAPICallResultCompletionBlock)
 }
 
 struct FaveService {
@@ -33,6 +34,18 @@ struct FaveService {
         ]
 
         networking.sendPostRequest(endpoint: .authentication, data: data) { response, error in
+            completion(response, error)
+        }
+    }
+
+    func createList(name: String, description: String = "", isPublic: Bool = true, completion: @escaping FaveAPICallResultCompletionBlock) {
+        let data: [String: String] = [
+            "title": name,
+            "description": description,
+            "isPublic": isPublic ? "true" : "false"
+            ]
+
+        networking.sendPostRequest(endpoint: .list, data: data) { response, error in
             completion(response, error)
         }
     }

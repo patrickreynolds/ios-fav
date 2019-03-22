@@ -19,6 +19,7 @@ class FaveColors: NSObject {
     // MARK: Primary Palette
 
     static let Accent = UIColor(hexString: "419BF9")
+    static let White = UIColor.white
     static let Indigo = UIColor(hexString: "0FA0EA")
     static let Blue = UIColor(hexString: "0F72E5")
     static let Purple = UIColor(hexString: "5846E4")
