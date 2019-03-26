@@ -4,6 +4,7 @@ import Cartography
 import FacebookLogin
 
 protocol LoggedOutViewControllerDelegate {
+    func didSkipAuthentication(viewController: LoggedOutViewController)
     func didSuccessfullyAuthenticate(viewController: LoggedOutViewController)
 }
 
@@ -14,17 +15,18 @@ class LoggedOutViewController: FaveVC {
         case loggingIn
     }
 
+    var delegate: LoggedOutViewControllerDelegate?
+
     var loginState: LoginState = .loggedOut {
         didSet {
             if loginState == .loggingIn {
-
                 UIView.animate(withDuration: 0.3, animations: {
                     self.logInWithFacebookButton.alpha = 0
                 }) { completed in
-                    self.loadingIndicator.startAnimating()
+                    self.loadingIndicatorView.startAnimating()
                 }
             } else {
-                self.loadingIndicator.stopAnimating()
+                loadingIndicatorView.stopAnimating()
 
                 UIView.animate(withDuration: 0.3, animations: {
                     self.logInWithFacebookButton.alpha = 1
@@ -35,9 +37,42 @@ class LoggedOutViewController: FaveVC {
         }
     }
 
-    var delegate: LoggedOutViewControllerDelegate?
-    let loadingIndicator = UIActivityIndicatorView(frame: CGRect.zero)
-    let logInWithFacebookButton = UIButton.init(frame: CGRect.zero)
+    private lazy var loadingIndicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView(frame: .zero)
+
+        indicatorView.hidesWhenStopped = true
+        indicatorView.style = .gray
+
+        return indicatorView
+    }()
+
+    private lazy var logInWithFacebookButton: UIButton = {
+        let button = UIButton(frame: .zero)
+
+        let facebookBlueHexString = "#3A5997"
+
+        button.backgroundColor = UIColor(hexString: facebookBlueHexString)
+        button.layer.cornerRadius = 56 / 2
+        button.setTitle("Log In With Facebook", for: .normal)
+        button.addTarget(self, action: #selector(authenticateWithFacebook), for: .touchUpInside)
+
+        return button
+    }()
+
+    private lazy var skipButton: UIButton = {
+        let button = UIButton(frame: .zero)
+
+        button.backgroundColor = FaveColors.White
+        let attributedTitle = NSAttributedString(string: "Skip",
+                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
+                                                 textColor: FaveColors.Black50)
+
+        button.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
+
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        return button
+    }()
 
     init(dependencyGraph: DependencyGraphType) {
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .loggedOutScreenShown)
@@ -52,35 +87,28 @@ class LoggedOutViewController: FaveVC {
 
         view.backgroundColor = UIColor.white
 
-        let faveLogo = UIImageView.init(image: UIImage.init(named: "fave-logo"))
+        let faveLogo = UIImageView(image: UIImage(named: "fave-logo"))
 
-        let title = Label.init(
+        let title = Label(
             text: "Join The Community!",
-            font: FaveFont.init(style: .h2, weight: .bold),
+            font: FaveFont(style: .h2, weight: .bold),
             textColor: FaveColors.Black90,
             textAlignment: .center,
             numberOfLines: 0)
 
         let subtitle = Label(
             text: "Finding the best places, products, and people is great, but finding the best ones for you is even better.",
-            font: FaveFont.init(style: .h5, weight: .regular),
+            font: FaveFont(style: .h5, weight: .regular),
             textColor: FaveColors.Black70,
             textAlignment: .center,
             numberOfLines: 0)
 
-        logInWithFacebookButton.backgroundColor = UIColor(hexString: "#3A5997")
-        logInWithFacebookButton.layer.cornerRadius = 56 / 2
-        logInWithFacebookButton.setTitle("Log In With Facebook", for: .normal)
-        logInWithFacebookButton.addTarget(self, action: #selector(authenticateWithFacebook), for: .touchUpInside)
-
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = .gray
-
         view.addSubview(title)
         view.addSubview(subtitle)
         view.addSubview(logInWithFacebookButton)
-        view.addSubview(loadingIndicator)
+        view.addSubview(loadingIndicatorView)
         view.addSubview(faveLogo)
+        view.addSubview(skipButton)
 
         constrain(title, view) { title, view in
             title.top == view.top + (UIScreen.main.bounds.height / 2) - 80
@@ -101,7 +129,7 @@ class LoggedOutViewController: FaveVC {
             button.height == 56
         }
 
-        constrain(loadingIndicator, logInWithFacebookButton, view) { indicator, button, view in
+        constrain(loadingIndicatorView, logInWithFacebookButton, view) { indicator, button, view in
             indicator.centerX == button.centerX
             indicator.centerY == button.centerY
         }
@@ -112,10 +140,19 @@ class LoggedOutViewController: FaveVC {
             faveLogo.width == 100
             faveLogo.height == 60
         }
+
+        constrain(skipButton, logInWithFacebookButton) { button, facebookButton in
+            button.top == facebookButton.bottom + 24
+            button.centerX == facebookButton.centerX
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+
+    @objc func skipButtonTapped(sender: UIButton!) {
+        self.delegate?.didSkipAuthentication(viewController: self)
     }
 
     @objc func authenticateWithFacebook(sender: UIButton!) {

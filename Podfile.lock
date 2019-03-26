@@ -26,6 +26,13 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.41.0):
     - FBSDKCoreKit
+  - GoogleMaps (3.0.3):
+    - GoogleMaps/Maps (= 3.0.3)
+  - GoogleMaps/Base (3.0.3)
+  - GoogleMaps/Maps (3.0.3):
+    - GoogleMaps/Base
+  - GooglePlaces (3.0.3):
+    - GoogleMaps/Base (= 3.0.3)
   - KMPlaceholderTextView (1.4.0)
   - MBProgressHUD (1.1.0)
   - R.swift (5.0.2):
@@ -40,6 +47,8 @@ DEPENDENCIES:
   - FacebookLogin
   - FacebookShare
   - FBSDKLoginKit
+  - GoogleMaps
+  - GooglePlaces
   - KMPlaceholderTextView (~> 1.4.0)
   - MBProgressHUD (~> 1.1.0)
   - R.swift
@@ -56,6 +65,8 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
+    - GoogleMaps
+    - GooglePlaces
     - KMPlaceholderTextView
     - MBProgressHUD
     - R.swift
@@ -72,12 +83,14 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 974810fe3806173f3777c68062fa8ed6fa59b59d
   FBSDKLoginKit: 159a5c2eebe6a0774c3b128f5085128679233d2b
   FBSDKShareKit: 79dfd0c51f1a241f33e219fcc39e7cc69534b900
+  GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
+  GooglePlaces: f09e76993c9c3ee4af8f4f7f535bb94d6aa3b649
   KMPlaceholderTextView: 2206c3df39979e9396e2d96fa9f427a8951121b0
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
   SwiftKeychainWrapper: 82c4c02cdc36f9a24f7edfcaab3e336401caa1a1
 
-PODFILE CHECKSUM: a5b75ae0b7459f15cddad99cc5a894151af27837
+PODFILE CHECKSUM: f6d0137b5b92e853c79a3ac482cc640948908ea8
 
 COCOAPODS: 1.6.1

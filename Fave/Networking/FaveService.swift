@@ -3,7 +3,10 @@ import Foundation
 protocol FaveServiceType {
     func authenticate(network: String, accessToken: String, completion: @escaping FaveAPICallResultCompletionBlock)
     func getCurrentUser(completion: @escaping FaveAPICallResultCompletionBlock)
-    func createList(name: String, description: String, isPublic: Bool, completion: @escaping FaveAPICallResultCompletionBlock)
+    func getLists(userId: String, completion: @escaping FaveAPICallResultCompletionBlock)
+    func getList(userId: String, listId: String, completion: @escaping FaveAPICallResultCompletionBlock)
+    func createList(userId: String, name: String, description: String, isPublic: Bool, completion: @escaping FaveAPICallResultCompletionBlock)
+    func createListItem(userId: String, listId: String, type: String, placeId: String, description: String, completion: @escaping FaveAPICallResultCompletionBlock)
 }
 
 struct FaveService {
@@ -38,14 +41,38 @@ struct FaveService {
         }
     }
 
-    func createList(name: String, description: String = "", isPublic: Bool = true, completion: @escaping FaveAPICallResultCompletionBlock) {
+    func getLists(userId: String, completion: @escaping FaveAPICallResultCompletionBlock) {
+        networking.sendGetRequest(endpoint: .getLists(userId: userId)) { response, error in
+            completion(response, error)
+        }
+    }
+
+    func getList(userId: String, listId: String, completion: @escaping FaveAPICallResultCompletionBlock) {
+        networking.sendGetRequest(endpoint: .getList(userId: userId, listId: listId)) { response, error in
+            completion(response, error)
+        }
+    }
+
+    func createList(userId: String, name: String, description: String = "", isPublic: Bool = true, completion: @escaping FaveAPICallResultCompletionBlock) {
         let data: [String: String] = [
             "title": name,
             "description": description,
             "isPublic": isPublic ? "true" : "false"
-            ]
+        ]
 
-        networking.sendPostRequest(endpoint: .list, data: data) { response, error in
+        networking.sendPostRequest(endpoint: .createList(userId: userId), data: data) { response, error in
+            completion(response, error)
+        }
+    }
+
+    func createListItem(userId: String, listId: String, type: String, placeId: String, description: String, completion: @escaping FaveAPICallResultCompletionBlock) {
+        let data: [String: String] = [
+            "googlePlaceId": placeId
+        ]
+
+//        "description": description
+
+        networking.sendPostRequest(endpoint: .createListItem(userId: userId, listId: listId, type: type), data: data) { response, error in
             completion(response, error)
         }
     }

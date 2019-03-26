@@ -8,6 +8,8 @@ struct AppConfiguration: AppConfigType {
     let baseUrl: String
 
     init() {
-        self.baseUrl = ProcessInfo().environment["BASE_URL"] ?? ""
+        self.baseUrl = Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String
+
+        print("BASE URL: \(self.baseUrl)")
     }
 }

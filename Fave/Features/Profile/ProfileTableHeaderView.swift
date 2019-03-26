@@ -3,7 +3,7 @@ import UIKit
 
 import Cartography
 
-class ProfileTableViewHeader: UIView {
+class ProfileTableHeaderView: UIView {
     struct Constants {
         static let HorizontalSpacing: CGFloat = 0
     }
@@ -14,13 +14,17 @@ class ProfileTableViewHeader: UIView {
     private lazy var userButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
-        button.setTitle("Edit profile", for: .normal)
-        button.setTitleColor(FaveColors.Black90, for: .normal)
         button.backgroundColor = UIColor.white
         button.addTarget(self, action: #selector(reqeustUserInfo), for: .touchUpInside)
         button.layer.cornerRadius = 4
         button.layer.borderWidth = 1.0
         button.layer.borderColor = FaveColors.Black30.cgColor
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+
+        let attributedTitle = NSAttributedString(string: "Edit profile",
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 textColor: FaveColors.Black90)
+        button.setAttributedTitle(attributedTitle, for: .normal)
 
         return button
     }()

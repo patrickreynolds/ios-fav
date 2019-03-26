@@ -13,4 +13,7 @@ target 'Fave' do
   pod 'FacebookLogin'
   pod 'FacebookShare'
   pod 'FBSDKLoginKit'
+
+  pod 'GooglePlaces'
+  pod 'GoogleMaps'
 end

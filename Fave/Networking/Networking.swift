@@ -31,8 +31,9 @@ struct Networking {
         let headers: HTTPHeaders = [
             "Authorization": authToken,
             "Accept": "application/json",
-            "Content-Type": "application/json"
         ]
+
+        // "Content-Type": "application/json"
 
         Alamofire.request(endpoint, headers: headers).responseJSON { response in
             guard let result = response.result.value else {
@@ -41,7 +42,11 @@ struct Networking {
                 return
             }
 
-            completion(result as? [String: AnyObject], nil)
+            if let array = result as? [[String: AnyObject]] {
+                completion(["data": array as AnyObject], nil)
+            } else {
+                completion(result as? [String: AnyObject], nil)
+            }
         }
     }
 
@@ -59,8 +64,9 @@ struct Networking {
         let headers: HTTPHeaders = [
             "Authorization": authToken,
             "Accept": "application/json",
-            "Content-Type": "application/json"
         ]
+
+        // "Content-Type": "application/json"
 
         Alamofire.request(endpoint, method: .post, parameters: data, headers: headers).responseJSON { response in
             guard let result = response.result.value else {
@@ -69,7 +75,11 @@ struct Networking {
                 return
             }
 
-            completion(result as? [String: AnyObject], nil)
+            if let newResult = result as? [String: AnyObject], let newResultData = newResult["data"] as? [String: AnyObject] {
+                completion(newResultData, nil)
+            } else {
+                completion(result as? [String: AnyObject], nil)
+            }
         }
     }
 }

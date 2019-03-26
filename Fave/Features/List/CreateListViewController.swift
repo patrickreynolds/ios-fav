@@ -1,8 +1,15 @@
 import Foundation
 import UIKit
 import Cartography
+import MBProgressHUD
+
+protocol CreateListViewControllerDelegate {
+    func didCreateList(list: List)
+}
 
 class CreateListViewController: FaveVC {
+
+    var delegate: CreateListViewControllerDelegate?
 
     var nameTextField: UITextField = UITextField(frame: .zero)
     var commentTextView: UITextView = UITextView(frame: .zero)
@@ -20,7 +27,26 @@ class CreateListViewController: FaveVC {
         }
     }
 
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                progressHud.show(animated: true)
+            } else {
+                progressHud.hide(animated: true)
+            }
+        }
+    }
+
     public var heightConstraint: NSLayoutConstraint?
+
+    private lazy var progressHud: MBProgressHUD = {
+        let hud = MBProgressHUD(frame: .zero)
+
+        hud.animationType = .fade
+        hud.contentColor = FaveColors.Accent
+
+        return hud
+    }()
 
     private lazy var createButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
@@ -62,7 +88,7 @@ class CreateListViewController: FaveVC {
         nameInputIconImageView.tintColor = FaveColors.Black50
 
         nameTextField = UITextField(frame: .zero)
-        nameTextField.font = FaveFont(style: .h4, weight: .regular).font
+        nameTextField.font = FaveFont(style: .h5, weight: .regular).font
         nameTextField.placeholder = "Name"
         nameTextField.textColor = FaveColors.Black90
         nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
@@ -109,7 +135,7 @@ class CreateListViewController: FaveVC {
         commentTextView.layer.cornerRadius = 6
         commentTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 
-        commentTextViewPlaceholder = Label(text: "Description", font: FaveFont(style: .h4, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        commentTextViewPlaceholder = Label(text: "Description", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
         commentTextViewPlaceholder.translatesAutoresizingMaskIntoConstraints = false
         commentTextViewPlaceholder.isHidden = false
 
@@ -157,7 +183,7 @@ class CreateListViewController: FaveVC {
         privacyInputIconImageView.tintColor = FaveColors.Black50
         privacyInputIconImageView.setContentHuggingPriority(.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
 
-        let publicSettingsLabel = Label(text: "Public", font: FaveFont(style: .h4, weight: .regular), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 1)
+        let publicSettingsLabel = Label(text: "Public", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 1)
         publicSettingsLabel.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
 
         publicSettingsSwitch = UISwitch.init(frame: .zero)
@@ -213,7 +239,6 @@ class CreateListViewController: FaveVC {
             publicView.bottom == view.bottom
         }
 
-
         return view
     }()
 
@@ -239,9 +264,19 @@ class CreateListViewController: FaveVC {
         createButton.layer.cornerRadius = 32 / 2
         createListEnabled = false
 
+        view.addSubview(progressHud)
         view.addSubview(scrollView)
 
-        constrainToSuperview(scrollView)
+        constrainToSuperview(scrollView, exceptEdges: [.top])
+
+        constrain(scrollView, view) { scrollView, view in
+            scrollView.top == view.topMargin
+        }
+
+        constrain(progressHud, view) { hud, view in
+            hud.centerX == view.centerX
+            hud.centerY == view.centerY
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -263,10 +298,33 @@ class CreateListViewController: FaveVC {
         let description = self.commentTextView.text ?? ""
         let isPublic = self.publicSettingsSwitch.isOn
 
-        dependencyGraph.faveService.createList(name: name, description: description, isPublic: isPublic) { response, error in
-            if let responseData = response {
-                print("Response Data: \(responseData.description)")
+        var userId = ""
+        if let user = dependencyGraph.storage.getUser() {
+            userId = "\(user.id)"
+        }
+
+        isLoading = true
+        dependencyGraph.faveService.createList(userId: userId, name: name, description: description, isPublic: isPublic) { response, error in
+            if let unwrappedResponse = response, let listData = unwrappedResponse["data"] as? [String: AnyObject] {
+                print("Response Data: \(listData.description)")
+
+                if let list = List(data: listData) {
+                    self.delegate?.didCreateList(list: list)
+                    self.dismiss(animated: true, completion: nil)
+                } else {
+                    let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating a list again.", preferredStyle: .alert)
+
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style {
+                        case .default, .cancel, .destructive:
+                            alertController.dismiss(animated: true, completion: nil)
+                        }}))
+
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
+
+            self.isLoading = false
         }
     }
 

@@ -7,6 +7,8 @@ import FacebookLogin
 import FBSDKCoreKit
 import FBSDKLoginKit
 
+import GooglePlaces
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -26,6 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
         SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
+        /*
+         Step 4: Add the API key to your application
+         https://developers.google.com/places/ios-sdk/start
+        */
+        GMSPlacesClient.provideAPIKey("AIzaSyDwGmB--Y1D3D4CllP2L0QXmx2WPtrvHgc")
+
 
         // Setup main tab bar
         UINavigationBar.appearance().barTintColor = UIColor.white
@@ -41,20 +49,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Create View Controllers
         let feedViewController = FeedViewController(dependencyGraph: dependencyGraph)
-        feedViewController.title = "Home".uppercased()
+//        feedViewController.title = "Home".uppercased()
         let feedNavigationViewController = UINavigationController(rootViewController: feedViewController)
 
-        let createEntryTabViewController = CreateEntryTabViewController(dependencyGraph: dependencyGraph)
-        createEntryTabViewController.title = "Create".uppercased()
-        let createEntryNavigationViewController = UINavigationController(rootViewController: createEntryTabViewController)
+        let discoverViewController = DiscoverViewController(dependencyGraph: dependencyGraph)
+//        discoverViewController.title = "Discover".uppercased()
+        let discoverNavigationViewController = UINavigationController(rootViewController: discoverViewController)
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph)
         let profileNavigationViewController = UINavigationController(rootViewController: profileViewController)
-        profileViewController.title = "Profile".uppercased()
+//        profileViewController.title = "Profile".uppercased()
 
 
         // Add tabs
-        tabBarController.viewControllers = [feedNavigationViewController, createEntryNavigationViewController, profileNavigationViewController]
+        tabBarController.viewControllers = [feedNavigationViewController, discoverNavigationViewController, profileNavigationViewController]
 
         if let tabBarItem = tabBarController.tabBar.items?[0] {
             tabBarItem.image = UIImage(named: "tab-icon-home")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
@@ -62,8 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if let tabBarItem = tabBarController.tabBar.items?[1] {
-            tabBarItem.image = UIImage(named: "tab-icon-add")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
-            tabBarItem.selectedImage = UIImage(named: "tab-icon-add-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+            tabBarItem.image = UIImage(named: "tab-icon-search")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+            tabBarItem.selectedImage = UIImage(named: "tab-icon-search-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         }
 
         if let tabBarItem = tabBarController.tabBar.items?[2] {
