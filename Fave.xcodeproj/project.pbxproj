@@ -10,11 +10,16 @@
 		4305F373224007C500F6DE77 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305F372224007C500F6DE77 /* List.swift */; };
 		4305F3752240087800F6DE77 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305F3742240087800F6DE77 /* Item.swift */; };
 		4305F37722400A3500F6DE77 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305F37622400A3500F6DE77 /* ListTableViewCell.swift */; };
+		430D8D2E224DEBA20082FCF2 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D8D2D224DEBA20082FCF2 /* FeedItem.swift */; };
+		430D8D30224DF1730082FCF2 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D8D2F224DF1730082FCF2 /* Friend.swift */; };
 		43176570223B644700C1963E /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317656F223B644700C1963E /* Authenticator.swift */; };
 		431CAF3C2240969300F50FC8 /* ProfileSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */; };
 		431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */; };
 		431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF89E2249EDA500717312 /* CreateItemViewController.swift */; };
 		431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */; };
+		4369CF432257C11300FCA156 /* FaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534CF223336BB00B99EC7 /* FaveTests.swift */; };
+		4369CF4522583E7300FCA156 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4422583E7300FCA156 /* Haptic.swift */; };
+		4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF462258409D00FCA156 /* UIViewExt.swift */; };
 		438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BA223336BA00B99EC7 /* AppDelegate.swift */; };
 		438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BC223336BA00B99EC7 /* FeedViewController.swift */; };
 		438534C2223336BB00B99EC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 438534C1223336BB00B99EC7 /* Assets.xcassets */; };
@@ -51,6 +56,7 @@
 		439FDDE22245D2DE00ED9343 /* ListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE12245D2DE00ED9343 /* ListItemTableViewCell.swift */; };
 		439FDDE42245FACF00ED9343 /* ListTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE32245FACF00ED9343 /* ListTableHeaderView.swift */; };
 		439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE52245FB1600ED9343 /* ListTableSectionHeaderView.swift */; };
+		43A69B2E2254FDC100DA2BA1 /* ContextualItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */; };
 		43AFB448223DC3E000B243E1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB447223DC3E000B243E1 /* User.swift */; };
 		43AFB44A223DD00500B243E1 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB449223DD00500B243E1 /* Storage.swift */; };
 		43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB44C223DE8F500B243E1 /* ProfileTableHeaderView.swift */; };
@@ -58,6 +64,8 @@
 		43AFB451223EE6D100B243E1 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */; };
 		43B26BB7223A065600CA2549 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB6223A065600CA2549 /* DiscoverViewController.swift */; };
 		43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB8223A085900CA2549 /* ProfileViewController.swift */; };
+		43BD5689224C9039009D0AC8 /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD5688224C9039009D0AC8 /* SelectListViewController.swift */; };
+		43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */; };
 		43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF88102243E10E0096CCA1 /* DictionaryExt.swift */; };
 		43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881222447BB80096CCA1 /* CreateListViewController.swift */; };
 		43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881422449EFB0096CCA1 /* DividerView.swift */; };
@@ -85,11 +93,15 @@
 		4305F372224007C500F6DE77 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		4305F3742240087800F6DE77 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		4305F37622400A3500F6DE77 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		430D8D2D224DEBA20082FCF2 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		430D8D2F224DF1730082FCF2 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		4317656F223B644700C1963E /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSectionHeaderView.swift; sourceTree = "<group>"; };
 		431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringExt.swift; sourceTree = "<group>"; };
 		431DF89E2249EDA500717312 /* CreateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemViewController.swift; sourceTree = "<group>"; };
 		431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExt.swift; sourceTree = "<group>"; };
+		4369CF4422583E7300FCA156 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
+		4369CF462258409D00FCA156 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		438534B7223336BA00B99EC7 /* Fave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		438534BA223336BA00B99EC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		438534BC223336BA00B99EC7 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +144,7 @@
 		439FDDE12245D2DE00ED9343 /* ListItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemTableViewCell.swift; sourceTree = "<group>"; };
 		439FDDE32245FACF00ED9343 /* ListTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableHeaderView.swift; sourceTree = "<group>"; };
 		439FDDE52245FB1600ED9343 /* ListTableSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableSectionHeaderView.swift; sourceTree = "<group>"; };
+		43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualItems.swift; sourceTree = "<group>"; };
 		43AFB445223D9E3B00B243E1 /* Rswift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Rswift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43AFB447223DC3E000B243E1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		43AFB449223DD00500B243E1 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -140,6 +153,8 @@
 		43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		43B26BB6223A065600CA2549 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		43B26BB8223A085900CA2549 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		43BD5688224C9039009D0AC8 /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
+		43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListTableViewCell.swift; sourceTree = "<group>"; };
 		43BF88102243E10E0096CCA1 /* DictionaryExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExt.swift; sourceTree = "<group>"; };
 		43BF881222447BB80096CCA1 /* CreateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewController.swift; sourceTree = "<group>"; };
 		43BF881422449EFB0096CCA1 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
@@ -260,6 +275,7 @@
 				43BF88102243E10E0096CCA1 /* DictionaryExt.swift */,
 				439FDDDC2245C21700ED9343 /* StringExt.swift */,
 				431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */,
+				4369CF462258409D00FCA156 /* UIViewExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -289,6 +305,9 @@
 				43AFB447223DC3E000B243E1 /* User.swift */,
 				4305F372224007C500F6DE77 /* List.swift */,
 				4305F3742240087800F6DE77 /* Item.swift */,
+				430D8D2D224DEBA20082FCF2 /* FeedItem.swift */,
+				430D8D2F224DF1730082FCF2 /* Friend.swift */,
+				43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -342,6 +361,7 @@
 				4386BFE422335777006A3ED7 /* FaveFont.swift */,
 				4386BFF322335FA8006A3ED7 /* Shimmer.swift */,
 				4317656F223B644700C1963E /* Authenticator.swift */,
+				4369CF4422583E7300FCA156 /* Haptic.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -366,6 +386,8 @@
 				439FDDE32245FACF00ED9343 /* ListTableHeaderView.swift */,
 				439FDDE52245FB1600ED9343 /* ListTableSectionHeaderView.swift */,
 				43BF881222447BB80096CCA1 /* CreateListViewController.swift */,
+				43BD5688224C9039009D0AC8 /* SelectListViewController.swift */,
+				43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -648,6 +670,10 @@
 				438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */,
 				438534FE223339D500B99EC7 /* Analytics.swift in Sources */,
 				4386BFF222335F43006A3ED7 /* Label.swift in Sources */,
+				4369CF432257C11300FCA156 /* FaveTests.swift in Sources */,
+				4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */,
+				4369CF4522583E7300FCA156 /* Haptic.swift in Sources */,
+				43A69B2E2254FDC100DA2BA1 /* ContextualItems.swift in Sources */,
 				43AFB451223EE6D100B243E1 /* EditProfileViewController.swift in Sources */,
 				43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */,
 				43B26BB7223A065600CA2549 /* DiscoverViewController.swift in Sources */,
@@ -655,9 +681,11 @@
 				4385350222333A1E00B99EC7 /* DependencyGraph.swift in Sources */,
 				4386BFE522335777006A3ED7 /* FaveFont.swift in Sources */,
 				4386BFE3223351DF006A3ED7 /* Utility.swift in Sources */,
+				43BD5689224C9039009D0AC8 /* SelectListViewController.swift in Sources */,
 				438534F2223338E700B99EC7 /* FaveColors.swift in Sources */,
 				4386BFE022334760006A3ED7 /* LoggedOutViewController.swift in Sources */,
 				43AFB44A223DD00500B243E1 /* Storage.swift in Sources */,
+				430D8D30224DF1730082FCF2 /* Friend.swift in Sources */,
 				439FDDE22245D2DE00ED9343 /* ListItemTableViewCell.swift in Sources */,
 				431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */,
 				4385350022333A0700B99EC7 /* AppConfiguration.swift in Sources */,
@@ -675,10 +703,12 @@
 				4385350B22333B8200B99EC7 /* FaveEndpoint.swift in Sources */,
 				43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */,
 				438534EC2233388900B99EC7 /* SaveCollections.swift in Sources */,
+				43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
 				4385350522333AA700B99EC7 /* Networking.swift in Sources */,
+				430D8D2E224DEBA20082FCF2 /* FeedItem.swift in Sources */,
 				4305F373224007C500F6DE77 /* List.swift in Sources */,
 				439FDDE02245D1FC00ED9343 /* ListViewController.swift in Sources */,
 				4386BFF422335FA8006A3ED7 /* Shimmer.swift in Sources */,
@@ -765,8 +795,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -799,6 +831,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -810,7 +844,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 84AK95EPL5;
+				DEVELOPMENT_TEAM = 24GW4727H7;
 				INFOPLIST_FILE = FaveTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -884,6 +918,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -916,6 +951,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -927,7 +963,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 84AK95EPL5;
+				DEVELOPMENT_TEAM = 24GW4727H7;
 				INFOPLIST_FILE = FaveTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -961,123 +997,6 @@
 				TEST_TARGET_NAME = Fave;
 			};
 			name = "App Store";
-		};
-		431DF8AB224A105200717312 /* Albert */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Albert;
-		};
-		431DF8AC224A105200717312 /* Albert */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D008E896F0A760160472C00 /* Pods-Fave.albert.xcconfig */;
-			buildSettings = {
-				API_BASE_URL_ENDPOINT = "https://fav.ngrok.io/";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 24GW4727H7;
-				INFOPLIST_FILE = Fave/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Albert;
-		};
-		431DF8AD224A105200717312 /* Albert */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 84AK95EPL5;
-				INFOPLIST_FILE = FaveTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.FaveTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fave.app/Fave";
-			};
-			name = Albert;
-		};
-		431DF8AE224A105200717312 /* Albert */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 84AK95EPL5;
-				INFOPLIST_FILE = FaveUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.FaveUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Fave;
-			};
-			name = Albert;
 		};
 		438534DD223336BB00B99EC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1180,6 +1099,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1212,6 +1132,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1232,6 +1153,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1243,7 +1165,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 84AK95EPL5;
+				DEVELOPMENT_TEAM = 24GW4727H7;
 				INFOPLIST_FILE = FaveTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1264,7 +1186,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 84AK95EPL5;
+				DEVELOPMENT_TEAM = 24GW4727H7;
 				INFOPLIST_FILE = FaveTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1327,7 +1249,6 @@
 			buildConfigurations = (
 				438534DD223336BB00B99EC7 /* Debug */,
 				438534DE223336BB00B99EC7 /* Release */,
-				431DF8AB224A105200717312 /* Albert */,
 				431DF8A7224A103900717312 /* App Store */,
 				431DF8A3224A0FFF00717312 /* Local */,
 			);
@@ -1339,7 +1260,6 @@
 			buildConfigurations = (
 				438534E0223336BB00B99EC7 /* Debug */,
 				438534E1223336BB00B99EC7 /* Release */,
-				431DF8AC224A105200717312 /* Albert */,
 				431DF8A8224A103900717312 /* App Store */,
 				431DF8A4224A0FFF00717312 /* Local */,
 			);
@@ -1351,7 +1271,6 @@
 			buildConfigurations = (
 				438534E3223336BB00B99EC7 /* Debug */,
 				438534E4223336BB00B99EC7 /* Release */,
-				431DF8AD224A105200717312 /* Albert */,
 				431DF8A9224A103900717312 /* App Store */,
 				431DF8A5224A0FFF00717312 /* Local */,
 			);
@@ -1363,7 +1282,6 @@
 			buildConfigurations = (
 				438534E6223336BB00B99EC7 /* Debug */,
 				438534E7223336BB00B99EC7 /* Release */,
-				431DF8AE224A105200717312 /* Albert */,
 				431DF8AA224A103900717312 /* App Store */,
 				431DF8A6224A0FFF00717312 /* Local */,
 			);

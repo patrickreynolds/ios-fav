@@ -5,11 +5,21 @@ import Cartography
 
 class EntryTableViewCell: UITableViewCell {
     private lazy var titleLabel: Label = {
-        let label = Label.init(text: "",
-                               font: FaveFont(style: .h5, weight: .semiBold),
-                               textColor: FaveColors.Black90,
-                               textAlignment: .left,
-                               numberOfLines: 1)
+        let label = Label(text: "",
+                           font: FaveFont(style: .h5, weight: .semiBold),
+                           textColor: FaveColors.Black90,
+                           textAlignment: .left,
+                           numberOfLines: 1)
+
+        return label
+    }()
+
+    private lazy var subtitleLabel: Label = {
+        let label = Label(text: "",
+                          font: FaveFont(style: .small, weight: .regular),
+                          textColor: FaveColors.Black60,
+                          textAlignment: .left,
+                          numberOfLines: 1)
 
         return label
     }()
@@ -35,30 +45,31 @@ class EntryTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(titleLabel)
+        contentView.addSubview(subtitleLabel)
 
-        contentView.addSubview(navigationIndicatorImageView)
+//        contentView.addSubview(navigationIndicatorImageView)
 
         contentView.addSubview(borderView)
 
         constrain(titleLabel, contentView) { label, view in
             label.top == view.top + 16
-            label.bottom == view.bottom - 16
+            label.right == view.right - 16
             label.left == view.left + 16
+
         }
 
-        constrain(navigationIndicatorImageView, titleLabel, contentView) { imageView, titleLabel, view in
-            imageView.left == titleLabel.right + 8
-            imageView.right == view.right - 16
-            imageView.centerY == titleLabel.centerY
-            imageView.height == 16
-            imageView.width == 16
+        constrain(subtitleLabel, titleLabel, borderView) { subtitleLabel, titleLabel, view in
+            subtitleLabel.top == titleLabel.bottom
+            subtitleLabel.right == titleLabel.right
+            subtitleLabel.left == titleLabel.left
+            subtitleLabel.bottom == view.bottom - 16
         }
 
         constrain(borderView, contentView) { borderView, view in
-            borderView.left == view.left + 16
-            borderView.right == view.right - 16
+            borderView.left == view.left
+            borderView.right == view.right
             borderView.bottom == view.bottom
-            borderView.height == 1
+            borderView.height == 4
         }
     }
 
@@ -67,6 +78,22 @@ class EntryTableViewCell: UITableViewCell {
     }
 
     func populate(item: Item) {
-        titleLabel.text = item.title
+        titleLabel.text = item.contextualItem.name
+        subtitleLabel.text = item.note
+
+        guard let googleItem = item.contextualItem as? GoogleItemType else {
+            return
+        }
+
+//        var keywords = ""
+//        var counter = 0
+//        googleItem.keywords?.forEach { keyword in
+//            if counter < 2 {
+//                keywords += "\(keyword), "
+//                counter += 1
+//            }
+//        }
+//
+//        subtitleLabel.text = keywords
     }
 }

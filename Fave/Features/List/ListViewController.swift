@@ -7,6 +7,12 @@ import MBProgressHUD
 class ListViewController: FaveVC {
     var list: List
 
+    var listItems: [Item] = [] {
+        didSet {
+            self.listTableView.reloadData()
+        }
+    }
+
     private lazy var listTableHeaderView: ListTableHeaderView = {
         return ListTableHeaderView(dependencyGraph: self.dependencyGraph, list: self.list)
     }()
@@ -24,12 +30,10 @@ class ListViewController: FaveVC {
 
         refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
 
-        refreshControl.tintColor = FaveColors.Accent
-
         return refreshControl
     }()
 
-    private lazy var loadingIIndicator: UIActivityIndicatorView = {
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
         var indicator = UIActivityIndicatorView()
 
         indicator = UIActivityIndicatorView(frame: CGRect.zero)
@@ -62,6 +66,8 @@ class ListViewController: FaveVC {
 
         tableView.addSubview(self.refreshControl)
 
+        tableView.separatorColor = UIColor.clear
+
         return tableView
     }()
 
@@ -89,6 +95,8 @@ class ListViewController: FaveVC {
         constrain(listTableView, view) { tableView, view in
             tableView.top == view.topMargin
         }
+
+        refreshData()
     }
 
     override func viewDidLayoutSubviews() {
@@ -119,31 +127,29 @@ class ListViewController: FaveVC {
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
-            delay(2.0) {
-                self.listTableView.reloadData()
-
+            delay(1.0) {
                 self.refreshControl.endRefreshing()
             }
         }
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        var userId = ""
+        dependencyGraph.faveService.getList(userId: "\(list.owner.id)", listId: "\(self.list.id)") { response, error in
+            guard let list = response else {
+                return
+            }
 
-        if let user = dependencyGraph.storage.getUser() {
-            userId = "\(user.id)"
+            self.list = list
         }
 
-        dependencyGraph.faveService.getList(userId: userId, listId: "\(self.list.id)") { response, error in
-            if let unwrappedResponse = response, let listData = unwrappedResponse["data"] as? [String: AnyObject] {
-                print("\n\nGOT A VALID RESPONSE\n\n")
+        dependencyGraph.faveService.getListItems(userId: "\(list.owner.id)", listId: "\(self.list.id)") { response, error in
+            guard let items = response else {
+                completion()
 
-                if let list = List(data: listData) {
-                    self.list = list
-                }
-
-                self.listTableView.reloadData()
+                return
             }
+
+            self.listItems = items
 
             completion()
         }
@@ -158,7 +164,7 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         listTableView.deselectRow(at: indexPath, animated: true)
 
-//        let item = list.items[indexPath.row]
+//        let item = listItems[indexPath.row]
 //
 //        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item)
 //        itemViewController = "Item"
@@ -169,13 +175,13 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return list.items.count
+        return listItems.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(EntryTableViewCell.self, indexPath: indexPath)
 
-        let item = list.items[indexPath.row]
+        let item = listItems[indexPath.row]
         cell.populate(item: item)
 
         return cell
@@ -197,15 +203,6 @@ extension ListViewController: ListTableSectionHeaderViewDelegate {
 
     func recommendationsButtonTapped() {
         print("\nRecommentaion Button Tapped\n")
-    }
-
-    func newEntryButtonTapped() {
-        print("\nAdd Item Button Tapped\n")
-
-//        let createListViewController = CreateItemViewController.init(dependencyGraph: self.dependencyGraph)
-//        let createListNavigationViewController = UINavigationController(rootViewController: createListViewController)
-//
-//        present(createListNavigationViewController, animated: true, completion: nil)
     }
 }
 

@@ -6,8 +6,7 @@ protocol NetworkingType {
     func sendPostRequest(endpoint: FaveEndpoint, data: [String: String], completion: @escaping FaveAPICallResultCompletionBlock)
 }
 
-typealias FaveAPICallResultCompletionBlock = (_ response: [String: AnyObject]?, _ error: Error?) -> ()
-typealias FaveAPICallPostResultCompletionBlock = (_ response: String?, _ error: Error?) -> ()
+typealias FaveAPICallResultCompletionBlock = (_ response: AnyObject?, _ error: Error?) -> ()
 
 struct Networking {
 
@@ -22,6 +21,8 @@ struct Networking {
     func sendGetRequest(endpoint: FaveEndpoint, completion: @escaping FaveAPICallResultCompletionBlock) {
         let endpoint = "\(baseUrl)\(endpoint.path)"
 
+        print("\(endpoint)")
+
         var authToken: String = ""
 
         if let token = authenticator.token() {
@@ -35,17 +36,30 @@ struct Networking {
 
         // "Content-Type": "application/json"
 
+        // Show the actificy indicator during the network call
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+
         Alamofire.request(endpoint, headers: headers).responseJSON { response in
+
+            // Hide the actificy indicator during the network call
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+
             guard let result = response.result.value else {
                 completion(nil, response.error)
 
                 return
             }
 
-            if let array = result as? [[String: AnyObject]] {
-                completion(["data": array as AnyObject], nil)
+            guard let newResult = result as? [String: AnyObject] else {
+                completion(nil, response.error)
+
+                return
+            }
+
+            if let dataResult = newResult["data"] {
+                completion(dataResult, nil)
             } else {
-                completion(result as? [String: AnyObject], nil)
+                completion(result as AnyObject, nil)
             }
         }
     }
@@ -68,18 +82,29 @@ struct Networking {
 
         // "Content-Type": "application/json"
 
+        // Show the actificy indicator during the network call
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+
         Alamofire.request(endpoint, method: .post, parameters: data, headers: headers).responseJSON { response in
+
+            // Hide the actificy indicator during the network call
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+
             guard let result = response.result.value else {
                 completion(nil, response.error)
 
                 return
             }
 
-            if let newResult = result as? [String: AnyObject], let newResultData = newResult["data"] as? [String: AnyObject] {
-                completion(newResultData, nil)
-            } else {
-                completion(result as? [String: AnyObject], nil)
+            guard let newResult = result as? [String: AnyObject] else {
+                completion(nil, response.error)
+
+                return
             }
+
+            let dataResult = newResult["data"]
+
+            completion(dataResult, nil)
         }
     }
 }

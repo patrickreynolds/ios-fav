@@ -6,7 +6,13 @@ import MBProgressHUD
 
 class DiscoverViewController: FaveVC {
 
-    private lazy var newListButton: UIButton = {
+    var suggestions: [List] = [] {
+        didSet {
+            // reload data
+        }
+    }
+
+    private lazy var createButton: UIButton = {
         let button = UIButton(frame: .zero)
 
         button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
@@ -30,24 +36,42 @@ class DiscoverViewController: FaveVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(newListButton)
+        view.addSubview(createButton)
 
-        constrain(newListButton, view) { button, view in
+        constrain(createButton, view) { button, view in
             button.right == view.right - 16
             button.bottom == view.bottomMargin - 16
             button.width == 56
             button.height == 56
         }
 
-        view.bringSubviewToFront(newListButton)
+        view.bringSubviewToFront(createButton)
+
+        refreshSuggestions()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         view.backgroundColor = UIColor.white
+
+        refreshSuggestions()
     }
 
+    func refreshSuggestions() {
+        dependencyGraph.faveService.suggestions { response, error in
+            guard let suggestions = response else {
+                // handle error
+
+                return
+            }
+
+             self.suggestions = suggestions
+        }
+    }
+}
+
+extension DiscoverViewController {
     @objc func createButtonTapped(sender: UIButton!) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 

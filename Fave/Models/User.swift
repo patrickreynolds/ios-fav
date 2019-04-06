@@ -27,15 +27,31 @@ class User: NSObject, NSCoding {
     }
 
     convenience init?(data: [String: AnyObject]) {
-        guard let unwrappedId = data["id"] as? Int,
-            let unwrappedFirstName = data["firstName"] as? String,
-            let unwrappedLastName = data["lastName"] as? String,
-            let unwrappedEmail = data["email"] as? String,
-            let unwrappedHandle = data["handle"] as? String,
-            let unwrappedProfilePictureString = data["profilePic"] as? String,
-            let unwrappedProfilePicture = NSData(base64Encoded: unwrappedProfilePictureString, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters) else {
-                return nil
+        guard let unwrappedId = data["id"] as? Int else {
+            return nil
         }
+
+        guard let unwrappedFirstName = data["firstName"] as? String else {
+            return nil
+        }
+
+        guard let unwrappedLastName = data["lastName"] as? String else {
+            return nil
+        }
+
+        guard let unwrappedHandle = data["handle"] as? String else {
+            return nil
+        }
+
+        guard let unwrappedProfilePictureString = data["profilePic"] as? String else {
+            return nil
+        }
+
+        guard let unwrappedProfilePicture = NSData(base64Encoded: unwrappedProfilePictureString, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters) else {
+            return nil
+        }
+
+        let unwrappedEmail = data["email"] as? String ?? ""
 
         self.init(id: unwrappedId,
             firstName: unwrappedFirstName,

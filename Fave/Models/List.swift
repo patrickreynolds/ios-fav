@@ -5,22 +5,30 @@ class List {
     let title: String
     let description: String
     let isPublic: Bool
-    let followers: Int
+    let numberOfFollowers: Int
+    let numberOfItems: Int
     let items: [Item]
+    let owner: User
+    let url: String
 
-    init(id: Int, title: String, description: String = "", isPublic: Bool = true, followers: Int = 0, items: [Item] = []) {
+    init(id: Int, title: String, description: String = "", isPublic: Bool = true, numberOfFollowers: Int = 0, numberOfItems: Int = 0, items: [Item] = [], owner: User, url: String = "") {
         self.id = id
         self.title = title
         self.description = description
         self.isPublic = isPublic
-        self.followers = followers
+        self.numberOfFollowers = numberOfFollowers
+        self.numberOfItems = numberOfItems
         self.items = items
+        self.owner = owner
+        self.url = url
     }
 
     init?(data: [String: AnyObject]) {
         guard let id = data["id"] as? Int,
             let title = data["title"] as? String,
-            let isPublic = data["isPublic"] as? Int else {
+            let isPublic = data["isPublic"] as? Int,
+            let userData = data["owner"] as? [String: AnyObject],
+            let owner = User(data: userData) else {
                 return nil
         }
 
@@ -34,13 +42,26 @@ class List {
 
         let description = data["description"] as? String ?? ""
 
-        let followers = 0
+        var numberOfFollowers = 0
+        if let followerCount = data["numberOfFollowers"] as? Int {
+            numberOfFollowers = followerCount
+        }
+
+        var numberOfItems = 0
+        if let itemCount = data["numberOfItems"] as? Int {
+            numberOfItems = itemCount
+        }
+
+        let url = ""
 
         self.id = id
         self.title = title
-        self.followers = followers
+        self.numberOfFollowers = numberOfFollowers
+        self.numberOfItems = numberOfItems
         self.items = items
         self.isPublic = isPublic == 1 ? true : false
         self.description = description
+        self.owner = owner
+        self.url = url
     }
 }

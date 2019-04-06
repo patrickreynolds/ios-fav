@@ -54,11 +54,23 @@ class CreateListViewController: FaveVC {
         button.addTarget(self, action: #selector(createListButtonTapped), for: .touchUpInside)
         button.setTitleColor(FaveColors.Accent, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        button.layer.cornerRadius = 16
 
         let attributedTitle = NSAttributedString(string: "Create",
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: FaveColors.White)
         button.setAttributedTitle(attributedTitle, for: .normal)
+
+        return button
+    }()
+
+    private lazy var leftBarButton: UIButton = {
+        let image = UIImage.init(named: "icon-nav-chevron-left")
+        let imageView = UIImageView(image: image)
+
+        let button = UIButton.init(frame: .zero)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
 
         return button
     }()
@@ -128,7 +140,7 @@ class CreateListViewController: FaveVC {
         commentInputIconImageView.tintColor = FaveColors.Black50
 
         commentTextView = UITextView(frame: .zero)
-        commentTextView.font = FaveFont(style: .h4, weight: .regular).font
+        commentTextView.font = FaveFont(style: .h5, weight: .regular).font
         commentTextView.textColor = FaveColors.Black90
         commentTextView.delegate = self
         commentTextView.backgroundColor = FaveColors.Black20
@@ -255,13 +267,14 @@ class CreateListViewController: FaveVC {
 
         view.backgroundColor = FaveColors.White
 
-        navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(dismissView))
+        if let navigationController = navigationController, navigationController.viewControllers.count > 1 {
+            navigationController.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
+        } else {
+            navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(dismissView))
+        }
 
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.createButton)
 
-        navigationController?.navigationBar.topItem?.title = "New list"
-
-        createButton.layer.cornerRadius = 32 / 2
         createListEnabled = false
 
         view.addSubview(progressHud)
@@ -281,6 +294,8 @@ class CreateListViewController: FaveVC {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        self.navigationItem.title = "New list"
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -304,32 +319,45 @@ class CreateListViewController: FaveVC {
         }
 
         isLoading = true
-        dependencyGraph.faveService.createList(userId: userId, name: name, description: description, isPublic: isPublic) { response, error in
-            if let unwrappedResponse = response, let listData = unwrappedResponse["data"] as? [String: AnyObject] {
-                print("Response Data: \(listData.description)")
+        dependencyGraph.faveService.createList(userId: userId, name: name, description: description, isPublic: isPublic) { list, error in
+            self.isLoading = false
 
-                if let list = List(data: listData) {
-                    self.delegate?.didCreateList(list: list)
-                    self.dismiss(animated: true, completion: nil)
-                } else {
-                    let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating a list again.", preferredStyle: .alert)
+            guard let unwrappedList = list else {
 
-                    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                        switch action.style {
-                        case .default, .cancel, .destructive:
-                            alertController.dismiss(animated: true, completion: nil)
-                        }}))
+                let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating a list again.", preferredStyle: .alert)
 
-                    self.present(alertController, animated: true, completion: nil)
-                }
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style {
+                    case .default, .cancel, .destructive:
+                        alertController.dismiss(animated: true, completion: nil)
+                    }}))
+
+                self.present(alertController, animated: true, completion: nil)
+
+                return
             }
 
-            self.isLoading = false
+            self.delegate?.didCreateList(list: unwrappedList)
+            self.dismissViewController()
         }
     }
 
     @objc func dismissView(sender: UIBarButtonItem!) {
-        dismiss(animated: true, completion: nil)
+        dismissViewController()
+    }
+
+    @objc func backButtonTapped(sender: UIButton!) {
+        navigationController?.popViewController(animated: true)
+    }
+
+    func dismissViewController() {
+        if let navigationController = navigationController {
+            if navigationController.viewControllers.count > 1 {
+                navigationController.dismiss(animated: true, completion: nil)
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }
 

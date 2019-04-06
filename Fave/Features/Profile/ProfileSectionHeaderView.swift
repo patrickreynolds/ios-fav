@@ -11,8 +11,9 @@ class ProfileTableSectionHeaderView: UIView {
     var delegate: ProfileTableSectionHeaderViewDelegate?
     var lists: [List] {
         didSet {
-            let attributedTitle = NSAttributedString(string: "\(self.lists.count) Lists",
-                font: FaveFont(style: .h5, weight: .semiBold).font,
+            let titleString = self.lists.count == 1 ? "\(self.lists.count) List" : "\(self.lists.count) Lists"
+            let attributedTitle = NSAttributedString(string: titleString,
+                font: FaveFont(style: .small, weight: .semiBold).font,
                 textColor: UIColor.white)
 
             listsButton.setAttributedTitle(attributedTitle, for: .normal)
@@ -28,8 +29,10 @@ class ProfileTableSectionHeaderView: UIView {
         button.layer.cornerRadius = 16
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
 
-        let attributedTitle = NSAttributedString(string: "\(self.lists.count) Lists",
-                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
+        let titleString = self.lists.count == 1 ? "\(self.lists.count) List" : "\(self.lists.count) Lists"
+
+        let attributedTitle = NSAttributedString(string: titleString,
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: UIColor.white)
 
         button.setAttributedTitle(attributedTitle, for: .normal)

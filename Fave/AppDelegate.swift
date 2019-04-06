@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        discoverViewController.title = "Discover".uppercased()
         let discoverNavigationViewController = UINavigationController(rootViewController: discoverViewController)
 
-        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph)
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: dependencyGraph.storage.getUser())
         let profileNavigationViewController = UINavigationController(rootViewController: profileViewController)
 //        profileViewController.title = "Profile".uppercased()
 

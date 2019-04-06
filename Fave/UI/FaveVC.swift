@@ -46,7 +46,7 @@ extension FaveVC: LoggedOutViewControllerDelegate {
         viewController.dismiss(animated: true, completion: nil)
     }
 
-    func didSuccessfullyAuthenticate(viewController: LoggedOutViewController) {
+    @objc func didSuccessfullyAuthenticate(viewController: LoggedOutViewController) {
         viewController.dismiss(animated: false, completion: nil)
     }
 }

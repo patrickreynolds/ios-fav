@@ -2,11 +2,16 @@ import Foundation
 
 protocol FaveServiceType {
     func authenticate(network: String, accessToken: String, completion: @escaping FaveAPICallResultCompletionBlock)
-    func getCurrentUser(completion: @escaping FaveAPICallResultCompletionBlock)
-    func getLists(userId: String, completion: @escaping FaveAPICallResultCompletionBlock)
-    func getList(userId: String, listId: String, completion: @escaping FaveAPICallResultCompletionBlock)
-    func createList(userId: String, name: String, description: String, isPublic: Bool, completion: @escaping FaveAPICallResultCompletionBlock)
-    func createListItem(userId: String, listId: String, type: String, placeId: String, description: String, completion: @escaping FaveAPICallResultCompletionBlock)
+    func getCurrentUser(completion: @escaping (_ user: User?, _ error: Error?) -> ())
+    func getUser(userId: String, completion: @escaping (_ user: User?, _ error: Error?) -> ())
+    func getLists(userId: String, completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
+    func getList(userId: String, listId: String, completion:  @escaping (_ lists: List?, _ error: Error?) -> ())
+    func createList(userId: String, name: String, description: String, isPublic: Bool, completion: @escaping (_ list: List?, _ error: Error?) -> ())
+    func createListItem(userId: String, listId: String, type: String, placeId: String, note: String, completion: @escaping FaveAPICallResultCompletionBlock)
+    func getListItems(userId: String, listId: String, completion: @escaping (_ items: [Item]?, _ error: Error?) -> ())
+    func getPaginatedFeed(page: Int, completion: @escaping FaveAPICallResultCompletionBlock)
+    func getFeed(from: Int, to: Int, completion: @escaping FaveAPICallResultCompletionBlock)
+    func suggestions(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
 }
 
 struct FaveService {
@@ -16,24 +21,39 @@ struct FaveService {
         self.networking = networking
     }
 
-    func getFlights(origin: String, destination: String, completion: @escaping FaveAPICallResultCompletionBlock) {
-        networking.sendGetRequest(endpoint: .flights(origin: origin, destination: destination)) { response, error in
-            completion(response, error)
+    func getCurrentUser(completion: @escaping (_ user: User?, _ error: Error?) -> ()) {
+        networking.sendGetRequest(endpoint: .currentUser) { response, error in
+            guard let userData = response as? [String: AnyObject], let user = User(data: userData) else {
+                completion(nil, error)
+
+                return
+            }
+
+            completion(user, error)
         }
     }
 
-    func getCurrentUser(completion: @escaping FaveAPICallResultCompletionBlock) {
-        networking.sendGetRequest(endpoint: .user) { response, error in
-            completion(response, error)
+    func getUser(userId: String, completion: @escaping (User?, Error?) -> ()) {
+        networking.sendGetRequest(endpoint: .user(userId: userId)) { response, error in
+            guard let userData = response as? [String: AnyObject], let user = User(data: userData) else {
+                completion(nil, error)
+
+                return
+            }
+
+            completion(user, error)
         }
     }
 
-    func authenticate(network: String, accessToken: String, completion: @escaping FaveAPICallResultCompletionBlock) {
+    func authenticate(network: String,   accessToken: String, completion: @escaping FaveAPICallResultCompletionBlock) {
         // { "network" : "facebook", "accessToken": facebookAccessToken }
 
         let data: [String: String] = [
             "network": network,
             "accessToken": accessToken,
+//            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU1NDIxMDMxNiwiZXhwIjo0Njk5MTcwMzE2fQ.aQRXkj8bkFidaPj_ThLhvj3whyDhjQuU9YGgW9MhoBg",
+//            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTU1NDIxMDQ4OCwiZXhwIjo0Njk5MTcwNDg4fQ.xXzGP3sZf7zWonrioUN1A6EQ6buYGIVbOVZGlyeOVAU",
+
         ]
 
         networking.sendPostRequest(endpoint: .authentication, data: data) { response, error in
@@ -41,19 +61,33 @@ struct FaveService {
         }
     }
 
-    func getLists(userId: String, completion: @escaping FaveAPICallResultCompletionBlock) {
+    func getLists(userId: String, completion: @escaping (_ lists: [List]?, _ error: Error?) -> ()) {
         networking.sendGetRequest(endpoint: .getLists(userId: userId)) { response, error in
-            completion(response, error)
+            guard let unwrappedResponse = response, let listData = unwrappedResponse as? [[String: AnyObject]] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let faveLists = listData.map({ List(data: $0)}).compactMap({ $0 })
+
+            completion(faveLists, error)
         }
     }
 
-    func getList(userId: String, listId: String, completion: @escaping FaveAPICallResultCompletionBlock) {
+    func getList(userId: String, listId: String, completion:  @escaping (_ lists: List?, _ error: Error?) -> ()) {
         networking.sendGetRequest(endpoint: .getList(userId: userId, listId: listId)) { response, error in
-            completion(response, error)
+            guard let listData = response as? [String: AnyObject], let list = List(data: listData) else {
+                completion(nil, error)
+
+                return
+            }
+
+            completion(list, error)
         }
     }
 
-    func createList(userId: String, name: String, description: String = "", isPublic: Bool = true, completion: @escaping FaveAPICallResultCompletionBlock) {
+    func createList(userId: String, name: String, description: String, isPublic: Bool, completion: @escaping (_ list: List?, _ error: Error?) -> ()) {
         let data: [String: String] = [
             "title": name,
             "description": description,
@@ -61,19 +95,65 @@ struct FaveService {
         ]
 
         networking.sendPostRequest(endpoint: .createList(userId: userId), data: data) { response, error in
+            guard let listData = response as? [String: AnyObject],
+                  let list = List(data: listData) else {
+                    completion(nil, error)
+
+                    return
+            }
+
+            completion(list, error)
+        }
+    }
+
+    func createListItem(userId: String, listId: String, type: String, placeId: String, note: String, completion: @escaping FaveAPICallResultCompletionBlock) {
+        let data: [String: String] = [
+            "googlePlaceId": placeId,
+            "note": note
+        ]
+
+        networking.sendPostRequest(endpoint: .createListItem(userId: userId, listId: listId, type: type), data: data) { response, error in
             completion(response, error)
         }
     }
 
-    func createListItem(userId: String, listId: String, type: String, placeId: String, description: String, completion: @escaping FaveAPICallResultCompletionBlock) {
-        let data: [String: String] = [
-            "googlePlaceId": placeId
-        ]
+    func getListItems(userId: String, listId: String, completion: @escaping (_ items: [Item]?, _ error: Error?) -> ()) {
+        networking.sendGetRequest(endpoint: .getListItems(userId: userId, listId: listId)) { response, error in
+            guard let unwrappedResponse = response, let listItemData = unwrappedResponse as? [[String: AnyObject]] else {
+                completion(nil, error)
 
-//        "description": description
+                return
+            }
 
-        networking.sendPostRequest(endpoint: .createListItem(userId: userId, listId: listId, type: type), data: data) { response, error in
+            let listItems = listItemData.map({ Item(data: $0)}).compactMap({ $0 })
+
+            completion(listItems, error)
+        }
+    }
+
+    func getPaginatedFeed(page: Int, completion: @escaping FaveAPICallResultCompletionBlock) {
+        networking.sendGetRequest(endpoint: .paginatedFeed(page: page)) { response, error in
             completion(response, error)
+        }
+    }
+
+    func getFeed(from: Int, to: Int, completion: @escaping FaveAPICallResultCompletionBlock) {
+        networking.sendGetRequest(endpoint: .feed(from: from, to: to)) { response, error in
+            completion(response, error)
+        }
+    }
+
+    func suggestions(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ()) {
+        networking.sendGetRequest(endpoint: .suggestions) { response, error in
+            guard let suggestionData = response as? [[String: AnyObject]] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let suggestions = suggestionData.map({ List(data: $0 )}).compactMap { $0 }
+
+            completion(suggestions, error)
         }
     }
 }

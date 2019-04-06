@@ -5,7 +5,6 @@ import Cartography
 protocol ListTableSectionHeaderViewDelegate {
     func entriesButtonTapped()
     func recommendationsButtonTapped()
-    func newEntryButtonTapped()
 }
 
 class ListTableSectionHeaderView: UIView {
@@ -51,23 +50,6 @@ class ListTableSectionHeaderView: UIView {
         return button
     }()
 
-    private lazy var newEntryButton: UIButton = {
-        let button = UIButton(frame: CGRect.zero)
-
-        button.addTarget(self, action: #selector(newEntryButtonTapped), for: .touchUpInside)
-        button.setTitleColor(FaveColors.Accent, for: .normal)
-        button.backgroundColor = UIColor.white
-        button.layer.cornerRadius = 16
-        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
-
-        let attributedTitle = NSAttributedString(string: "Add",
-                                                 font: FaveFont(style: .small, weight: .semiBold).font,
-                                                 textColor: FaveColors.Accent)
-        button.setAttributedTitle(attributedTitle, for: .normal)
-
-        return button
-    }()
-
     init(list: List) {
         self.list = list
 
@@ -77,7 +59,6 @@ class ListTableSectionHeaderView: UIView {
 
         addSubview(entriesButton)
         addSubview(recommendationsButton)
-        addSubview(newEntryButton)
 
         constrain(entriesButton, self) { button, view in
             button.top == view.top + 8
@@ -89,12 +70,6 @@ class ListTableSectionHeaderView: UIView {
             recommendationsButton.top == entriesButton.top
             recommendationsButton.left == entriesButton.right + 8
             recommendationsButton.bottom == entriesButton.bottom
-        }
-
-        constrain(newEntryButton, self) { button, view in
-            button.top == view.top + 8
-            button.right == view.right - 16
-            button.bottom == view.bottom - 8
         }
     }
 
@@ -111,12 +86,6 @@ class ListTableSectionHeaderView: UIView {
         print("\nRecommendations Button Tapped\n")
 
         delegate?.entriesButtonTapped()
-    }
-
-    @objc func newEntryButtonTapped(sender: UIButton!) {
-        print("\n\nNew Entry Button Tapped\n\n")
-
-        delegate?.newEntryButtonTapped()
     }
 }
 

@@ -6,7 +6,16 @@ import MBProgressHUD
 
 class ProfileViewController: FaveVC {
 
-    var lists: [List] {
+    var user: User? {
+        didSet {
+            profileTableHeaderView.updateUserInfo(user: user)
+
+            navigationItem.title = user?.handle
+
+        }
+    }
+
+    var lists: [List] = [] {
         didSet {
             self.sectionHeaderView.updateLists(lists: lists)
             self.profileTableView.reloadData()
@@ -14,7 +23,11 @@ class ProfileViewController: FaveVC {
     }
 
     private lazy var profileTableHeaderView: ProfileTableHeaderView = {
-        return ProfileTableHeaderView(dependencyGraph: self.dependencyGraph, user: self.dependencyGraph.storage.getUser())
+        let headerView = ProfileTableHeaderView(dependencyGraph: self.dependencyGraph, user: user)
+
+        headerView.delegate = self
+
+        return headerView
     }()
 
     private lazy var sectionHeaderView: ProfileTableSectionHeaderView = {
@@ -59,8 +72,6 @@ class ProfileViewController: FaveVC {
 
         refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
 
-        refreshControl.tintColor = FaveColors.Accent
-
         return refreshControl
     }()
 
@@ -73,25 +84,8 @@ class ProfileViewController: FaveVC {
         return indicator
     }()
 
-    init(dependencyGraph: DependencyGraphType) {
-//        self.lists = [
-//            List(id: 1, title: "Favorite Wings in SF", followers: 12, items: [
-//                Item(id: 1, title: "Item 1"),
-//                Item(id: 2, title: "Item 2"),
-//                Item(id: 3, title: "Item 3")
-//                ]),
-//            List(id: 2, title: "Best SF Photo Spots", followers: 598, items: [
-//                Item(id: 4, title: "Item A"),
-//                Item(id: 5, title: "Item B"),
-//                Item(id: 6, title: "Item C")
-//                ]),
-//            List(id: 3, title: "Bucketlist Locations", followers: 298, items: [
-//                Item(id: 7, title: "Item Doe"),
-//                Item(id: 8, title: "Item Ray"),
-//                Item(id: 9, title: "Item Mi")
-//                ])]
-
-        self.lists = []
+    init(dependencyGraph: DependencyGraphType, user: User?) {
+        self.user = user
 
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .profileScreenShown)
     }
@@ -123,6 +117,8 @@ class ProfileViewController: FaveVC {
             button.height == 56
         }
 
+        title = user?.handle ?? ""
+
         refreshData()
     }
 
@@ -152,56 +148,46 @@ class ProfileViewController: FaveVC {
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        guard let user = self.dependencyGraph.storage.getUser() else {
-            return
-        }
-
-        navigationController?.navigationBar.topItem?.title = user.handle
-    }
-
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
-            delay(2.0) {
-                self.profileTableView.reloadData()
-
+            delay(0.5) {
                 refreshControl.endRefreshing()
             }
         }
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        dependencyGraph.faveService.getCurrentUser { response, error in
-            if let userData = response, let user = User(data: userData) {
-                self.dependencyGraph.storage.saveUser(user: user)
-                self.profileTableHeaderView.updateUserInfo(user: user)
+        guard let user = self.user else {
+            login()
 
-                self.navigationController?.navigationBar.topItem?.title = user.handle
-
-                self.logUserData(userData: userData)
-            }
+            return
         }
 
-        var userId = ""
+        // Comment in when the /users/:userId endpoint is live
+        dependencyGraph.faveService.getUser(userId: "\(user.id)") { user, error in
+            guard let unwrappedUser = user else {
+                return
+            }
 
-        if let user = dependencyGraph.storage.getUser() {
-            userId = "\(user.id)"
+            self.user = unwrappedUser
         }
 
-        dependencyGraph.faveService.getLists(userId: userId) { response, error in
-            if let unwrappedResponse = response, let listData = unwrappedResponse["data"] as? [[String: AnyObject]] {
-                print("\n\nGOT A VALID RESPONSE\n\n")
+//        dependencyGraph.faveService.getCurrentUser { user, error in
+//            guard let unwrappedUser = user else {
+//                return
+//            }
+//
+//            self.user = user
+//        }
 
-                let updatedLists = listData.map({ List(data: $0)}).compactMap({ $0 })
+        dependencyGraph.faveService.getLists(userId: "\(user.id)") { lists, error in
+            guard let unwrappedLists = lists, error == nil else {
+                completion()
 
-                self.lists = updatedLists
+                return
             }
+
+            self.lists = unwrappedLists
 
             completion()
         }
@@ -220,7 +206,7 @@ extension ProfileViewController: UITableViewDelegate {
         let list = self.lists[indexPath.row]
 
         let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
-        listViewController.title = "List"
+        listViewController.navigationItem.title = "List"
 
         navigationController?.pushViewController(listViewController, animated: true)
     }
@@ -307,6 +293,15 @@ extension ProfileViewController: CreateListViewControllerDelegate {
 
 extension ProfileViewController: CreateItemViewControllerDelegate {
     func didCreateItem() {
+        refreshData()
+    }
+}
 
+extension ProfileViewController: ProfileTableHeaderViewDelegate {
+    func editProfileButtonTapped() {
+        let editProfileViewController = EditProfileViewController(dependencyGraph: dependencyGraph)
+        let editProfileNavigationViewController = UINavigationController.init(rootViewController: editProfileViewController)
+
+        present(editProfileNavigationViewController, animated: true, completion: nil)
     }
 }

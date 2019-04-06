@@ -10,7 +10,7 @@ protocol CreateItemViewControllerDelegate {
 }
 
 enum ListType: String {
-    case place = "PLACE"
+    case google
     case yelp
     case podcast
     case undefined
@@ -21,6 +21,13 @@ class CreateItemViewController: FaveVC {
     var delegate: CreateItemViewControllerDelegate?
 
     var listType: ListType = .undefined
+    var list: List? {
+        didSet {
+            if let unwrappedList = list {
+                self.listLabelText = unwrappedList.title
+            }
+        }
+    }
 
     var place: GMSPlace? {
         didSet {
@@ -29,7 +36,7 @@ class CreateItemViewController: FaveVC {
 
                 nameLabelText = place.name ?? ""
 
-                listType = .place
+                listType = .google
             } else {
                 createListEnabled = false
 
@@ -50,10 +57,24 @@ class CreateItemViewController: FaveVC {
         }
     }
 
-    var nameLabel: Label = Label(font: FaveFont(style: .h5, weight: .regular))
-    var commentTextView: UITextView = UITextView(frame: .zero)
+    var listLabelText: String = "" {
+        didSet {
+            if !listLabelText.isEmpty {
+                listLabel.text = listLabelText
+                listLabel.textColor = FaveColors.Black90
+            } else {
+                listLabel.text = listLabelText
+                listLabel.textColor = FaveColors.Black50
+            }
+        }
+    }
 
-    var commentTextViewPlaceholder: Label = Label(font: FaveFont.init(style: .h5, weight: .regular))
+    var nameLabel: Label = Label(font: FaveFont(style: .h5, weight: .regular))
+    var listLabel: Label = Label(font: FaveFont(style: .h5, weight: .regular))
+    var noteTextView: UITextView = UITextView(frame: .zero)
+    var noteTextViewCharacterCountLabel: Label = Label(font: FaveFont(style: .small, weight: .regular))
+
+    var noteTextViewPlaceholder: Label = Label(font: FaveFont.init(style: .h5, weight: .regular))
 
     var createListEnabled: Bool = false {
         didSet {
@@ -92,6 +113,7 @@ class CreateItemViewController: FaveVC {
         button.addTarget(self, action: #selector(createItemButtonTapped), for: .touchUpInside)
         button.setTitleColor(FaveColors.Accent, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        button.layer.cornerRadius = 16
 
         let attributedTitle = NSAttributedString(string: "Create",
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
@@ -160,63 +182,115 @@ class CreateItemViewController: FaveVC {
 
 
         // Add comments or tips input view
-        let commentInputView = UIView(frame: .zero)
+        let noteInputView = UIView(frame: .zero)
 
-        let commentInputIconImageView = UIImageView(frame: .zero)
-        commentInputIconImageView.image = UIImage(named: "icon-comment")
-        commentInputIconImageView.tintColor = FaveColors.Black50
+        let noteInputIconImageView = UIImageView(frame: .zero)
+        noteInputIconImageView.image = UIImage(named: "icon-comment")
+        noteInputIconImageView.tintColor = FaveColors.Black50
 
-        commentTextView = UITextView(frame: .zero)
-        commentTextView.font = FaveFont(style: .h5, weight: .regular).font
-        commentTextView.textColor = FaveColors.Black90
-        commentTextView.delegate = self
-        commentTextView.backgroundColor = FaveColors.Black20
-        commentTextView.layer.cornerRadius = 6
-        commentTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        noteTextView = UITextView(frame: .zero)
+        noteTextView.font = FaveFont(style: .h5, weight: .regular).font
+        noteTextView.textColor = FaveColors.Black90
+        noteTextView.delegate = self
+        noteTextView.backgroundColor = FaveColors.Black20
+        noteTextView.layer.cornerRadius = 6
+        noteTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 
-        commentTextViewPlaceholder = Label(text: "Comments or tips...", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
-        commentTextViewPlaceholder.translatesAutoresizingMaskIntoConstraints = false
-        commentTextViewPlaceholder.isHidden = false
+        noteTextViewPlaceholder = Label(text: "Leave a note...", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        noteTextViewPlaceholder.translatesAutoresizingMaskIntoConstraints = false
+        noteTextViewPlaceholder.isHidden = false
 
-        commentTextView.addSubview(commentTextViewPlaceholder)
-        commentTextView.bringSubviewToFront(commentTextViewPlaceholder)
+        noteTextView.addSubview(noteTextViewPlaceholder)
+        noteTextView.bringSubviewToFront(noteTextViewPlaceholder)
 
-        constrain(commentTextViewPlaceholder, commentTextView) { placeholderLabel, textView in
+        constrain(noteTextViewPlaceholder, noteTextView) { placeholderLabel, textView in
             placeholderLabel.top == textView.top + 5
             placeholderLabel.left == textView.left + 12
         }
 
-        let commentsDividerView = DividerView()
+        noteTextViewCharacterCountLabel = Label(text: "0/280", font: FaveFont(style: .small, weight: .regular), textColor: FaveColors.Black50, textAlignment: .right, numberOfLines: 1)
 
-        commentInputView.addSubview(commentInputIconImageView)
-        commentInputView.addSubview(commentsDividerView)
-        commentInputView.addSubview(commentTextView)
+        let noteDividerView = DividerView()
 
-        constrain(commentInputIconImageView, commentTextView, commentInputView) { imageView, textField, view in
-            imageView.top == textField.top
+        noteInputView.addSubview(noteInputIconImageView)
+        noteInputView.addSubview(noteDividerView)
+        noteInputView.addSubview(noteTextView)
+        noteInputView.addSubview(noteTextViewCharacterCountLabel)
+
+        constrain(noteInputIconImageView, noteTextView, noteInputView) { imageView, textView, view in
+            imageView.top == textView.top
             imageView.left == view.left + 16
         }
 
-        constrain(commentTextView, commentInputIconImageView, commentInputView) { textView, imageView, view in
+        constrain(noteTextView, noteInputIconImageView, noteInputView) { textView, imageView, view in
             textView.top == view.top + 20
             textView.right == view.right - 16
-            textView.bottom == view.bottom - 20
             textView.left == imageView.right + 16
             textView.height == 88
         }
 
-        constrain(commentsDividerView, commentInputView) { divider, view in
+        constrain(noteTextViewCharacterCountLabel, noteTextView, noteInputView) { label, textView, view in
+            label.top == textView.bottom + 4
+            label.right == view.right - 16
+            label.bottom == view.bottom - 8
+        }
+
+        constrain(noteDividerView, noteInputView) { divider, view in
             divider.right == view.right - 16
             divider.bottom == view.bottom
             divider.left == view.left + 16
         }
 
-        view.addSubview(commentInputView)
+        view.addSubview(noteInputView)
+
+
+        // Add list input view
+        let listInputView = UIView(frame: .zero)
+
+        let listInputIconImageView = UIImageView(frame: .zero)
+        listInputIconImageView.image = UIImage(named: "tab-icon-search")
+        listInputIconImageView.tintColor = FaveColors.Black50
+        listInputIconImageView.setContentHuggingPriority(.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
+
+        listLabel = Label(text: "Choose a list", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        listLabel.isUserInteractionEnabled = true
+        listLabel.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
+
+        _ = listLabel.tapped { recognizer in
+            self.listLabelTapped()
+        }
+
+        let listDividerView = DividerView()
+
+        listInputView.addSubview(listInputIconImageView)
+        listInputView.addSubview(listLabel)
+        listInputView.addSubview(listDividerView)
+
+        constrain(listInputIconImageView, listLabel, listInputView) { imageView, label, view in
+            imageView.centerY == label.centerY
+            imageView.left == view.left + 16
+        }
+
+        constrain(listLabel, listInputIconImageView, listInputView) { label, imageView, view in
+            label.top == view.top + 20
+            label.right == view.right - 16
+            label.left == imageView.right + 16
+            label.bottom == view.bottom - 20
+        }
+
+        constrain(listDividerView, listInputView) { divider, view in
+            divider.right == view.right - 16
+            divider.bottom == view.bottom
+            divider.left == view.left + 16
+        }
+
+        view.addSubview(listInputView)
+
 
 
         // Wire everything together
 
-        constrain(nameInputView, commentInputView, view) { nameView, commentView, view in
+        constrain(nameInputView, noteInputView, listInputView, view) { nameView, commentView, listView, view in
             nameView.left == view.left
             nameView.top == view.top
             nameView.right == view.right
@@ -224,7 +298,11 @@ class CreateItemViewController: FaveVC {
             commentView.top == nameView.bottom
             commentView.right == view.right
             commentView.left == view.left
-            commentView.bottom == view.bottom
+
+            listView.top == commentView.bottom
+            listView.right == view.right
+            listView.left == view.left
+            listView.bottom == view.bottom
         }
 
         return view
@@ -247,7 +325,7 @@ class CreateItemViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.createButton)
 
-        navigationController?.navigationBar.topItem?.title = "New list"
+        self.navigationItem.title = "New entry"
 
         createButton.layer.cornerRadius = 32 / 2
 
@@ -288,13 +366,14 @@ class CreateItemViewController: FaveVC {
         present(autocompleteViewController, animated: true, completion: nil)
     }
 
-//    @objc func textFieldDidChange(_ textField: UITextField) {
-//        if let text = textField.text, !text.isEmpty {
-//            createListEnabled = true
-//        } else {
-//            createListEnabled = false
-//        }
-//    }
+    func listLabelTapped() {
+        let selectListViewController = SelectListViewController(dependencyGraph: dependencyGraph)
+        let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
+
+        selectListViewController.delegate = self
+
+        present(selectListNavigationController, animated: true)
+    }
 
     @objc func createItemButtonTapped(sender: UIButton!) {
         print("\nCreate List Button Tapped\n")
@@ -309,22 +388,58 @@ class CreateItemViewController: FaveVC {
             placeId = placeIdString
         }
 
+        var listId = ""
+        if let list = self.list {
+            listId = "\(list.id)"
+        }
+
         let type = listType.rawValue
 
-        let description = self.commentTextView.text ?? ""
+        let note = self.noteTextView.text ?? ""
 
+        guard !userId.isEmpty else {
+            return
+        }
+
+        guard !placeId.isEmpty else {
+            return
+        }
+
+        guard !listId.isEmpty else {
+            let alertController = UIAlertController(title: "No list selected", message: "Select or create a list below to create your entry.", preferredStyle: .alert)
+
+            alertController.addAction(UIAlertAction(title: "Cool", style: .default, handler: { action in
+                switch action.style {
+                case .default, .cancel, .destructive:
+                    alertController.dismiss(animated: true, completion: nil)
+                }}))
+
+            self.present(alertController, animated: true, completion: nil)
+
+            return
+        }
 
         isLoading = true
+        dependencyGraph.faveService.createListItem(userId: userId, listId: listId, type: type, placeId: placeId, note: note) { response, error in
+            self.isLoading = false
 
-        dependencyGraph.faveService.createListItem(userId: userId, listId: "1", type: type, placeId: placeId, description: description) { response, error in
-            if let responseData = response {
-                print("Response Data: \(responseData.description)")
+            if let error = error, error == nil {
 
+                let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
+
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style {
+                    case .default, .cancel, .destructive:
+                        alertController.dismiss(animated: true, completion: nil)
+                    }}))
+
+                self.present(alertController, animated: true, completion: nil)
+
+                return
+            } else {
                 self.delegate?.didCreateItem()
                 self.dismiss(animated: true, completion: nil)
             }
-
-            self.isLoading = false
         }
     }
 
@@ -335,7 +450,9 @@ class CreateItemViewController: FaveVC {
 
 extension CreateItemViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        commentTextViewPlaceholder.isHidden = !textView.text.isEmpty
+        noteTextViewPlaceholder.isHidden = !textView.text.isEmpty
+        noteTextViewCharacterCountLabel.text = "\(textView.text.count)/280"
+        noteTextViewCharacterCountLabel.textColor = textView.text.count > 280 ? UIColor.red : FaveColors.Black50
     }
 }
 
@@ -364,4 +481,8 @@ extension CreateItemViewController: GMSAutocompleteViewControllerDelegate {
     }
 }
 
-
+extension CreateItemViewController: SelectListViewControllerDelegate {
+    func didSelectList(list: List) {
+        self.list = list
+    }
+}

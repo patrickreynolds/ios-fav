@@ -3,19 +3,28 @@ import UIKit
 
 import Cartography
 
+protocol ProfileTableHeaderViewDelegate {
+    func editProfileButtonTapped()
+}
+
 class ProfileTableHeaderView: UIView {
     struct Constants {
         static let HorizontalSpacing: CGFloat = 0
     }
 
-    let user: User?
     let dependencyGraph: DependencyGraphType
+    let user: User?
+    var delegate: ProfileTableHeaderViewDelegate?
 
-    private lazy var userButton: UIButton = {
+    var topButtonConstraint: NSLayoutConstraint?
+    var bottomButtonConstraint: NSLayoutConstraint?
+    var bottomLabelConstraint: NSLayoutConstraint?
+
+    private lazy var editProfileButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
         button.backgroundColor = UIColor.white
-        button.addTarget(self, action: #selector(reqeustUserInfo), for: .touchUpInside)
+        button.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
         button.layer.cornerRadius = 4
         button.layer.borderWidth = 1.0
         button.layer.borderColor = FaveColors.Black30.cgColor
@@ -37,7 +46,7 @@ class ProfileTableHeaderView: UIView {
 
     let aboutMeLabel = Label(
         text: "Must-read books, niche podcasts, undiscovered places, fresh kicks, and good food.",
-        font: FaveFont.init(style: .h5, weight: .regular),
+        font: FaveFont.init(style: .small, weight: .regular),
         textColor: FaveColors.Black70,
         textAlignment: .left,
         numberOfLines: 0)
@@ -53,7 +62,7 @@ class ProfileTableHeaderView: UIView {
 
         isUserInteractionEnabled = true
 
-        addSubview(userButton)
+        addSubview(editProfileButton)
         addSubview(nameLabel)
         addSubview(aboutMeLabel)
         addSubview(profilePictureImageView)
@@ -71,17 +80,18 @@ class ProfileTableHeaderView: UIView {
             imageView.width == 80
         }
 
-        constrain(aboutMeLabel, nameLabel) { subtitleLabel, nameLabel in
+        constrain(aboutMeLabel, nameLabel, self) { subtitleLabel, nameLabel, view in
             subtitleLabel.left == nameLabel.left
             subtitleLabel.top == nameLabel.bottom
             subtitleLabel.right == nameLabel.right
+            bottomLabelConstraint = subtitleLabel.bottom == view.bottom - 16
         }
 
-        constrain(userButton, aboutMeLabel, self) { button, label, view in
-            button.top == label.bottom + 16
+        constrain(editProfileButton, aboutMeLabel, self) { button, label, view in
+            topButtonConstraint = button.top == label.bottom + 16
             button.left == view.left + 16
             button.right == view.right - 16
-            button.bottom == view.bottom - 16
+            bottomButtonConstraint = button.bottom == view.bottom - 16
         }
 
         updateUserInfo(user: user)
@@ -92,17 +102,38 @@ class ProfileTableHeaderView: UIView {
     }
 
     func updateUserInfo(user: User?) {
-        nameLabel.text = ("\(user?.firstName ?? "") \(user?.lastName ?? "")")
 
-        if let unwrappedUser = user {
-            let imageData = Data(referencing: unwrappedUser.profilePicture)
-            profilePictureImageView.image = UIImage(data: imageData)
-            profilePictureImageView.layer.cornerRadius = 80 / 2
-            profilePictureImageView.backgroundColor = FaveColors.Black20
+        guard let unwrappedUser = user else {
+            return
+        }
+
+        nameLabel.text = ("\(unwrappedUser.firstName) \(unwrappedUser.lastName)")
+
+        let imageData = Data(referencing: unwrappedUser.profilePicture)
+        profilePictureImageView.image = UIImage(data: imageData)
+        profilePictureImageView.layer.cornerRadius = 80 / 2
+        profilePictureImageView.backgroundColor = FaveColors.Black20
+
+        guard let currentUser = dependencyGraph.storage.getUser() else {
+            topButtonConstraint?.isActive = false
+            bottomButtonConstraint?.isActive = false
+            bottomLabelConstraint?.isActive = true
+
+            return
+        }
+
+        if unwrappedUser.id == currentUser.id {
+            topButtonConstraint?.isActive = true
+            bottomButtonConstraint?.isActive = true
+            bottomLabelConstraint?.isActive = false
+        } else {
+            topButtonConstraint?.isActive = false
+            bottomButtonConstraint?.isActive = false
+            bottomLabelConstraint?.isActive = true
         }
     }
 
-    @objc func reqeustUserInfo(sender: UIButton!) {
-        print("\nEdit profile\n")
+    @objc func editProfile(sender: UIButton!) {
+        delegate?.editProfileButtonTapped()
     }
 }

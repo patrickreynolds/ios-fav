@@ -99,7 +99,11 @@ class ListTableViewCell: UITableViewCell {
 
     func populate(list: List) {
         titleLabel.text = list.title
-        followerLabel.text = "\(list.followers) followers"
-        entryLabel.text = "\(list.items.count) entries"
+
+        let followerString = list.numberOfFollowers == 1 ? "\(list.numberOfFollowers) follower" : "\(list.numberOfFollowers) followers"
+        followerLabel.text = followerString
+
+        let entryString = list.numberOfItems == 1 ? "\(list.numberOfItems) entry" : "\(list.numberOfItems) entries"
+        entryLabel.text = entryString
     }
 }

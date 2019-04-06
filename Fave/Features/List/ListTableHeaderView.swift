@@ -28,6 +28,23 @@ class ListTableHeaderView: UIView {
         return button
     }()
 
+    private lazy var editButton: UIButton = {
+        let button = UIButton(frame: CGRect.zero)
+
+        button.setTitleColor(FaveColors.White, for: .normal)
+        button.backgroundColor = FaveColors.Accent
+        button.addTarget(self, action: #selector(editList), for: .touchUpInside)
+        button.layer.cornerRadius = 4
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+
+        let attributedTitle = NSAttributedString(string: "Edit",
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 textColor: FaveColors.White)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        return button
+    }()
+
     private lazy var shareButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
@@ -58,7 +75,7 @@ class ListTableHeaderView: UIView {
 
     private lazy var listDescriptionLabel: Label = {
         let label = Label(text: self.list.description,
-                          font: FaveFont.init(style: .h5, weight: .regular),
+                          font: FaveFont(style: .small, weight: .regular),
                           textColor: FaveColors.Black70,
                           textAlignment: .left,
                           numberOfLines: 0)
@@ -117,6 +134,10 @@ class ListTableHeaderView: UIView {
 
     @objc func shareList(sender: UIButton!) {
         print("\nShare List Button Tapped\n")
+    }
+
+    @objc func editList(sender: UIButton!) {
+        print("\nEdit List Button Tapped\n")
     }
 }
 
