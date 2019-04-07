@@ -7,17 +7,19 @@ class List {
     let isPublic: Bool
     let numberOfFollowers: Int
     let numberOfItems: Int
+    let numberOfSuggestions: Int
     let items: [Item]
     let owner: User
     let url: String
 
-    init(id: Int, title: String, description: String = "", isPublic: Bool = true, numberOfFollowers: Int = 0, numberOfItems: Int = 0, items: [Item] = [], owner: User, url: String = "") {
+    init(id: Int, title: String, description: String = "", isPublic: Bool = true, numberOfFollowers: Int = 0, numberOfItems: Int = 0, numberOfSuggestions: Int = 0, items: [Item] = [], owner: User, url: String = "") {
         self.id = id
         self.title = title
         self.description = description
         self.isPublic = isPublic
         self.numberOfFollowers = numberOfFollowers
         self.numberOfItems = numberOfItems
+        self.numberOfSuggestions = numberOfSuggestions
         self.items = items
         self.owner = owner
         self.url = url
@@ -52,12 +54,18 @@ class List {
             numberOfItems = itemCount
         }
 
+        var numberOfSuggestions = 0
+        if let suggestionCount = data["numberOfSuggestions"] as? Int {
+            numberOfSuggestions = suggestionCount
+        }
+
         let url = ""
 
         self.id = id
         self.title = title
         self.numberOfFollowers = numberOfFollowers
         self.numberOfItems = numberOfItems
+        self.numberOfSuggestions = numberOfSuggestions
         self.items = items
         self.isPublic = isPublic == 1 ? true : false
         self.description = description

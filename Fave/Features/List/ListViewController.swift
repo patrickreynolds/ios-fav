@@ -46,6 +46,11 @@ class ListViewController: FaveVC {
         let image = UIImage.init(named: "icon-nav-chevron-left")
         let imageView = UIImageView(image: image)
 
+        constrain(imageView) { imageView in
+            imageView.width == 24
+            imageView.height == 24
+        }
+
         let button = UIButton.init(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
@@ -181,6 +186,8 @@ extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(EntryTableViewCell.self, indexPath: indexPath)
 
+        cell.delegate = self
+
         let item = listItems[indexPath.row]
         cell.populate(item: item)
 
@@ -192,7 +199,7 @@ extension ListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 48 : 0
+        return section == 0 ? 56 : 0
     }
 }
 
@@ -206,3 +213,12 @@ extension ListViewController: ListTableSectionHeaderViewDelegate {
     }
 }
 
+extension ListViewController: EntryTableViewCellDelegate {
+    func faveItemButtonTapped(item: Item) {
+        print("\nFave Item Button Tapped\n")
+    }
+
+    func shareItemButtonTapped(item: Item) {
+        print("\nShare Item Button Tapped\n")
+    }
+}

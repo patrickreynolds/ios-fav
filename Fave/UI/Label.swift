@@ -29,6 +29,18 @@ class Label: UIView, Shimmerable {
         }
     }
 
+    var contentHuggingPriority: UILayoutPriority? {
+        didSet {
+            updateLabel()
+        }
+    }
+
+    var contentCompressionResistancePriority: UILayoutPriority? {
+        didSet {
+            updateLabel()
+        }
+    }
+
     // MARK: - Initializers
 
     init(text: String? = nil,
@@ -109,6 +121,14 @@ class Label: UIView, Shimmerable {
             let halfLineSpacing = font.lineSpacing / 2
             topLabelConstraint?.constant = halfLineSpacing
             bottomLabelConstraint?.constant = -halfLineSpacing
+
+            if let compressionPriority = contentCompressionResistancePriority {
+                label.setContentCompressionResistancePriority(compressionPriority, for: NSLayoutConstraint.Axis.horizontal)
+            }
+
+            if let huggingPriority = contentHuggingPriority {
+                label.setContentHuggingPriority(huggingPriority, for: NSLayoutConstraint.Axis.horizontal)
+            }
         } else {
             label.attributedText = nil
 

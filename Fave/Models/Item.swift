@@ -10,6 +10,7 @@ struct Item {
     let note: String
     let contextualItem: ItemType
     let content: [String: AnyObject]
+    let numberOfFaves: Int
 
     init?(id: Int,
          type: String,
@@ -18,13 +19,15 @@ struct Item {
          connectorType: String,
          connectorId: String,
          note: String = "",
-         content: [String: AnyObject]) {
+         content: [String: AnyObject],
+         numberOfFaves: Int = 0) {
         self.id = id
         self.type = type
         self.connectorType = connectorType
         self.connectorId = connectorId
         self.note = note
         self.content = content
+        self.numberOfFaves = 0
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'sssZ"
@@ -125,6 +128,8 @@ struct Item {
 
         let note = data["note"] as? String ?? ""
 
+        let numberOfFaves = data["numberOfFaves"] as? Int ?? 0
+
         self.id = id
         self.type = type
 //        self.updatedAt = updatedAtDate
@@ -133,6 +138,7 @@ struct Item {
         self.connectorId = connectorId
         self.note = note
         self.content = content
+        self.numberOfFaves = numberOfFaves
     }
 }
 

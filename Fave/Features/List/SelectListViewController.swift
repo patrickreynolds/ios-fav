@@ -75,6 +75,8 @@ class SelectListViewController: FaveVC {
 
         tableView.register(SelectListTableViewCell.self)
 
+        tableView.separatorColor = UIColor.clear
+
         return tableView
     }()
 

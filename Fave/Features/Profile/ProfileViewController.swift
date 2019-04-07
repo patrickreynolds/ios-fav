@@ -64,6 +64,8 @@ class ProfileViewController: FaveVC {
 
         tableView.addSubview(self.refreshControl)
 
+        tableView.separatorColor = UIColor.clear
+
         return tableView
     }()
 

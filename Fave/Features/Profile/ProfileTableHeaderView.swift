@@ -31,7 +31,7 @@ class ProfileTableHeaderView: UIView {
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
 
         let attributedTitle = NSAttributedString(string: "Edit profile",
-                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
                                                  textColor: FaveColors.Black90)
         button.setAttributedTitle(attributedTitle, for: .normal)
 
@@ -39,14 +39,14 @@ class ProfileTableHeaderView: UIView {
     }()
 
     let nameLabel = Label(text: "Temp",
-                               font: FaveFont(style: .h3, weight: .bold),
+                               font: FaveFont(style: .h2, weight: .bold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
                                numberOfLines: 0)
 
     let aboutMeLabel = Label(
         text: "Must-read books, niche podcasts, undiscovered places, fresh kicks, and good food.",
-        font: FaveFont.init(style: .small, weight: .regular),
+        font: FaveFont.init(style: .h5, weight: .regular),
         textColor: FaveColors.Black70,
         textAlignment: .left,
         numberOfLines: 0)

@@ -21,7 +21,7 @@ class ListTableSectionHeaderView: UIView {
         button.layer.cornerRadius = 16
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
 
-        let attributedTitle = NSAttributedString(string: "\(self.list.items.count) Entries",
+        let attributedTitle = NSAttributedString(string: "\(self.list.numberOfItems) Entries",
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: UIColor.white)
 
@@ -40,7 +40,7 @@ class ListTableSectionHeaderView: UIView {
         button.layer.cornerRadius = 16
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
 
-        let attributedTitle = NSAttributedString(string: "10 Recs",
+        let attributedTitle = NSAttributedString(string: "\(self.list.numberOfSuggestions) Recs",
             font: FaveFont(style: .small, weight: .semiBold).font,
             textColor: FaveColors.Accent)
 
@@ -61,7 +61,7 @@ class ListTableSectionHeaderView: UIView {
         addSubview(recommendationsButton)
 
         constrain(entriesButton, self) { button, view in
-            button.top == view.top + 8
+            button.top == view.top + 16
             button.left == view.left + 16
             button.bottom == view.bottom - 8
         }

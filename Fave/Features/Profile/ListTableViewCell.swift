@@ -5,10 +5,13 @@ import Cartography
 class ListTableViewCell: UITableViewCell {
     private lazy var titleLabel: Label = {
         let label = Label.init(text: "",
-                               font: FaveFont(style: .h5, weight: .semiBold),
+                               font: FaveFont(style: .h4, weight: .semiBold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
-                               numberOfLines: 1)
+                               numberOfLines: 0)
+
+        label.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
+        label.contentHuggingPriority = .defaultLow
 
         return label
     }()
@@ -25,10 +28,13 @@ class ListTableViewCell: UITableViewCell {
 
     private lazy var entryLabel: Label = {
         let label = Label.init(text: "",
-                               font: FaveFont(style: .small, weight: .regular),
+                               font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black60,
                                textAlignment: .left,
                                numberOfLines: 1)
+
+        label.setContentHuggingPriority(.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
+        label.contentHuggingPriority = .defaultHigh
 
         return label
     }()
@@ -36,8 +42,9 @@ class ListTableViewCell: UITableViewCell {
     private lazy var navigationIndicatorImageView: UIView = {
         let imageView = UIImageView(frame: CGRect.zero)
 
-        imageView.image = UIImage(named: "icon-small-chevron")
+        imageView.image = UIImage(named: "icon-chevron-right")
         imageView.tintColor = FaveColors.Black60
+        imageView.setContentHuggingPriority(.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
 
         return imageView
     }()
@@ -81,8 +88,8 @@ class ListTableViewCell: UITableViewCell {
             imageView.left == entryLabel.right + 2
             imageView.right == view.right - 16
             imageView.centerY == entryLabel.centerY
-            imageView.height == 16
-            imageView.width == 16
+            imageView.height == 20
+            imageView.width == 20
         }
 
         constrain(borderView, contentView) { borderView, view in
@@ -103,7 +110,6 @@ class ListTableViewCell: UITableViewCell {
         let followerString = list.numberOfFollowers == 1 ? "\(list.numberOfFollowers) follower" : "\(list.numberOfFollowers) followers"
         followerLabel.text = followerString
 
-        let entryString = list.numberOfItems == 1 ? "\(list.numberOfItems) entry" : "\(list.numberOfItems) entries"
-        entryLabel.text = entryString
+        entryLabel.text = "\(list.numberOfItems)"
     }
 }
