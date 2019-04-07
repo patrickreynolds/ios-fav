@@ -10,8 +10,13 @@ class ProfileViewController: FaveVC {
         didSet {
             profileTableHeaderView.updateUserInfo(user: user)
 
-            navigationItem.title = user?.handle
 
+            guard let handle = user?.handle else {
+                return
+            }
+
+            let titleViewLabel = Label.init(text: handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+            navigationItem.titleView = titleViewLabel
         }
     }
 

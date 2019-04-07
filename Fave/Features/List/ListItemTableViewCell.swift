@@ -59,7 +59,7 @@ class EntryTableViewCell: UITableViewCell {
 
         let faveTitleLabel = Label(text: "Faves".uppercased(),
                               font: FaveFont(style: .small, weight: .semiBold),
-                              textColor: FaveColors.Black40,
+                              textColor: FaveColors.Black60,
                               textAlignment: .left,
                               numberOfLines: 1)
 
@@ -81,7 +81,7 @@ class EntryTableViewCell: UITableViewCell {
 
         let googleScoreTitleLabel = Label(text: "Google score".uppercased(),
                                 font: FaveFont(style: .small, weight: .semiBold),
-                                textColor: FaveColors.Black40,
+                                textColor: FaveColors.Black60,
                                 textAlignment: .left,
                                 numberOfLines: 1)
 
@@ -103,7 +103,7 @@ class EntryTableViewCell: UITableViewCell {
 
         let yelpScoreTitleLabel = Label(text: "Yelp score".uppercased(),
                                         font: FaveFont(style: .small, weight: .semiBold),
-                                        textColor: FaveColors.Black40,
+                                        textColor: FaveColors.Black60,
                                         textAlignment: .left,
                                         numberOfLines: 1)
 
@@ -212,13 +212,13 @@ class EntryTableViewCell: UITableViewCell {
         }
 
         constrain(ratingsStackView, subtitleLabel, borderView, contentView) { stackView, subtitleLabel, borderView, contentView in
-            stackView.top == subtitleLabel.bottom + 16
+            stackView.top == subtitleLabel.bottom + 24
             stackView.right == contentView.right - 16
             stackView.left == contentView.left + 16
         }
 
         constrain(actionStackView, ratingsStackView, borderView, contentView) { actionStackView, ratingsStackView, borderView, contentView in
-            actionStackView.top == ratingsStackView.bottom + 16
+            actionStackView.top == ratingsStackView.bottom + 24
             actionStackView.right == contentView.right - 16
             actionStackView.bottom == borderView.top - 16
             actionStackView.left == contentView.left + 16

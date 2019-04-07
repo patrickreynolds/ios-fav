@@ -99,7 +99,7 @@ class ListTableHeaderView: UIView {
         constrain(titleLabel, self) { label, view in
             label.left == view.left + 16
             label.top == view.top + 16
-            view.right == view.right - 16
+            label.right == view.right - 16
         }
 
         constrain(listDescriptionLabel, titleLabel) { descriptionLabel, titleLabel in

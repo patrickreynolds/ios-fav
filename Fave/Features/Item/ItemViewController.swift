@@ -4,29 +4,26 @@ import UIKit
 import Cartography
 import MBProgressHUD
 
-class ListViewController: FaveVC {
-    var list: List
+enum ItemSectionType: Int {
+    case info = 0
+    case photos = 1
+    case directions = 2
+    case suggestions = 3
+}
 
-    var listItems: [Item] = [] {
+class ItemViewController: FaveVC {
+    var item: Item {
         didSet {
-            self.listTableView.reloadData()
+            itemTableView.reloadData()
         }
     }
 
-    private lazy var listTableHeaderView: ListTableHeaderView = {
-        let view = ListTableHeaderView(dependencyGraph: self.dependencyGraph, list: self.list)
+    private lazy var itemTableHeaderView: ItemTableHeaderView = {
+        let view = ItemTableHeaderView(dependencyGraph: self.dependencyGraph, item: item)
 
 //        view.delegate = self
 
         return view
-    }()
-
-    private lazy var sectionHeaderView: ListTableSectionHeaderView = {
-        let sectionHeaderView = ListTableSectionHeaderView(list: self.list)
-
-        sectionHeaderView.delegate = self
-
-        return sectionHeaderView
     }()
 
     private lazy var refreshControl: UIRefreshControl = {
@@ -62,16 +59,19 @@ class ListViewController: FaveVC {
         return button
     }()
 
-    private lazy var listTableView: UITableView = {
+    private lazy var itemTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
 
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.tableHeaderView = self.listTableHeaderView
+        tableView.tableHeaderView = self.itemTableHeaderView
         tableView.tableFooterView = UIView(frame: .zero)
 
-        tableView.register(EntryTableViewCell.self)
+        tableView.register(ItemInfoTableViewCell.self)
+//        tableView.register(ItemPhotosTableViewCell.self)
+//        tableView.register(ItemDirectionsTableViewCell.self)
+//        tableView.register(ItemSuggestionsTableViewCell.self)
 
         tableView.addSubview(self.refreshControl)
 
@@ -80,10 +80,10 @@ class ListViewController: FaveVC {
         return tableView
     }()
 
-    init(dependencyGraph: DependencyGraphType, list: List) {
-        self.list = list
+    init(dependencyGraph: DependencyGraphType, item: Item) {
+        self.item = item
 
-        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .profileScreenShown)
+        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .itemScreenShown)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -97,21 +97,19 @@ class ListViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
 
-        view.addSubview(listTableView)
+        view.addSubview(itemTableView)
 
-        constrainToSuperview(listTableView, exceptEdges: [.top])
+        constrainToSuperview(itemTableView, exceptEdges: [.top])
 
-        constrain(listTableView, view) { tableView, view in
+        constrain(itemTableView, view) { tableView, view in
             tableView.top == view.topMargin
         }
-
-        refreshData()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if let tableHeaderView = listTableView.tableHeaderView {
+        if let tableHeaderView = itemTableView.tableHeaderView {
             tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
 
             let constraint = NSLayoutConstraint(item: tableHeaderView,
@@ -120,7 +118,7 @@ class ListViewController: FaveVC {
                                                 toItem: nil,
                                                 attribute: .width,
                                                 multiplier: 1,
-                                                constant: listTableView.frame.width)
+                                                constant: itemTableView.frame.width)
 
             tableHeaderView.addConstraint(constraint)
 
@@ -143,25 +141,13 @@ class ListViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        dependencyGraph.faveService.getList(userId: "\(list.owner.id)", listId: "\(self.list.id)") { response, error in
-            guard let list = response else {
-                return
-            }
-
-            self.list = list
-        }
-
-        dependencyGraph.faveService.getListItems(userId: "\(list.owner.id)", listId: "\(self.list.id)") { response, error in
-            guard let items = response else {
-                completion()
-
-                return
-            }
-
-            self.listItems = items
-
-            completion()
-        }
+//        dependencyGraph.faveService.getListItem(itemId: "\(item.id)") { response, error in
+//            guard let item = response else {
+//                return
+//            }
+//
+//            self.item = item
+//        }
     }
 
     @objc func backButtonTapped(sender: UIButton!) {
@@ -169,60 +155,59 @@ class ListViewController: FaveVC {
     }
 }
 
-extension ListViewController: UITableViewDelegate {
+extension ItemViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        listTableView.deselectRow(at: indexPath, animated: true)
-
-        let item = listItems[indexPath.row]
-
-        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item)
-        itemViewController.navigationItem.title = "Item"
-
-        navigationController?.pushViewController(itemViewController, animated: true)
+        itemTableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
-extension ListViewController: UITableViewDataSource {
+extension ItemViewController: UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listItems.count
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(EntryTableViewCell.self, indexPath: indexPath)
 
-        cell.delegate = self
+        switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeue(ItemInfoTableViewCell.self, indexPath: indexPath)
 
-        let item = listItems[indexPath.row]
-        cell.populate(item: item)
+                cell.delegate = self
 
-        return cell
-    }
+                cell.populate(item: item)
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return section == 0 ? self.sectionHeaderView : UIView(frame: CGRect.zero)
-    }
+                return cell
+//            case 1:
+//
+//            case 2:
+//
+//            case 3:
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 56 : 0
-    }
-}
-
-extension ListViewController: ListTableSectionHeaderViewDelegate {
-    func entriesButtonTapped() {
-        print("\nLists Button Tapped\n")
-    }
-
-    func recommendationsButtonTapped() {
-        print("\nRecommentaion Button Tapped\n")
+            default:
+                return UITableViewCell.init(frame: .zero)
+        }
     }
 }
 
-extension ListViewController: EntryTableViewCellDelegate {
-    func faveItemButtonTapped(item: Item) {
-        print("\nFave Item Button Tapped\n")
+extension ItemViewController: ItemInfoTableViewCellDelegate {
+    func  visitWebsiteButtonTapped(item: Item) {
+        print("\nVisit Website Button Tapped\n")
+
+        guard let googleItem = item.contextualItem as? GoogleItemType, let url = URL(string: googleItem.website) else {
+            return
+        }
+
+        UIApplication.shared.open(url, options: [:])
     }
 
-    func shareItemButtonTapped(item: Item) {
-        print("\nShare Item Button Tapped\n")
+    func callButtonTapped(item: Item) {
+        print("\nCall Button Tapped\n")
+
+        guard let googleItem = item.contextualItem as? GoogleItemType else {
+            return
+        }
+
+        googleItem.internationalPhoneNumber?.makePhoneCall()
     }
 }

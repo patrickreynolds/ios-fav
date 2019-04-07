@@ -34,6 +34,9 @@ class FeedViewController: FaveVC {
 
         view.backgroundColor = UIColor.white
 
+        let titleViewLabel = Label.init(text: "Fave", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Accent, textAlignment: .center, numberOfLines: 1)
+        navigationItem.titleView = titleViewLabel
+
         view.addSubview(createButton)
 
         constrain(createButton, view) { button, view in

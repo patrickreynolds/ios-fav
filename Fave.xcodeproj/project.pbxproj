@@ -20,6 +20,9 @@
 		4369CF432257C11300FCA156 /* FaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534CF223336BB00B99EC7 /* FaveTests.swift */; };
 		4369CF4522583E7300FCA156 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4422583E7300FCA156 /* Haptic.swift */; };
 		4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF462258409D00FCA156 /* UIViewExt.swift */; };
+		4369CF49225982F900FCA156 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF48225982F900FCA156 /* ItemViewController.swift */; };
+		4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4A2259884C00FCA156 /* ItemTableHeaderView.swift */; };
+		4369CF4D22598C1400FCA156 /* ItemInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4C22598C1400FCA156 /* ItemInfoTableViewCell.swift */; };
 		438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BA223336BA00B99EC7 /* AppDelegate.swift */; };
 		438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BC223336BA00B99EC7 /* FeedViewController.swift */; };
 		438534C2223336BB00B99EC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 438534C1223336BB00B99EC7 /* Assets.xcassets */; };
@@ -102,6 +105,9 @@
 		431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExt.swift; sourceTree = "<group>"; };
 		4369CF4422583E7300FCA156 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		4369CF462258409D00FCA156 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
+		4369CF48225982F900FCA156 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		4369CF4A2259884C00FCA156 /* ItemTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableHeaderView.swift; sourceTree = "<group>"; };
+		4369CF4C22598C1400FCA156 /* ItemInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInfoTableViewCell.swift; sourceTree = "<group>"; };
 		438534B7223336BA00B99EC7 /* Fave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		438534BA223336BA00B99EC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		438534BC223336BA00B99EC7 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -197,6 +203,9 @@
 			isa = PBXGroup;
 			children = (
 				431DF89E2249EDA500717312 /* CreateItemViewController.swift */,
+				4369CF48225982F900FCA156 /* ItemViewController.swift */,
+				4369CF4A2259884C00FCA156 /* ItemTableHeaderView.swift */,
+				4369CF4C22598C1400FCA156 /* ItemInfoTableViewCell.swift */,
 			);
 			path = Item;
 			sourceTree = "<group>";
@@ -663,7 +672,9 @@
 				439FDDDD2245C21700ED9343 /* StringExt.swift in Sources */,
 				431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */,
 				438534EE223338AD00B99EC7 /* UITableViewExtensions.swift in Sources */,
+				4369CF4D22598C1400FCA156 /* ItemInfoTableViewCell.swift in Sources */,
 				43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */,
+				4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */,
 				438534EA2233386100B99EC7 /* CartographyExt.swift in Sources */,
 				438534FA2233397E00B99EC7 /* FaveVC.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
@@ -712,6 +723,7 @@
 				4305F373224007C500F6DE77 /* List.swift in Sources */,
 				439FDDE02245D1FC00ED9343 /* ListViewController.swift in Sources */,
 				4386BFF422335FA8006A3ED7 /* Shimmer.swift in Sources */,
+				4369CF49225982F900FCA156 /* ItemViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -36,6 +36,11 @@ class DiscoverViewController: FaveVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = FaveColors.White
+
+        let titleViewLabel = Label.init(text: "Discover", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        navigationItem.titleView = titleViewLabel
+
         view.addSubview(createButton)
 
         constrain(createButton, view) { button, view in
