@@ -12,6 +12,7 @@ enum ItemSectionType: Int {
 }
 
 class ItemViewController: FaveVC {
+
     var item: Item {
         didSet {
             itemTableView.reloadData()
@@ -69,9 +70,9 @@ class ItemViewController: FaveVC {
         tableView.tableFooterView = UIView(frame: .zero)
 
         tableView.register(ItemInfoTableViewCell.self)
-//        tableView.register(ItemPhotosTableViewCell.self)
-//        tableView.register(ItemDirectionsTableViewCell.self)
-//        tableView.register(ItemSuggestionsTableViewCell.self)
+        tableView.register(ItemPhotosTableViewCell.self)
+        tableView.register(ItemMapTableViewCell.self)
+        tableView.register(ItemListSuggestionsTableViewCell.self)
 
         tableView.addSubview(self.refreshControl)
 
@@ -148,6 +149,7 @@ class ItemViewController: FaveVC {
 //
 //            self.item = item
 //        }
+        completion()
     }
 
     @objc func backButtonTapped(sender: UIButton!) {
@@ -164,7 +166,7 @@ extension ItemViewController: UITableViewDelegate {
 extension ItemViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 4
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -174,16 +176,30 @@ extension ItemViewController: UITableViewDataSource {
                 let cell = tableView.dequeue(ItemInfoTableViewCell.self, indexPath: indexPath)
 
                 cell.delegate = self
-
                 cell.populate(item: item)
 
                 return cell
-//            case 1:
-//
-//            case 2:
-//
-//            case 3:
+            case 1:
+                let cell = tableView.dequeue(ItemPhotosTableViewCell.self, indexPath: indexPath)
 
+                cell.delegate = self
+                cell.populate(item: item)
+
+                return cell
+            case 2:
+                let cell = tableView.dequeue(ItemMapTableViewCell.self, indexPath: indexPath)
+
+                cell.delegate = self
+                cell.populate(item: item)
+
+                return cell
+            case 3:
+                let cell = tableView.dequeue(ItemListSuggestionsTableViewCell.self, indexPath: indexPath)
+
+                cell.delegate = self
+                cell.populate(item: item)
+
+                return cell
             default:
                 return UITableViewCell.init(frame: .zero)
         }
@@ -209,5 +225,23 @@ extension ItemViewController: ItemInfoTableViewCellDelegate {
         }
 
         googleItem.internationalPhoneNumber?.makePhoneCall()
+    }
+}
+
+extension ItemViewController: ItemPhotosTableViewCellDelegate {
+    func didSelectItemPhoto() {
+
+    }
+}
+
+extension ItemViewController: ItemMapTableViewCellDelegate {
+    func didSelectMap(item: Item) {
+
+    }
+}
+
+extension ItemViewController: ItemListSuggestionsTableViewCellDelegate {
+    func didSelectList(list: List) {
+
     }
 }

@@ -139,7 +139,7 @@ class EntryTableViewCell: UITableViewCell {
         button.setTitleColor(FaveColors.White, for: .normal)
         button.backgroundColor = FaveColors.Black20
         button.addTarget(self, action: #selector(faveItemButtonTapped), for: .touchUpInside)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 6
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 
         let attributedTitle = NSAttributedString(string: "Fave",
@@ -156,7 +156,7 @@ class EntryTableViewCell: UITableViewCell {
         button.setTitleColor(FaveColors.White, for: .normal)
         button.backgroundColor = FaveColors.Black20
         button.addTarget(self, action: #selector(shareItemButtonTapped), for: .touchUpInside)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 6
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 
         let attributedTitle = NSAttributedString(string: "Share",
@@ -212,7 +212,7 @@ class EntryTableViewCell: UITableViewCell {
         }
 
         constrain(ratingsStackView, subtitleLabel, borderView, contentView) { stackView, subtitleLabel, borderView, contentView in
-            stackView.top == subtitleLabel.bottom + 24
+            stackView.top == subtitleLabel.bottom + 16
             stackView.right == contentView.right - 16
             stackView.left == contentView.left + 16
         }
@@ -228,7 +228,7 @@ class EntryTableViewCell: UITableViewCell {
             borderView.left == view.left
             borderView.right == view.right
             borderView.bottom == view.bottom
-            borderView.height == 8
+            borderView.height == 4
         }
     }
 

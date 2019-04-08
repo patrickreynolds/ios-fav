@@ -308,7 +308,9 @@ class CreateItemViewController: FaveVC {
         return view
     }()
 
-    init(dependencyGraph: DependencyGraphType) {
+    init(dependencyGraph: DependencyGraphType, defaultList: List? = nil) {
+        self.list = defaultList
+
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .profileScreenShown)
     }
 
@@ -341,6 +343,10 @@ class CreateItemViewController: FaveVC {
         constrain(progressHud, view) { hud, view in
             hud.centerX == view.centerX
             hud.centerY == view.centerY
+        }
+
+        if let list = self.list {
+            listLabelText = list.title
         }
     }
 

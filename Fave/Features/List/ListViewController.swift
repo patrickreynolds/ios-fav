@@ -9,24 +9,18 @@ class ListViewController: FaveVC {
 
     var listItems: [Item] = [] {
         didSet {
-            self.listTableView.reloadData()
+            listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
+
+            listTableView.reloadData()
         }
     }
 
     private lazy var listTableHeaderView: ListTableHeaderView = {
         let view = ListTableHeaderView(dependencyGraph: self.dependencyGraph, list: self.list)
 
-//        view.delegate = self
+        view.delegate = self
 
         return view
-    }()
-
-    private lazy var sectionHeaderView: ListTableSectionHeaderView = {
-        let sectionHeaderView = ListTableSectionHeaderView(list: self.list)
-
-        sectionHeaderView.delegate = self
-
-        return sectionHeaderView
     }()
 
     private lazy var refreshControl: UIRefreshControl = {
@@ -63,7 +57,7 @@ class ListViewController: FaveVC {
     }()
 
     private lazy var listTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .plain)
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -78,6 +72,19 @@ class ListViewController: FaveVC {
         tableView.separatorColor = UIColor.clear
 
         return tableView
+    }()
+
+    private lazy var createButton: UIButton = {
+        let button = UIButton(frame: CGRect.zero)
+
+        button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
+        button.setTitleColor(FaveColors.Accent, for: .normal)
+        button.backgroundColor = FaveColors.Accent
+        button.layer.cornerRadius = 56 / 2
+        button.setImage(UIImage(named: "icon-add"), for: .normal)
+        button.tintColor = FaveColors.White
+
+        return button
     }()
 
     init(dependencyGraph: DependencyGraphType, list: List) {
@@ -98,11 +105,19 @@ class ListViewController: FaveVC {
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
 
         view.addSubview(listTableView)
+        view.addSubview(createButton)
 
         constrainToSuperview(listTableView, exceptEdges: [.top])
 
         constrain(listTableView, view) { tableView, view in
             tableView.top == view.topMargin
+        }
+
+        constrain(createButton, view) { button, view in
+            button.right == view.right - 16
+            button.bottom == view.bottomMargin - 16
+            button.width == 56
+            button.height == 56
         }
 
         refreshData()
@@ -169,6 +184,68 @@ class ListViewController: FaveVC {
     }
 }
 
+// Create button logic
+
+extension ListViewController {
+    @objc func createButtonTapped(sender: UIButton!) {
+//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        // Have to decide whether the user can add an item or suggest an item
+
+//        alertController.addAction(UIAlertAction(title: "Item", style: .default , handler: { alertAction in
+            self.addItemButtonTapped()
+
+//            alertController.dismiss(animated: true, completion: nil)
+//        }))
+
+//        alertController.addAction(UIAlertAction(title: "List", style: .default , handler: { alertAction in
+//            self.addListButtonTapped()
+//
+//            alertController.dismiss(animated: true, completion: nil)
+//        }))
+
+//        alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { alertAction in
+//            alertController.dismiss(animated: true, completion: nil)
+//        }))
+//
+//        self.present(alertController, animated: true, completion: nil)
+    }
+
+    func addListButtonTapped() {
+        print("\n\nAdd List Button Tapped\n\n")
+
+        let createListViewController = CreateListViewController.init(dependencyGraph: self.dependencyGraph)
+        let createListNavigationViewController = UINavigationController(rootViewController: createListViewController)
+
+        createListViewController.delegate = self
+
+        present(createListNavigationViewController, animated: true, completion: nil)
+    }
+
+    func addItemButtonTapped() {
+        print("\n\nAdd Item Button Tapped\n\n")
+
+        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, defaultList: list)
+        let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
+
+        createItemViewController.delegate = self
+
+        present(createItemNavigationViewController, animated: true, completion: nil)
+    }
+}
+
+extension ListViewController: CreateListViewControllerDelegate {
+    func didCreateList(list: List) {
+        refreshData()
+    }
+}
+
+extension ListViewController: CreateItemViewControllerDelegate {
+    func didCreateItem() {
+        refreshData()
+    }
+}
+
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         listTableView.deselectRow(at: indexPath, animated: true)
@@ -176,7 +253,9 @@ extension ListViewController: UITableViewDelegate {
         let item = listItems[indexPath.row]
 
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item)
-        itemViewController.navigationItem.title = "Item"
+
+        let titleViewLabel = Label.init(text: "Item", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
     }
@@ -198,21 +277,21 @@ extension ListViewController: UITableViewDataSource {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return section == 0 ? self.sectionHeaderView : UIView(frame: CGRect.zero)
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.1
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 56 : 0
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.1
     }
 }
 
-extension ListViewController: ListTableSectionHeaderViewDelegate {
+extension ListViewController: ListTableHeaderViewDelegate {
     func entriesButtonTapped() {
         print("\nLists Button Tapped\n")
     }
 
-    func recommendationsButtonTapped() {
+    func suggestionsButtonTapped() {
         print("\nRecommentaion Button Tapped\n")
     }
 }

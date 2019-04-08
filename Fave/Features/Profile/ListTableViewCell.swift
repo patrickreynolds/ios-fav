@@ -5,7 +5,7 @@ import Cartography
 class ListTableViewCell: UITableViewCell {
     private lazy var titleLabel: Label = {
         let label = Label.init(text: "",
-                               font: FaveFont(style: .h4, weight: .semiBold),
+                               font: FaveFont(style: .h5, weight: .semiBold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
                                numberOfLines: 0)

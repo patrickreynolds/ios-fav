@@ -43,7 +43,7 @@ class ProfileViewController: FaveVC {
         return sectionHeaderView
     }()
 
-    private lazy var newListButton: UIButton = {
+    private lazy var createButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
         button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
@@ -107,9 +107,9 @@ class ProfileViewController: FaveVC {
         view.backgroundColor = UIColor.white
 
         view.addSubview(profileTableView)
-        view.addSubview(newListButton)
+        view.addSubview(createButton)
 
-        view.bringSubviewToFront(newListButton)
+        view.bringSubviewToFront(createButton)
 
         constrainToSuperview(profileTableView, exceptEdges: [.top])
 
@@ -117,7 +117,7 @@ class ProfileViewController: FaveVC {
             tableView.top == view.topMargin
         }
 
-        constrain(newListButton, view) { button, view in
+        constrain(createButton, view) { button, view in
             button.right == view.right - 16
             button.bottom == view.bottomMargin - 16
             button.width == 56
@@ -213,7 +213,9 @@ extension ProfileViewController: UITableViewDelegate {
         let list = self.lists[indexPath.row]
 
         let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
-        listViewController.navigationItem.title = "List"
+
+        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)
     }

@@ -25,7 +25,7 @@ class ProfileTableHeaderView: UIView {
 
         button.backgroundColor = UIColor.white
         button.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 6
         button.layer.borderWidth = 1.0
         button.layer.borderColor = FaveColors.Black30.cgColor
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -39,7 +39,7 @@ class ProfileTableHeaderView: UIView {
     }()
 
     let nameLabel = Label(text: "Temp",
-                               font: FaveFont(style: .h2, weight: .bold),
+                               font: FaveFont(style: .h3, weight: .bold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
                                numberOfLines: 0)

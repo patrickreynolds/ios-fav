@@ -14,7 +14,7 @@ class ProfileTableSectionHeaderView: UIView {
             let titleString = self.lists.count == 1 ? "\(self.lists.count) List" : "\(self.lists.count) Lists"
             let attributedTitle = NSAttributedString(string: titleString,
                 font: FaveFont(style: .small, weight: .semiBold).font,
-                textColor: UIColor.white)
+                textColor: FaveColors.Black70)
 
             listsButton.setAttributedTitle(attributedTitle, for: .normal)
         }
@@ -25,15 +25,13 @@ class ProfileTableSectionHeaderView: UIView {
 
         button.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = FaveColors.Accent
-        button.layer.cornerRadius = 16
-        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
+        button.backgroundColor = FaveColors.Black20
 
         let titleString = self.lists.count == 1 ? "\(self.lists.count) List" : "\(self.lists.count) Lists"
 
         let attributedTitle = NSAttributedString(string: titleString,
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
-                                                 textColor: UIColor.white)
+                                                 textColor: FaveColors.Black70)
 
         button.setAttributedTitle(attributedTitle, for: .normal)
 
@@ -52,7 +50,7 @@ class ProfileTableSectionHeaderView: UIView {
         constrain(listsButton, self) { button, view in
             button.top == view.top + 8
             button.left == view.left + 16
-            button.bottom == view.bottom - 8
+            button.bottom == view.bottom
         }
     }
 

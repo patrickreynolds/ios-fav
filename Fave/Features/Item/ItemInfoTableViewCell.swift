@@ -41,7 +41,7 @@ class ItemInfoTableViewCell: UITableViewCell {
                               textAlignment: .left,
                               numberOfLines: 0)
 
-    private lazy var borderView: UIView = {
+    private lazy var dividerView: UIView = {
         let view = UIView(frame: CGRect.zero)
 
         view.backgroundColor = FaveColors.Black20
@@ -90,14 +90,14 @@ class ItemInfoTableViewCell: UITableViewCell {
             dividerView.top == view.top
             dividerView.right == view.right
             dividerView.left == view.left
-            dividerView.height == 1
+            dividerView.height == 4
         }
 
         constrain(dividerView, view) { dividerView, view in
             dividerView.right == view.right
             dividerView.bottom == view.bottom
             dividerView.left == view.left + 16
-            dividerView.height == 1
+            dividerView.height == 4
         }
 
         return view
@@ -140,7 +140,7 @@ class ItemInfoTableViewCell: UITableViewCell {
             dividerView.right == view.right
             dividerView.bottom == view.bottom
             dividerView.left == view.left
-            dividerView.height == 1
+            dividerView.height == 4
         }
 
         return view
@@ -168,10 +168,10 @@ class ItemInfoTableViewCell: UITableViewCell {
         selectionStyle = .none
 
         contentView.addSubview(titleLabel)
+        contentView.addSubview(dividerView)
+
         contentView.addSubview(keywordsLabel)
         contentView.addSubview(infoActionsStackView)
-
-        contentView.addSubview(borderView)
 
         constrain(titleLabel, contentView) { label, view in
             label.top == view.top + 16
@@ -179,24 +179,24 @@ class ItemInfoTableViewCell: UITableViewCell {
             label.left == view.left + 16
         }
 
-        constrain(keywordsLabel, titleLabel, borderView) { subtitleLabel, titleLabel, borderView in
+        constrain(keywordsLabel, titleLabel, dividerView) { subtitleLabel, titleLabel, borderView in
             subtitleLabel.top == titleLabel.bottom + 8
             subtitleLabel.right == titleLabel.right
             subtitleLabel.left == titleLabel.left
         }
 
-        constrain(infoActionsStackView, keywordsLabel, borderView, contentView) { stackView, keywordsLabel, borderView, view in
+        constrain(infoActionsStackView, keywordsLabel, dividerView, contentView) { stackView, keywordsLabel, borderView, view in
             stackView.top == keywordsLabel.bottom + 16
             stackView.right == view.right
             stackView.bottom == borderView.top
             stackView.left == view.left
         }
 
-        constrain(borderView, contentView) { borderView, view in
-            borderView.left == view.left
-            borderView.right == view.right
-            borderView.bottom == view.bottom
-            borderView.height == 8
+        constrain(dividerView, contentView) { dividerView, view in
+            dividerView.left == view.left
+            dividerView.right == view.right
+            dividerView.bottom == view.bottom
+            dividerView.height == 4
         }
     }
 
@@ -225,9 +225,21 @@ class ItemInfoTableViewCell: UITableViewCell {
 
         keywordsLabel.text = keywordsString
 
-
-        websiteLabel.text = googleItem.website
         phoneNumberLabel.text = googleItem.formattedPhoneNumber
+
+        var formattedWebsite = googleItem.website
+
+        if formattedWebsite.hasSuffix("/") {
+            _ = formattedWebsite.removeLast()
+        }
+
+        if formattedWebsite.hasPrefix("http://") {
+            formattedWebsite = String(formattedWebsite.dropFirst(7))
+        } else if formattedWebsite.hasPrefix("https://") {
+            formattedWebsite = String(formattedWebsite.dropFirst(8))
+        }
+
+        websiteLabel.text = formattedWebsite
     }
 
     @objc func faveItemButtonTapped(sender: UIButton!) {

@@ -17,11 +17,11 @@ class ItemTableHeaderView: UIView {
         button.setTitleColor(FaveColors.White, for: .normal)
         button.backgroundColor = FaveColors.Accent
         button.addTarget(self, action: #selector(faveItemButtonTapped), for: .touchUpInside)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 6
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 
-        let attributedTitle = NSAttributedString(string: "Fave",
-                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
+        let attributedTitle = NSAttributedString(string: "Faved",
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: FaveColors.White)
         button.setAttributedTitle(attributedTitle, for: .normal)
 
@@ -34,12 +34,13 @@ class ItemTableHeaderView: UIView {
         button.setTitleColor(FaveColors.Black90, for: .normal)
         button.backgroundColor = FaveColors.White
         button.addTarget(self, action: #selector(editItemButtonTapped), for: .touchUpInside)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 6
         button.layer.borderWidth = 1.0
+        button.layer.borderColor = FaveColors.Black30.cgColor
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 
         let attributedTitle = NSAttributedString(string: "Edit item",
-                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: FaveColors.Black90)
         button.setAttributedTitle(attributedTitle, for: .normal)
 
@@ -51,9 +52,9 @@ class ItemTableHeaderView: UIView {
 
         button.backgroundColor = FaveColors.White
         button.addTarget(self, action: #selector(shareItemButtonTapped), for: .touchUpInside)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 6
         button.layer.borderWidth = 1.0
-        button.layer.borderColor = FaveColors.Black20.cgColor
+        button.layer.borderColor = FaveColors.Black30.cgColor
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 
         let attributedTitle = NSAttributedString(string: "Share",
@@ -108,7 +109,7 @@ class ItemTableHeaderView: UIView {
         view.backgroundColor = FaveColors.Black20
 
         constrain(view) { view in
-            view.height == 8
+            view.height == 1
         }
 
         return view
@@ -134,9 +135,9 @@ class ItemTableHeaderView: UIView {
         }
 
         constrain(itemNoteLabel, titleLabel, dividerView, self) { itemNoteLabel, titleLabel, dividerView, view in
-            itemNoteLabel.left == titleLabel.left
             itemNoteLabel.top == titleLabel.bottom + 8
             itemNoteLabel.right == titleLabel.right
+            itemNoteLabel.left == titleLabel.left
         }
 
         constrain(actionStackView, itemNoteLabel, dividerView, self) { stackView, noteLabel, dividerView, view in
