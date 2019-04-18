@@ -63,7 +63,7 @@ class LoggedOutViewController: FaveVC {
         let button = UIButton(frame: .zero)
 
         button.backgroundColor = FaveColors.White
-        let attributedTitle = NSAttributedString(string: "Skip",
+        let attributedTitle = NSAttributedString(string: "Dismiss",
                                                  font: FaveFont(style: .h5, weight: .semiBold).font,
                                                  textColor: FaveColors.Black50)
 

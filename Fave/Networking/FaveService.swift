@@ -12,6 +12,7 @@ protocol FaveServiceType {
     func getPaginatedFeed(page: Int, completion: @escaping FaveAPICallResultCompletionBlock)
     func getFeed(from: Int, to: Int, completion: @escaping FaveAPICallResultCompletionBlock)
     func suggestions(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
+    func topLists(completion: @escaping (_ lists: [TopList]?, _ error: Error?) -> ())
 }
 
 struct FaveService {
@@ -155,6 +156,32 @@ struct FaveService {
 
             completion(suggestions, error)
         }
+    }
+
+    func topLists(completion: @escaping (_ lists: [TopList]?, _ error: Error?) -> ()) {
+
+        let list1Item1 = TopListItem.init(name: "Marufuku", type: "Ramen restaurnat")
+        let list1Item2 = TopListItem.init(name: "Ippudo", type: "Ramen")
+        let list1Item3 = TopListItem.init(name: "Waraku", type: "Japanese Cuisine")
+
+        let list1 = TopList(name: "SF Ramen Shops", owner: "Albert", items: [list1Item1, list1Item2, list1Item3])
+        let list2 = TopList(name: "Croissants", owner: "Patrick", items: [])
+        let list3 = TopList(name: "Coffee Shops", owner: "Shelley", items: [])
+
+        let topLists = [list1, list2, list3]
+
+//        struct TopList {
+//            let name: String
+//            let owner: String
+//            let items: [TopListItem]
+//        }
+//
+//        struct TopListItem {
+//            let name: String
+//            let type: String
+//        }
+
+        completion(topLists, nil)
     }
 }
 

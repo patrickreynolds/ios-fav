@@ -134,4 +134,20 @@ extension DiscoverViewController: CreateItemViewControllerDelegate {
     }
 }
 
+extension DiscoverViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if dependencyGraph.authenticator.isLoggedIn() {
+            return true
+        }
+
+        if viewController == tabBarController.viewControllers?[2] {
+            login()
+
+            return false
+        } else {
+            return true
+        }
+    }
+}
+
 

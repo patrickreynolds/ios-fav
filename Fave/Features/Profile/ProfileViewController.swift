@@ -124,7 +124,8 @@ class ProfileViewController: FaveVC {
             button.height == 56
         }
 
-        title = user?.handle ?? ""
+        let titleViewLabel = Label.init(text: user?.handle ?? "", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        navigationItem.titleView = titleViewLabel
 
         refreshData()
     }
@@ -164,7 +165,8 @@ class ProfileViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        guard let user = self.user else {
+        guard let user = user else {
+
             login()
 
             return

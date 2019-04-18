@@ -4,9 +4,16 @@ import MBProgressHUD
 
 class FeedViewController: FaveVC {
 
+    var user: User?
     var lastPage: Int = 1
 
     var current = [FeedItem]()
+
+    var topLists: [TopList] = [] {
+        didSet {
+
+        }
+    }
 
     private lazy var createButton: UIButton = {
         let button = UIButton(frame: .zero)
@@ -19,6 +26,58 @@ class FeedViewController: FaveVC {
         button.tintColor = FaveColors.White
 
         return button
+    }()
+
+    private lazy var welcomeView: UIView = {
+        let view = UIView.init(frame: CGRect.zero)
+
+        let titleLabel = Label(text: "Welcome to Fave!",
+                               font: FaveFont(style: .h4, weight: .bold),
+                               textColor: FaveColors.Black90,
+                               textAlignment: .center,
+                               numberOfLines: 0)
+
+        let subtitleLabel = Label(text: "Create, discover, and share your favorite places with friends.",
+                                  font: FaveFont(style: .h5, weight: .regular),
+                                  textColor: FaveColors.Black70,
+                                  textAlignment: .center,
+                                  numberOfLines: 0)
+
+        view.addSubview(titleLabel)
+        view.addSubview(subtitleLabel)
+
+        constrain(titleLabel, view) { titleLabel, view in
+            titleLabel.top == view.top + 32
+            titleLabel.centerX == view.centerX
+        }
+
+        constrain(subtitleLabel, titleLabel, view) { subtitleLabel, titleLabel, view in
+            subtitleLabel.top == titleLabel.bottom + 8
+            subtitleLabel.left == view.left + 32
+            subtitleLabel.right == view.right - 32
+
+            subtitleLabel.bottom == view.bottom - 40
+        }
+
+        return view
+    }()
+
+    private lazy var feedTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
+
+//        tableView.delegate = self
+//        tableView.dataSource = self
+
+//        tableView.tableHeaderView = self.profileTableHeaderView
+        tableView.tableFooterView = UIView(frame: .zero)
+
+//        tableView.register(FeedItemTableViewCell.self)
+
+//        tableView.addSubview(self.refreshControl)
+
+        tableView.separatorColor = UIColor.clear
+
+        return tableView
     }()
 
     init(dependencyGraph: DependencyGraphType) {
@@ -34,10 +93,25 @@ class FeedViewController: FaveVC {
 
         view.backgroundColor = UIColor.white
 
+        tabBarController?.delegate = self
+
         let titleViewLabel = Label.init(text: "Fave", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Accent, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
+        view.addSubview(welcomeView)
+        view.addSubview(feedTableView)
         view.addSubview(createButton)
+
+        constrainToSuperview(welcomeView, exceptEdges: [.top, .bottom])
+        constrainToSuperview(feedTableView, exceptEdges: [.top])
+
+        constrain(welcomeView, view) { welcomeView, view in
+            welcomeView.top == view.topMargin
+        }
+
+        constrain(feedTableView, view) { tableView, view in
+            tableView.top == view.topMargin
+        }
 
         constrain(createButton, view) { button, view in
             button.right == view.right - 16
@@ -48,28 +122,36 @@ class FeedViewController: FaveVC {
 
         view.bringSubviewToFront(createButton)
 
-        checkLogin()
+        if let _ = user {
+            feedTableView.alpha = 1
+            feedTableView.isHidden = false
+            welcomeView.alpha = 0
+            welcomeView.isHidden = true
+        } else {
+            feedTableView.alpha = 0
+            feedTableView.isHidden = true
+            welcomeView.alpha = 1
+            welcomeView.isHidden = false
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
 
-    private func checkLogin() {
-        if dependencyGraph.authenticator.isLoggedIn() {
-            refreshFeed()
-        } else {
-            login()
-        }
-    }
-
     func refreshFeed() {
-        dependencyGraph.faveService.getFeed(from: 0, to: 100) { response, error in
-            guard let feedData = response else {
-                return
-            }
+        if dependencyGraph.authenticator.isLoggedIn() {
+            dependencyGraph.faveService.getFeed(from: 0, to: 100) { response, error in
+                guard let feedData = response else {
+                    return
+                }
 
-            print("\(feedData.description)")
+                print("\(feedData.description)")
+            }
+        } else {
+            dependencyGraph.faveService.topLists { topLists, error in
+                self.topLists = topLists ?? []
+            }
         }
 
 
@@ -85,6 +167,13 @@ class FeedViewController: FaveVC {
 
 extension FeedViewController {
     @objc func createButtonTapped(sender: UIButton!) {
+
+        guard dependencyGraph.authenticator.isLoggedIn() else {
+            login()
+
+            return
+        }
+        
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         alertController.addAction(UIAlertAction(title: "Item", style: .default , handler: { alertAction in
@@ -136,5 +225,21 @@ extension FeedViewController: CreateListViewControllerDelegate {
 extension FeedViewController: CreateItemViewControllerDelegate {
     func didCreateItem() {
 
+    }
+}
+
+extension FeedViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if dependencyGraph.authenticator.isLoggedIn() {
+            return true
+        }
+
+        if viewController == tabBarController.viewControllers?[2] {
+            login()
+
+            return false
+        } else {
+            return true
+        }
     }
 }

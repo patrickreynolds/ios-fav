@@ -73,6 +73,7 @@
 		43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB8223A085900CA2549 /* ProfileViewController.swift */; };
 		43BD5689224C9039009D0AC8 /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD5688224C9039009D0AC8 /* SelectListViewController.swift */; };
 		43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */; };
+		43BEA2FA2268E13C001F930E /* TopLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEA2F92268E13C001F930E /* TopLists.swift */; };
 		43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF88102243E10E0096CCA1 /* DictionaryExt.swift */; };
 		43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881222447BB80096CCA1 /* CreateListViewController.swift */; };
 		43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881422449EFB0096CCA1 /* DividerView.swift */; };
@@ -169,6 +170,7 @@
 		43B26BB8223A085900CA2549 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		43BD5688224C9039009D0AC8 /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
 		43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListTableViewCell.swift; sourceTree = "<group>"; };
+		43BEA2F92268E13C001F930E /* TopLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLists.swift; sourceTree = "<group>"; };
 		43BF88102243E10E0096CCA1 /* DictionaryExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExt.swift; sourceTree = "<group>"; };
 		43BF881222447BB80096CCA1 /* CreateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewController.swift; sourceTree = "<group>"; };
 		43BF881422449EFB0096CCA1 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				430D8D2D224DEBA20082FCF2 /* FeedItem.swift */,
 				430D8D2F224DF1730082FCF2 /* Friend.swift */,
 				43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */,
+				43BEA2F92268E13C001F930E /* TopLists.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				439FDDE02245D1FC00ED9343 /* ListViewController.swift in Sources */,
 				4386BFF422335FA8006A3ED7 /* Shimmer.swift in Sources */,
 				4369CF49225982F900FCA156 /* ItemViewController.swift in Sources */,
+				43BEA2FA2268E13C001F930E /* TopLists.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
