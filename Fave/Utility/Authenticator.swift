@@ -1,11 +1,3 @@
-//
-//  Authenticator.swift
-//  Fave
-//
-//  Created by Patrick Reynolds on 3/14/19.
-//  Copyright © 2019 Patrick Reynolds. All rights reserved.
-//
-
 import Foundation
 import SwiftKeychainWrapper
 

@@ -15,7 +15,7 @@ class ProfileViewController: FaveVC {
                 return
             }
 
-            let titleViewLabel = Label.init(text: handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+            let titleViewLabel = Label.init(text: handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
             navigationItem.titleView = titleViewLabel
         }
     }
@@ -171,7 +171,7 @@ class ProfileViewController: FaveVC {
         }
 
         // Comment in when the /users/:userId endpoint is live
-        dependencyGraph.faveService.getUser(userId: "\(user.id)") { user, error in
+        dependencyGraph.faveService.getUser(userId: user.id) { user, error in
             guard let unwrappedUser = user else {
                 return
             }
@@ -187,7 +187,7 @@ class ProfileViewController: FaveVC {
 //            self.user = user
 //        }
 
-        dependencyGraph.faveService.getLists(userId: "\(user.id)") { lists, error in
+        dependencyGraph.faveService.getLists(userId: user.id) { lists, error in
             guard let unwrappedLists = lists, error == nil else {
                 completion()
 
@@ -214,7 +214,7 @@ extension ProfileViewController: UITableViewDelegate {
 
         let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
 
-        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)

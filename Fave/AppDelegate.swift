@@ -9,6 +9,9 @@ import FBSDKLoginKit
 
 import GooglePlaces
 
+import Fabric
+import Crashlytics
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -20,6 +23,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
         window = UIWindow(frame: UIScreen.main.bounds)
+
+        /*
+            Crashlytics & Fabric.io
+            https://fabric.io/kits/ios/crashlytics/install
+         */
+        Fabric.with([Crashlytics.self])
+
+//        Crashlytics.sharedInstance().setUserEmail("user@fabric.io")
+//        Crashlytics.sharedInstance().setUserIdentifier("12345")
+//        Crashlytics.sharedInstance().setUserName("Test User")
+
 
         /*
             Facebook authentication call from these docs:

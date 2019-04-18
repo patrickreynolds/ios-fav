@@ -327,7 +327,8 @@ class CreateItemViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.createButton)
 
-        self.navigationItem.title = "New entry"
+        let titleViewLabel = Label.init(text: "New entry", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        navigationItem.titleView = titleViewLabel
 
         createButton.layer.cornerRadius = 32 / 2
 
@@ -384,9 +385,9 @@ class CreateItemViewController: FaveVC {
     @objc func createItemButtonTapped(sender: UIButton!) {
         print("\nCreate List Button Tapped\n")
 
-        var userId = ""
-        if let user = dependencyGraph.storage.getUser() {
-            userId = "\(user.id)"
+
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
         }
 
         var placeId = ""
@@ -394,24 +395,7 @@ class CreateItemViewController: FaveVC {
             placeId = placeIdString
         }
 
-        var listId = ""
-        if let list = self.list {
-            listId = "\(list.id)"
-        }
-
-        let type = listType.rawValue
-
-        let note = self.noteTextView.text ?? ""
-
-        guard !userId.isEmpty else {
-            return
-        }
-
-        guard !placeId.isEmpty else {
-            return
-        }
-
-        guard !listId.isEmpty else {
+        guard let list = self.list else {
             let alertController = UIAlertController(title: "No list selected", message: "Select or create a list below to create your entry.", preferredStyle: .alert)
 
             alertController.addAction(UIAlertAction(title: "Cool", style: .default, handler: { action in
@@ -425,8 +409,16 @@ class CreateItemViewController: FaveVC {
             return
         }
 
+        let type = listType.rawValue
+
+        let note = self.noteTextView.text ?? ""
+
+        guard !placeId.isEmpty else {
+            return
+        }
+
         isLoading = true
-        dependencyGraph.faveService.createListItem(userId: userId, listId: listId, type: type, placeId: placeId, note: note) { response, error in
+        dependencyGraph.faveService.createListItem(userId: user.id, listId: list.id, type: type, placeId: placeId, note: note) { response, error in
             self.isLoading = false
 
             if let error = error, error == nil {

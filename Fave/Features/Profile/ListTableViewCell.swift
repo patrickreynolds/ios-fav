@@ -43,7 +43,7 @@ class ListTableViewCell: UITableViewCell {
         let imageView = UIImageView(frame: CGRect.zero)
 
         imageView.image = UIImage(named: "icon-chevron-right")
-        imageView.tintColor = FaveColors.Black60
+        imageView.tintColor = FaveColors.Black50
         imageView.setContentHuggingPriority(.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
 
         return imageView

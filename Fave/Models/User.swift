@@ -6,7 +6,7 @@ class User: NSObject, NSCoding {
     let lastName: String
     let email: String
     let handle: String
-    let profilePicture: NSData
+    let profilePicture: String
 
 
     init(id: Int,
@@ -14,7 +14,7 @@ class User: NSObject, NSCoding {
         lastName: String,
         email: String,
         handle: String,
-        profilePicture: NSData) {
+        profilePicture: String) {
 
         self.id = id
         self.firstName = firstName
@@ -47,10 +47,6 @@ class User: NSObject, NSCoding {
             return nil
         }
 
-        guard let unwrappedProfilePicture = NSData(base64Encoded: unwrappedProfilePictureString, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters) else {
-            return nil
-        }
-
         let unwrappedEmail = data["email"] as? String ?? ""
 
         self.init(id: unwrappedId,
@@ -58,7 +54,7 @@ class User: NSObject, NSCoding {
             lastName: unwrappedLastName,
             email: unwrappedEmail,
             handle: unwrappedHandle,
-            profilePicture: unwrappedProfilePicture)
+            profilePicture: unwrappedProfilePictureString)
     }
 
     func encode(with aCoder: NSCoder) {
@@ -76,7 +72,7 @@ class User: NSObject, NSCoding {
         lastName = aDecoder.decodeObject(forKey: "lastName") as! String
         email = aDecoder.decodeObject(forKey: "email") as! String
         handle = aDecoder.decodeObject(forKey: "handle") as! String
-        profilePicture = aDecoder.decodeObject(forKey: "profilePic") as! NSData
+        profilePicture = aDecoder.decodeObject(forKey: "profilePic") as! String
     }
 }
 

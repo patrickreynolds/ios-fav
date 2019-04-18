@@ -7,6 +7,9 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
   - Cartography (3.0.4)
+  - Crashlytics (3.12.0):
+    - Fabric (~> 1.9.0)
+  - Fabric (1.9.0)
   - FacebookCore (0.5.0):
     - Bolts (~> 1.9)
     - FBSDKCoreKit (~> 4.37)
@@ -43,6 +46,8 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.7.3)
   - Cartography (~> 3.0.1)
+  - Crashlytics
+  - Fabric
   - FacebookCore
   - FacebookLogin
   - FacebookShare
@@ -59,6 +64,8 @@ SPEC REPOS:
     - Alamofire
     - Bolts
     - Cartography
+    - Crashlytics
+    - Fabric
     - FacebookCore
     - FacebookLogin
     - FacebookShare
@@ -77,6 +84,8 @@ SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Cartography: 95171f461b42d5c62066212941421b21dfa0240f
+  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FacebookShare: 963b4bb1124a64a395b1e428163d70b5774116e8
@@ -91,6 +100,6 @@ SPEC CHECKSUMS:
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
   SwiftKeychainWrapper: 82c4c02cdc36f9a24f7edfcaab3e336401caa1a1
 
-PODFILE CHECKSUM: f6d0137b5b92e853c79a3ac482cc640948908ea8
+PODFILE CHECKSUM: aa91c3e6f48626167c9f1299b0e98afe79c6c415
 
 COCOAPODS: 1.6.1

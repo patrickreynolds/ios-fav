@@ -295,7 +295,8 @@ class CreateListViewController: FaveVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationItem.title = "New list"
+        let titleViewLabel = Label.init(text: "New list", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        navigationItem.titleView = titleViewLabel
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -313,13 +314,12 @@ class CreateListViewController: FaveVC {
         let description = self.commentTextView.text ?? ""
         let isPublic = self.publicSettingsSwitch.isOn
 
-        var userId = ""
-        if let user = dependencyGraph.storage.getUser() {
-            userId = "\(user.id)"
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
         }
 
         isLoading = true
-        dependencyGraph.faveService.createList(userId: userId, name: name, description: description, isPublic: isPublic) { list, error in
+        dependencyGraph.faveService.createList(userId: user.id, name: name, description: description, isPublic: isPublic) { list, error in
             self.isLoading = false
 
             guard let unwrappedList = list else {

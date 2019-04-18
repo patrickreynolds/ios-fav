@@ -33,7 +33,7 @@ struct TemporaryStorage {
         let lastName = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).lastName))") as? String
         let email = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).email))") as? String
         let handle = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).handle))") as? String
-        let profilePicture = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).profilePicture))") as? NSData
+        let profilePicture = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).profilePicture))") as? String
 
         guard let unwrappedId = id,
             let unwrappedFirstName = firstName,

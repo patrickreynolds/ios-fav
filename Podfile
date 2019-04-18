@@ -16,4 +16,7 @@ target 'Fave' do
 
   pod 'GooglePlaces'
   pod 'GoogleMaps'
+
+  pod 'Fabric'
+  pod 'Crashlytics'
 end

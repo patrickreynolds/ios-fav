@@ -148,7 +148,7 @@ class SelectListViewController: FaveVC {
         }
 
         isLoading = true
-        dependencyGraph.faveService.getLists(userId: "\(user.id)") { lists, error in
+        dependencyGraph.faveService.getLists(userId: user.id) { lists, error in
             self.isLoading = false
 
             guard let unwrappedLists = lists, error == nil else {
@@ -162,7 +162,8 @@ class SelectListViewController: FaveVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationItem.title = "Select a list"
+        let titleViewLabel = Label.init(text: "Select a list", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        navigationItem.titleView = titleViewLabel
     }
 
     @objc func canceledSelection(sender: UIBarButtonItem!) {

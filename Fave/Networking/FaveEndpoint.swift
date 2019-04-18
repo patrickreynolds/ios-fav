@@ -4,12 +4,12 @@ enum FaveEndpoint {
     case flights(origin: String, destination: String)
     case authentication
     case currentUser
-    case user(userId: String)
-    case getLists(userId: String)
-    case getList(userId: String, listId: String)
-    case createList(userId: String)
-    case createListItem(userId: String, listId: String, type: String)
-    case getListItems(userId: String, listId: String)
+    case user(userId: Int)
+    case getLists(userId: Int)
+    case getList(userId: Int, listId: Int)
+    case createList(userId: Int)
+    case createListItem(userId: Int, listId: Int, type: String)
+    case getListItems(userId: Int, listId: Int)
     case paginatedFeed(page: Int)
     case feed(from: Int, to: Int)
     case suggestions

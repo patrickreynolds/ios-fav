@@ -38,7 +38,7 @@ class ProfileTableHeaderView: UIView {
         return button
     }()
 
-    let nameLabel = Label(text: "Temp",
+    let nameLabel = Label(text: "",
                                font: FaveFont(style: .h3, weight: .bold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
@@ -109,10 +109,10 @@ class ProfileTableHeaderView: UIView {
 
         nameLabel.text = ("\(unwrappedUser.firstName) \(unwrappedUser.lastName)")
 
-        let imageData = Data(referencing: unwrappedUser.profilePicture)
-        profilePictureImageView.image = UIImage(data: imageData)
+        profilePictureImageView.image = UIImage.init(base64String: unwrappedUser.profilePicture)
         profilePictureImageView.layer.cornerRadius = 80 / 2
-        profilePictureImageView.backgroundColor = FaveColors.Black20
+        profilePictureImageView.layer.masksToBounds = true
+        profilePictureImageView.clipsToBounds = true
 
         guard let currentUser = dependencyGraph.storage.getUser() else {
             topButtonConstraint?.isActive = false

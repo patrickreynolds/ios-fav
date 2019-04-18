@@ -158,7 +158,7 @@ class ListViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        dependencyGraph.faveService.getList(userId: "\(list.owner.id)", listId: "\(self.list.id)") { response, error in
+        dependencyGraph.faveService.getList(userId: list.owner.id, listId: self.list.id) { response, error in
             guard let list = response else {
                 return
             }
@@ -166,7 +166,7 @@ class ListViewController: FaveVC {
             self.list = list
         }
 
-        dependencyGraph.faveService.getListItems(userId: "\(list.owner.id)", listId: "\(self.list.id)") { response, error in
+        dependencyGraph.faveService.getListItems(userId: list.owner.id, listId: self.list.id) { response, error in
             guard let items = response else {
                 completion()
 
@@ -254,7 +254,7 @@ extension ListViewController: UITableViewDelegate {
 
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item)
 
-        let titleViewLabel = Label.init(text: "Item", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Item", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)

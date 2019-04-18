@@ -68,6 +68,7 @@
 		43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB44C223DE8F500B243E1 /* ProfileTableHeaderView.swift */; };
 		43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB44E223EE47100B243E1 /* CGRectExt.swift */; };
 		43AFB451223EE6D100B243E1 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */; };
+		43AFEFCF22641F850022A854 /* UIImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFEFCE22641F850022A854 /* UIImageExt.swift */; };
 		43B26BB7223A065600CA2549 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB6223A065600CA2549 /* DiscoverViewController.swift */; };
 		43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB8223A085900CA2549 /* ProfileViewController.swift */; };
 		43BD5689224C9039009D0AC8 /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD5688224C9039009D0AC8 /* SelectListViewController.swift */; };
@@ -163,6 +164,7 @@
 		43AFB44C223DE8F500B243E1 /* ProfileTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderView.swift; sourceTree = "<group>"; };
 		43AFB44E223EE47100B243E1 /* CGRectExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExt.swift; sourceTree = "<group>"; };
 		43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		43AFEFCE22641F850022A854 /* UIImageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExt.swift; sourceTree = "<group>"; };
 		43B26BB6223A065600CA2549 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		43B26BB8223A085900CA2549 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		43BD5688224C9039009D0AC8 /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				439FDDDC2245C21700ED9343 /* StringExt.swift */,
 				431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */,
 				4369CF462258409D00FCA156 /* UIViewExt.swift */,
+				43AFEFCE22641F850022A854 /* UIImageExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				438534B5223336BA00B99EC7 /* Resources */,
 				7E576F27352408BFD3DD6569 /* [CP] Embed Pods Frameworks */,
 				410A9957A4382443728A85CC /* [CP] Copy Pods Resources */,
+				43AFEFCD22640EA10022A854 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -624,6 +628,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fave/Pods-Fave-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		43AFEFCD22640EA10022A854 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" f0df07900a72904bf43e452e780fabac94aee321 30b37c452c4f5f7231ce8f97229659b1c27dfac2792cfdbe318603000a104abc\n";
+		};
 		7E576F27352408BFD3DD6569 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -682,6 +704,7 @@
 				431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */,
 				438534EE223338AD00B99EC7 /* UITableViewExtensions.swift in Sources */,
 				4369CF4D22598C1400FCA156 /* ItemInfoTableViewCell.swift in Sources */,
+				43AFEFCF22641F850022A854 /* UIImageExt.swift in Sources */,
 				4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */,
 				43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */,
 				4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */,
@@ -844,7 +867,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA1DE3DC9DEAE3E5142BACE2 /* Pods-Fave.local.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://10.0.0.63:3000/";
+				API_BASE_URL_ENDPOINT = "http://localhost:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;
