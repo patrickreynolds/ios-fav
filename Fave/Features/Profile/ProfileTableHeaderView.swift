@@ -16,9 +16,18 @@ class ProfileTableHeaderView: UIView {
     let user: User?
     var delegate: ProfileTableHeaderViewDelegate?
 
-    var topButtonConstraint: NSLayoutConstraint?
-    var bottomButtonConstraint: NSLayoutConstraint?
-    var bottomLabelConstraint: NSLayoutConstraint?
+    private lazy var listsLabel: Label = {
+
+//        if let user = user {
+//            let titleString = "0 Lists" // self.lists.count == 1 ? "\(self.lists.count) List" : "\(self.lists.count) Lists"
+//        }
+
+        let titleString = "0 Lists"
+
+        let label = Label.init(text: titleString, font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 0)
+
+        return label
+    }()
 
     private lazy var editProfileButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
@@ -45,14 +54,70 @@ class ProfileTableHeaderView: UIView {
                                numberOfLines: 0)
 
     let aboutMeLabel = Label(
-        text: "Must-read books, niche podcasts, undiscovered places, fresh kicks, and good food.",
+        text: true ? "Must-read books, niche podcasts, undiscovered places, fresh kicks, and good food." : "",
         font: FaveFont.init(style: .h5, weight: .regular),
         textColor: FaveColors.Black70,
         textAlignment: .left,
         numberOfLines: 0)
 
+    let followingLabel = Label(
+        text: "20 Followers",
+        font: FaveFont.init(style: .h5, weight: .regular),
+        textColor: FaveColors.Black90,
+        textAlignment: .left,
+        numberOfLines: 0)
+
     let profilePictureImageView = UIImageView.init(frame: CGRect.zero)
-    
+
+    private lazy var profileHeaderStackView: UIStackView = {
+        let headerStackView = UIStackView(frame: .zero)
+
+        let labelsStackView = UIStackView(frame: .zero)
+        labelsStackView.addArrangedSubview(nameLabel)
+        labelsStackView.addArrangedSubview(aboutMeLabel)
+        labelsStackView.addArrangedSubview(followingLabel)
+
+        nameLabel.contentCompressionResistancePriority = .defaultHigh
+        aboutMeLabel.contentCompressionResistancePriority = .defaultHigh
+        aboutMeLabel.contentHuggingPriority = .defaultHigh
+        nameLabel.contentHuggingPriority = .defaultHigh
+
+        labelsStackView.axis = .vertical
+        labelsStackView.distribution = .fillProportionally
+        labelsStackView.alignment = .fill
+
+
+        let primaryInfoStackView = UIStackView(frame: .zero)
+        primaryInfoStackView.addArrangedSubview(labelsStackView)
+        primaryInfoStackView.addArrangedSubview(profilePictureImageView)
+
+        primaryInfoStackView.axis = .horizontal
+//        primaryInfoStackView.distribution = .fillProportionally
+//        primaryInfoStackView.alignment = .fill
+        primaryInfoStackView.spacing = 16
+
+
+
+        let editProfileButtonStackView = UIStackView(frame: .zero)
+        editProfileButtonStackView.addArrangedSubview(editProfileButton)
+
+
+
+        let listCountStackView = UIStackView.init(frame: .zero)
+        listCountStackView.addArrangedSubview(listsLabel)
+        listCountStackView.alignment = UIStackView.Alignment.leading
+
+
+        headerStackView.addArrangedSubview(primaryInfoStackView)
+        headerStackView.addArrangedSubview(editProfileButtonStackView)
+        headerStackView.addArrangedSubview(listCountStackView)
+
+        headerStackView.axis = .vertical
+        headerStackView.distribution = .fillProportionally
+        headerStackView.alignment = .fill
+
+        return headerStackView
+    }()
 
     init(dependencyGraph: DependencyGraphType, user: User?) {
         self.dependencyGraph = dependencyGraph
@@ -62,37 +127,14 @@ class ProfileTableHeaderView: UIView {
 
         isUserInteractionEnabled = true
 
-        addSubview(editProfileButton)
-        addSubview(nameLabel)
-        addSubview(aboutMeLabel)
-        addSubview(profilePictureImageView)
-
-        constrain(nameLabel, profilePictureImageView, self) { label, imageView, view in
-            label.left == view.left + 16
-            label.top == view.top + 16
-            label.right == imageView.left - 16
-        }
+        addSubview(profileHeaderStackView)
 
         constrain(profilePictureImageView, self) { imageView, view in
-            imageView.top == view.top + 16
-            imageView.right == view.right - 16
             imageView.height == 80
             imageView.width == 80
         }
 
-        constrain(aboutMeLabel, nameLabel, self) { subtitleLabel, nameLabel, view in
-            subtitleLabel.left == nameLabel.left
-            subtitleLabel.top == nameLabel.bottom
-            subtitleLabel.right == nameLabel.right
-            bottomLabelConstraint = subtitleLabel.bottom == view.bottom - 16
-        }
-
-        constrain(editProfileButton, aboutMeLabel, self) { button, label, view in
-            topButtonConstraint = button.top == label.bottom + 16
-            button.left == view.left + 16
-            button.right == view.right - 16
-            bottomButtonConstraint = button.bottom == view.bottom - 16
-        }
+        constrainToSuperview(profileHeaderStackView)
 
         updateUserInfo(user: user)
     }
@@ -113,24 +155,6 @@ class ProfileTableHeaderView: UIView {
         profilePictureImageView.layer.cornerRadius = 80 / 2
         profilePictureImageView.layer.masksToBounds = true
         profilePictureImageView.clipsToBounds = true
-
-        guard let currentUser = dependencyGraph.storage.getUser() else {
-            topButtonConstraint?.isActive = false
-            bottomButtonConstraint?.isActive = false
-            bottomLabelConstraint?.isActive = true
-
-            return
-        }
-
-        if unwrappedUser.id == currentUser.id {
-            topButtonConstraint?.isActive = true
-            bottomButtonConstraint?.isActive = true
-            bottomLabelConstraint?.isActive = false
-        } else {
-            topButtonConstraint?.isActive = false
-            bottomButtonConstraint?.isActive = false
-            bottomLabelConstraint?.isActive = true
-        }
     }
 
     @objc func editProfile(sender: UIButton!) {

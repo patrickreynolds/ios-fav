@@ -13,7 +13,6 @@
 		430D8D2E224DEBA20082FCF2 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D8D2D224DEBA20082FCF2 /* FeedItem.swift */; };
 		430D8D30224DF1730082FCF2 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D8D2F224DF1730082FCF2 /* Friend.swift */; };
 		43176570223B644700C1963E /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317656F223B644700C1963E /* Authenticator.swift */; };
-		431CAF3C2240969300F50FC8 /* ProfileSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */; };
 		431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */; };
 		431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF89E2249EDA500717312 /* CreateItemViewController.swift */; };
 		431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */; };
@@ -104,7 +103,6 @@
 		430D8D2D224DEBA20082FCF2 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		430D8D2F224DF1730082FCF2 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		4317656F223B644700C1963E /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
-		431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSectionHeaderView.swift; sourceTree = "<group>"; };
 		431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringExt.swift; sourceTree = "<group>"; };
 		431DF89E2249EDA500717312 /* CreateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemViewController.swift; sourceTree = "<group>"; };
 		431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExt.swift; sourceTree = "<group>"; };
@@ -423,7 +421,6 @@
 				43AFB44C223DE8F500B243E1 /* ProfileTableHeaderView.swift */,
 				43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */,
 				4305F37622400A3500F6DE77 /* ListTableViewCell.swift */,
-				431CAF3B2240969300F50FC8 /* ProfileSectionHeaderView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -743,7 +740,6 @@
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
 				43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */,
-				431CAF3C2240969300F50FC8 /* ProfileSectionHeaderView.swift in Sources */,
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
 				438534F52233391500B99EC7 /* Color.swift in Sources */,

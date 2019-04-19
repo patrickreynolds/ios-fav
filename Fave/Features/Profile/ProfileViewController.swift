@@ -29,7 +29,6 @@ class ProfileViewController: FaveVC {
 
     var lists: [List] = [] {
         didSet {
-            self.sectionHeaderView.updateLists(lists: lists)
             self.profileTableView.reloadData()
         }
     }
@@ -40,14 +39,6 @@ class ProfileViewController: FaveVC {
         headerView.delegate = self
 
         return headerView
-    }()
-
-    private lazy var sectionHeaderView: ProfileTableSectionHeaderView = {
-        let sectionHeaderView = ProfileTableSectionHeaderView(lists: self.lists)
-
-        sectionHeaderView.delegate = self
-
-        return sectionHeaderView
     }()
 
     private lazy var createButton: UIButton = {
@@ -153,7 +144,7 @@ class ProfileViewController: FaveVC {
 
             tableHeaderView.addConstraint(constraint)
 
-            let compressedHeaderSize = tableHeaderView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+            let compressedHeaderSize = tableHeaderView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
 
             tableHeaderView.removeConstraint(constraint)
 
@@ -244,14 +235,6 @@ extension ProfileViewController: UITableViewDataSource {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return section == 0 ? self.sectionHeaderView : UIView(frame: CGRect.zero)
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 48 : 0
-    }
-
     @objc func createButtonTapped(sender: UIButton!) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
@@ -294,12 +277,6 @@ extension ProfileViewController: UITableViewDataSource {
         createItemViewController.delegate = self
 
         present(createItemNavigationViewController, animated: true, completion: nil)
-    }
-}
-
-extension ProfileViewController: ProfileTableSectionHeaderViewDelegate {
-    func listsButtonTapped() {
-        print("\n\nLists Button Tapped\n\n")
     }
 }
 
