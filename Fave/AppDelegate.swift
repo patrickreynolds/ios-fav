@@ -63,16 +63,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Create View Controllers
         let feedViewController = FeedViewController(dependencyGraph: dependencyGraph)
-//        feedViewController.title = "Home".uppercased()
         let feedNavigationViewController = UINavigationController(rootViewController: feedViewController)
 
         let discoverViewController = DiscoverViewController(dependencyGraph: dependencyGraph)
-//        discoverViewController.title = "Discover".uppercased()
         let discoverNavigationViewController = UINavigationController(rootViewController: discoverViewController)
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: dependencyGraph.storage.getUser())
         let profileNavigationViewController = UINavigationController(rootViewController: profileViewController)
-//        profileViewController.title = "Profile".uppercased()
 
 
         // Add tabs

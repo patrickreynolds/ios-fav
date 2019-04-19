@@ -28,6 +28,14 @@ class FeedViewController: FaveVC {
         return button
     }()
 
+    private lazy var loadingIndicatorView: UIActivityIndicatorView = {
+        let loadingIndicatorView = UIActivityIndicatorView.init(frame: .zero)
+
+        loadingIndicatorView.hidesWhenStopped = true
+
+        return loadingIndicatorView
+    }()
+
     private lazy var welcomeView: UIView = {
         let view = UIView.init(frame: CGRect.zero)
 
@@ -98,6 +106,7 @@ class FeedViewController: FaveVC {
         let titleViewLabel = Label.init(text: "Fave", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Accent, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
+        view.addSubview(loadingIndicatorView)
         view.addSubview(welcomeView)
         view.addSubview(feedTableView)
         view.addSubview(createButton)
@@ -120,19 +129,17 @@ class FeedViewController: FaveVC {
             button.height == 56
         }
 
+        constrain(loadingIndicatorView, view) { loadingIndicatorView, view in
+            loadingIndicatorView.top == view.topMargin + 24
+            loadingIndicatorView.centerX == view.centerX
+        }
+
+        view.bringSubviewToFront(loadingIndicatorView)
         view.bringSubviewToFront(createButton)
 
-        if let _ = user {
-            feedTableView.alpha = 1
-            feedTableView.isHidden = false
-            welcomeView.alpha = 0
-            welcomeView.isHidden = true
-        } else {
-            feedTableView.alpha = 0
-            feedTableView.isHidden = true
-            welcomeView.alpha = 1
-            welcomeView.isHidden = false
-        }
+        updateUI()
+
+        refreshFeed()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -140,6 +147,8 @@ class FeedViewController: FaveVC {
     }
 
     func refreshFeed() {
+        loadingIndicatorView.startAnimating()
+
         if dependencyGraph.authenticator.isLoggedIn() {
             dependencyGraph.faveService.getFeed(from: 0, to: 100) { response, error in
                 guard let feedData = response else {
@@ -147,10 +156,22 @@ class FeedViewController: FaveVC {
                 }
 
                 print("\(feedData.description)")
+
+                self.loadingIndicatorView.stopAnimating()
+            }
+
+            dependencyGraph.faveService.getCurrentUser { user, error in
+                guard let user = user else {
+                    return
+                }
+
+                self.dependencyGraph.storage.saveUser(user: user)
             }
         } else {
             dependencyGraph.faveService.topLists { topLists, error in
                 self.topLists = topLists ?? []
+
+                self.loadingIndicatorView.stopAnimating()
             }
         }
 
@@ -162,6 +183,20 @@ class FeedViewController: FaveVC {
 //
 //            print("\(feedData.description)")
 //        }
+    }
+
+    func updateUI() {
+        if dependencyGraph.authenticator.isLoggedIn() {
+            feedTableView.alpha = 1
+            feedTableView.isHidden = false
+            welcomeView.alpha = 0
+            welcomeView.isHidden = true
+        } else {
+            feedTableView.alpha = 0
+            feedTableView.isHidden = true
+            welcomeView.alpha = 1
+            welcomeView.isHidden = false
+        }
     }
 }
 

@@ -11,12 +11,19 @@ class ProfileViewController: FaveVC {
             profileTableHeaderView.updateUserInfo(user: user)
 
 
-            guard let handle = user?.handle else {
-                return
+            if let handle = user?.handle {
+                let titleViewLabel = Label.init(text: handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+                navigationItem.titleView = titleViewLabel
             }
 
-            let titleViewLabel = Label.init(text: handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
-            navigationItem.titleView = titleViewLabel
+            if let tabBarItem = tabBarController?.tabBar.items?[2], let user = user {
+                let tabBarItemImage = UIImage(base64String: user.profilePicture)?
+                                        .resize(targetSize: CGSize.init(width: 26, height: 26))?
+                                        .roundedImage?
+                                        .withRenderingMode(.alwaysOriginal)
+                tabBarItem.image = tabBarItemImage
+                tabBarItem.selectedImage = tabBarItemImage
+            }
         }
     }
 
