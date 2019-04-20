@@ -1,7 +1,11 @@
 import UIKit
 import Cartography
 
+import FacebookCore
 import FacebookLogin
+
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 protocol LoggedOutViewControllerDelegate {
     func didSkipAuthentication(viewController: LoggedOutViewController)
@@ -161,6 +165,11 @@ class LoggedOutViewController: FaveVC {
         loginState = .loggingIn
 
         let loginManager = LoginManager()
+
+//        if let currentAccessToken = FBSDKAccessToken.current(), currentAccessToken.appID != FBSDKSettings.appID() {
+            loginManager.logOut()
+//        }
+
         loginManager.logIn(readPermissions: [ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
             switch loginResult {
             case .failed(let error):
