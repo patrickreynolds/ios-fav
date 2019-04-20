@@ -17,53 +17,24 @@ class ListTableHeaderView: UIView {
     var delegate: ListTableHeaderViewDelegate?
     let dependencyGraph: DependencyGraphType
 
-    private lazy var followButton: UIButton = {
+    var followerCountLabelText = "" {
+        didSet {
+            followerCountLabel.text = followerCountLabelText
+        }
+    }
+
+    private lazy var relationshipButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
         button.setTitleColor(FaveColors.White, for: .normal)
         button.backgroundColor = FaveColors.Accent
         button.addTarget(self, action: #selector(followList), for: .touchUpInside)
         button.layer.cornerRadius = 6
-        button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
 
         let attributedTitle = NSAttributedString(string: "Follow",
-                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
-                                                 textColor: FaveColors.White)
-        button.setAttributedTitle(attributedTitle, for: .normal)
-
-        return button
-    }()
-
-    private lazy var editButton: UIButton = {
-        let button = UIButton(frame: CGRect.zero)
-
-        button.setTitleColor(FaveColors.White, for: .normal)
-        button.backgroundColor = FaveColors.Accent
-        button.addTarget(self, action: #selector(editList), for: .touchUpInside)
-        button.layer.cornerRadius = 6
-        button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-
-        let attributedTitle = NSAttributedString(string: "Edit",
-                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
-                                                 textColor: FaveColors.White)
-        button.setAttributedTitle(attributedTitle, for: .normal)
-
-        return button
-    }()
-
-    private lazy var shareButton: UIButton = {
-        let button = UIButton(frame: CGRect.zero)
-
-        button.backgroundColor = UIColor.white
-        button.addTarget(self, action: #selector(shareList), for: .touchUpInside)
-        button.layer.cornerRadius = 6
-        button.layer.borderWidth = 1.0
-        button.layer.borderColor = FaveColors.Black30.cgColor
-        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-
-        let attributedTitle = NSAttributedString(string: "Share",
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
-                                                 textColor: FaveColors.Black90)
+                                                 textColor: FaveColors.White)
         button.setAttributedTitle(attributedTitle, for: .normal)
 
         return button
@@ -149,6 +120,70 @@ class ListTableHeaderView: UIView {
         return label
     }()
 
+    private lazy var ownerView: UIView = {
+        let view = UIView.init(frame: .zero)
+
+        let ownerImageViewDiameter: CGFloat = 24.0
+
+        let ownerNameLabel = Label(text: "by \(self.list.owner.handle)",
+                                   font: FaveFont(style: .h5, weight: .regular),
+                                   textColor: FaveColors.Black90,
+                                   textAlignment: .left,
+                                   numberOfLines: 0)
+
+        let ownerImageView = UIImageView.init(frame: .zero)
+        ownerImageView.layer.cornerRadius = ownerImageViewDiameter / 2
+        ownerImageView.clipsToBounds = true
+        ownerImageView.layer.masksToBounds = true
+        ownerImageView.image = UIImage.init(base64String: self.list.owner.profilePicture)
+
+        view.addSubview(ownerNameLabel)
+        view.addSubview(ownerImageView)
+
+        constrain(ownerNameLabel, ownerImageView, view) { label, imageView, view in
+            imageView.left == view.left
+            imageView.right == label.left - 8
+            imageView.centerX == label.centerX
+
+            label.top == view.top
+            label.right == view.right
+            label.bottom == view.bottom
+
+            imageView.height == 24
+            imageView.width == 24
+        }
+
+        return view
+    }()
+
+    let followerCountLabel = Label(text: "0 Followers",
+        font: FaveFont(style: .h5, weight: .regular),
+        textColor: FaveColors.Black90,
+        textAlignment: .left,
+        numberOfLines: 0)
+
+    private lazy var relationshipStackView: UIStackView = {
+        let stackView = UIStackView.init(frame: .zero)
+
+        if let user = dependencyGraph.storage.getUser() {
+            if list.owner.id != user.id {
+                stackView.addArrangedSubview(relationshipButton)
+            }
+
+            stackView.addArrangedSubview(followerCountLabel)
+        } else {
+            stackView.addArrangedSubview(relationshipButton)
+            stackView.addArrangedSubview(followerCountLabel)
+        }
+
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 24.0
+
+        return stackView
+    }()
+
     init(dependencyGraph: DependencyGraphType, list: List) {
         self.dependencyGraph = dependencyGraph
         self.list = list
@@ -159,10 +194,10 @@ class ListTableHeaderView: UIView {
 
         backgroundColor = FaveColors.White
 
-        addSubview(followButton)
-        addSubview(shareButton)
         addSubview(titleLabel)
+        addSubview(ownerView)
         addSubview(listDescriptionLabel)
+        addSubview(relationshipStackView)
         addSubview(toggleListView)
 
         constrain(titleLabel, self) { label, view in
@@ -171,28 +206,26 @@ class ListTableHeaderView: UIView {
             label.right == view.right - 16
         }
 
-        constrain(listDescriptionLabel, titleLabel) { descriptionLabel, titleLabel in
-            descriptionLabel.left == titleLabel.left
-            descriptionLabel.top == titleLabel.bottom
-            descriptionLabel.right == titleLabel.right
+        constrain(ownerView, titleLabel, self) { ownerView, titleLabel, view in
+            ownerView.top == titleLabel.bottom + 4
+            ownerView.right == view.right - 16
+            ownerView.left == view.left + 16
         }
 
-        constrain(followButton, listDescriptionLabel, toggleListView, self) { button, label, toggleListView, view in
-            button.top == label.bottom + 16
-            button.left == view.left + 16
+        constrain(listDescriptionLabel, ownerView, self) { descriptionLabel, ownerView, view in
+            descriptionLabel.top == ownerView.bottom + 16
+            descriptionLabel.right == view.right - 16
+            descriptionLabel.left == view.left + 16
         }
 
-        constrain(shareButton, followButton, listDescriptionLabel, self) { button, followButton, label, view in
-            button.top == followButton.top
-            button.left == followButton.right + 16
-            button.right == view.right - 16
-            button.bottom == followButton.bottom
-
-            button.width == followButton.width
+        constrain(relationshipStackView, listDescriptionLabel, self) { stackView, label, view in
+            stackView.top == label.bottom + 16
+            stackView.right == view.right - 16
+            stackView.left == view.left + 16
         }
 
-        constrain(toggleListView, followButton, self) { toggleListView, followButton, view in
-            toggleListView.top == followButton.bottom + 16
+        constrain(toggleListView, relationshipStackView, self) { toggleListView, relationshipStackView, view in
+            toggleListView.top == relationshipStackView.bottom + 16
             toggleListView.right == view.right
             toggleListView.bottom == view.bottom
             toggleListView.left == view.left
@@ -233,5 +266,7 @@ class ListTableHeaderView: UIView {
             textColor: UIColor.white)
 
         entriesButton.setAttributedTitle(attributedTitle, for: .normal)
+
+        followerCountLabelText = "\(list.numberOfFollowers) Followers"
     }
 }
