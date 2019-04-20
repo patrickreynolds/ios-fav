@@ -29,9 +29,9 @@ class SelectListTableViewCell: UITableViewCell {
         contentView.addSubview(borderView)
 
         constrain(titleLabel, contentView) { label, view in
-            label.top == view.top + 12
+            label.top == view.top + 20
             label.right == view.right - 16
-            label.bottom == view.bottom - 12
+            label.bottom == view.bottom - 20
             label.left == view.left + 16
         }
 

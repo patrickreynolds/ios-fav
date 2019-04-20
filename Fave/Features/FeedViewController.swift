@@ -211,7 +211,7 @@ extension FeedViewController {
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Item", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Entry", style: .default , handler: { alertAction in
             self.addItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)

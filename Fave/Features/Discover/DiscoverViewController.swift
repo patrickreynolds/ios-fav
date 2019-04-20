@@ -8,7 +8,7 @@ class DiscoverViewController: FaveVC {
 
     var suggestions: [List] = [] {
         didSet {
-            // reload data
+            discoverTableView.reloadData()
         }
     }
 
@@ -23,6 +23,32 @@ class DiscoverViewController: FaveVC {
         button.tintColor = FaveColors.White
 
         return button
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+
+        refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
+
+        return refreshControl
+    }()
+
+    private lazy var discoverTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .plain)
+
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//
+//        tableView.tableHeaderView = UIView(frame: .zero)
+//        tableView.tableFooterView = UIView(frame: .zero)
+//
+        tableView.register(DiscoverUserTableViewCell.self)
+//
+//        tableView.addSubview(self.refreshControl)
+
+        tableView.separatorColor = UIColor.clear
+
+        return tableView
     }()
 
     init(dependencyGraph: DependencyGraphType) {
@@ -52,7 +78,7 @@ class DiscoverViewController: FaveVC {
 
         view.bringSubviewToFront(createButton)
 
-        refreshSuggestions()
+        refreshData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -60,10 +86,18 @@ class DiscoverViewController: FaveVC {
 
         view.backgroundColor = UIColor.white
 
-        refreshSuggestions()
+        refreshData()
     }
 
-    func refreshSuggestions() {
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        refreshData {
+            delay(1.0) {
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
+
+    private func refreshData(completion: @escaping () -> () = {}) {
         dependencyGraph.faveService.suggestions { response, error in
             guard let suggestions = response else {
                 // handle error
@@ -71,8 +105,50 @@ class DiscoverViewController: FaveVC {
                 return
             }
 
-             self.suggestions = suggestions
+            self.suggestions = suggestions
+
+            completion()
         }
+    }
+}
+
+extension DiscoverViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        discoverTableView.deselectRow(at: indexPath, animated: true)
+
+//        let item = listItems[indexPath.row]
+//
+//        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item)
+//
+//        let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+//        itemViewController.navigationItem.titleView = titleViewLabel
+//
+//        navigationController?.pushViewController(itemViewController, animated: true)
+    }
+}
+
+extension DiscoverViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return suggestions.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeue(DiscoverUserTableViewCell.self, indexPath: indexPath)
+
+//        cell.delegate = self
+//
+//        let item = listItems[indexPath.row]
+//        cell.populate(item: item)
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.1
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.1
     }
 }
 
@@ -80,7 +156,7 @@ extension DiscoverViewController {
     @objc func createButtonTapped(sender: UIButton!) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Item", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Entry", style: .default , handler: { alertAction in
             self.addItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)

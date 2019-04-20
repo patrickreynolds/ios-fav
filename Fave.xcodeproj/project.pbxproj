@@ -73,6 +73,7 @@
 		43BD5689224C9039009D0AC8 /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD5688224C9039009D0AC8 /* SelectListViewController.swift */; };
 		43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */; };
 		43BEA2FA2268E13C001F930E /* TopLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEA2F92268E13C001F930E /* TopLists.swift */; };
+		43BEA2FD226B84DA001F930E /* DiscoverUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEA2FC226B84DA001F930E /* DiscoverUserTableViewCell.swift */; };
 		43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF88102243E10E0096CCA1 /* DictionaryExt.swift */; };
 		43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881222447BB80096CCA1 /* CreateListViewController.swift */; };
 		43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881422449EFB0096CCA1 /* DividerView.swift */; };
@@ -169,6 +170,7 @@
 		43BD5688224C9039009D0AC8 /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
 		43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListTableViewCell.swift; sourceTree = "<group>"; };
 		43BEA2F92268E13C001F930E /* TopLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLists.swift; sourceTree = "<group>"; };
+		43BEA2FC226B84DA001F930E /* DiscoverUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverUserTableViewCell.swift; sourceTree = "<group>"; };
 		43BF88102243E10E0096CCA1 /* DictionaryExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExt.swift; sourceTree = "<group>"; };
 		43BF881222447BB80096CCA1 /* CreateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewController.swift; sourceTree = "<group>"; };
 		43BF881422449EFB0096CCA1 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
@@ -362,7 +364,7 @@
 				43AFB44B223DE8E100B243E1 /* Profile */,
 				438534BC223336BA00B99EC7 /* FeedViewController.swift */,
 				4386BFDF22334760006A3ED7 /* LoggedOutViewController.swift */,
-				43B26BB6223A065600CA2549 /* DiscoverViewController.swift */,
+				43BEA2FB226B84B5001F930E /* Discover */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -423,6 +425,15 @@
 				4305F37622400A3500F6DE77 /* ListTableViewCell.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		43BEA2FB226B84B5001F930E /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				43B26BB6223A065600CA2549 /* DiscoverViewController.swift */,
+				43BEA2FC226B84DA001F930E /* DiscoverUserTableViewCell.swift */,
+			);
+			path = Discover;
 			sourceTree = "<group>";
 		};
 		B1C139997BE476638080E0E2 /* Pods */ = {
@@ -741,6 +752,7 @@
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
 				43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */,
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,
+				43BEA2FD226B84DA001F930E /* DiscoverUserTableViewCell.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
 				438534F52233391500B99EC7 /* Color.swift in Sources */,
 				43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */,
@@ -867,7 +879,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA1DE3DC9DEAE3E5142BACE2 /* Pods-Fave.local.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://10.0.0.63:3000/";
+				API_BASE_URL_ENDPOINT = "http://localhost:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;

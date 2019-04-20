@@ -8,15 +8,19 @@ class ProfileViewController: FaveVC {
 
     var user: User? {
         didSet {
-            profileTableHeaderView.updateUserInfo(user: user)
 
-
-            if let handle = user?.handle {
-                let titleViewLabel = Label.init(text: handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
-                navigationItem.titleView = titleViewLabel
+            guard let user = user else {
+                return
             }
 
-            if let tabBarItem = tabBarController?.tabBar.items?[2], let user = user {
+            dependencyGraph.storage.saveUser(user: user)
+
+            profileTableHeaderView.updateUserInfo(user: user)
+
+            let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+            navigationItem.titleView = titleViewLabel
+
+            if let tabBarItem = tabBarController?.tabBar.items?[2] {
                 let tabBarItemImage = UIImage(base64String: user.profilePicture)?
                                         .resize(targetSize: CGSize.init(width: 26, height: 26))?
                                         .roundedImage?
@@ -30,6 +34,8 @@ class ProfileViewController: FaveVC {
     var lists: [List] = [] {
         didSet {
             self.profileTableView.reloadData()
+
+
         }
     }
 
@@ -89,6 +95,16 @@ class ProfileViewController: FaveVC {
         return indicator
     }()
 
+    private lazy var tabBarMenuButton: UIButton = {
+        let button = UIButton.init(type: .custom)
+
+        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        button.setImage(UIImage(named: "icon-menu"), for: .normal)
+        button.adjustsImageWhenHighlighted = false
+
+        return button
+    }()
+
     init(dependencyGraph: DependencyGraphType, user: User?) {
         self.user = user
 
@@ -124,6 +140,8 @@ class ProfileViewController: FaveVC {
 
         let titleViewLabel = Label.init(text: user?.handle ?? "", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
+
+        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
 
         refreshData()
     }
@@ -163,8 +181,7 @@ class ProfileViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        guard let user = user else {
-
+        guard let user = dependencyGraph.storage.getUser() else {
             login()
 
             return
@@ -198,6 +215,10 @@ class ProfileViewController: FaveVC {
 
             completion()
         }
+    }
+
+    @objc func menuButtonTapped(sender: UIBarButtonItem) {
+        print("\nOpen menu\n")
     }
 
     private func logUserData(userData: [String: AnyObject]) {
@@ -238,7 +259,7 @@ extension ProfileViewController: UITableViewDataSource {
     @objc func createButtonTapped(sender: UIButton!) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Item", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Entry", style: .default , handler: { alertAction in
             self.addItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)

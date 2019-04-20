@@ -56,6 +56,7 @@ class ItemViewController: FaveVC {
         let button = UIButton.init(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.tintColor = FaveColors.Black90
 
         return button
     }()
@@ -81,6 +82,16 @@ class ItemViewController: FaveVC {
         return tableView
     }()
 
+    private lazy var tabBarMenuButton: UIButton = {
+        let button = UIButton.init(type: .custom)
+
+        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        button.setImage(UIImage(named: "icon-menu"), for: .normal)
+        button.adjustsImageWhenHighlighted = false
+
+        return button
+    }()
+
     init(dependencyGraph: DependencyGraphType, item: Item) {
         self.item = item
 
@@ -97,6 +108,7 @@ class ItemViewController: FaveVC {
         view.backgroundColor = UIColor.white
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
+        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
 
         view.addSubview(itemTableView)
 
@@ -150,6 +162,10 @@ class ItemViewController: FaveVC {
 //            self.item = item
 //        }
         completion()
+    }
+
+    @objc func menuButtonTapped(sender: UIBarButtonItem) {
+        print("\nOpen menu\n")
     }
 
     @objc func backButtonTapped(sender: UIButton!) {

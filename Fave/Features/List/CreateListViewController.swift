@@ -71,6 +71,7 @@ class CreateListViewController: FaveVC {
         let button = UIButton.init(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.tintColor = FaveColors.Black90
 
         return button
     }()

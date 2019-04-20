@@ -54,7 +54,7 @@ class ProfileTableHeaderView: UIView {
                                numberOfLines: 0)
 
     let aboutMeLabel = Label(
-        text: true ? "Must-read books, niche podcasts, undiscovered places, fresh kicks, and good food." : "",
+        text: false ? "Must-read books, niche podcasts, undiscovered places, fresh kicks, and good food." : "",
         font: FaveFont.init(style: .h5, weight: .regular),
         textColor: FaveColors.Black70,
         textAlignment: .left,
@@ -67,56 +67,69 @@ class ProfileTableHeaderView: UIView {
         textAlignment: .left,
         numberOfLines: 0)
 
+    let listCountLabel = Label(
+        text: "12 lists".uppercased(),
+        font: FaveFont.init(style: .xsmall, weight: .semiBold),
+        textColor: FaveColors.Black60,
+        textAlignment: .left,
+        numberOfLines: 0)
+
     let profilePictureImageView = UIImageView.init(frame: CGRect.zero)
 
-    private lazy var profileHeaderStackView: UIStackView = {
-        let headerStackView = UIStackView(frame: .zero)
-
-        let labelsStackView = UIStackView(frame: .zero)
-        labelsStackView.addArrangedSubview(nameLabel)
-        labelsStackView.addArrangedSubview(aboutMeLabel)
-        labelsStackView.addArrangedSubview(followingLabel)
+    private lazy var primaryContentView: UIView = {
+        let view = UIView(frame: .zero)
 
         nameLabel.contentCompressionResistancePriority = .defaultHigh
         aboutMeLabel.contentCompressionResistancePriority = .defaultHigh
         aboutMeLabel.contentHuggingPriority = .defaultHigh
         nameLabel.contentHuggingPriority = .defaultHigh
 
-        labelsStackView.axis = .vertical
-        labelsStackView.distribution = .fillProportionally
-        labelsStackView.alignment = .fill
+        view.addSubview(nameLabel)
+        view.addSubview(aboutMeLabel)
+        view.addSubview(followingLabel)
+        view.addSubview(profilePictureImageView)
 
+        constrain(nameLabel, profilePictureImageView, view) { nameLabel, imageView, view in
+            nameLabel.top == view.top + 16
+            nameLabel.right == imageView.left - 16
+            nameLabel.left == view.left + 16
+        }
 
-        let primaryInfoStackView = UIStackView(frame: .zero)
-        primaryInfoStackView.addArrangedSubview(labelsStackView)
-        primaryInfoStackView.addArrangedSubview(profilePictureImageView)
+        constrain(aboutMeLabel, nameLabel, view) { aboutMeLabel, nameLabel, view in
+            aboutMeLabel.top == nameLabel.bottom + 4
+            aboutMeLabel.right == nameLabel.right
+            aboutMeLabel.left == nameLabel.left
+        }
 
-        primaryInfoStackView.axis = .horizontal
-//        primaryInfoStackView.distribution = .fillProportionally
-//        primaryInfoStackView.alignment = .fill
-        primaryInfoStackView.spacing = 16
+        constrain(followingLabel, aboutMeLabel, view) { followingLabel, aboutMeLabel, view in
+            followingLabel.top == aboutMeLabel.bottom + 8
+            followingLabel.right == aboutMeLabel.right
+            followingLabel.left == aboutMeLabel.left
+            followingLabel.bottom == view.bottom - 16
+        }
 
+        constrain(profilePictureImageView, view) { imageView, view in
+            imageView.top == view.top + 16
+            imageView.right == view.right - 16
+        }
 
+        constrain(view) { view in
+            view.height == (80 + 16 + 16) ~ UILayoutPriority(400)
+        }
 
-        let editProfileButtonStackView = UIStackView(frame: .zero)
-        editProfileButtonStackView.addArrangedSubview(editProfileButton)
+        return view
+    }()
 
+    private lazy var dividerView: UIView = {
+        let view = UIView.init(frame: .zero)
 
+        view.backgroundColor = FaveColors.Black20
 
-        let listCountStackView = UIStackView.init(frame: .zero)
-        listCountStackView.addArrangedSubview(listsLabel)
-        listCountStackView.alignment = UIStackView.Alignment.leading
+        constrain(view) { view in
+            view.height == 1
+        }
 
-
-        headerStackView.addArrangedSubview(primaryInfoStackView)
-        headerStackView.addArrangedSubview(editProfileButtonStackView)
-        headerStackView.addArrangedSubview(listCountStackView)
-
-        headerStackView.axis = .vertical
-        headerStackView.distribution = .fillProportionally
-        headerStackView.alignment = .fill
-
-        return headerStackView
+        return view
     }()
 
     init(dependencyGraph: DependencyGraphType, user: User?) {
@@ -127,31 +140,59 @@ class ProfileTableHeaderView: UIView {
 
         isUserInteractionEnabled = true
 
-        addSubview(profileHeaderStackView)
+        addSubview(primaryContentView)
+        addSubview(editProfileButton)
+        addSubview(listCountLabel)
+        addSubview(dividerView)
 
         constrain(profilePictureImageView, self) { imageView, view in
             imageView.height == 80
             imageView.width == 80
         }
 
-        constrainToSuperview(profileHeaderStackView)
+        constrainToSuperview(primaryContentView, exceptEdges: [.bottom])
 
-        updateUserInfo(user: user)
+        let isUserProfile = true
+
+        if isUserProfile {
+            constrain(editProfileButton, primaryContentView, dividerView, self) { editProfileButton, primaryContentView, dividerView, view in
+                editProfileButton.top == primaryContentView.bottom
+                editProfileButton.right == view.right - 16
+                editProfileButton.left == view.left + 16
+                editProfileButton.bottom == dividerView.top - 16
+            }
+        } else {
+            constrain(primaryContentView, dividerView, self) { primaryContentView, dividerView, view in
+                dividerView.top == primaryContentView.bottom
+            }
+        }
+
+        constrain(primaryContentView, dividerView, self) { primaryContentView, dividerView, view in
+            dividerView.right == view.right - 16
+            dividerView.left == view.left + 16
+        }
+
+        constrain(listCountLabel, dividerView, self) { listCountLabel, dividerView, view in
+            listCountLabel.top == dividerView.bottom + 16
+            listCountLabel.left == view.left + 16
+            listCountLabel.bottom == view.bottom
+        }
+
+        if let user = user {
+            updateUserInfo(user: user)
+        } else {
+            // put into loading state
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateUserInfo(user: User?) {
+    func updateUserInfo(user: User) {
+        nameLabel.text = ("\(user.firstName) \(user.lastName)")
 
-        guard let unwrappedUser = user else {
-            return
-        }
-
-        nameLabel.text = ("\(unwrappedUser.firstName) \(unwrappedUser.lastName)")
-
-        profilePictureImageView.image = UIImage.init(base64String: unwrappedUser.profilePicture)
+        profilePictureImageView.image = UIImage.init(base64String: user.profilePicture)
         profilePictureImageView.layer.cornerRadius = 80 / 2
         profilePictureImageView.layer.masksToBounds = true
         profilePictureImageView.clipsToBounds = true
