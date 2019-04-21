@@ -200,6 +200,79 @@ class ItemInfoTableViewCell: UITableViewCell {
         }
     }
 
+    /* Convert to using actual Yelp and Google icons
+    private lazy var ratingsStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+
+        let faveScoreView = UIView(frame: .zero)
+
+        let faveTitleLabel = Label(text: "Faves".uppercased(),
+                                   font: FaveFont(style: .small, weight: .semiBold),
+                                   textColor: FaveColors.Black60,
+                                   textAlignment: .left,
+                                   numberOfLines: 1)
+
+        faveScoreView.addSubview(faveTitleLabel)
+        faveScoreView.addSubview(faveScoreLabel)
+
+        constrainToSuperview(faveTitleLabel, exceptEdges: [.bottom])
+        constrainToSuperview(faveScoreLabel, exceptEdges: [.top])
+
+        constrain(faveTitleLabel, faveScoreLabel, faveScoreView) { titleLabel, scoreLabel, view in
+            scoreLabel.top == titleLabel.bottom + 4
+        }
+
+        stackView.addArrangedSubview(faveScoreView)
+
+
+
+        let googleScoreView = UIView(frame: .zero)
+
+        let googleScoreTitleLabel = Label(text: "Google score".uppercased(),
+                                          font: FaveFont(style: .small, weight: .semiBold),
+                                          textColor: FaveColors.Black60,
+                                          textAlignment: .left,
+                                          numberOfLines: 1)
+
+        googleScoreView.addSubview(googleScoreTitleLabel)
+        googleScoreView.addSubview(googleScoreLabel)
+
+        constrainToSuperview(googleScoreTitleLabel, exceptEdges: [.bottom])
+        constrainToSuperview(googleScoreLabel, exceptEdges: [.top])
+
+        constrain(googleScoreTitleLabel, googleScoreLabel, googleScoreView) { titleLabel, scoreLabel, view in
+            scoreLabel.top == titleLabel.bottom + 4
+        }
+
+        stackView.addArrangedSubview(googleScoreView)
+
+
+        let yelpScoreView = UIView(frame: .zero)
+
+        let yelpScoreTitleLabel = Label(text: "Yelp score".uppercased(),
+                                        font: FaveFont(style: .small, weight: .semiBold),
+                                        textColor: FaveColors.Black60,
+                                        textAlignment: .left,
+                                        numberOfLines: 1)
+
+        yelpScoreView.addSubview(yelpScoreTitleLabel)
+        yelpScoreView.addSubview(yelpScoreLabel)
+
+        constrainToSuperview(yelpScoreTitleLabel, exceptEdges: [.bottom])
+        constrainToSuperview(faveScoreLabel, exceptEdges: [.top])
+
+        constrain(yelpScoreTitleLabel, yelpScoreLabel, yelpScoreView) { titleLabel, scoreLabel, view in
+            scoreLabel.top == titleLabel.bottom + 4
+        }
+
+        stackView.addArrangedSubview(yelpScoreView)
+
+        stackView.distribution = .equalCentering
+
+        return stackView
+    }()
+    */
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -13,6 +13,10 @@ class EntryTableViewCell: UITableViewCell {
     var item: Item?
     var delegate: EntryTableViewCellDelegate?
 
+    var itemIsFavedByUser = false
+    let faveActionIcon = UIImageView.init(frame: .zero)
+    let faveActionLabel = Label.init(text: "Fave", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
+
     var faveScoreLabel = Label(text: "",
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.FaveOrange,
@@ -52,78 +56,6 @@ class EntryTableViewCell: UITableViewCell {
         return label
     }()
 
-    private lazy var ratingsStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-
-        let faveScoreView = UIView(frame: .zero)
-
-        let faveTitleLabel = Label(text: "Faves".uppercased(),
-                              font: FaveFont(style: .small, weight: .semiBold),
-                              textColor: FaveColors.Black60,
-                              textAlignment: .left,
-                              numberOfLines: 1)
-
-        faveScoreView.addSubview(faveTitleLabel)
-        faveScoreView.addSubview(faveScoreLabel)
-
-        constrainToSuperview(faveTitleLabel, exceptEdges: [.bottom])
-        constrainToSuperview(faveScoreLabel, exceptEdges: [.top])
-
-        constrain(faveTitleLabel, faveScoreLabel, faveScoreView) { titleLabel, scoreLabel, view in
-            scoreLabel.top == titleLabel.bottom + 4
-        }
-
-        stackView.addArrangedSubview(faveScoreView)
-
-
-
-        let googleScoreView = UIView(frame: .zero)
-
-        let googleScoreTitleLabel = Label(text: "Google score".uppercased(),
-                                font: FaveFont(style: .small, weight: .semiBold),
-                                textColor: FaveColors.Black60,
-                                textAlignment: .left,
-                                numberOfLines: 1)
-
-        googleScoreView.addSubview(googleScoreTitleLabel)
-        googleScoreView.addSubview(googleScoreLabel)
-
-        constrainToSuperview(googleScoreTitleLabel, exceptEdges: [.bottom])
-        constrainToSuperview(googleScoreLabel, exceptEdges: [.top])
-
-        constrain(googleScoreTitleLabel, googleScoreLabel, googleScoreView) { titleLabel, scoreLabel, view in
-            scoreLabel.top == titleLabel.bottom + 4
-        }
-
-        stackView.addArrangedSubview(googleScoreView)
-
-
-
-        let yelpScoreView = UIView(frame: .zero)
-
-        let yelpScoreTitleLabel = Label(text: "Yelp score".uppercased(),
-                                        font: FaveFont(style: .small, weight: .semiBold),
-                                        textColor: FaveColors.Black60,
-                                        textAlignment: .left,
-                                        numberOfLines: 1)
-
-        yelpScoreView.addSubview(yelpScoreTitleLabel)
-        yelpScoreView.addSubview(yelpScoreLabel)
-
-        constrainToSuperview(yelpScoreTitleLabel, exceptEdges: [.bottom])
-        constrainToSuperview(faveScoreLabel, exceptEdges: [.top])
-
-        constrain(yelpScoreTitleLabel, yelpScoreLabel, yelpScoreView) { titleLabel, scoreLabel, view in
-            scoreLabel.top == titleLabel.bottom + 4
-        }
-
-        stackView.addArrangedSubview(yelpScoreView)
-
-        stackView.distribution = .equalCentering
-
-        return stackView
-    }()
-
     private lazy var navigationIndicatorImageView: UIView = {
         let imageView = UIImageView(frame: CGRect.zero)
 
@@ -150,33 +82,106 @@ class EntryTableViewCell: UITableViewCell {
         return button
     }()
 
-    private lazy var shareItemButton: UIButton = {
-        let button = UIButton(frame: CGRect.zero)
+    private lazy var faveActionView: UIView = {
+        let view = UIView(frame: CGRect.zero)
+        let actionContentView = UIView.init(frame: .zero)
 
-        button.setTitleColor(FaveColors.White, for: .normal)
-        button.backgroundColor = FaveColors.Black20
-        button.addTarget(self, action: #selector(shareItemButtonTapped), for: .touchUpInside)
-        button.layer.cornerRadius = 6
-        button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        let icon = faveActionIcon
+        icon.image = UIImage.init(named: "icon-fave-not-faved")
+        icon.tintColor = FaveColors.Black60
 
-        let attributedTitle = NSAttributedString(string: "Share",
-                                                 font: FaveFont(style: .small, weight: .semiBold).font,
-                                                 textColor: FaveColors.Accent)
-        button.setAttributedTitle(attributedTitle, for: .normal)
+        let label = faveActionLabel
 
-        return button
+        actionContentView.addSubview(icon)
+        actionContentView.addSubview(label)
+
+        constrain(icon, label, actionContentView) { icon, label, view in
+            icon.top == view.top + 4
+            icon.bottom == view.bottom - 4
+            icon.left == view.left
+
+            label.centerY == icon.centerY + 2
+            label.left == icon.right + 8
+            label.right == view.right
+
+            icon.width == 20
+            icon.height == 20
+        }
+
+        view.addSubview(actionContentView)
+
+        constrain(actionContentView, view) { contentView, view in
+            contentView.top == view.top + 8
+            contentView.centerX == view.centerX
+            contentView.bottom == view.bottom - 8
+        }
+
+        _ = view.tapped { _ in
+            self.faveItemButtonTapped()
+        }
+
+        return view
+    }()
+
+    private lazy var shareActionView: UIView = {
+        let view = UIView(frame: CGRect.zero)
+        let actionContentView = UIView.init(frame: .zero)
+
+        let shareIcon = UIImageView.init(frame: .zero)
+        shareIcon.image = UIImage.init(named: "icon-share")
+        shareIcon.tintColor = FaveColors.Black60
+
+        let shareLabel = Label.init(text: "Share", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
+
+        actionContentView.addSubview(shareIcon)
+        actionContentView.addSubview(shareLabel)
+
+        constrain(shareIcon, shareLabel, actionContentView) { shareIcon, shareLabel, view in
+            shareIcon.top == view.top + 4
+            shareIcon.bottom == view.bottom - 4
+            shareIcon.left == view.left
+
+            shareLabel.centerY == shareIcon.centerY + 2
+            shareLabel.left == shareIcon.right + 8
+            shareLabel.right == view.right
+
+            shareIcon.width == 20
+            shareIcon.height == 20
+        }
+
+        view.addSubview(actionContentView)
+
+        constrain(actionContentView, view) { contentView, view in
+            contentView.top == view.top + 8
+            contentView.centerX == view.centerX
+            contentView.bottom == view.bottom - 8
+        }
+
+        _ = view.tapped { _ in
+            self.shareItemButtonTapped()
+        }
+
+        return view
     }()
 
     private lazy var actionStackView: UIStackView = {
         let stackView = UIStackView.init(frame: .zero)
 
-        stackView.addArrangedSubview(faveItemButton)
-        stackView.addArrangedSubview(shareItemButton)
+        stackView.addArrangedSubview(faveActionView)
+        stackView.addArrangedSubview(shareActionView)
         stackView.distribution = .fillEqually
         stackView.axis = .horizontal
         stackView.spacing = 16.0
 
         return stackView
+    }()
+
+    private lazy var dividerView: UIView = {
+        let view = UIView(frame: CGRect.zero)
+
+        view.backgroundColor = FaveColors.Black20
+
+        return view
     }()
 
     private lazy var borderView: UIView = {
@@ -194,9 +199,9 @@ class EntryTableViewCell: UITableViewCell {
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
-        contentView.addSubview(ratingsStackView)
         contentView.addSubview(actionStackView)
 
+        contentView.addSubview(dividerView)
         contentView.addSubview(borderView)
 
         constrain(titleLabel, contentView) { label, view in
@@ -211,16 +216,17 @@ class EntryTableViewCell: UITableViewCell {
             subtitleLabel.left == titleLabel.left
         }
 
-        constrain(ratingsStackView, subtitleLabel, borderView, contentView) { stackView, subtitleLabel, borderView, contentView in
-            stackView.top == subtitleLabel.bottom + 16
-            stackView.right == contentView.right - 16
-            stackView.left == contentView.left + 16
+        constrain(dividerView, subtitleLabel, actionStackView, contentView) { dividerView, subtitleLabel, actionStackView, view in
+            dividerView.top == subtitleLabel.bottom + 16
+            dividerView.right == view.right - 16
+            dividerView.bottom == actionStackView.top - 8
+            dividerView.left == view.left + 16
+            dividerView.height == 1
         }
 
-        constrain(actionStackView, ratingsStackView, borderView, contentView) { actionStackView, ratingsStackView, borderView, contentView in
-            actionStackView.top == ratingsStackView.bottom + 24
+        constrain(actionStackView, borderView, contentView) { actionStackView, borderView, contentView in
             actionStackView.right == contentView.right - 16
-            actionStackView.bottom == borderView.top - 16
+            actionStackView.bottom == borderView.top - 8
             actionStackView.left == contentView.left + 16
         }
 
@@ -239,38 +245,58 @@ class EntryTableViewCell: UITableViewCell {
     func populate(item: Item) {
         self.item = item
 
+        updateFaveAction()
+
         titleLabel.text = item.contextualItem.name
         subtitleLabel.text = item.note
         faveScoreLabel.text = "\(item.numberOfFaves)"
-        yelpScoreLabel.text = "3.999"
 
         guard let googleItem = item.contextualItem as? GoogleItemType else {
             return
         }
 
-        googleScoreLabel.text = "\(googleItem.rating)"
+        if item.note.isEmpty {
+            var keywords = ""
+            var counter = 0
+            googleItem.keywords?.forEach { keyword in
+                if counter < 3 {
+                    keywords += "\(keyword), "
+                    counter += 1
+                }
+            }
 
-//        var keywords = ""
-//        var counter = 0
-//        googleItem.keywords?.forEach { keyword in
-//            if counter < 2 {
-//                keywords += "\(keyword), "
-//                counter += 1
-//            }
-//        }
-//
-//        subtitleLabel.text = keywords
+            keywords = String(keywords.dropLast(2))
+
+            subtitleLabel.text = keywords
+        }
     }
 
-    @objc func faveItemButtonTapped(sender: UIButton!) {
+    func updateFaveAction() {
+        itemIsFavedByUser = !itemIsFavedByUser
+
+        if itemIsFavedByUser {
+            faveActionIcon.image = UIImage.init(named: "icon-fave-faved")?.withRenderingMode(.alwaysOriginal)
+            faveActionLabel.text = "Faved"
+            faveActionLabel.textColor = FaveColors.Accent
+        } else {
+            faveActionIcon.image = UIImage.init(named: "icon-fave-not-faved")
+            faveActionIcon.tintColor = FaveColors.Black60
+            faveActionLabel.text = "Fave"
+            faveActionLabel.textColor = FaveColors.Black70
+        }
+    }
+
+    @objc func faveItemButtonTapped() {
         guard let item = item else {
             return
         }
 
+        updateFaveAction()
+
         delegate?.faveItemButtonTapped(item: item)
     }
 
-    @objc func shareItemButtonTapped(sender: UIButton!) {
+    @objc func shareItemButtonTapped() {
         guard let item = item else {
             return
         }

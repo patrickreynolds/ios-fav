@@ -4,8 +4,19 @@ import UIKit
 import Cartography
 import MBProgressHUD
 
+enum ListFilterType {
+    case entries
+    case recommendations
+}
+
 class ListViewController: FaveVC {
     var list: List
+
+    var filterType: ListFilterType = .entries {
+        didSet {
+            listTableView.reloadData()
+        }
+    }
 
     var listItems: [Item] = [] {
         didSet {
@@ -246,7 +257,57 @@ extension ListViewController {
     }
 
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
-        print("\nOpen menu\n")
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        alertController.addAction(UIAlertAction(title: "Share this list", style: .default , handler: { alertAction in
+            self.shareListButtonTapped()
+
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+
+        if let user = dependencyGraph.storage.getUser(), user.id == list.owner.id {
+            alertController.addAction(UIAlertAction(title: "Edit list info", style: .default , handler: { alertAction in
+                self.editListButtonTapped()
+
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+        }
+
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { alertAction in
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+    func shareListButtonTapped() {
+        print("\n Share list button tapped\n")
+
+        guard let url = NSURL(string: "https://www.fave.com/lists/\(list.id)") else {
+            return
+        }
+
+        let title = "Check out my list on Fave: \(list.title)"
+        let itemsToShare: [Any] = [title, url]
+
+        let activityViewController = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+
+    func editListButtonTapped() {
+        print("\n Edit list button tapped\n")
+
+        let alertController = UIAlertController(title: "Not yet implemented", message: "Coming soon!", preferredStyle: .alert)
+
+        alertController.addAction(UIAlertAction(title: "Nice", style: .default, handler: { action in
+            switch action.style {
+            case .default, .cancel, .destructive:
+                alertController.dismiss(animated: true, completion: nil)
+            }}))
+
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -279,7 +340,11 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listItems.count
+        if filterType == .entries {
+            return listItems.count
+        } else {
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -305,10 +370,13 @@ extension ListViewController: UITableViewDataSource {
 extension ListViewController: ListTableHeaderViewDelegate {
     func entriesButtonTapped() {
         print("\nLists Button Tapped\n")
+
+        filterType = .entries
     }
 
     func suggestionsButtonTapped() {
         print("\nRecommentaion Button Tapped\n")
+        filterType = .recommendations
     }
 }
 
@@ -319,5 +387,17 @@ extension ListViewController: EntryTableViewCellDelegate {
 
     func shareItemButtonTapped(item: Item) {
         print("\nShare Item Button Tapped\n")
+
+        guard let contextualItem = item.contextualItem as? GoogleItemType, let url = NSURL(string: "https://www.fave.com/lists/\(list.id)/item/\(item.id)") else {
+            return
+        }
+
+        let title = contextualItem.name
+        let itemsToShare: [Any] = [title, url]
+
+        let activityViewController = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }

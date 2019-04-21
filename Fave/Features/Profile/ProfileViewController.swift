@@ -35,7 +35,7 @@ class ProfileViewController: FaveVC {
         didSet {
             self.profileTableView.reloadData()
 
-
+            profileTableHeaderView.updateListInfo(lists: lists)
         }
     }
 

@@ -68,7 +68,7 @@ class ProfileTableHeaderView: UIView {
         numberOfLines: 0)
 
     let listCountLabel = Label(
-        text: "12 lists".uppercased(),
+        text: "Lists".uppercased(),
         font: FaveFont.init(style: .xsmall, weight: .semiBold),
         textColor: FaveColors.Black60,
         textAlignment: .left,
@@ -196,6 +196,10 @@ class ProfileTableHeaderView: UIView {
         profilePictureImageView.layer.cornerRadius = 80 / 2
         profilePictureImageView.layer.masksToBounds = true
         profilePictureImageView.clipsToBounds = true
+    }
+
+    func updateListInfo(lists: [List]) {
+        listCountLabel.text = lists.count == 1 ? "\(lists.count) List" : "\(lists.count) Lists"
     }
 
     @objc func editProfile(sender: UIButton!) {
