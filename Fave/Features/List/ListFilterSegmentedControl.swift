@@ -129,6 +129,8 @@ class ListSegmentedControl: UIView {
 
         super.init(frame: CGRect.zero)
 
+        backgroundColor = FaveColors.White
+
         self.tabViews.forEach { tabView in
             tabView.delegate = self
         }

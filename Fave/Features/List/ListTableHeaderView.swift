@@ -104,7 +104,7 @@ class ListTableHeaderView: UIView {
         return view
     }()
 
-    let followerCountLabel = Label(text: "0 Followers",
+    let followerCountLabel = Label(text: "Followers",
         font: FaveFont(style: .h5, weight: .regular),
         textColor: FaveColors.Black90,
         textAlignment: .left,

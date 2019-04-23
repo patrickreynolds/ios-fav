@@ -10,6 +10,7 @@ enum FaveEndpoint {
     case createList(userId: Int)
     case createListItem(userId: Int, listId: Int, type: String)
     case getListItems(userId: Int, listId: Int)
+    case getListItem(userId: Int, listId: Int, itemId: Int)
     case paginatedFeed(page: Int)
     case feed(from: Int, to: Int)
     case suggestions
@@ -35,6 +36,8 @@ enum FaveEndpoint {
             return "api/v1/users/\(userId)/lists/\(listId)/list-items/types/PLACE/\(type)"
         case .getListItems(let userId, let listId):
             return "api/v1/users/\(userId)/lists/\(listId)/list-items"
+        case .getListItem(let userId, let listId, let itemId):
+            return "api/v1/users/\(userId)/lists/\(listId)/list-items/\(itemId)"
         case .paginatedFeed(let page):
             return "api/v1/feed?page=\(page)"
         case .feed(let from, let to):

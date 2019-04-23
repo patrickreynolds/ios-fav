@@ -32,6 +32,7 @@ class FeedViewController: FaveVC {
         let loadingIndicatorView = UIActivityIndicatorView.init(frame: .zero)
 
         loadingIndicatorView.hidesWhenStopped = true
+        loadingIndicatorView.style = .gray
 
         return loadingIndicatorView
     }()
@@ -130,7 +131,7 @@ class FeedViewController: FaveVC {
         }
 
         constrain(loadingIndicatorView, view) { loadingIndicatorView, view in
-            loadingIndicatorView.top == view.topMargin + 24
+            loadingIndicatorView.centerY == view.centerY
             loadingIndicatorView.centerX == view.centerX
         }
 
@@ -174,15 +175,6 @@ class FeedViewController: FaveVC {
                 self.loadingIndicatorView.stopAnimating()
             }
         }
-
-
-//        dependencyGraph.faveService.getPaginatedFeed(page: lastPage) { response, error in
-//            guard let feedData = response else {
-//                return
-//            }
-//
-//            print("\(feedData.description)")
-//        }
     }
 
     func updateUI() {

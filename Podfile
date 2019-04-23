@@ -8,6 +8,7 @@ target 'Fave' do
   pod 'SwiftKeychainWrapper', '~> 3.2.0'
   pod 'R.swift'
   pod 'KMPlaceholderTextView', '~> 1.4.0'
+  pod 'TTTAttributedLabel', '~> 2.0.0'
 
   pod 'FacebookCore'
   pod 'FacebookLogin'

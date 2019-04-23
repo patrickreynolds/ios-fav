@@ -3,24 +3,28 @@ import Foundation
 struct Item {
     let id: Int
     let type: String
-//    let updatedAt: Date
-//    let createdAt: Date
+    let updatedAt: Date
+    let createdAt: Date
     let connectorType: String
     let connectorId: String
     let note: String
     let contextualItem: ItemType
     let content: [String: AnyObject]
     let numberOfFaves: Int
+    let listId: Int
+    let addedBy: User
 
     init?(id: Int,
          type: String,
-//         updatedAt: String,
-//         createdAt: String,
+         updatedAt: String,
+         createdAt: String,
          connectorType: String,
          connectorId: String,
          note: String = "",
          content: [String: AnyObject],
-         numberOfFaves: Int = 0) {
+         numberOfFaves: Int = 0,
+         listId: Int,
+         addedBy: User) {
         self.id = id
         self.type = type
         self.connectorType = connectorType
@@ -28,13 +32,15 @@ struct Item {
         self.note = note
         self.content = content
         self.numberOfFaves = 0
+        self.listId = listId
+        self.addedBy = addedBy
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'sssZ"
 
-//        guard let updatedAtDate = dateFormatter.date(from: updatedAt), let createdAtDate = dateFormatter.date(from: createdAt) else {
-//            return nil
-//        }
+        guard let updatedAtDate = dateFormatter.date(from: updatedAt), let createdAtDate = dateFormatter.date(from: createdAt) else {
+            return nil
+        }
 
         var potentialContextualItem: ItemType
 
@@ -49,8 +55,8 @@ struct Item {
         }
 
         self.contextualItem = potentialContextualItem
-//        self.updatedAt = updatedAtDate
-//        self.createdAt = createdAtDate
+        self.updatedAt = updatedAtDate
+        self.createdAt = createdAtDate
     }
 
     init?(data: [String: AnyObject]) {
@@ -62,13 +68,13 @@ struct Item {
             return nil
         }
 
-//        guard let updatedAtString = data["updatedAt"] as? String else {
-//            return nil
-//        }
-//
-//        guard let createdAtString = data["createdAt"] as? String else {
-//            return nil
-//        }
+        guard let updatedAtString = data["updatedAt"] as? String else {
+            return nil
+        }
+
+        guard let createdAtString = data["createdAt"] as? String else {
+            return nil
+        }
 
         guard let connectorType = data["connectorType"] as? String else {
             return nil
@@ -82,35 +88,21 @@ struct Item {
             return nil
         }
 
-        /*
-        guard let contentDataString = data["content"] as? [String: AnyObject] else {
+        guard let listId = data["listId"] as? Int else {
             return nil
         }
 
-        do {
-
-            guard let contentData = contentDataString.data(using: .utf8) else {
-                return nil
-            }
-
-            let decodedContnet = try JSONSerialization.jsonObject(with: contentData, options: [])
-            guard let content = decodedContnet as? [String: AnyObject] else {
-                return nil
-            }
-
-            self.content = content
-        } catch {
+        guard let addedByData = data["addedBy"] as? [String: AnyObject], let addedBy = User.init(data: addedByData) else {
             return nil
         }
-         */
 
         let dateFormatter = DateFormatter()
 //        "2019-04-03T13:57:03.000Z"
         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSSZ"
 
-//        guard let updatedAtDate = dateFormatter.date(from: updatedAtString), let createdAtDate = dateFormatter.date(from: createdAtString) else {
-//            return nil
-//        }
+        guard let updatedAtDate = dateFormatter.date(from: updatedAtString), let createdAtDate = dateFormatter.date(from: createdAtString) else {
+            return nil
+        }
 
         var potentialContextualItem: ItemType
 
@@ -132,13 +124,15 @@ struct Item {
 
         self.id = id
         self.type = type
-//        self.updatedAt = updatedAtDate
-//        self.createdAt = createdAtDate
+        self.updatedAt = updatedAtDate
+        self.createdAt = createdAtDate
         self.connectorType = connectorType
         self.connectorId = connectorId
         self.note = note
         self.content = content
         self.numberOfFaves = numberOfFaves
+        self.listId = listId
+        self.addedBy = addedBy
     }
 }
 

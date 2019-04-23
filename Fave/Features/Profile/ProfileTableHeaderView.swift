@@ -126,7 +126,7 @@ class ProfileTableHeaderView: UIView {
         view.backgroundColor = FaveColors.Black20
 
         constrain(view) { view in
-            view.height == 1
+            view.height == 4
         }
 
         return view
@@ -139,6 +139,7 @@ class ProfileTableHeaderView: UIView {
         super.init(frame: CGRect.zero)
 
         isUserInteractionEnabled = true
+        backgroundColor = FaveColors.White
 
         addSubview(primaryContentView)
         addSubview(editProfileButton)
@@ -168,8 +169,8 @@ class ProfileTableHeaderView: UIView {
         }
 
         constrain(primaryContentView, dividerView, self) { primaryContentView, dividerView, view in
-            dividerView.right == view.right - 16
-            dividerView.left == view.left + 16
+            dividerView.right == view.right
+            dividerView.left == view.left
         }
 
         constrain(listCountLabel, dividerView, self) { listCountLabel, dividerView, view in

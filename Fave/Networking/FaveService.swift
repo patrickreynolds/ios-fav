@@ -132,6 +132,20 @@ struct FaveService {
         }
     }
 
+    func getListItem(userId: Int, listId: Int, itemId: Int, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
+        networking.sendGetRequest(endpoint: .getListItem(userId: userId, listId: listId, itemId: itemId)) { response, error in
+            guard let itemData = response as? [String: AnyObject] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let item = Item(data: itemData)
+
+            completion(item, nil)
+        }
+    }
+
     func getPaginatedFeed(page: Int, completion: @escaping FaveAPICallResultCompletionBlock) {
         networking.sendGetRequest(endpoint: .paginatedFeed(page: page)) { response, error in
             completion(response, error)
@@ -164,24 +178,23 @@ struct FaveService {
         let list1Item2 = TopListItem.init(name: "Ippudo", type: "Ramen")
         let list1Item3 = TopListItem.init(name: "Waraku", type: "Japanese Cuisine")
 
+        let list2Item1 = TopListItem.init(name: "Another Cafe", type: "Cafe")
+        let list2Item2 = TopListItem.init(name: "Reveille Coffee", type: "Cafe")
+        let list2Item3 = TopListItem.init(name: "Matching Half", type: "Coffee Shop")
+
+        let list3Item1 = TopListItem.init(name: "Arsicault Bakery", type: "Bakery")
+        let list3Item2 = TopListItem.init(name: "b. patisserie", type: "Bakery")
+        let list3Item3 = TopListItem.init(name: "Mr. Holmes Bakehouse", type: "Bakery")
+
         let list1 = TopList(name: "SF Ramen Shops", owner: "Albert", items: [list1Item1, list1Item2, list1Item3])
-        let list2 = TopList(name: "Croissants", owner: "Patrick", items: [])
-        let list3 = TopList(name: "Coffee Shops", owner: "Shelley", items: [])
+        let list2 = TopList(name: "Croissants", owner: "Patrick", items: [list2Item1, list2Item2, list2Item3])
+        let list3 = TopList(name: "Coffee Shops", owner: "Shelley", items: [list3Item1, list3Item2, list3Item3])
 
         let topLists = [list1, list2, list3]
 
-//        struct TopList {
-//            let name: String
-//            let owner: String
-//            let items: [TopListItem]
-//        }
-//
-//        struct TopListItem {
-//            let name: String
-//            let type: String
-//        }
-
-        completion(topLists, nil)
+        delay(3.0) {
+            completion(topLists, nil)
+        }
     }
 }
 

@@ -16,13 +16,21 @@ class ItemViewController: FaveVC {
     var item: Item {
         didSet {
             itemTableView.reloadData()
+
+            itemTableHeaderView.updateHeader(item: item)
+        }
+    }
+
+    var list: List {
+        didSet {
+
         }
     }
 
     private lazy var itemTableHeaderView: ItemTableHeaderView = {
-        let view = ItemTableHeaderView(dependencyGraph: self.dependencyGraph, item: item)
+        let view = ItemTableHeaderView(dependencyGraph: dependencyGraph, item: item)
 
-//        view.delegate = self
+        view.delegate = self
 
         return view
     }()
@@ -92,8 +100,9 @@ class ItemViewController: FaveVC {
         return button
     }()
 
-    init(dependencyGraph: DependencyGraphType, item: Item) {
+    init(dependencyGraph: DependencyGraphType, item: Item, list: List) {
         self.item = item
+        self.list = list
 
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .itemScreenShown)
     }
@@ -109,6 +118,7 @@ class ItemViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         view.addSubview(itemTableView)
 
@@ -154,22 +164,65 @@ class ItemViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-//        dependencyGraph.faveService.getListItem(itemId: "\(item.id)") { response, error in
-//            guard let item = response else {
-//                return
-//            }
-//
-//            self.item = item
-//        }
-        completion()
+
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
+        }
+
+        dependencyGraph.faveService.getListItem(userId: user.id, listId: list.id, itemId: item.id) { item, error in
+            guard let item = item else {
+                return
+            }
+
+            self.item = item
+        }
     }
 
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
         print("\nOpen menu\n")
+
+
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        alertController.addAction(UIAlertAction(title: "Share \(item.contextualItem.name)", style: .default , handler: { alertAction in
+            self.shareItemButtonTapped()
+
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+
+//        if let user = dependencyGraph.storage.getUser(), user.id == item.owner.id {
+//            alertController.addAction(UIAlertAction(title: "Edit item info", style: .default , handler: { alertAction in
+//                self.editListButtonTapped()
+//
+//                alertController.dismiss(animated: true, completion: nil)
+//            }))
+//        }
+
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { alertAction in
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+
+        self.present(alertController, animated: true, completion: nil)
     }
 
     @objc func backButtonTapped(sender: UIButton!) {
         _ = navigationController?.popViewController(animated: true)
+    }
+
+    func shareItemButtonTapped() {
+        print("\n Share item button tapped\n")
+
+        guard let url = NSURL(string: "https://www.fave.com/path-to-item") else {
+            return
+        }
+
+        let title = "Check out \(item.contextualItem.name) on Fave:"
+        let itemsToShare: [Any] = [title, url]
+
+        let activityViewController = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }
 
@@ -261,3 +314,16 @@ extension ItemViewController: ItemListSuggestionsTableViewCellDelegate {
 
     }
 }
+
+extension ItemViewController: ItemTableHeaderViewDelegate {
+    func faveItemTapped(item: Item) {
+        print("\n Fave Item Tapped \n")
+    }
+}
+
+extension ItemViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+

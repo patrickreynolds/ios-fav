@@ -17,6 +17,7 @@
 		431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF89E2249EDA500717312 /* CreateItemViewController.swift */; };
 		431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */; };
 		43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */; };
+		43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */; };
 		4369CF432257C11300FCA156 /* FaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534CF223336BB00B99EC7 /* FaveTests.swift */; };
 		4369CF4522583E7300FCA156 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4422583E7300FCA156 /* Haptic.swift */; };
 		4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF462258409D00FCA156 /* UIViewExt.swift */; };
@@ -109,6 +110,7 @@
 		431DF89E2249EDA500717312 /* CreateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemViewController.swift; sourceTree = "<group>"; };
 		431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExt.swift; sourceTree = "<group>"; };
 		43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterSegmentedControl.swift; sourceTree = "<group>"; };
+		43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveAttributedLabel.swift; sourceTree = "<group>"; };
 		4369CF4422583E7300FCA156 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		4369CF462258409D00FCA156 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		4369CF48225982F900FCA156 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				438534F92233397E00B99EC7 /* FaveVC.swift */,
 				4386BFF122335F43006A3ED7 /* Label.swift */,
 				43BF881422449EFB0096CCA1 /* DividerView.swift */,
+				43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -682,6 +685,7 @@
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
+				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -700,6 +704,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -766,6 +771,7 @@
 				43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,
+				43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */,
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
 				4385350522333AA700B99EC7 /* Networking.swift in Sources */,
 				4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */,

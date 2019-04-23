@@ -126,6 +126,7 @@ class ListViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         view.addSubview(listTableView)
         view.addSubview(createButton)
@@ -329,7 +330,7 @@ extension ListViewController: UITableViewDelegate {
 
         let item = listItems[indexPath.row]
 
-        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item)
+        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
         let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
@@ -399,5 +400,11 @@ extension ListViewController: EntryTableViewCellDelegate {
         activityViewController.popoverPresentationController?.sourceView = self.view
 
         self.present(activityViewController, animated: true, completion: nil)
+    }
+}
+
+extension ListViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

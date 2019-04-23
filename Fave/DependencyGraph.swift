@@ -15,11 +15,13 @@ struct DependencyGraph: DependencyGraphType {
     let faveService: FaveService
     let analyticsService: AnalyticsService
 
-    init(analytics: Analytics = Analytics(),
-         authenticator: Authenticator = Authenticator(),
-         storage: TemporaryStorage = TemporaryStorage(appConfiguration: AppConfiguration()),
-         networking: Networking = Networking(appConfiguration: AppConfiguration(), authenticator: Authenticator())) {
-        self.analytics = analytics
+    init() {
+        let appConfiguration = AppConfiguration()
+        let storage = TemporaryStorage(appConfiguration: appConfiguration)
+        let authenticator = Authenticator(storage: storage)
+        let networking: Networking = Networking(appConfiguration: appConfiguration, authenticator: authenticator)
+
+        self.analytics = Analytics()
         self.authenticator = authenticator
         self.storage = storage
         self.faveService = FaveService(networking: networking)
