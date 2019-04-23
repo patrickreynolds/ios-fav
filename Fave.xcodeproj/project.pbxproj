@@ -16,6 +16,8 @@
 		431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */; };
 		431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF89E2249EDA500717312 /* CreateItemViewController.swift */; };
 		431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */; };
+		4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */; };
+		4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */; };
 		43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */; };
 		43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */; };
 		4369CF432257C11300FCA156 /* FaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534CF223336BB00B99EC7 /* FaveTests.swift */; };
@@ -109,6 +111,8 @@
 		431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringExt.swift; sourceTree = "<group>"; };
 		431DF89E2249EDA500717312 /* CreateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemViewController.swift; sourceTree = "<group>"; };
 		431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExt.swift; sourceTree = "<group>"; };
+		4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
+		4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
 		43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterSegmentedControl.swift; sourceTree = "<group>"; };
 		43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveAttributedLabel.swift; sourceTree = "<group>"; };
 		4369CF4422583E7300FCA156 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
@@ -438,6 +442,8 @@
 			children = (
 				43B26BB6223A065600CA2549 /* DiscoverViewController.swift */,
 				43BEA2FC226B84DA001F930E /* DiscoverUserTableViewCell.swift */,
+				4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */,
+				4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -735,6 +741,7 @@
 				438534FE223339D500B99EC7 /* Analytics.swift in Sources */,
 				4376A9EB225A509400741F92 /* ItemMapTableViewCell.swift in Sources */,
 				4386BFF222335F43006A3ED7 /* Label.swift in Sources */,
+				4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */,
 				4369CF432257C11300FCA156 /* FaveTests.swift in Sources */,
 				4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */,
 				4369CF4522583E7300FCA156 /* Haptic.swift in Sources */,
@@ -758,6 +765,7 @@
 				439FDDE42245FACF00ED9343 /* ListTableHeaderView.swift in Sources */,
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
+				4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */,
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
 				43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */,
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,

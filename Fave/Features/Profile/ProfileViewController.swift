@@ -13,21 +13,10 @@ class ProfileViewController: FaveVC {
                 return
             }
 
-            dependencyGraph.storage.saveUser(user: user)
-
             profileTableHeaderView.updateUserInfo(user: user)
 
             let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
             navigationItem.titleView = titleViewLabel
-
-            if let tabBarItem = tabBarController?.tabBar.items?[2] {
-                let tabBarItemImage = UIImage(base64String: user.profilePicture)?
-                                        .resize(targetSize: CGSize.init(width: 26, height: 26))?
-                                        .roundedImage?
-                                        .withRenderingMode(.alwaysOriginal)
-                tabBarItem.image = tabBarItemImage
-                tabBarItem.selectedImage = tabBarItemImage
-            }
         }
     }
 
@@ -181,14 +170,21 @@ class ProfileViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        guard let user = dependencyGraph.storage.getUser() else {
+
+        let currentUser: User
+
+        if let passedUser = user {
+            currentUser = passedUser
+        } else if let user = dependencyGraph.storage.getUser() {
+            currentUser = user
+        } else {
             login()
 
             return
         }
 
         // Comment in when the /users/:userId endpoint is live
-        dependencyGraph.faveService.getUser(userId: user.id) { user, error in
+        dependencyGraph.faveService.getUser(userId: currentUser.id) { user, error in
             guard let unwrappedUser = user else {
                 return
             }
@@ -204,7 +200,7 @@ class ProfileViewController: FaveVC {
 //            self.user = user
 //        }
 
-        dependencyGraph.faveService.getLists(userId: user.id) { lists, error in
+        dependencyGraph.faveService.getLists(userId: currentUser.id) { lists, error in
             guard let unwrappedLists = lists, error == nil else {
                 completion()
 

@@ -12,6 +12,40 @@ class DiscoverViewController: FaveVC {
         }
     }
 
+    var users: [User] = [] {
+        didSet {
+            print("\nUsers: \(users.count)\n")
+        }
+    }
+
+    var filteredUsers: [User] = [] {
+        didSet {
+
+        }
+    }
+
+    private lazy var resultsTableController: ResultsTableViewController = {
+        let viewController = ResultsTableViewController(dependencyGraph: self.dependencyGraph)
+
+
+        viewController.delegate = self
+
+        return viewController
+    }()
+
+    private lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: resultsTableController)
+
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.autocapitalizationType = .none
+
+        searchController.delegate = self
+        searchController.dimsBackgroundDuringPresentation = false // The default is true.
+        searchController.searchBar.delegate = self // Monitor when the search button is tapped.
+
+        return searchController
+    }()
+
     private lazy var createButton: UIButton = {
         let button = UIButton(frame: .zero)
 
@@ -42,9 +76,9 @@ class DiscoverViewController: FaveVC {
 //        tableView.tableHeaderView = UIView(frame: .zero)
 //        tableView.tableFooterView = UIView(frame: .zero)
 //
-        tableView.register(DiscoverUserTableViewCell.self)
+        tableView.register(UserSearchTableViewCell.self)
 //
-//        tableView.addSubview(self.refreshControl)
+        tableView.addSubview(self.refreshControl)
 
         tableView.separatorColor = UIColor.clear
 
@@ -63,6 +97,33 @@ class DiscoverViewController: FaveVC {
         super.viewDidLoad()
 
         view.backgroundColor = FaveColors.White
+
+        /*
+         Search Results Controller Implementation
+         ––––––––-––––––––-––––––––-––––––––-––––––––-
+         */
+
+
+        // For iOS 11 and later, place the search bar in the navigation bar.
+        navigationItem.searchController = searchController
+
+        // Make the search bar always visible.
+        navigationItem.hidesSearchBarWhenScrolling = false
+
+        /** Search presents a view controller by applying normal view controller presentation semantics.
+         This means that the presentation moves up the view controller hierarchy until it finds the root
+         view controller or one that defines a presentation context.
+         */
+
+        /** Specify that this view controller determines how the search controller is presented.
+         The search controller should be presented modally and match the physical size of this view controller.
+         */
+        definesPresentationContext = true
+
+        /*
+         ––––––––-––––––––-––––––––-––––––––-––––––––-
+         End: Search Results Controller Implementation
+        */
 
         let titleViewLabel = Label.init(text: "Discover", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
@@ -83,8 +144,6 @@ class DiscoverViewController: FaveVC {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        view.backgroundColor = UIColor.white
 
         refreshData()
     }
@@ -108,6 +167,15 @@ class DiscoverViewController: FaveVC {
             self.suggestions = suggestions
 
             completion()
+        }
+
+        dependencyGraph.faveService.getUsers { response, error in
+            guard let users = response else {
+
+                return
+            }
+
+            self.users = users
         }
     }
 }
@@ -226,4 +294,101 @@ extension DiscoverViewController: UITabBarControllerDelegate {
     }
 }
 
+extension DiscoverViewController: ResultsTableViewControllerDelegate {
+    func didSelectUser(user: User) {
+//        searchController.isActive = false
+
+        let profileViewController = ProfileViewController.init(dependencyGraph: dependencyGraph, user: user)
+
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        profileViewController.navigationItem.titleView = titleViewLabel
+
+        dismiss(animated: true) {
+            delay(0.3, closure: {
+                self.navigationController?.pushViewController(profileViewController, animated: true)
+            })
+        }
+    }
+}
+
+
+/* Users search experience */
+extension DiscoverViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        // Update the filtered array based on the search text.
+        let allPotentialResults = users
+
+        // Strip out all the leading and trailing spaces.
+        let whitespaceCharacterSet = CharacterSet.whitespaces
+        let strippedString = searchController.searchBar.text?.trimmingCharacters(in: whitespaceCharacterSet)
+        let searchItems = strippedString?.components(separatedBy: " ") ?? []
+
+        // Build all the "AND" expressions for each value in searchString.
+        let andMatchPredicates: [NSPredicate] = searchItems.map { searchString in
+            findMatches(searchString: searchString)
+        }
+
+        // Match up the fields of the Product object.
+        let finalCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: andMatchPredicates)
+
+        let filteredUsers = allPotentialResults.filter { finalCompoundPredicate.evaluate(with: $0) }
+
+        // Apply the filtered results to the search results table.
+        if let resultsController = searchController.searchResultsController as? ResultsTableViewController {
+            if let searchResultString = strippedString, searchResultString.isEmpty {
+                resultsController.filteredUsers = allPotentialResults
+            } else {
+                resultsController.filteredUsers = filteredUsers
+            }
+        }
+    }
+
+    private func findMatches(searchString: String) -> NSPredicate {
+        let predicateUsername = NSPredicate(format: "handle CONTAINS[c] %@", searchString)
+        let predicateFristName = NSPredicate(format: "firstName CONTAINS[c] %@", searchString)
+        let predicateLastName = NSPredicate(format: "lastName CONTAINS[c] %@", searchString)
+
+        return NSCompoundPredicate(type: .or, subpredicates: [predicateUsername, predicateFristName, predicateLastName])
+    }
+
+}
+
+// MARK: - UISearchBarDelegate
+
+extension DiscoverViewController: UISearchBarDelegate {
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+
+}
+
+
+// MARK: - UISearchControllerDelegate
+
+// Use these delegate functions for additional control over the search controller.
+
+extension DiscoverViewController: UISearchControllerDelegate {
+
+    func presentSearchController(_ searchController: UISearchController) {
+        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+
+    func willPresentSearchController(_ searchController: UISearchController) {
+        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+
+    func didPresentSearchController(_ searchController: UISearchController) {
+        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+
+    func willDismissSearchController(_ searchController: UISearchController) {
+        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+
+    func didDismissSearchController(_ searchController: UISearchController) {
+        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+
+}
 

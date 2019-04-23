@@ -61,7 +61,7 @@ class ProfileTableHeaderView: UIView {
         numberOfLines: 0)
 
     let followingLabel = Label(
-        text: "20 Followers",
+        text: "Followers",
         font: FaveFont.init(style: .h5, weight: .regular),
         textColor: FaveColors.Black90,
         textAlignment: .left,

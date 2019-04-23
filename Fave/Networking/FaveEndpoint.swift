@@ -3,6 +3,7 @@ import Foundation
 enum FaveEndpoint {
     case flights(origin: String, destination: String)
     case authentication
+    case getUsers
     case currentUser
     case user(userId: Int)
     case getLists(userId: Int)
@@ -22,6 +23,8 @@ enum FaveEndpoint {
             return "api/v1/flights/quotes?origin=\(origin)&destination=\(destination)"
         case .authentication:
             return "auth/login/external"
+        case .getUsers:
+            return "api/v1/users"
         case .currentUser:
             return "api/v1/users/me"
         case .user(let userId):

@@ -12,4 +12,5 @@ enum AnalyticsImpressionEvent: String {
     case editProfileScreenShown = "screen_shown_edit-profile"
     case createListScreenShown = "screen_shown_create-list"
     case itemScreenShown = "screen_shown_item"
+    case searchResultsScreenShown = "screen_shown_search-results-screen"
 }

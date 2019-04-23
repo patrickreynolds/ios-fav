@@ -13,6 +13,7 @@ protocol FaveServiceType {
     func getFeed(from: Int, to: Int, completion: @escaping FaveAPICallResultCompletionBlock)
     func suggestions(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
     func topLists(completion: @escaping (_ lists: [TopList]?, _ error: Error?) -> ())
+    func getUsers(completion: @escaping (_ lists: [User]?, _ error: Error?) -> ())
 }
 
 struct FaveService {
@@ -194,6 +195,20 @@ struct FaveService {
 
         delay(3.0) {
             completion(topLists, nil)
+        }
+    }
+
+    func getUsers(completion: @escaping (_ lists: [User]?, _ error: Error?) -> ()) {
+        networking.sendGetRequest(endpoint: .getUsers) { response, error in
+            guard let userData = response as? [[String: AnyObject]] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let users = userData.map({ User(data: $0 )}).compactMap { $0 }
+
+            completion(users, error)
         }
     }
 }

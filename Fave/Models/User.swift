@@ -2,10 +2,10 @@ import Foundation
 
 class User: NSObject, NSCoding {
     let id: Int
-    let firstName: String
-    let lastName: String
-    let email: String
-    let handle: String
+    @objc let firstName: String
+    @objc let lastName: String
+    @objc let email: String
+    @objc let handle: String
     let profilePicture: String
 
 
@@ -76,13 +76,13 @@ class User: NSObject, NSCoding {
     }
 }
 
-extension User {
-    static func ==(lhs: User, rhs: User) -> Bool {
-        return lhs.id == rhs.id &&
-            lhs.firstName == rhs.firstName &&
-            lhs.lastName == rhs.lastName &&
-            lhs.email == rhs.email &&
-            lhs.handle == rhs.handle &&
-            lhs.profilePicture == rhs.profilePicture
-    }
-}
+//extension User {
+//    static func ==(lhs: User, rhs: User) -> Bool {
+//        return lhs.id == rhs.id &&
+//            lhs.firstName == rhs.firstName &&
+//            lhs.lastName == rhs.lastName &&
+//            lhs.email == rhs.email &&
+//            lhs.handle == rhs.handle &&
+//            lhs.profilePicture == rhs.profilePicture
+//    }
+//}

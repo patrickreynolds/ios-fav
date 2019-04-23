@@ -139,12 +139,12 @@ class FeedViewController: FaveVC {
         view.bringSubviewToFront(createButton)
 
         updateUI()
-
-        refreshFeed()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        refreshFeed()
     }
 
     func refreshFeed() {
@@ -167,6 +167,15 @@ class FeedViewController: FaveVC {
                 }
 
                 self.dependencyGraph.storage.saveUser(user: user)
+
+                if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
+                    let tabBarItemImage = UIImage(base64String: user.profilePicture)?
+                        .resize(targetSize: CGSize.init(width: 26, height: 26))?
+                        .roundedImage?
+                        .withRenderingMode(.alwaysOriginal)
+                    tabBarItem.image = tabBarItemImage
+                    tabBarItem.selectedImage = tabBarItemImage
+                }
             }
         } else {
             dependencyGraph.faveService.topLists { topLists, error in
