@@ -1,6 +1,7 @@
 import Foundation
 
 protocol DependencyGraphType {
+    var appConfiguration: AppConfiguration { get }
     var analytics: Analytics { get }
     var authenticator: Authenticator { get }
     var storage: TemporaryStorage { get }
@@ -9,6 +10,7 @@ protocol DependencyGraphType {
 }
 
 struct DependencyGraph: DependencyGraphType {
+    let appConfiguration: AppConfiguration
     let analytics: Analytics
     let authenticator: Authenticator
     let storage: TemporaryStorage
@@ -21,6 +23,7 @@ struct DependencyGraph: DependencyGraphType {
         let authenticator = Authenticator(storage: storage)
         let networking: Networking = Networking(appConfiguration: appConfiguration, authenticator: authenticator)
 
+        self.appConfiguration = appConfiguration
         self.analytics = Analytics()
         self.authenticator = authenticator
         self.storage = storage

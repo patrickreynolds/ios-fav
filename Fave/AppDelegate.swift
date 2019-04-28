@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          Step 4: Add the API key to your application
          https://developers.google.com/places/ios-sdk/start
         */
-        GMSPlacesClient.provideAPIKey("AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4")
+        GMSPlacesClient.provideAPIKey(dependencyGraph.appConfiguration.googleAPIKey)
 
 
         // Setup main tab bar

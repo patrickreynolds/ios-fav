@@ -6,10 +6,10 @@ protocol AppConfigType {
 
 struct AppConfiguration: AppConfigType {
     let baseUrl: String
+    let googleAPIKey: String
 
     init() {
         self.baseUrl = Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String
-
-        print("BASE URL: \(self.baseUrl)")
+        self.googleAPIKey = Bundle.main.infoDictionary!["GOOGLE_API_KEY"] as! String
     }
 }
