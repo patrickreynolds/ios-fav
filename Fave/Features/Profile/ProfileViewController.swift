@@ -107,7 +107,7 @@ class ProfileViewController: FaveVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = FaveColors.White
 
         view.addSubview(profileTableView)
         view.addSubview(createButton)

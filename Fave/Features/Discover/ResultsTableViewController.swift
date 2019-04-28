@@ -15,7 +15,6 @@ protocol ResultsTableViewControllerDelegate {
     func didSelectUser(user: User)
 }
 
-
 class ResultsTableViewController: FaveVC {
 
     var delegate: ResultsTableViewControllerDelegate?
@@ -82,6 +81,13 @@ extension ResultsTableViewController: UITableViewDelegate {
         resultsTableView.deselectRow(at: indexPath, animated: true)
 
         let user = self.filteredUsers[indexPath.row]
+
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
+
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        profileViewController.navigationItem.titleView = titleViewLabel
+
+        presentingViewController?.navigationController?.pushViewController(profileViewController, animated: true)
 
         delegate?.didSelectUser(user: user)
     }

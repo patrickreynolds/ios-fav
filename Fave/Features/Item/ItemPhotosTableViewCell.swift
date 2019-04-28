@@ -7,6 +7,10 @@ protocol ItemPhotosTableViewCellDelegate {
     func didSelectItemPhoto() // item: Item, photo: Photo
 }
 
+
+// Google Places API for photo references
+// https://developers.google.com/places/web-service/photos
+
 class ItemPhotosTableViewCell: UITableViewCell {
 
     var item: Item?

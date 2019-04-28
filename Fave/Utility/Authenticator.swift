@@ -41,6 +41,8 @@ struct Authenticator {
     func logout(completion: @escaping ((_ success: Bool) -> ())) {
         let success = KeychainWrapper.standard.removeObject(forKey: JWT_AUTHENTICATION_TOKEN_IDENTIFIER)
 
+        storage.deleteUser()
+
         completion(success)
     }
 }

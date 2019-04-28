@@ -9,8 +9,10 @@ protocol ListTableHeaderViewDelegate {
 }
 
 class ListTableHeaderView: UIView {
-    struct Constants {
-        static let HorizontalSpacing: CGFloat = 0
+
+    private enum RelationshipType {
+        case follow
+        case following
     }
 
     var list: List
@@ -20,6 +22,30 @@ class ListTableHeaderView: UIView {
     var followerCountLabelText = "" {
         didSet {
             followerCountLabel.text = followerCountLabelText
+        }
+    }
+
+    private var followerRelationship: RelationshipType = .follow {
+        didSet {
+            if followerRelationship == .following {
+                let attributedTitle = NSAttributedString(string: "Following",
+                                                         font: FaveFont(style: .small, weight: .semiBold).font,
+                                                         textColor: FaveColors.Black90)
+                relationshipButton.setAttributedTitle(attributedTitle, for: .normal)
+
+                relationshipButton.backgroundColor = FaveColors.White
+
+                relationshipButton.layer.borderColor = FaveColors.Black50.cgColor
+                relationshipButton.layer.borderWidth = 1
+            } else {
+                let attributedTitle = NSAttributedString(string: "Follow",
+                                                         font: FaveFont(style: .small, weight: .semiBold).font,
+                                                         textColor: FaveColors.White)
+                relationshipButton.setAttributedTitle(attributedTitle, for: .normal)
+
+                relationshipButton.backgroundColor = FaveColors.Accent
+                relationshipButton.layer.borderWidth = 0
+            }
         }
     }
 
@@ -187,6 +213,8 @@ class ListTableHeaderView: UIView {
 
     @objc func followList(sender: UIButton!) {
         print("\nFollow List Button Tapped\n")
+
+        followerRelationship = followerRelationship == .follow ? .following : .follow
     }
 
     @objc func shareList(sender: UIButton!) {

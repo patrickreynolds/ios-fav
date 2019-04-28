@@ -1,5 +1,8 @@
 import Foundation
 
+import Fabric
+import Crashlytics
+
 enum StorageKey: String {
     case currentUser
 }
@@ -7,6 +10,7 @@ enum StorageKey: String {
 protocol StorageType {
     func saveUser(user: User)
     func getUser() -> User?
+    func deleteUser()
 }
 
 struct TemporaryStorage {
@@ -23,6 +27,8 @@ struct TemporaryStorage {
         userDefaults.set(user.profilePicture, forKey: "\(StorageKey.currentUser.rawValue).profilePicture))")
 
         userDefaults.synchronize()
+
+        Crashlytics.sharedInstance().setUserIdentifier("\(user.id)")
 
         print("\n\nUser saved!\n\n")
     }
@@ -50,6 +56,17 @@ struct TemporaryStorage {
                     email: unwrappedEmail,
                     handle: unwrappedHandle,
                     profilePicture: unwrappedProfilePicture)
+    }
+
+    func deleteUser() {
+        userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).id))")
+        userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).firstName))")
+        userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).lastName))")
+        userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).email))")
+        userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).handle))")
+        userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).profilePicture))")
+
+        Crashlytics.sharedInstance().setUserIdentifier("")
     }
 }
 

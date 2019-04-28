@@ -50,9 +50,7 @@ struct GoogleItemType {
             return nil
         }
 
-        guard let website = data["website"] as? String else {
-            return nil
-        }
+        let website = data["website"] as? String ?? ""
 
         guard let geometryData = data["geometry"] as? [String: AnyObject], let geometry = GoogleGeometry(data: geometryData) else {
             return nil

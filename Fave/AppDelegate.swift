@@ -30,10 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         Fabric.with([Crashlytics.self])
 
-//        Crashlytics.sharedInstance().setUserEmail("user@fabric.io")
-//        Crashlytics.sharedInstance().setUserIdentifier("12345")
-//        Crashlytics.sharedInstance().setUserName("Test User")
-
 
         /*
             Facebook authentication call from these docs:
@@ -46,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          Step 4: Add the API key to your application
          https://developers.google.com/places/ios-sdk/start
         */
-        GMSPlacesClient.provideAPIKey("AIzaSyDwGmB--Y1D3D4CllP2L0QXmx2WPtrvHgc")
+        GMSPlacesClient.provideAPIKey("AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4")
 
 
         // Setup main tab bar

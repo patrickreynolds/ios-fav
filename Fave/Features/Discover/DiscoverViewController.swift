@@ -4,12 +4,51 @@ import UIKit
 import Cartography
 import MBProgressHUD
 
+struct SuggestionSection {
+    let user: User
+    let lists: [List]
+}
+
 class DiscoverViewController: FaveVC {
 
     var suggestions: [List] = [] {
         didSet {
             discoverTableView.reloadData()
         }
+    }
+
+    var suggestionSections: [SuggestionSection] {
+        var uniqueUsers: [String: User] = [:]
+
+        suggestions.forEach { list in
+            if let _ = uniqueUsers["\(list.owner.id)"] {
+                return
+            } else {
+                uniqueUsers["\(list.owner.id)"] = list.owner
+            }
+        }
+
+        let sections: [SuggestionSection] = uniqueUsers.keys.map({ key in
+
+            let recommendationsTitle = "Recommendations".lowercased()
+            let savedForLaterTitle = "Saved For Later".lowercased()
+
+            if let user = uniqueUsers["\(key)"] {
+                let lists = suggestions.filter({ list -> Bool in
+                    return list.owner.id == user.id
+                })
+                .filter({ list in
+                    let listTitle = list.title.lowercased()
+                    return listTitle != recommendationsTitle && listTitle != savedForLaterTitle
+                })
+
+                return SuggestionSection(user: user, lists: lists)
+            } else {
+                return nil
+            }
+        }).compactMap { $0 }
+
+        return sections
     }
 
     var users: [User] = [] {
@@ -26,7 +65,6 @@ class DiscoverViewController: FaveVC {
 
     private lazy var resultsTableController: ResultsTableViewController = {
         let viewController = ResultsTableViewController(dependencyGraph: self.dependencyGraph)
-
 
         viewController.delegate = self
 
@@ -70,14 +108,19 @@ class DiscoverViewController: FaveVC {
     private lazy var discoverTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .plain)
 
-//        tableView.delegate = self
-//        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
 //
 //        tableView.tableHeaderView = UIView(frame: .zero)
 //        tableView.tableFooterView = UIView(frame: .zero)
 //
+
+        tableView.estimatedSectionHeaderHeight = 64
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
+
+        tableView.register(DiscoverUserListTableViewCell.self)
         tableView.register(UserSearchTableViewCell.self)
-//
+
         tableView.addSubview(self.refreshControl)
 
         tableView.separatorColor = UIColor.clear
@@ -98,17 +141,23 @@ class DiscoverViewController: FaveVC {
 
         view.backgroundColor = FaveColors.White
 
+//        edgesForExtendedLayout = []
+
+
         /*
          Search Results Controller Implementation
          ––––––––-––––––––-––––––––-––––––––-––––––––-
          */
 
 
-        // For iOS 11 and later, place the search bar in the navigation bar.
+//        // For iOS 11 and later, place the search bar in the navigation bar.
         navigationItem.searchController = searchController
 
         // Make the search bar always visible.
         navigationItem.hidesSearchBarWhenScrolling = false
+
+        // Don't hide the navigation bar because the search bar is in it.
+        searchController.hidesNavigationBarDuringPresentation = true
 
         /** Search presents a view controller by applying normal view controller presentation semantics.
          This means that the presentation moves up the view controller hierarchy until it finds the root
@@ -120,14 +169,14 @@ class DiscoverViewController: FaveVC {
          */
         definesPresentationContext = true
 
+        navigationItem.title = "Browse"
+
         /*
          ––––––––-––––––––-––––––––-––––––––-––––––––-
          End: Search Results Controller Implementation
         */
 
-        let titleViewLabel = Label.init(text: "Discover", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
-        navigationItem.titleView = titleViewLabel
-
+        view.addSubview(discoverTableView)
         view.addSubview(createButton)
 
         constrain(createButton, view) { button, view in
@@ -137,15 +186,29 @@ class DiscoverViewController: FaveVC {
             button.height == 56
         }
 
+        constrainToSuperview(discoverTableView, exceptEdges: [.top])
+
+        constrain(discoverTableView, view) { tableView, view in
+            tableView.top == view.topMargin
+        }
+
         view.bringSubviewToFront(createButton)
 
         refreshData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
+//        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+
         super.viewWillAppear(animated)
 
         refreshData()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+
+        super.viewWillDisappear(animated)
     }
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -184,39 +247,56 @@ extension DiscoverViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         discoverTableView.deselectRow(at: indexPath, animated: true)
 
-//        let item = listItems[indexPath.row]
-//
-//        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item)
-//
-//        let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
-//        itemViewController.navigationItem.titleView = titleViewLabel
-//
-//        navigationController?.pushViewController(itemViewController, animated: true)
+        let list = suggestionSections[indexPath.section].lists[indexPath.row]
+
+        let listViewController = ListViewController.init(dependencyGraph: dependencyGraph, list: list)
+
+        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        listViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(listViewController, animated: true)
     }
 }
 
 extension DiscoverViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return suggestions.count
+        let maxNumberOfRows = 2
+
+        if suggestionSections[section].lists.count > maxNumberOfRows {
+            return 2
+        } else {
+            return suggestionSections[section].lists.count
+        }
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return suggestionSections.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(DiscoverUserTableViewCell.self, indexPath: indexPath)
+        let cell = tableView.dequeue(DiscoverUserListTableViewCell.self, indexPath: indexPath)
 
-//        cell.delegate = self
-//
-//        let item = listItems[indexPath.row]
-//        cell.populate(item: item)
+        cell.delegate = self
+
+        let list = suggestionSections[indexPath.section].lists[indexPath.row]
+        cell.populate(list: list)
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.1
+        return 72
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.1
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let user = suggestionSections[section].user
+        let header = DiscoverUserSectionHeaderView.init(user: user)
+
+        return header
     }
 }
 
@@ -295,26 +375,28 @@ extension DiscoverViewController: UITabBarControllerDelegate {
 }
 
 extension DiscoverViewController: ResultsTableViewControllerDelegate {
-    func didSelectUser(user: User) {
-//        searchController.isActive = false
-
-        let profileViewController = ProfileViewController.init(dependencyGraph: dependencyGraph, user: user)
-
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
-        profileViewController.navigationItem.titleView = titleViewLabel
-
-        dismiss(animated: true) {
-            delay(0.3, closure: {
-                self.navigationController?.pushViewController(profileViewController, animated: true)
-            })
-        }
-    }
+    func didSelectUser(user: User) {}
 }
 
 
 /* Users search experience */
 extension DiscoverViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+
+//        // Always show the search result controller
+        if let searchResultsController = searchController.searchResultsController, searchResultsController.view.isHidden {
+            searchController.searchResultsController?.view.alpha = 0
+            searchController.searchResultsController?.view.isHidden = false
+
+            UIView.animate(withDuration: 0.3, delay: 0.3, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                searchController.searchResultsController?.view.alpha = 1
+            }, completion: nil)
+
+            UIView.animate(withDuration: 0.3, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.discoverTableView.alpha = 0
+            }, completion: nil)
+        }
+
         // Update the filtered array based on the search text.
         let allPotentialResults = users
 
@@ -360,7 +442,6 @@ extension DiscoverViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-
 }
 
 
@@ -384,11 +465,25 @@ extension DiscoverViewController: UISearchControllerDelegate {
 
     func willDismissSearchController(_ searchController: UISearchController) {
         debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+
+        UIView.animate(withDuration: 0.3, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            self.discoverTableView.alpha = 1
+        }, completion: nil)
     }
 
     func didDismissSearchController(_ searchController: UISearchController) {
         debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
+}
 
+
+extension DiscoverViewController: DiscoverUserListTableViewCellDelegate {
+    func didTapFollowButtonForList(list: List?) {
+        guard let list = list else {
+            return
+        }
+
+        print("\n Follow \(list.title) button pressed \n")
+    }
 }
 

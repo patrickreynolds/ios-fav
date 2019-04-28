@@ -60,6 +60,7 @@
 		4386BFF0223359B1006A3ED7 /* ProximaNova-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4386BFEB223359B1006A3ED7 /* ProximaNova-Bold.otf */; };
 		4386BFF222335F43006A3ED7 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386BFF122335F43006A3ED7 /* Label.swift */; };
 		4386BFF422335FA8006A3ED7 /* Shimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386BFF322335FA8006A3ED7 /* Shimmer.swift */; };
+		43915CA72272C7D400562B5A /* DiscoverUserSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43915CA62272C7D400562B5A /* DiscoverUserSectionHeaderView.swift */; };
 		439FDDDD2245C21700ED9343 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDDC2245C21700ED9343 /* StringExt.swift */; };
 		439FDDE02245D1FC00ED9343 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDDF2245D1FC00ED9343 /* ListViewController.swift */; };
 		439FDDE22245D2DE00ED9343 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE12245D2DE00ED9343 /* EntryTableViewCell.swift */; };
@@ -77,7 +78,7 @@
 		43BD5689224C9039009D0AC8 /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD5688224C9039009D0AC8 /* SelectListViewController.swift */; };
 		43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */; };
 		43BEA2FA2268E13C001F930E /* TopLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEA2F92268E13C001F930E /* TopLists.swift */; };
-		43BEA2FD226B84DA001F930E /* DiscoverUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEA2FC226B84DA001F930E /* DiscoverUserTableViewCell.swift */; };
+		43BEA2FD226B84DA001F930E /* DiscoverUserListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEA2FC226B84DA001F930E /* DiscoverUserListTableViewCell.swift */; };
 		43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF88102243E10E0096CCA1 /* DictionaryExt.swift */; };
 		43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881222447BB80096CCA1 /* CreateListViewController.swift */; };
 		43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881422449EFB0096CCA1 /* DividerView.swift */; };
@@ -160,6 +161,7 @@
 		4386BFEB223359B1006A3ED7 /* ProximaNova-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Bold.otf"; sourceTree = "<group>"; };
 		4386BFF122335F43006A3ED7 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		4386BFF322335FA8006A3ED7 /* Shimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmer.swift; sourceTree = "<group>"; };
+		43915CA62272C7D400562B5A /* DiscoverUserSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverUserSectionHeaderView.swift; sourceTree = "<group>"; };
 		439FDDDC2245C21700ED9343 /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		439FDDDF2245D1FC00ED9343 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		439FDDE12245D2DE00ED9343 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
@@ -178,7 +180,7 @@
 		43BD5688224C9039009D0AC8 /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
 		43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListTableViewCell.swift; sourceTree = "<group>"; };
 		43BEA2F92268E13C001F930E /* TopLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLists.swift; sourceTree = "<group>"; };
-		43BEA2FC226B84DA001F930E /* DiscoverUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverUserTableViewCell.swift; sourceTree = "<group>"; };
+		43BEA2FC226B84DA001F930E /* DiscoverUserListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverUserListTableViewCell.swift; sourceTree = "<group>"; };
 		43BF88102243E10E0096CCA1 /* DictionaryExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExt.swift; sourceTree = "<group>"; };
 		43BF881222447BB80096CCA1 /* CreateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewController.swift; sourceTree = "<group>"; };
 		43BF881422449EFB0096CCA1 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
@@ -441,9 +443,10 @@
 			isa = PBXGroup;
 			children = (
 				43B26BB6223A065600CA2549 /* DiscoverViewController.swift */,
-				43BEA2FC226B84DA001F930E /* DiscoverUserTableViewCell.swift */,
+				43BEA2FC226B84DA001F930E /* DiscoverUserListTableViewCell.swift */,
 				4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */,
 				4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */,
+				43915CA62272C7D400562B5A /* DiscoverUserSectionHeaderView.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -743,6 +746,7 @@
 				4386BFF222335F43006A3ED7 /* Label.swift in Sources */,
 				4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */,
 				4369CF432257C11300FCA156 /* FaveTests.swift in Sources */,
+				43915CA72272C7D400562B5A /* DiscoverUserSectionHeaderView.swift in Sources */,
 				4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */,
 				4369CF4522583E7300FCA156 /* Haptic.swift in Sources */,
 				43A69B2E2254FDC100DA2BA1 /* ContextualItems.swift in Sources */,
@@ -769,7 +773,7 @@
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
 				43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */,
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,
-				43BEA2FD226B84DA001F930E /* DiscoverUserTableViewCell.swift in Sources */,
+				43BEA2FD226B84DA001F930E /* DiscoverUserListTableViewCell.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
 				438534F52233391500B99EC7 /* Color.swift in Sources */,
 				43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */,

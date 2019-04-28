@@ -61,7 +61,7 @@ class ProfileTableHeaderView: UIView {
         numberOfLines: 0)
 
     let followingLabel = Label(
-        text: "Followers",
+        text: "Following",
         font: FaveFont.init(style: .h5, weight: .regular),
         textColor: FaveColors.Black90,
         textAlignment: .left,
@@ -69,7 +69,7 @@ class ProfileTableHeaderView: UIView {
 
     let listCountLabel = Label(
         text: "Lists".uppercased(),
-        font: FaveFont.init(style: .xsmall, weight: .semiBold),
+        font: FaveFont.init(style: .small, weight: .semiBold),
         textColor: FaveColors.Black60,
         textAlignment: .left,
         numberOfLines: 0)
@@ -197,6 +197,8 @@ class ProfileTableHeaderView: UIView {
         profilePictureImageView.layer.cornerRadius = 80 / 2
         profilePictureImageView.layer.masksToBounds = true
         profilePictureImageView.clipsToBounds = true
+
+        // followingLabel.text = // "\(user.numberOfListUserIsFollowing)"
     }
 
     func updateListInfo(lists: [List]) {

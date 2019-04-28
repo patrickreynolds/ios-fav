@@ -100,7 +100,7 @@ class UserSearchTableViewCell: UITableViewCell {
 
     func populate(user: User) {
         titleLabel.text = user.handle
-        subtitleLabel.text = "\(user.firstName) \(user.firstName)"
+        subtitleLabel.text = "\(user.firstName) \(user.lastName)"
         self.profilePictureImageView.image = UIImage(base64String: user.profilePicture)
     }
 }

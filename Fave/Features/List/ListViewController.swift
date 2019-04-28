@@ -267,7 +267,7 @@ extension ListViewController {
         }))
 
         if let user = dependencyGraph.storage.getUser(), user.id == list.owner.id {
-            alertController.addAction(UIAlertAction(title: "Edit list info", style: .default , handler: { alertAction in
+            alertController.addAction(UIAlertAction(title: "Edit list", style: .default , handler: { alertAction in
                 self.editListButtonTapped()
 
                 alertController.dismiss(animated: true, completion: nil)

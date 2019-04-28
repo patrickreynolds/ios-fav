@@ -151,7 +151,7 @@ class FeedViewController: FaveVC {
         loadingIndicatorView.startAnimating()
 
         if dependencyGraph.authenticator.isLoggedIn() {
-            dependencyGraph.faveService.getFeed(from: 0, to: 100) { response, error in
+            dependencyGraph.faveService.getFeed(from: 1, to: 100) { response, error in
                 guard let feedData = response else {
                     return
                 }
@@ -170,7 +170,7 @@ class FeedViewController: FaveVC {
 
                 if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
                     let tabBarItemImage = UIImage(base64String: user.profilePicture)?
-                        .resize(targetSize: CGSize.init(width: 26, height: 26))?
+                        .resize(targetSize: CGSize.init(width: 24, height: 24))?
                         .roundedImage?
                         .withRenderingMode(.alwaysOriginal)
                     tabBarItem.image = tabBarItemImage
