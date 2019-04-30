@@ -30,15 +30,15 @@ class ItemInfoTableViewCell: UITableViewCell {
                               numberOfLines: 0)
 
     let websiteLabel = Label(text: "",
-                              font: FaveFont(style: .h5, weight: .regular),
+                              font: FaveFont(style: .small, weight: .regular),
                               textColor: FaveColors.Black90,
-                              textAlignment: .left,
+                              textAlignment: .right,
                               numberOfLines: 0)
 
     let phoneNumberLabel = Label(text: "",
-                              font: FaveFont(style: .h5, weight: .regular),
+                              font: FaveFont(style: .small, weight: .regular),
                               textColor: FaveColors.Black90,
-                              textAlignment: .left,
+                              textAlignment: .right,
                               numberOfLines: 0)
 
     private lazy var dividerView: UIView = {
@@ -49,20 +49,37 @@ class ItemInfoTableViewCell: UITableViewCell {
         return view
     }()
 
+    private lazy var ratingStackView: UIStackView = {
+        let ratingStackView = UIStackView.init(frame: .zero)
+
+//        guard let item = item, let googleItem = item.contextualItem as? GoogleItemType else {
+//            return ratingStackView
+//        }
+
+        ratingStackView.addArrangedSubview(ItemInfoRatingView.init(ratingType: .google, rating: 5.0))
+        ratingStackView.addArrangedSubview(ItemInfoRatingView.init(ratingType: .yelp, rating: 3.14))
+
+        ratingStackView.axis = .horizontal
+        ratingStackView.spacing = 24
+        ratingStackView.distribution = .fillEqually
+
+        return ratingStackView
+    }()
+
     private lazy var websiteView: UIView = {
         let view = UIView(frame: CGRect.zero)
 
         let websiteTitleLabel = Label(text: "Website",
                                       font: FaveFont(style: .h5, weight: .semiBold),
-                                      textColor: FaveColors.Black90,
+                                      textColor: FaveColors.Accent,
                                       textAlignment: .left,
                                       numberOfLines: 0)
 
-        let topDividerView = UIView.init(frame: .zero)
-        topDividerView.backgroundColor = FaveColors.Black10
+        let topDividerView = UIView(frame: .zero)
+        topDividerView.backgroundColor = FaveColors.Black20
 
-        let dividerView = UIView.init(frame: .zero)
-        dividerView.backgroundColor = FaveColors.Black10
+//        let dividerView = UIView(frame: .zero)
+//        dividerView.backgroundColor = FaveColors.Black20
 
          _ = view.tapped { tapped in
             if let item = self.item {
@@ -73,31 +90,22 @@ class ItemInfoTableViewCell: UITableViewCell {
         view.addSubview(websiteTitleLabel)
         view.addSubview(websiteLabel)
         view.addSubview(topDividerView)
-        view.addSubview(dividerView)
 
         constrain(websiteTitleLabel, websiteLabel, view) { websiteTitleLabel, websiteLabel, view in
             websiteTitleLabel.top == view.top + 16
-            websiteTitleLabel.right == view.right
+            websiteTitleLabel.bottom == view.bottom - 16
             websiteTitleLabel.left == view.left + 16
 
-            websiteLabel.top == websiteTitleLabel.bottom + 4
-            websiteLabel.right == view.right
-            websiteLabel.left == view.left + 16
-            websiteLabel.bottom == view.bottom - 16
+            websiteLabel.centerY == websiteTitleLabel.centerY
+            websiteLabel.left == websiteTitleLabel.right + 16
+            websiteLabel.right == view.right - 16
         }
 
         constrain(topDividerView, view) { dividerView, view in
             dividerView.top == view.top
             dividerView.right == view.right
-            dividerView.left == view.left
-            dividerView.height == 4
-        }
-
-        constrain(dividerView, view) { dividerView, view in
-            dividerView.right == view.right
-            dividerView.bottom == view.bottom
             dividerView.left == view.left + 16
-            dividerView.height == 4
+            dividerView.height == 1
         }
 
         return view
@@ -108,12 +116,12 @@ class ItemInfoTableViewCell: UITableViewCell {
 
         let phoneNumberTitleLabel = Label(text: "Call",
                                       font: FaveFont(style: .h5, weight: .semiBold),
-                                      textColor: FaveColors.Black90,
+                                      textColor: FaveColors.Accent,
                                       textAlignment: .left,
                                       numberOfLines: 0)
 
-        let dividerView = UIView.init(frame: .zero)
-        dividerView.backgroundColor = FaveColors.Black10
+        let dividerView = UIView(frame: .zero)
+        dividerView.backgroundColor = FaveColors.Black20
 
         _ = view.tapped { tapped in
             if let item = self.item {
@@ -127,20 +135,19 @@ class ItemInfoTableViewCell: UITableViewCell {
 
         constrain(phoneNumberTitleLabel, phoneNumberLabel, view) { phoneNumberTitleLabel, phoneNumberLabel, view in
             phoneNumberTitleLabel.top == view.top + 16
-            phoneNumberTitleLabel.right == view.right
+            phoneNumberTitleLabel.bottom == view.bottom - 16
             phoneNumberTitleLabel.left == view.left + 16
 
-            phoneNumberLabel.top == phoneNumberTitleLabel.bottom + 4
-            phoneNumberLabel.right == view.right
-            phoneNumberLabel.left == view.left + 16
-            phoneNumberLabel.bottom == view.bottom - 16
+            phoneNumberLabel.centerY == phoneNumberTitleLabel.centerY
+            phoneNumberLabel.right == view.right - 16
+            phoneNumberLabel.left == phoneNumberTitleLabel.right + 16
         }
 
         constrain(dividerView, view) { dividerView, view in
             dividerView.right == view.right
-            dividerView.bottom == view.bottom
-            dividerView.left == view.left
-            dividerView.height == 4
+            dividerView.top == view.top
+            dividerView.left == view.left + 16
+            dividerView.height == 1
         }
 
         return view
@@ -169,24 +176,29 @@ class ItemInfoTableViewCell: UITableViewCell {
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(dividerView)
-
+        contentView.addSubview(ratingStackView)
         contentView.addSubview(keywordsLabel)
         contentView.addSubview(infoActionsStackView)
 
         constrain(titleLabel, contentView) { label, view in
-            label.top == view.top + 16
+            label.top == view.top + 24
             label.right == view.right - 16
             label.left == view.left + 16
         }
 
-        constrain(keywordsLabel, titleLabel, dividerView) { subtitleLabel, titleLabel, borderView in
+        constrain(keywordsLabel, titleLabel) { subtitleLabel, titleLabel in
             subtitleLabel.top == titleLabel.bottom + 8
             subtitleLabel.right == titleLabel.right
             subtitleLabel.left == titleLabel.left
         }
 
-        constrain(infoActionsStackView, keywordsLabel, dividerView, contentView) { stackView, keywordsLabel, borderView, view in
-            stackView.top == keywordsLabel.bottom + 16
+        constrain(ratingStackView, keywordsLabel) { ratingStackView, keywordsLabel in
+            ratingStackView.top == keywordsLabel.bottom + 24
+            ratingStackView.left == keywordsLabel.left
+        }
+
+        constrain(infoActionsStackView, ratingStackView, dividerView, contentView) { stackView, ratingStackView, borderView, view in
+            stackView.top == ratingStackView.bottom + 24
             stackView.right == view.right
             stackView.bottom == borderView.top
             stackView.left == view.left
@@ -196,7 +208,7 @@ class ItemInfoTableViewCell: UITableViewCell {
             dividerView.left == view.left
             dividerView.right == view.right
             dividerView.bottom == view.bottom
-            dividerView.height == 4
+            dividerView.height == 8
         }
     }
 

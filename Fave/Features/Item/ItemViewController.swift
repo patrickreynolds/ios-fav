@@ -252,7 +252,7 @@ extension ItemViewController: UITableViewDataSource {
                 let cell = tableView.dequeue(ItemPhotosTableViewCell.self, indexPath: indexPath)
 
                 cell.delegate = self
-                cell.populate(item: item)
+                cell.populate(item: item, dependencyGraph: dependencyGraph)
 
                 return cell
             case 2:

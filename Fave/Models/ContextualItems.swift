@@ -29,6 +29,34 @@ protocol ItemType {
     var name: String { get }
 }
 
+struct GooglePhoto {
+    let width: Double
+    let height: Double
+    let googlePhotoReference: String
+
+    init?(data: [String: AnyObject]) {
+        guard let width = data["width"] as? Double else {
+            return nil
+        }
+
+        guard let height = data["height"] as? Double else {
+            return nil
+        }
+
+        guard let googlePhotoReference = data["photoReference"] as? String else {
+            return nil
+        }
+
+        self.width = width
+        self.height = height
+        self.googlePhotoReference = googlePhotoReference
+    }
+
+    func photoUrl(googleApiKey key: String, googlePhotoReference reference: String, maxHeight: Int, maxWidth: Int) -> URL? {
+        return URL(string: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=\(maxWidth)&maxheight=\(maxHeight)&photoreference=\(reference)&key=\(key)")
+    }
+}
+
 struct GoogleItemType {
     let name: String
     let vicinity: String
@@ -40,6 +68,7 @@ struct GoogleItemType {
     let formattedPhoneNumber: String?
     let keywords: [String]?
     let rating: Double
+    let photos: [GooglePhoto]
 
     init?(data: [String: AnyObject]) {
         guard let name = data["name"] as? String else {
@@ -71,6 +100,11 @@ struct GoogleItemType {
             return nil
         }
 
+        var photos = [GooglePhoto]()
+        if let photoData = data["photos"] as? [[String: AnyObject]] {
+            photos = photoData.map({GooglePhoto.init(data: $0)}).compactMap({ $0 })
+        }
+
         let potentialKeywords = data["types"] as? [String]
 
         self.name = name
@@ -83,6 +117,7 @@ struct GoogleItemType {
         self.internationalPhoneNumber = internationalPhoneNumber
         self.rating = rating
         self.keywords = potentialKeywords
+        self.photos = photos
     }
 }
 

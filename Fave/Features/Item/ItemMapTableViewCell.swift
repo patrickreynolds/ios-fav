@@ -40,7 +40,7 @@ class ItemMapTableViewCell: UITableViewCell {
 
     private lazy var addressLabel: Label = {
         let label = Label(text: "",
-                          font: FaveFont(style: .h5, weight: .regular),
+                          font: FaveFont(style: .small, weight: .regular),
                           textColor: FaveColors.Black90,
                           textAlignment: .left,
                           numberOfLines: 0)

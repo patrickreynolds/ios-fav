@@ -61,6 +61,9 @@
 		4386BFF222335F43006A3ED7 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386BFF122335F43006A3ED7 /* Label.swift */; };
 		4386BFF422335FA8006A3ED7 /* Shimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386BFF322335FA8006A3ED7 /* Shimmer.swift */; };
 		43915CA72272C7D400562B5A /* DiscoverUserSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43915CA62272C7D400562B5A /* DiscoverUserSectionHeaderView.swift */; };
+		43915CA92276854900562B5A /* ItemInfoRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43915CA82276854900562B5A /* ItemInfoRatingView.swift */; };
+		43915CAB2276A02B00562B5A /* UICollectionViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43915CAA2276A02B00562B5A /* UICollectionViewExt.swift */; };
+		43915CAD2276AF5900562B5A /* ItemGooglePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43915CAC2276AF5900562B5A /* ItemGooglePhotoCollectionViewCell.swift */; };
 		439FDDDD2245C21700ED9343 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDDC2245C21700ED9343 /* StringExt.swift */; };
 		439FDDE02245D1FC00ED9343 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDDF2245D1FC00ED9343 /* ListViewController.swift */; };
 		439FDDE22245D2DE00ED9343 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE12245D2DE00ED9343 /* EntryTableViewCell.swift */; };
@@ -162,6 +165,9 @@
 		4386BFF122335F43006A3ED7 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		4386BFF322335FA8006A3ED7 /* Shimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmer.swift; sourceTree = "<group>"; };
 		43915CA62272C7D400562B5A /* DiscoverUserSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverUserSectionHeaderView.swift; sourceTree = "<group>"; };
+		43915CA82276854900562B5A /* ItemInfoRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInfoRatingView.swift; sourceTree = "<group>"; };
+		43915CAA2276A02B00562B5A /* UICollectionViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExt.swift; sourceTree = "<group>"; };
+		43915CAC2276AF5900562B5A /* ItemGooglePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGooglePhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		439FDDDC2245C21700ED9343 /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		439FDDDF2245D1FC00ED9343 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		439FDDE12245D2DE00ED9343 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
@@ -229,6 +235,8 @@
 				4376A9EA225A509400741F92 /* ItemMapTableViewCell.swift */,
 				4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */,
 				4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */,
+				43915CA82276854900562B5A /* ItemInfoRatingView.swift */,
+				43915CAC2276AF5900562B5A /* ItemGooglePhotoCollectionViewCell.swift */,
 			);
 			path = Item;
 			sourceTree = "<group>";
@@ -309,6 +317,7 @@
 				431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */,
 				4369CF462258409D00FCA156 /* UIViewExt.swift */,
 				43AFEFCE22641F850022A854 /* UIImageExt.swift */,
+				43915CAA2276A02B00562B5A /* UICollectionViewExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -731,6 +740,7 @@
 				439FDDDD2245C21700ED9343 /* StringExt.swift in Sources */,
 				431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */,
 				438534EE223338AD00B99EC7 /* UITableViewExtensions.swift in Sources */,
+				43915CAD2276AF5900562B5A /* ItemGooglePhotoCollectionViewCell.swift in Sources */,
 				4369CF4D22598C1400FCA156 /* ItemInfoTableViewCell.swift in Sources */,
 				43AFEFCF22641F850022A854 /* UIImageExt.swift in Sources */,
 				4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */,
@@ -773,6 +783,7 @@
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
 				43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */,
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,
+				43915CAB2276A02B00562B5A /* UICollectionViewExt.swift in Sources */,
 				43BEA2FD226B84DA001F930E /* DiscoverUserListTableViewCell.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
 				438534F52233391500B99EC7 /* Color.swift in Sources */,
@@ -790,6 +801,7 @@
 				430D8D2E224DEBA20082FCF2 /* FeedItem.swift in Sources */,
 				4305F373224007C500F6DE77 /* List.swift in Sources */,
 				439FDDE02245D1FC00ED9343 /* ListViewController.swift in Sources */,
+				43915CA92276854900562B5A /* ItemInfoRatingView.swift in Sources */,
 				4386BFF422335FA8006A3ED7 /* Shimmer.swift in Sources */,
 				4369CF49225982F900FCA156 /* ItemViewController.swift in Sources */,
 				43BEA2FA2268E13C001F930E /* TopLists.swift in Sources */,

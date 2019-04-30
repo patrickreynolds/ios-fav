@@ -54,7 +54,7 @@ class ProfileTableHeaderView: UIView {
                                numberOfLines: 0)
 
     let aboutMeLabel = Label(
-        text: false ? "Must-read books, niche podcasts, undiscovered places, fresh kicks, and good food." : "",
+        text: "You don't have a bio yet. \nEdit your profile to add one.",
         font: FaveFont.init(style: .h5, weight: .regular),
         textColor: FaveColors.Black70,
         textAlignment: .left,
@@ -68,7 +68,7 @@ class ProfileTableHeaderView: UIView {
         numberOfLines: 0)
 
     let listCountLabel = Label(
-        text: "Lists".uppercased(),
+        text: "No lists",
         font: FaveFont.init(style: .small, weight: .semiBold),
         textColor: FaveColors.Black60,
         textAlignment: .left,
@@ -99,14 +99,15 @@ class ProfileTableHeaderView: UIView {
             aboutMeLabel.top == nameLabel.bottom + 4
             aboutMeLabel.right == nameLabel.right
             aboutMeLabel.left == nameLabel.left
+            aboutMeLabel.bottom == view.bottom - 16
         }
 
-        constrain(followingLabel, aboutMeLabel, view) { followingLabel, aboutMeLabel, view in
-            followingLabel.top == aboutMeLabel.bottom + 8
-            followingLabel.right == aboutMeLabel.right
-            followingLabel.left == aboutMeLabel.left
-            followingLabel.bottom == view.bottom - 16
-        }
+//        constrain(followingLabel, aboutMeLabel, view) { followingLabel, aboutMeLabel, view in
+//            followingLabel.top == aboutMeLabel.bottom + 8
+//            followingLabel.right == aboutMeLabel.right
+//            followingLabel.left == aboutMeLabel.left
+//            followingLabel.bottom == view.bottom - 16
+//        }
 
         constrain(profilePictureImageView, view) { imageView, view in
             imageView.top == view.top + 16
@@ -184,6 +185,8 @@ class ProfileTableHeaderView: UIView {
         } else {
             // put into loading state
         }
+
+        followingLabel.isHidden = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -198,7 +201,8 @@ class ProfileTableHeaderView: UIView {
         profilePictureImageView.layer.masksToBounds = true
         profilePictureImageView.clipsToBounds = true
 
-        // followingLabel.text = // "\(user.numberOfListUserIsFollowing)"
+//        followingLabel.text = // "\(user.numberOfListUserIsFollowing)"
+
     }
 
     func updateListInfo(lists: [List]) {

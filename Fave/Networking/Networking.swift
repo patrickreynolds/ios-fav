@@ -66,7 +66,6 @@ struct Networking {
 
     func sendPostRequest(endpoint: FaveEndpoint, data: [String: String], completion: @escaping FaveAPICallResultCompletionBlock) {
         let endpoint = "\(baseUrl)\(endpoint.path)"
-
         print("Endpoint: \(endpoint)")
 
         var authToken: String = ""
