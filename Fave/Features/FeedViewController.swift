@@ -152,13 +152,13 @@ class FeedViewController: FaveVC {
 
         if dependencyGraph.authenticator.isLoggedIn() {
             dependencyGraph.faveService.getFeed(from: 1, to: 100) { response, error in
+                self.loadingIndicatorView.stopAnimating()
+
                 guard let feedData = response else {
                     return
                 }
 
                 print("\(feedData.description)")
-
-                self.loadingIndicatorView.stopAnimating()
             }
 
             dependencyGraph.faveService.getCurrentUser { user, error in

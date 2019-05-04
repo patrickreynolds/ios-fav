@@ -4,7 +4,7 @@ import UIKit
 import Cartography
 
 protocol EntryTableViewCellDelegate {
-    func faveItemButtonTapped(item: Item)
+    func faveItemButtonTapped(item: Item, from: Bool, to: Bool)
     func shareItemButtonTapped(item: Item)
 }
 
@@ -245,6 +245,8 @@ class EntryTableViewCell: UITableViewCell {
     func populate(item: Item) {
         self.item = item
 
+        itemIsFavedByUser = item.isFaved ?? false
+
         updateFaveAction()
 
         titleLabel.text = item.contextualItem.name
@@ -272,8 +274,6 @@ class EntryTableViewCell: UITableViewCell {
     }
 
     func updateFaveAction() {
-        itemIsFavedByUser = !itemIsFavedByUser
-
         if itemIsFavedByUser {
             faveActionIcon.image = UIImage.init(named: "icon-fave-faved")?.withRenderingMode(.alwaysOriginal)
             faveActionLabel.text = "Faved"
@@ -291,9 +291,11 @@ class EntryTableViewCell: UITableViewCell {
             return
         }
 
-        updateFaveAction()
+        delegate?.faveItemButtonTapped(item: item, from: itemIsFavedByUser, to: !itemIsFavedByUser)
 
-        delegate?.faveItemButtonTapped(item: item)
+        itemIsFavedByUser = !itemIsFavedByUser
+
+        updateFaveAction()
     }
 
     @objc func shareItemButtonTapped() {

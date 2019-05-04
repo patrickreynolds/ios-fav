@@ -170,6 +170,9 @@ class ItemViewController: FaveVC {
         }
 
         dependencyGraph.faveService.getListItem(userId: user.id, listId: list.id, itemId: item.id) { item, error in
+
+            completion()
+
             guard let item = item else {
                 return
             }

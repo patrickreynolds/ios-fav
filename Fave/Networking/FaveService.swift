@@ -14,6 +14,10 @@ protocol FaveServiceType {
     func suggestions(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
     func topLists(completion: @escaping (_ lists: [TopList]?, _ error: Error?) -> ())
     func getUsers(completion: @escaping (_ lists: [User]?, _ error: Error?) -> ())
+    func getFollowing(userId: Int, completion: @escaping (_ lists: [User]?, _ error: Error?) -> ())
+    func getFaves(userId: Int, completion: @escaping (_ faveIds: [Int]?, _ error: Error?) -> ())
+    func addFave(userId: Int, listId: Int, itemId: Int, note: String, completion: @escaping (_ item: Item?, _ error: Error?) -> ())
+    func removeFave(userId: Int, itemId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ())
 }
 
 struct FaveService {
@@ -47,7 +51,7 @@ struct FaveService {
         }
     }
 
-    func authenticate(network: String,   accessToken: String, completion: @escaping FaveAPICallResultCompletionBlock) {
+    func authenticate(network: String, accessToken: String, completion: @escaping FaveAPICallResultCompletionBlock) {
         // { "network" : "facebook", "accessToken": facebookAccessToken }
 
         let data: [String: String] = [
@@ -217,6 +221,77 @@ struct FaveService {
             let users = userData.map({ User(data: $0 )}).compactMap { $0 }
 
             completion(users, error)
+        }
+    }
+
+    func getFollowing(userId: Int, completion: @escaping (_ lists: [User]?, _ error: Error?) -> ()) {
+        networking.sendGetRequest(endpoint: .following(userId: userId)) { response, error in
+            guard let followingData = response as? [[String: AnyObject]] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let following = followingData.map({ User(data: $0 )}).compactMap { $0 }
+
+            completion(following, error)
+        }
+    }
+
+    func getFaves(userId: Int, completion: @escaping (_ faveIds: [Int]?, _ error: Error?) -> ()) {
+        networking.sendGetRequest(endpoint: .faves(userId: userId)) { response, error in
+            guard let favesData = response as? [Int] else {
+                completion(nil, error)
+
+                return
+            }
+
+//            let faves = favesData.map({ Item(data: $0 )}).compactMap { $0 }
+
+            completion(favesData, error)
+        }
+    }
+
+    func addFave(userId: Int, listId: Int, itemId: Int, note: String = "", completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
+
+        let data: [String: String] = [
+            "listId": "\(listId)",
+            "itemId": "\(itemId)",
+            "note": note
+        ]
+
+        networking.sendPostRequest(endpoint: .faves(userId: userId), data: data) { response, error in
+            guard let itemData = response as? [String: AnyObject] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let item = Item(data: itemData)
+
+            completion(item, error)
+        }
+    }
+
+    func removeFave(userId: Int, itemId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
+
+        let data: [String: String] = [
+            "dataId": "\(itemId)"
+        ]
+
+        networking.sendDeleteRequest(endpoint: .faves(userId: userId), data: data) { response, error in
+            guard let responseData = response as? [String: AnyObject] else {
+                completion(false, error)
+
+                return
+            }
+
+            var success = false
+            if let message = responseData["message"] as? String, message == "ok" {
+                success = true
+            }
+
+            completion(success, error)
         }
     }
 }

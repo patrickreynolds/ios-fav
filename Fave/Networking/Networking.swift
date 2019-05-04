@@ -4,6 +4,7 @@ import Alamofire
 protocol NetworkingType {
     func sendGetRequest(endpoint: FaveEndpoint, completion: @escaping FaveAPICallResultCompletionBlock)
     func sendPostRequest(endpoint: FaveEndpoint, data: [String: String], completion: @escaping FaveAPICallResultCompletionBlock)
+    func sendDeleteRequest(endpoint: FaveEndpoint, data: [String: String], completion: @escaping FaveAPICallResultCompletionBlock)
 }
 
 typealias FaveAPICallResultCompletionBlock = (_ response: AnyObject?, _ error: Error?) -> ()
@@ -104,6 +105,52 @@ struct Networking {
             let dataResult = newResult["data"]
 
             completion(dataResult, nil)
+        }
+    }
+
+    func sendDeleteRequest(endpoint: FaveEndpoint, data: [String: String], completion: @escaping FaveAPICallResultCompletionBlock) {
+        let endpoint = "\(baseUrl)\(endpoint.path)"
+
+        print("\(endpoint)")
+
+        var authToken: String = ""
+
+        if let token = authenticator.token() {
+            authToken = "bearer \(token)"
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": authToken,
+            "Accept": "application/json",
+            ]
+
+        // "Content-Type": "application/json"
+
+        // Show the actificy indicator during the network call
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+
+        Alamofire.request(endpoint, method: .delete, parameters: data, headers: headers).responseJSON { response in
+
+            // Hide the actificy indicator during the network call
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+
+            guard let result = response.result.value else {
+                completion(nil, response.error)
+
+                return
+            }
+
+            guard let newResult = result as? [String: AnyObject] else {
+                completion(nil, response.error)
+
+                return
+            }
+
+            if let dataResult = newResult["data"] {
+                completion(dataResult, nil)
+            } else {
+                completion(result as AnyObject, nil)
+            }
         }
     }
 }

@@ -21,6 +21,24 @@ class ListViewController: FaveVC {
     var listItems: [Item] = [] {
         didSet {
             listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
+        }
+    }
+
+    var listsUserIsFollowing: [User] = [] {
+        didSet {
+            listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
+        }
+    }
+
+    var listOfCurrentFaveIds: [Int] = [] {
+        didSet {
+            self.listItems = self.listItems.map({ listItem in
+                var item = listItem
+
+                item.isFaved = listOfCurrentFaveIds.contains(item.dataId)
+
+                return item
+            })
 
             listTableView.reloadData()
         }
@@ -173,6 +191,12 @@ class ListViewController: FaveVC {
         }
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        refreshData()
+    }
+
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
             delay(1.0) {
@@ -182,6 +206,11 @@ class ListViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
+
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
+        }
+
         dependencyGraph.faveService.getList(userId: list.owner.id, listId: self.list.id) { response, error in
             guard let list = response else {
                 return
@@ -200,6 +229,16 @@ class ListViewController: FaveVC {
             self.listItems = items
 
             completion()
+
+            self.updateFaves(userId: user.id)
+        }
+
+        dependencyGraph.faveService.getFollowing(userId: user.id) { response, error in
+            guard let following = response else {
+                return
+            }
+
+            self.listsUserIsFollowing = following
         }
     }
 
@@ -382,8 +421,64 @@ extension ListViewController: ListTableHeaderViewDelegate {
 }
 
 extension ListViewController: EntryTableViewCellDelegate {
-    func faveItemButtonTapped(item: Item) {
+    func faveItemButtonTapped(item: Item, from: Bool, to: Bool) {
         print("\nFave Item Button Tapped\n")
+
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
+        }
+
+        let weShouldFave = !from
+
+        if weShouldFave {
+            // fave the item
+            // update faves endpoint
+            // reload table
+
+            selectListToFaveTo(canceledSelection: {
+                self.updateFaves(userId: user.id)
+            }) { selectedList in
+                self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id) { response, error in
+                    guard let _ = response else {
+                        return
+                    }
+
+                    self.updateFaves(userId: user.id)
+                }
+            }
+        } else {
+            dependencyGraph.faveService.removeFave(userId: user.id, itemId: item.dataId) { success, error in
+                if let _ = error {
+                    // TODO: Handle error
+
+                    return
+                }
+
+                if success {
+                    self.updateFaves(userId: user.id)
+                } else {
+                    let alertController = UIAlertController(title: "Oops!", message: "Something went wrong. Try unfaving again.", preferredStyle: .alert)
+
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style {
+                        case .default, .cancel, .destructive:
+                            alertController.dismiss(animated: true, completion: nil)
+                        }}))
+
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+
+    func updateFaves(userId: Int) {
+        dependencyGraph.faveService.getFaves(userId: userId) { response, error in
+            guard let faves = response else {
+                return
+            }
+
+            self.listOfCurrentFaveIds = faves
+        }
     }
 
     func shareItemButtonTapped(item: Item) {
@@ -401,10 +496,20 @@ extension ListViewController: EntryTableViewCellDelegate {
 
         self.present(activityViewController, animated: true, completion: nil)
     }
+
+    func selectListToFaveTo(canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
+
+        let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, canceledSelection: canceledSelection, didSelectList: didSelectList)
+        myListsViewController.modalPresentationStyle = .overCurrentContext
+
+        present(myListsViewController, animated: false, completion: nil)
+    }
 }
 
 extension ListViewController: UIGestureRecognizerDelegate {
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+
 }

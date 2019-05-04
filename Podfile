@@ -9,6 +9,7 @@ target 'Fave' do
   pod 'R.swift'
   pod 'KMPlaceholderTextView', '~> 1.4.0'
   pod 'TTTAttributedLabel', '~> 2.0.0'
+  pod 'PromiseKit', '~> 6.8'
 
   pod 'FacebookCore'
   pod 'FacebookLogin'

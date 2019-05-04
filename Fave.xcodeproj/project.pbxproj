@@ -29,6 +29,8 @@
 		4376A9EB225A509400741F92 /* ItemMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EA225A509400741F92 /* ItemMapTableViewCell.swift */; };
 		4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */; };
 		4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */; };
+		43824890227B50E800257D27 /* MyListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382488F227B50E800257D27 /* MyListsViewController.swift */; };
+		43824892227C069900257D27 /* AutosizingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43824891227C069900257D27 /* AutosizingTableView.swift */; };
 		438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BA223336BA00B99EC7 /* AppDelegate.swift */; };
 		438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BC223336BA00B99EC7 /* FeedViewController.swift */; };
 		438534C2223336BB00B99EC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 438534C1223336BB00B99EC7 /* Assets.xcassets */; };
@@ -127,6 +129,8 @@
 		4376A9EA225A509400741F92 /* ItemMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemMapTableViewCell.swift; sourceTree = "<group>"; };
 		4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPhotosTableViewCell.swift; sourceTree = "<group>"; };
 		4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSuggestionsTableViewCell.swift; sourceTree = "<group>"; };
+		4382488F227B50E800257D27 /* MyListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsViewController.swift; sourceTree = "<group>"; };
+		43824891227C069900257D27 /* AutosizingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizingTableView.swift; sourceTree = "<group>"; };
 		438534B7223336BA00B99EC7 /* Fave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		438534BA223336BA00B99EC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		438534BC223336BA00B99EC7 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +245,14 @@
 			path = Item;
 			sourceTree = "<group>";
 		};
+		4382488E227B50DA00257D27 /* Fave Item */ = {
+			isa = PBXGroup;
+			children = (
+				4382488F227B50E800257D27 /* MyListsViewController.swift */,
+			);
+			path = "Fave Item";
+			sourceTree = "<group>";
+		};
 		438534AE223336BA00B99EC7 = {
 			isa = PBXGroup;
 			children = (
@@ -330,6 +342,7 @@
 				4386BFF122335F43006A3ED7 /* Label.swift */,
 				43BF881422449EFB0096CCA1 /* DividerView.swift */,
 				43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */,
+				43824891227C069900257D27 /* AutosizingTableView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -379,6 +392,7 @@
 		4386BFDD223340C3006A3ED7 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				4382488E227B50DA00257D27 /* Fave Item */,
 				431DF8A02249EFFC00717312 /* Item */,
 				439FDDDE2245D1E100ED9343 /* List */,
 				43AFB44B223DE8E100B243E1 /* Profile */,
@@ -701,6 +715,7 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/KMPlaceholderTextView/KMPlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
@@ -720,6 +735,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
@@ -746,6 +762,7 @@
 				4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */,
 				43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */,
 				4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */,
+				43824890227B50E800257D27 /* MyListsViewController.swift in Sources */,
 				438534EA2233386100B99EC7 /* CartographyExt.swift in Sources */,
 				438534FA2233397E00B99EC7 /* FaveVC.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
@@ -755,6 +772,7 @@
 				4376A9EB225A509400741F92 /* ItemMapTableViewCell.swift in Sources */,
 				4386BFF222335F43006A3ED7 /* Label.swift in Sources */,
 				4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */,
+				43824892227C069900257D27 /* AutosizingTableView.swift in Sources */,
 				4369CF432257C11300FCA156 /* FaveTests.swift in Sources */,
 				43915CA72272C7D400562B5A /* DiscoverUserSectionHeaderView.swift in Sources */,
 				4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */,

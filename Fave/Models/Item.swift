@@ -2,6 +2,7 @@ import Foundation
 
 struct Item {
     let id: Int
+    let dataId: Int
     let type: String
     let updatedAt: Date
     let createdAt: Date
@@ -13,54 +14,14 @@ struct Item {
     let numberOfFaves: Int
     let listId: Int
     let addedBy: User
-
-    init?(id: Int,
-         type: String,
-         updatedAt: String,
-         createdAt: String,
-         connectorType: String,
-         connectorId: String,
-         note: String = "",
-         content: [String: AnyObject],
-         numberOfFaves: Int = 0,
-         listId: Int,
-         addedBy: User) {
-        self.id = id
-        self.type = type
-        self.connectorType = connectorType
-        self.connectorId = connectorId
-        self.note = note
-        self.content = content
-        self.numberOfFaves = 0
-        self.listId = listId
-        self.addedBy = addedBy
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'sssZ"
-
-        guard let updatedAtDate = dateFormatter.date(from: updatedAt), let createdAtDate = dateFormatter.date(from: createdAt) else {
-            return nil
-        }
-
-        var potentialContextualItem: ItemType
-
-        if connectorType == ConnectorType.google {
-            guard let connector = ContextualConnectorType.google(content: content).itemType else {
-                return nil
-            }
-
-            potentialContextualItem = connector
-        } else {
-            return nil
-        }
-
-        self.contextualItem = potentialContextualItem
-        self.updatedAt = updatedAtDate
-        self.createdAt = createdAtDate
-    }
+    var isFaved: Bool? = nil
 
     init?(data: [String: AnyObject]) {
         guard let id = data["id"] as? Int else {
+            return nil
+        }
+
+        guard let dataId = data["dataId"] as? Int else {
             return nil
         }
 
@@ -123,6 +84,7 @@ struct Item {
         let numberOfFaves = data["numberOfFaves"] as? Int ?? 0
 
         self.id = id
+        self.dataId = dataId
         self.type = type
         self.updatedAt = updatedAtDate
         self.createdAt = createdAtDate

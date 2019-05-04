@@ -15,6 +15,8 @@ enum FaveEndpoint {
     case paginatedFeed(page: Int)
     case feed(from: Int, to: Int)
     case suggestions
+    case following(userId: Int)
+    case faves(userId: Int)
     case analytics
 
     var path: String {
@@ -47,6 +49,10 @@ enum FaveEndpoint {
             return "api/v1/feed?to=\(to)&from=\(from)"
         case .suggestions:
             return "api/v1/lists/suggestions"
+        case .following(let userId):
+            return "api/v1/following/\(userId)"
+        case .faves(let userId):
+            return "api/v1/users/\(userId)/faves"
         case .analytics:
             return "api/v1/analytics"
         }
