@@ -13,7 +13,7 @@ class ProfileViewController: FaveVC {
                 return
             }
 
-            profileTableHeaderView.updateUserInfo(user: user)
+            profileTableHeaderView.updateUserInfo(user: user, followingCount: listsUserFollows.count)
 
             let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
             navigationItem.titleView = titleViewLabel
@@ -25,6 +25,16 @@ class ProfileViewController: FaveVC {
             self.profileTableView.reloadData()
 
             profileTableHeaderView.updateListInfo(lists: lists)
+        }
+    }
+
+    var listsUserFollows: [List] = [] {
+        didSet {
+            guard let user = user else {
+                return
+            }
+
+            profileTableHeaderView.updateUserInfo(user: user, followingCount: listsUserFollows.count)
         }
     }
 
@@ -216,6 +226,14 @@ class ProfileViewController: FaveVC {
             self.lists = unwrappedLists
 
             completion()
+        }
+
+        dependencyGraph.faveService.listsUserFollows(userId: currentUser.id) { response, error in
+            guard let listsUserFollows = response else {
+                return
+            }
+
+            self.listsUserFollows = listsUserFollows
         }
     }
 

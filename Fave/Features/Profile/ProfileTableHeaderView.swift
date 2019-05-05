@@ -16,11 +16,18 @@ class ProfileTableHeaderView: UIView {
     let user: User?
     var delegate: ProfileTableHeaderViewDelegate?
 
-    private lazy var listsLabel: Label = {
+    var followingCount: Int = 0 {
+        didSet {
+            guard followingCount != oldValue else {
+                return
+            }
 
-//        if let user = user {
-//            let titleString = "0 Lists" // self.lists.count == 1 ? "\(self.lists.count) List" : "\(self.lists.count) Lists"
-//        }
+            let followingString = followingCount == 1 ? "list" : "lists"
+            followingLabel.text = "Following \(followingCount) \(followingString)"
+        }
+    }
+
+    private lazy var listsLabel: Label = {
 
         let titleString = "0 Lists"
 
@@ -61,7 +68,7 @@ class ProfileTableHeaderView: UIView {
         numberOfLines: 0)
 
     let followingLabel = Label(
-        text: "Following",
+        text: "Not following any lists",
         font: FaveFont.init(style: .h5, weight: .semiBold),
         textColor: FaveColors.Black90,
         textAlignment: .left,
@@ -199,11 +206,12 @@ class ProfileTableHeaderView: UIView {
         profilePictureImageView.layer.masksToBounds = true
         profilePictureImageView.clipsToBounds = true
 
-        followingLabel.text = "\(followingCount) following"
+        self.followingCount = followingCount
     }
 
     func updateListInfo(lists: [List]) {
-        listCountLabel.text = lists.count == 1 ? "\(lists.count) List" : "\(lists.count) Lists"
+        let listString = lists.count == 1 ? "List".uppercased() : "Lists".uppercased()
+        listCountLabel.text = "\(lists.count) \(listString)"
     }
 
     @objc func editProfile(sender: UIButton!) {
