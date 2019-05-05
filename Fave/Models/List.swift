@@ -11,6 +11,7 @@ class List {
     let items: [Item]
     let owner: User
     let url: String
+    var isUserFollowing: Bool? = nil
 
     init(id: Int, title: String, description: String = "", isPublic: Bool = true, numberOfFollowers: Int = 0, numberOfItems: Int = 0, numberOfRecommendations: Int = 0, items: [Item] = [], owner: User, url: String = "") {
         self.id = id

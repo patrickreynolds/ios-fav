@@ -102,9 +102,11 @@ struct Networking {
                 return
             }
 
-            let dataResult = newResult["data"]
-
-            completion(dataResult, nil)
+            if let dataResult = newResult["data"] {
+                completion(dataResult, nil)
+            } else {
+                completion(result as AnyObject, nil)
+            }
         }
     }
 

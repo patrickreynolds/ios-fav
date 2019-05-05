@@ -6,27 +6,47 @@ import Cartography
 protocol ListTableHeaderViewDelegate {
     func entriesButtonTapped()
     func suggestionsButtonTapped()
+    func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List)
+}
+
+enum FaveRelationshipType {
+    case notFollowing
+    case following
 }
 
 class ListTableHeaderView: UIView {
-
-    private enum RelationshipType {
-        case follow
-        case following
-    }
 
     var list: List
     var delegate: ListTableHeaderViewDelegate?
     let dependencyGraph: DependencyGraphType
 
-    var followerCountLabelText = "" {
+    var numberOfFollowers = 0 {
         didSet {
+            guard numberOfFollowers != oldValue else {
+                return
+            }
+
+            followerCountLabelText = numberOfFollowers == 1 ? "\(numberOfFollowers) Follower" : "\(numberOfFollowers) Followers"
+        }
+    }
+
+    var followerCountLabelText = "0 Followers" {
+        didSet {
+
+            guard followerCountLabelText != oldValue else {
+                return
+            }
+
             followerCountLabel.text = followerCountLabelText
         }
     }
 
-    private var followerRelationship: RelationshipType = .follow {
+    private var followerRelationship: FaveRelationshipType = .notFollowing {
         didSet {
+            guard followerRelationship != oldValue else {
+                return
+            }
+
             if followerRelationship == .following {
                 let attributedTitle = NSAttributedString(string: "Following",
                                                          font: FaveFont(style: .small, weight: .semiBold).font,
@@ -54,7 +74,7 @@ class ListTableHeaderView: UIView {
 
         button.setTitleColor(FaveColors.White, for: .normal)
         button.backgroundColor = FaveColors.Accent
-        button.addTarget(self, action: #selector(followList), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapRelationshipButton), for: .touchUpInside)
         button.layer.cornerRadius = 6
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
 
@@ -130,11 +150,15 @@ class ListTableHeaderView: UIView {
         return view
     }()
 
-    let followerCountLabel = Label(text: "Followers",
-        font: FaveFont(style: .h5, weight: .regular),
-        textColor: FaveColors.Black90,
-        textAlignment: .left,
-        numberOfLines: 0)
+    private lazy var followerCountLabel: Label = {
+        let label = Label(text: self.followerCountLabelText,
+                          font: FaveFont(style: .h5, weight: .regular),
+                          textColor: FaveColors.Black90,
+                          textAlignment: .left,
+                          numberOfLines: 0)
+
+        return label
+    }()
 
     private lazy var relationshipStackView: UIStackView = {
         let stackView = UIStackView.init(frame: .zero)
@@ -211,10 +235,22 @@ class ListTableHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func followList(sender: UIButton!) {
+    @objc func didTapRelationshipButton(sender: UIButton!) {
         print("\nFollow List Button Tapped\n")
 
-        followerRelationship = followerRelationship == .follow ? .following : .follow
+        let newRelationship: FaveRelationshipType = followerRelationship == .notFollowing ? .following : .notFollowing
+
+        followerRelationship = newRelationship
+
+        let followers = numberOfFollowers
+
+        if newRelationship == .following {
+            numberOfFollowers = followers + 1
+        } else {
+            numberOfFollowers = followers - 1
+        }
+
+        delegate?.didUpdateRelationship(to: newRelationship, forList: list)
     }
 
     @objc func shareList(sender: UIButton!) {
@@ -243,7 +279,13 @@ class ListTableHeaderView: UIView {
         listSegmentedControl.updateTitleAtIndex(title: entryTitle, index: 0)
         listSegmentedControl.updateTitleAtIndex(title: recommendationTitle, index: 1)
 
-        followerCountLabelText = "\(list.numberOfFollowers) Followers"
+        numberOfFollowers = list.numberOfFollowers
+
+        if let relationship = list.isUserFollowing {
+            followerRelationship = relationship ? .following : .notFollowing
+        } else {
+            followerRelationship = .notFollowing
+        }
     }
 }
 

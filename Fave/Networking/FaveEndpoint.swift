@@ -15,7 +15,9 @@ enum FaveEndpoint {
     case paginatedFeed(page: Int)
     case feed(from: Int, to: Int)
     case suggestions
-    case following(userId: Int)
+    case followUnfollow(listId: Int)
+    case followersOfList(listId: Int)
+    case listsUserFollows(userId: Int)
     case faves(userId: Int)
     case analytics
 
@@ -49,12 +51,16 @@ enum FaveEndpoint {
             return "api/v1/feed?to=\(to)&from=\(from)"
         case .suggestions:
             return "api/v1/lists/suggestions"
-        case .following(let userId):
-            return "api/v1/following/\(userId)"
+        case .listsUserFollows(let userId):
+            return "api/v1/users/\(userId)/lists/following"
+        case .followersOfList(let listId):
+            return "api/v1/lists/\(listId)/followers"
         case .faves(let userId):
             return "api/v1/users/\(userId)/faves"
         case .analytics:
             return "api/v1/analytics"
+        case .followUnfollow(let listId):
+            return "api/v1/lists/\(listId)/followers"
         }
     }
 }

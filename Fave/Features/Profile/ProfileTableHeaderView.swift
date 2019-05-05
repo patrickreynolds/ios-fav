@@ -62,7 +62,7 @@ class ProfileTableHeaderView: UIView {
 
     let followingLabel = Label(
         text: "Following",
-        font: FaveFont.init(style: .h5, weight: .regular),
+        font: FaveFont.init(style: .h5, weight: .semiBold),
         textColor: FaveColors.Black90,
         textAlignment: .left,
         numberOfLines: 0)
@@ -74,7 +74,7 @@ class ProfileTableHeaderView: UIView {
         textAlignment: .left,
         numberOfLines: 0)
 
-    let profilePictureImageView = UIImageView.init(frame: CGRect.zero)
+    let profilePictureImageView = UIImageView(frame: CGRect.zero)
 
     private lazy var primaryContentView: UIView = {
         let view = UIView(frame: .zero)
@@ -99,15 +99,15 @@ class ProfileTableHeaderView: UIView {
             aboutMeLabel.top == nameLabel.bottom + 4
             aboutMeLabel.right == nameLabel.right
             aboutMeLabel.left == nameLabel.left
-            aboutMeLabel.bottom == view.bottom - 16
+//            aboutMeLabel.bottom == view.bottom - 16
         }
 
-//        constrain(followingLabel, aboutMeLabel, view) { followingLabel, aboutMeLabel, view in
-//            followingLabel.top == aboutMeLabel.bottom + 8
-//            followingLabel.right == aboutMeLabel.right
-//            followingLabel.left == aboutMeLabel.left
-//            followingLabel.bottom == view.bottom - 16
-//        }
+        constrain(followingLabel, aboutMeLabel, view) { followingLabel, aboutMeLabel, view in
+            followingLabel.top == aboutMeLabel.bottom + 8
+            followingLabel.right == aboutMeLabel.right
+            followingLabel.left == aboutMeLabel.left
+            followingLabel.bottom == view.bottom - 16
+        }
 
         constrain(profilePictureImageView, view) { imageView, view in
             imageView.top == view.top + 16
@@ -127,7 +127,7 @@ class ProfileTableHeaderView: UIView {
         view.backgroundColor = FaveColors.Black20
 
         constrain(view) { view in
-            view.height == 4
+            view.height == 8
         }
 
         return view
@@ -185,15 +185,13 @@ class ProfileTableHeaderView: UIView {
         } else {
             // put into loading state
         }
-
-        followingLabel.isHidden = true
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateUserInfo(user: User) {
+    func updateUserInfo(user: User, followingCount: Int = 0) {
         nameLabel.text = ("\(user.firstName) \(user.lastName)")
 
         profilePictureImageView.image = UIImage.init(base64String: user.profilePicture)
@@ -201,8 +199,7 @@ class ProfileTableHeaderView: UIView {
         profilePictureImageView.layer.masksToBounds = true
         profilePictureImageView.clipsToBounds = true
 
-//        followingLabel.text = // "\(user.numberOfListUserIsFollowing)"
-
+        followingLabel.text = "\(followingCount) following"
     }
 
     func updateListInfo(lists: [List]) {

@@ -18,14 +18,15 @@ class ListViewController: FaveVC {
         }
     }
 
-    var listItems: [Item] = [] {
-        didSet {
-            listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
-        }
-    }
+    var listItems: [Item] = []
 
-    var listsUserIsFollowing: [User] = [] {
+    var listsUserFollows: [List] = [] {
         didSet {
+
+            self.list.isUserFollowing = listsUserFollows.contains { list in
+                return list.id == self.list.id
+            }
+
             listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
         }
     }
@@ -41,6 +42,12 @@ class ListViewController: FaveVC {
             })
 
             listTableView.reloadData()
+        }
+    }
+
+    var followersOfList: [User] = [] {
+        didSet {
+            print("\(followersOfList)")
         }
     }
 
@@ -217,6 +224,14 @@ class ListViewController: FaveVC {
             }
 
             self.list = list
+
+            self.dependencyGraph.faveService.listsUserFollows(userId: user.id) { response, error in
+                guard let listsUserFollows = response else {
+                    return
+                }
+
+                self.listsUserFollows = listsUserFollows
+            }
         }
 
         dependencyGraph.faveService.getListItems(userId: list.owner.id, listId: self.list.id) { response, error in
@@ -233,12 +248,12 @@ class ListViewController: FaveVC {
             self.updateFaves(userId: user.id)
         }
 
-        dependencyGraph.faveService.getFollowing(userId: user.id) { response, error in
-            guard let following = response else {
+        dependencyGraph.faveService.followersOfList(listId: list.id) { response, error in
+            guard let followersOfList = response else {
                 return
             }
 
-            self.listsUserIsFollowing = following
+            self.followersOfList = followersOfList
         }
     }
 
@@ -417,6 +432,31 @@ extension ListViewController: ListTableHeaderViewDelegate {
     func suggestionsButtonTapped() {
         print("\nRecommentaion Button Tapped\n")
         filterType = .recommendations
+    }
+
+    func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List) {
+
+        if relationship == .notFollowing {
+            // make call to follow list
+
+            dependencyGraph.faveService.unfollowList(listId: list.id) { success, error in
+                if success {
+                    self.refreshData()
+                } else {
+                    // throw error
+                }
+            }
+        } else {
+            // make call to unfollow list
+
+            dependencyGraph.faveService.followList(listId: list.id) { success, error in
+                if success {
+                    self.refreshData()
+                } else {
+                    // throw error
+                }
+            }
+        }
     }
 }
 
