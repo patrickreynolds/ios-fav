@@ -3,10 +3,10 @@ import UIKit
 
 import Cartography
 
-class SelectListTableViewCell: UITableViewCell {
+class FeedEventTableViewCell: UITableViewCell {
     private lazy var titleLabel: Label = {
         let label = Label.init(text: "",
-                               font: FaveFont(style: .h5, weight: .semiBold),
+                               font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
                                numberOfLines: 1)
@@ -17,7 +17,13 @@ class SelectListTableViewCell: UITableViewCell {
     private lazy var borderView: UIView = {
         let view = UIView(frame: CGRect.zero)
 
-        view.backgroundColor = FaveColors.Black10
+        view.backgroundColor = FaveColors.White
+
+        return view
+    }()
+
+    private lazy var eventItemView: EventItemView = {
+        let view = EventItemView()
 
         return view
     }()
@@ -26,13 +32,20 @@ class SelectListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(titleLabel)
+        contentView.addSubview(eventItemView)
         contentView.addSubview(borderView)
 
         constrain(titleLabel, contentView) { label, view in
-            label.top == view.top + 20
+            label.top == view.top + 8
             label.right == view.right - 16
-            label.bottom == view.bottom - 20
             label.left == view.left + 16
+        }
+
+        constrain(eventItemView, titleLabel, contentView) { eventItemView, titleLabel, contentView in
+            eventItemView.top == titleLabel.bottom + 8
+            eventItemView.right == contentView.right - 16
+            eventItemView.bottom == contentView.bottom - 16
+            eventItemView.left == titleLabel.left
         }
 
         constrain(borderView, contentView) { borderView, view in
@@ -47,7 +60,9 @@ class SelectListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(list: List) {
-        titleLabel.text = list.title
+    func populate(event: TempFeedEvent) {
+        titleLabel.text = "\(event.user) added an item."
+
+        eventItemView.update(withEvent: event)
     }
 }

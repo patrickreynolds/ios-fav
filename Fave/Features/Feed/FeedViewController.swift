@@ -7,11 +7,15 @@ class FeedViewController: FaveVC {
     var user: User?
     var lastPage: Int = 1
 
-    var current = [FeedItem]()
-
     var topLists: [TopList] = [] {
         didSet {
 
+        }
+    }
+
+    var events: [TempFeedEvent] = [] {
+        didSet {
+            feedTableView.reloadData()
         }
     }
 
@@ -35,6 +39,14 @@ class FeedViewController: FaveVC {
         loadingIndicatorView.style = .gray
 
         return loadingIndicatorView
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+
+        refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
+
+        return refreshControl
     }()
 
     private lazy var welcomeView: UIView = {
@@ -74,15 +86,15 @@ class FeedViewController: FaveVC {
     private lazy var feedTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
 
-//        tableView.delegate = self
-//        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
 
 //        tableView.tableHeaderView = self.profileTableHeaderView
         tableView.tableFooterView = UIView(frame: .zero)
 
-//        tableView.register(FeedItemTableViewCell.self)
+        tableView.register(FeedEventTableViewCell.self)
 
-//        tableView.addSubview(self.refreshControl)
+        tableView.addSubview(self.refreshControl)
 
         tableView.separatorColor = UIColor.clear
 
@@ -124,8 +136,8 @@ class FeedViewController: FaveVC {
         }
 
         constrain(createButton, view) { button, view in
-            button.right == view.right - 16
-            button.bottom == view.bottomMargin - 16
+            button.right == view.right - 12
+            button.bottom == view.bottomMargin - 12
             button.width == 56
             button.height == 56
         }
@@ -147,18 +159,23 @@ class FeedViewController: FaveVC {
         refreshFeed()
     }
 
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        refreshFeed()
+    }
+
     func refreshFeed() {
         loadingIndicatorView.startAnimating()
 
         if dependencyGraph.authenticator.isLoggedIn() {
-            dependencyGraph.faveService.getFeed(from: 1, to: 100) { response, error in
+            dependencyGraph.faveService.getFeed(from: 0, to: 100) { response, error in
                 self.loadingIndicatorView.stopAnimating()
+                self.refreshControl.endRefreshing()
 
-                guard let feedData = response else {
+                guard let events = response else {
                     return
                 }
 
-                print("\(feedData.description)")
+                self.events = events
             }
 
             dependencyGraph.faveService.getCurrentUser { user, error in
@@ -199,6 +216,28 @@ class FeedViewController: FaveVC {
             welcomeView.isHidden = false
         }
     }
+}
+
+extension FeedViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return events.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeue(FeedEventTableViewCell.self, indexPath: indexPath)
+
+//        cell.delegate = self
+
+        let event = events[indexPath.row]
+        cell.populate(event: event)
+
+        return cell
+    }
+}
+
+extension FeedViewController: UITableViewDelegate {
+
 }
 
 extension FeedViewController {

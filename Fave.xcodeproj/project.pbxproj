@@ -10,9 +10,11 @@
 		4305F373224007C500F6DE77 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305F372224007C500F6DE77 /* List.swift */; };
 		4305F3752240087800F6DE77 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305F3742240087800F6DE77 /* Item.swift */; };
 		4305F37722400A3500F6DE77 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305F37622400A3500F6DE77 /* ListTableViewCell.swift */; };
-		430D8D2E224DEBA20082FCF2 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D8D2D224DEBA20082FCF2 /* FeedItem.swift */; };
+		430D8D2E224DEBA20082FCF2 /* FeedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D8D2D224DEBA20082FCF2 /* FeedEvent.swift */; };
 		430D8D30224DF1730082FCF2 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D8D2F224DF1730082FCF2 /* Friend.swift */; };
 		43176570223B644700C1963E /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317656F223B644700C1963E /* Authenticator.swift */; };
+		431A0DDA228DCBCA00F2E6BD /* FeedEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431A0DD9228DCBCA00F2E6BD /* FeedEventTableViewCell.swift */; };
+		431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431A0DDB228DCC7300F2E6BD /* EventItemView.swift */; };
 		431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */; };
 		431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF89E2249EDA500717312 /* CreateItemViewController.swift */; };
 		431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */; };
@@ -111,9 +113,11 @@
 		4305F372224007C500F6DE77 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		4305F3742240087800F6DE77 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		4305F37622400A3500F6DE77 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
-		430D8D2D224DEBA20082FCF2 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		430D8D2D224DEBA20082FCF2 /* FeedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedEvent.swift; sourceTree = "<group>"; };
 		430D8D2F224DF1730082FCF2 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		4317656F223B644700C1963E /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
+		431A0DD9228DCBCA00F2E6BD /* FeedEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedEventTableViewCell.swift; sourceTree = "<group>"; };
+		431A0DDB228DCC7300F2E6BD /* EventItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemView.swift; sourceTree = "<group>"; };
 		431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringExt.swift; sourceTree = "<group>"; };
 		431DF89E2249EDA500717312 /* CreateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemViewController.swift; sourceTree = "<group>"; };
 		431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExt.swift; sourceTree = "<group>"; };
@@ -229,6 +233,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		431A0DD8228DBF6200F2E6BD /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				438534BC223336BA00B99EC7 /* FeedViewController.swift */,
+				431A0DD9228DCBCA00F2E6BD /* FeedEventTableViewCell.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
 		431DF8A02249EFFC00717312 /* Item */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +356,7 @@
 				43BF881422449EFB0096CCA1 /* DividerView.swift */,
 				43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */,
 				43824891227C069900257D27 /* AutosizingTableView.swift */,
+				431A0DDB228DCC7300F2E6BD /* EventItemView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -361,7 +375,7 @@
 				43AFB447223DC3E000B243E1 /* User.swift */,
 				4305F372224007C500F6DE77 /* List.swift */,
 				4305F3742240087800F6DE77 /* Item.swift */,
-				430D8D2D224DEBA20082FCF2 /* FeedItem.swift */,
+				430D8D2D224DEBA20082FCF2 /* FeedEvent.swift */,
 				430D8D2F224DF1730082FCF2 /* Friend.swift */,
 				43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */,
 				43BEA2F92268E13C001F930E /* TopLists.swift */,
@@ -396,7 +410,7 @@
 				431DF8A02249EFFC00717312 /* Item */,
 				439FDDDE2245D1E100ED9343 /* List */,
 				43AFB44B223DE8E100B243E1 /* Profile */,
-				438534BC223336BA00B99EC7 /* FeedViewController.swift */,
+				431A0DD8228DBF6200F2E6BD /* Feed */,
 				4386BFDF22334760006A3ED7 /* LoggedOutViewController.swift */,
 				43BEA2FB226B84B5001F930E /* Discover */,
 			);
@@ -765,9 +779,11 @@
 				43824890227B50E800257D27 /* MyListsViewController.swift in Sources */,
 				438534EA2233386100B99EC7 /* CartographyExt.swift in Sources */,
 				438534FA2233397E00B99EC7 /* FaveVC.swift in Sources */,
+				431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
 				43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */,
 				438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */,
+				431A0DDA228DCBCA00F2E6BD /* FeedEventTableViewCell.swift in Sources */,
 				438534FE223339D500B99EC7 /* Analytics.swift in Sources */,
 				4376A9EB225A509400741F92 /* ItemMapTableViewCell.swift in Sources */,
 				4386BFF222335F43006A3ED7 /* Label.swift in Sources */,
@@ -816,7 +832,7 @@
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
 				4385350522333AA700B99EC7 /* Networking.swift in Sources */,
 				4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */,
-				430D8D2E224DEBA20082FCF2 /* FeedItem.swift in Sources */,
+				430D8D2E224DEBA20082FCF2 /* FeedEvent.swift in Sources */,
 				4305F373224007C500F6DE77 /* List.swift in Sources */,
 				439FDDE02245D1FC00ED9343 /* ListViewController.swift in Sources */,
 				43915CA92276854900562B5A /* ItemInfoRatingView.swift in Sources */,
@@ -931,7 +947,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA1DE3DC9DEAE3E5142BACE2 /* Pods-Fave.local.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://10.0.0.63:3000/";
+				API_BASE_URL_ENDPOINT = "http://localhost:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;

@@ -163,8 +163,8 @@ class ListViewController: FaveVC {
         }
 
         constrain(createButton, view) { button, view in
-            button.right == view.right - 16
-            button.bottom == view.bottomMargin - 16
+            button.right == view.right - 12
+            button.bottom == view.bottomMargin - 12
             button.width == 56
             button.height == 56
         }

@@ -87,7 +87,7 @@ class ListTableHeaderView: UIView {
     }()
 
     private lazy var listSegmentedControl: ListSegmentedControl = {
-        let listSegmentedControlView = ListSegmentedControl.init(tabs: ["\(list.numberOfItems) Entries", "0 Recommendations"])
+        let listSegmentedControlView = ListSegmentedControl.init(tabs: ["\(list.numberOfItems) Entries", "0 Recs"])
 
         listSegmentedControlView.delegate = self
 
@@ -274,7 +274,7 @@ class ListTableHeaderView: UIView {
 
     func updateHeaderInfo(list: List, listItems: [Item]) {
         let entryTitle = listItems.count == 1 ? "\(listItems.count) Entry" : "\(listItems.count) Entries"
-        let recommendationTitle = list.numberOfRecommendations == 1 ? "\(list.numberOfRecommendations) Recommendation" : "\(list.numberOfRecommendations) Recommendations"
+        let recommendationTitle = list.numberOfRecommendations == 1 ? "\(list.numberOfRecommendations) Rec" : "\(list.numberOfRecommendations) Recs"
 
         listSegmentedControl.updateTitleAtIndex(title: entryTitle, index: 0)
         listSegmentedControl.updateTitleAtIndex(title: recommendationTitle, index: 1)

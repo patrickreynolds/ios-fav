@@ -180,8 +180,8 @@ class DiscoverViewController: FaveVC {
         view.addSubview(createButton)
 
         constrain(createButton, view) { button, view in
-            button.right == view.right - 16
-            button.bottom == view.bottomMargin - 16
+            button.right == view.right - 12
+            button.bottom == view.bottomMargin - 12
             button.width == 56
             button.height == 56
         }
@@ -260,10 +260,10 @@ extension DiscoverViewController: UITableViewDelegate {
 
 extension DiscoverViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let maxNumberOfRows = 2
+        let maxNumberOfRows = 3
 
         if suggestionSections[section].lists.count > maxNumberOfRows {
-            return 2
+            return 3
         } else {
             return suggestionSections[section].lists.count
         }

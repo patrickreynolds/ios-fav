@@ -10,7 +10,7 @@ protocol FaveServiceType {
     func createListItem(userId: Int, listId: Int, type: String, placeId: String, note: String, completion: @escaping FaveAPICallResultCompletionBlock)
     func getListItems(userId: Int, listId: Int, completion: @escaping (_ items: [Item]?, _ error: Error?) -> ())
     func getPaginatedFeed(page: Int, completion: @escaping FaveAPICallResultCompletionBlock)
-    func getFeed(from: Int, to: Int, completion: @escaping (_ lists: [FeedItem]?, _ error: Error?) -> ())
+    func getFeed(from: Int, to: Int, completion: @escaping (_ events: [TempFeedEvent]?, _ error: Error?) -> ())
     func suggestions(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
     func topLists(completion: @escaping (_ lists: [TopList]?, _ error: Error?) -> ())
     func getUsers(completion: @escaping (_ lists: [User]?, _ error: Error?) -> ())
@@ -160,15 +160,15 @@ struct FaveService {
         }
     }
 
-    func getFeed(from: Int, to: Int, completion: @escaping (_ lists: [FeedItem]?, _ error: Error?) -> ()) {
+    func getFeed(from: Int, to: Int, completion: @escaping (_ events: [TempFeedEvent]?, _ error: Error?) -> ()) {
         networking.sendGetRequest(endpoint: .feed(from: from, to: to)) { response, error in
-            guard let feedResponse = response else {
+            guard let eventResponse = response, let eventData = eventResponse["events"] as? [[String: AnyObject]] else {
                 completion(nil, error)
 
                 return
             }
 
-            let feed = [FeedItem]()
+            let feed = eventData.map({ TempFeedEvent(data: $0 )}).compactMap { $0 }
 
             completion(feed, error)
         }
