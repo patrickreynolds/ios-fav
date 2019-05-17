@@ -6,7 +6,6 @@
 build/
 DerivedData/
 *.generated.swift
-*xcworkspace/xcuserdata/*
 
 ## Various settings
 *.pbxuser
@@ -17,6 +16,7 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
+xcuserdata/
 
 ## Other
 *.moved-aside

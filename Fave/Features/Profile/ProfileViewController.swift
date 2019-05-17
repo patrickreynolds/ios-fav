@@ -104,6 +104,23 @@ class ProfileViewController: FaveVC {
         return button
     }()
 
+    private lazy var leftBarButton: UIButton = {
+        let image = UIImage.init(named: "icon-nav-chevron-left")
+        let imageView = UIImageView(image: image)
+
+        constrain(imageView) { imageView in
+            imageView.width == 24
+            imageView.height == 24
+        }
+
+        let button = UIButton.init(frame: .zero)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.tintColor = FaveColors.Black90
+
+        return button
+    }()
+
     init(dependencyGraph: DependencyGraphType, user: User?) {
         self.user = user
 
@@ -141,6 +158,10 @@ class ProfileViewController: FaveVC {
         navigationItem.titleView = titleViewLabel
 
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+
+        if let navigationController = navigationController, navigationController.viewControllers.count > 1 {
+            navigationController.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
+        }
 
         refreshData()
     }
@@ -239,6 +260,10 @@ class ProfileViewController: FaveVC {
 
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
         print("\nOpen menu\n")
+    }
+
+    @objc func backButtonTapped(sender: UIButton!) {
+        _ = navigationController?.popViewController(animated: true)
     }
 
     private func logUserData(userData: [String: AnyObject]) {

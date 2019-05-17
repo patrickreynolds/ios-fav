@@ -320,7 +320,9 @@ extension DiscoverViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let user = suggestionSections[section].user
-        let header = DiscoverUserSectionHeaderView.init(user: user)
+        let header = DiscoverUserSectionHeaderView(user: user)
+
+        header.delegate = self
 
         return header
     }
@@ -381,6 +383,19 @@ extension DiscoverViewController: CreateListViewControllerDelegate {
 extension DiscoverViewController: CreateItemViewControllerDelegate {
     func didCreateItem() {
 
+    }
+}
+
+extension DiscoverViewController: DiscoverUserSectionHeaderViewDelegate {
+    func didSelectHeaderForUser(user: User) {
+        // push on user
+
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
+
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        profileViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
 

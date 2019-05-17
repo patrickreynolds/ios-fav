@@ -69,7 +69,7 @@ class ProfileTableHeaderView: UIView {
 
     let followingLabel = Label(
         text: "Not following any lists",
-        font: FaveFont.init(style: .h5, weight: .semiBold),
+        font: FaveFont.init(style: .h5, weight: .regular),
         textColor: FaveColors.Black90,
         textAlignment: .left,
         numberOfLines: 0)

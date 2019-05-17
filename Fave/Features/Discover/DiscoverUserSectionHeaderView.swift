@@ -3,9 +3,15 @@ import UIKit
 
 import Cartography
 
+protocol DiscoverUserSectionHeaderViewDelegate {
+    func didSelectHeaderForUser(user: User)
+}
+
 class DiscoverUserSectionHeaderView: UIView {
 
     let user: User
+
+    var delegate: DiscoverUserSectionHeaderViewDelegate?
 
     let profileImageView: UIImageView = {
         let imageView = UIImageView.init(frame: .zero)
@@ -56,6 +62,11 @@ class DiscoverUserSectionHeaderView: UIView {
 
         profileImageView.image = UIImage(base64String: user.profilePicture)
         titleLabel.text = "\(user.firstName) \(user.lastName)"
+
+        isUserInteractionEnabled = true
+        _ = tapped { tapped in
+            self.delegate?.didSelectHeaderForUser(user: user)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
