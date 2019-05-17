@@ -6,6 +6,7 @@
 build/
 DerivedData/
 *.generated.swift
+*xcworkspace/xcuserdata/*
 
 ## Various settings
 *.pbxuser
