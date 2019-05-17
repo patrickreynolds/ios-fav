@@ -6,22 +6,18 @@ import Cartography
 protocol DiscoverUserListTableViewCellDelegate {
 //    func faveItemButtonTapped(item: Item)
 //    func shareItemButtonTapped(item: Item)
-    func didTapFollowButtonForList(list: List?)
+//    func didTapFollowButtonForList(list: List?)
+    func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List)
 }
 
 
 
 class DiscoverUserListTableViewCell: UITableViewCell {
 
-    private enum RelationshipType {
-        case follow
-        case following
-    }
-
     var list: List?
     var delegate: DiscoverUserListTableViewCellDelegate?
 
-    private var relationship: RelationshipType = .follow {
+    private var relationship: FaveRelationshipType = .notFollowing {
         didSet {
             if relationship == .following {
                 let attributedTitle = NSAttributedString(string: "Following",
@@ -129,20 +125,24 @@ class DiscoverUserListTableViewCell: UITableViewCell {
 
         subtitleLabel.text = listSubtitleString
 
-        let userFollowing = false
+        let userFollowing = list.isUserFollowing ?? false
 
-//        if userFollowing {
-//            relationship = .following
-//        } else {
-//            relationship = .follow
-//        }
+        if userFollowing {
+            relationship = .following
+        } else {
+            relationship = .notFollowing
+        }
     }
 
     @objc func didTapFollowButton() {
-        print("\nDid tap follow button\n")
+        guard let list = list else {
+            return
+        }
 
-        relationship = relationship == .follow ? .following : .follow
+        let newRelationship: FaveRelationshipType = relationship == .notFollowing ? .following : .notFollowing
 
-        delegate?.didTapFollowButtonForList(list: self.list)
+        relationship = newRelationship
+
+        delegate?.didUpdateRelationship(to: newRelationship, forList: list)
     }
 }
