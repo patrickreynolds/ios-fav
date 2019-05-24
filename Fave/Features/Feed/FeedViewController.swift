@@ -9,7 +9,7 @@ class FeedViewController: FaveVC {
 
     var topLists: [TopList] = [] {
         didSet {
-
+            welcomeView.update(withTopLists: topLists, dependencyGraph: self.dependencyGraph)
         }
     }
 
@@ -49,36 +49,8 @@ class FeedViewController: FaveVC {
         return refreshControl
     }()
 
-    private lazy var welcomeView: UIView = {
-        let view = UIView.init(frame: CGRect.zero)
-
-        let titleLabel = Label(text: "Welcome to Fave!",
-                               font: FaveFont(style: .h4, weight: .bold),
-                               textColor: FaveColors.Black90,
-                               textAlignment: .center,
-                               numberOfLines: 0)
-
-        let subtitleLabel = Label(text: "Create, discover, and share your favorite places with friends.",
-                                  font: FaveFont(style: .h5, weight: .regular),
-                                  textColor: FaveColors.Black70,
-                                  textAlignment: .center,
-                                  numberOfLines: 0)
-
-        view.addSubview(titleLabel)
-        view.addSubview(subtitleLabel)
-
-        constrain(titleLabel, view) { titleLabel, view in
-            titleLabel.top == view.top + 32
-            titleLabel.centerX == view.centerX
-        }
-
-        constrain(subtitleLabel, titleLabel, view) { subtitleLabel, titleLabel, view in
-            subtitleLabel.top == titleLabel.bottom + 8
-            subtitleLabel.left == view.left + 32
-            subtitleLabel.right == view.right - 32
-
-            subtitleLabel.bottom == view.bottom - 40
-        }
+    private lazy var welcomeView: FaveLoggedOutWelcomeView = {
+        let view = FaveLoggedOutWelcomeView()
 
         return view
     }()
@@ -129,10 +101,11 @@ class FeedViewController: FaveVC {
 
         constrain(welcomeView, view) { welcomeView, view in
             welcomeView.top == view.topMargin
+            welcomeView.bottom == view.bottomMargin
         }
 
         constrain(feedTableView, view) { tableView, view in
-            tableView.top == view.topMargin
+            tableView.top == view.topMargin + 8
         }
 
         constrain(createButton, view) { button, view in
@@ -156,6 +129,7 @@ class FeedViewController: FaveVC {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        updateUI()
         refreshFeed()
     }
 

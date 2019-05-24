@@ -494,8 +494,10 @@ extension ListViewController: EntryTableViewCellDelegate {
                     return
                 }
 
+                self.updateFaves(userId: user.id)
+
                 if success {
-                    self.updateFaves(userId: user.id)
+                    // Success placeholder
                 } else {
                     let alertController = UIAlertController(title: "Oops!", message: "Something went wrong. Try unfaving again.", preferredStyle: .alert)
 

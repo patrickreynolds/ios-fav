@@ -30,8 +30,6 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    
-
     private lazy var googlePhotoImageView: UIImageView = {
         let imageView = UIImageView.init(frame: .zero)
 
@@ -44,7 +42,7 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
 
         contentView.backgroundColor = FaveColors.Black20
-        contentView.layer.cornerRadius = 6
+        contentView.layer.cornerRadius = 4
         contentView.layer.masksToBounds = true
         contentView.clipsToBounds = true
 
