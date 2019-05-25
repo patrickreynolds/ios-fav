@@ -479,22 +479,25 @@ extension ListViewController: EntryTableViewCellDelegate {
                 self.updateFaves(userId: user.id)
             }) { selectedList in
                 self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id) { response, error in
+
+                    self.updateFaves(userId: user.id)
+
+
                     guard let _ = response else {
                         return
                     }
-
-                    self.updateFaves(userId: user.id)
                 }
             }
         } else {
             dependencyGraph.faveService.removeFave(userId: user.id, itemId: item.dataId) { success, error in
+
+                self.updateFaves(userId: user.id)
+
                 if let _ = error {
                     // TODO: Handle error
 
                     return
                 }
-
-                self.updateFaves(userId: user.id)
 
                 if success {
                     // Success placeholder
