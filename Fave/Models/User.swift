@@ -75,14 +75,3 @@ class User: NSObject, NSCoding {
         profilePicture = aDecoder.decodeObject(forKey: "profilePic") as! String
     }
 }
-
-//extension User {
-//    static func ==(lhs: User, rhs: User) -> Bool {
-//        return lhs.id == rhs.id &&
-//            lhs.firstName == rhs.firstName &&
-//            lhs.lastName == rhs.lastName &&
-//            lhs.email == rhs.email &&
-//            lhs.handle == rhs.handle &&
-//            lhs.profilePicture == rhs.profilePicture
-//    }
-//}

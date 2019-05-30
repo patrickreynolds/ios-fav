@@ -5,7 +5,7 @@ protocol DependencyGraphType {
     var analytics: Analytics { get }
     var authenticator: Authenticator { get }
     var storage: TemporaryStorage { get }
-    var faveService: FaveService { get }
+    var faveService: FaveServiceType { get }
     var analyticsService: AnalyticsService { get }
 }
 
@@ -14,7 +14,7 @@ struct DependencyGraph: DependencyGraphType {
     let analytics: Analytics
     let authenticator: Authenticator
     let storage: TemporaryStorage
-    let faveService: FaveService
+    let faveService: FaveServiceType
     let analyticsService: AnalyticsService
 
     init() {
@@ -27,7 +27,7 @@ struct DependencyGraph: DependencyGraphType {
         self.analytics = Analytics()
         self.authenticator = authenticator
         self.storage = storage
-        self.faveService = FaveService(networking: networking)
+        self.faveService = FaveGraphQLService(networking: networking)
         self.analyticsService = AnalyticsService(networking: networking)
     }
 }

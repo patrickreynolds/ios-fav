@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Item/CreateItemViewController.swift"
-            timestampString = "580006799.672932"
+            timestampString = "580449860.309906"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Item/CreateItemViewController.swift"
-            timestampString = "580006799.673"
+            timestampString = "580449860.310411"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/CreateListViewController.swift"
-            timestampString = "580360052.0953389"
+            timestampString = "580929930.693615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "355"
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386107"
+            timestampString = "580841212.744756"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "getLists(userId:completion:)"
             landmarkType = "7">
             <Locations>
@@ -153,11 +153,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.3861721"
+            timestampString = "580841212.744833"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "createList(userId:name:description:isPublic:completion:)"
             landmarkType = "7">
             <Locations>
@@ -197,11 +197,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/List.swift"
-            timestampString = "578719280.509775"
+            timestampString = "580926752.921259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -217,7 +217,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Profile/ProfileViewController.swift"
-            timestampString = "579806236.0124511"
+            timestampString = "580697145.578496"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "350"
@@ -233,11 +233,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386258"
+            timestampString = "580841212.745065"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "getLists(userId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -249,11 +249,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386304"
+            timestampString = "580841212.74515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
             landmarkName = "getCurrentUser(completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -265,11 +265,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.510466"
+            timestampString = "580929930.694164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "sendGetRequest(endpoint:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -281,11 +281,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.510548"
+            timestampString = "580929930.694277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "sendGetRequest(endpoint:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -297,11 +297,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.510615"
+            timestampString = "580929930.69435"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "sendGetRequest(endpoint:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -313,7 +313,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.01266"
+            timestampString = "580841212.745501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "132"
@@ -329,7 +329,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.012782"
+            timestampString = "580841212.745557"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "166"
@@ -345,11 +345,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386398"
+            timestampString = "580841212.745603"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "getListItems(userId:listId:completion:)"
             landmarkType = "7">
             <Locations>
@@ -408,11 +408,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386441"
+            timestampString = "580841212.745661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "getListItems(userId:listId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -424,7 +424,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/Item.swift"
-            timestampString = "578719280.511258"
+            timestampString = "580929930.6944489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
@@ -440,7 +440,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/Item.swift"
-            timestampString = "578719280.511364"
+            timestampString = "580929930.694517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "86"
@@ -456,23 +456,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386513"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "authenticate(network:accessToken:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.3865581"
+            timestampString = "580841212.745751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
@@ -488,11 +472,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.3866121"
+            timestampString = "580841212.745814"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "createList(userId:name:description:isPublic:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -504,11 +488,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.511843"
+            timestampString = "580929930.694585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "sendGetRequest(endpoint:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -520,11 +504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.511947"
+            timestampString = "580929930.694633"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "sendGetRequest(endpoint:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -536,7 +520,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Item/CreateItemViewController.swift"
-            timestampString = "580006799.673771"
+            timestampString = "580449860.3123339"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "424"
@@ -552,11 +536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386822"
+            timestampString = "580841212.746065"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "createListItem(userId:listId:type:placeId:note:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -568,11 +552,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386886"
+            timestampString = "580841212.746128"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "createListItem(userId:listId:type:placeId:note:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -584,11 +568,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.3869309"
+            timestampString = "580841212.7461849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "getUser(userId:completion:)"
             landmarkType = "7">
             <Locations>
@@ -632,11 +616,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.386978"
+            timestampString = "580841212.746237"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "getUser(userId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -648,11 +632,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.512539"
+            timestampString = "580929930.694728"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "sendGetRequest(endpoint:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -664,11 +648,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.3870699"
+            timestampString = "580841212.746453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "getList(userId:listId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -680,11 +664,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.387117"
+            timestampString = "580841212.746521"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "getListItems(userId:listId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -692,11 +676,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/Item.swift"
-            timestampString = "578719280.512823"
+            timestampString = "580929930.6948349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "20"
@@ -712,7 +696,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/List.swift"
-            timestampString = "578719280.512886"
+            timestampString = "580926752.9220949"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
@@ -728,7 +712,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Profile/ProfileViewController.swift"
-            timestampString = "579806236.013402"
+            timestampString = "580697145.580683"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "247"
@@ -744,7 +728,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/ContextualItems.swift"
-            timestampString = "578333557.901335"
+            timestampString = "580751210.6089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "130"
@@ -760,7 +744,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Profile/ProfileViewController.swift"
-            timestampString = "579806236.013519"
+            timestampString = "580697145.580785"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "202"
@@ -808,7 +792,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Profile/ProfileViewController.swift"
-            timestampString = "579806236.013604"
+            timestampString = "580697145.580856"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "241"
@@ -824,7 +808,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.013688"
+            timestampString = "580841212.74673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "369"
@@ -1085,7 +1069,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Profile/ProfileViewController.swift"
-            timestampString = "579806236.014325"
+            timestampString = "580697145.58127"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "240"
@@ -1101,12 +1085,12 @@
                   moduleName = "Fave"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Features/Profile/ProfileViewController.swift"
-                  timestampString = "577477702.010906"
+                  timestampString = "580611181.0720969"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "207"
-                  endingLineNumber = "207"
-                  offsetFromSymbolStart = "736">
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "1047">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -1116,12 +1100,12 @@
                   moduleName = "Fave"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Features/Profile/ProfileViewController.swift"
-                  timestampString = "577477702.012966"
+                  timestampString = "580611181.074668"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208"
-                  offsetFromSymbolStart = "56">
+                  startingLineNumber = "241"
+                  endingLineNumber = "241"
+                  offsetFromSymbolStart = "65">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1133,11 +1117,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.3874871"
+            timestampString = "580841212.746985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "getLists(userId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1149,11 +1133,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.515518"
+            timestampString = "580929930.695313"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "sendGetRequest(endpoint:completion:)"
             landmarkType = "7">
             <Locations>
@@ -1197,11 +1181,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.515642"
+            timestampString = "580929930.695418"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "sendGetRequest(endpoint:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1213,11 +1197,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.387606"
+            timestampString = "580841212.747337"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "getLists(userId:completion:)"
             landmarkType = "7">
             <Locations>
@@ -1261,7 +1245,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/LoggedOutViewController.swift"
-            timestampString = "580359438.432688"
+            timestampString = "580841212.7474101"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "181"
@@ -1277,7 +1261,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/LoggedOutViewController.swift"
-            timestampString = "580359438.43279"
+            timestampString = "580841212.747473"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -1293,7 +1277,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/LoggedOutViewController.swift"
-            timestampString = "580359438.432865"
+            timestampString = "580841212.74753"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "170"
@@ -1501,11 +1485,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.387812"
+            timestampString = "580841212.747867"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "getListItem(userId:listId:itemId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1517,11 +1501,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.38787"
+            timestampString = "580841212.747973"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "getListItem(userId:listId:itemId:completion:)"
             landmarkType = "7">
             <Locations>
@@ -1565,11 +1549,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.387934"
+            timestampString = "580841212.748073"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "getListItem(userId:listId:itemId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1661,11 +1645,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.388029"
+            timestampString = "580841212.748194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
             landmarkName = "getUsers(completion:)"
             landmarkType = "7">
             <Locations>
@@ -1709,11 +1693,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.388135"
+            timestampString = "580841212.7482539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "getUsers(completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1885,11 +1869,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.388341"
+            timestampString = "580841212.748668"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "getFeed(from:to:completion:)"
             landmarkType = "7">
             <Locations>
@@ -1933,11 +1917,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.388401"
+            timestampString = "580841212.748755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "getFeed(from:to:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1949,7 +1933,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/User.swift"
-            timestampString = "578702394.008003"
+            timestampString = "580841212.7488281"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -2205,11 +2189,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.388621"
+            timestampString = "580841212.74907"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "getFeed(from:to:completion:)"
             landmarkType = "7">
             <Locations>
@@ -2253,7 +2237,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/AppDelegate.swift"
-            timestampString = "580359225.702463"
+            timestampString = "580841212.749137"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
@@ -2281,11 +2265,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/CreateListViewController.swift"
-            timestampString = "580360052.096628"
+            timestampString = "580929930.696309"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "324"
@@ -2301,11 +2285,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.389038"
+            timestampString = "580841212.74977"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "createList(userId:name:description:isPublic:completion:)"
             landmarkType = "7">
             <Locations>
@@ -2365,7 +2349,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/ContextualItems.swift"
-            timestampString = "578333557.908694"
+            timestampString = "580751210.614573"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
@@ -2381,7 +2365,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/ContextualItems.swift"
-            timestampString = "578333557.908764"
+            timestampString = "580751210.614675"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "50"
@@ -2413,7 +2397,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/ContextualItems.swift"
-            timestampString = "578333557.908908"
+            timestampString = "580751210.614849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
@@ -2461,7 +2445,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Models/List.swift"
-            timestampString = "578719280.5198849"
+            timestampString = "580926752.923841"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "48"
@@ -2509,11 +2493,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.389212"
+            timestampString = "580841212.750173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "getFeed(from:to:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2525,11 +2509,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.389263"
+            timestampString = "580841212.750231"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "getFeed(from:to:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2541,7 +2525,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.017608"
+            timestampString = "580841212.75033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "36"
@@ -2589,11 +2573,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.017747"
+            timestampString = "580841212.750438"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "488"
-            endingLineNumber = "488"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
             landmarkName = "faveItemButtonTapped(item:from:to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2605,7 +2589,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.017843"
+            timestampString = "580841212.75051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "467"
@@ -2621,7 +2605,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.017944"
+            timestampString = "580841212.750564"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "478"
@@ -2701,7 +2685,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.018128"
+            timestampString = "580841212.750681"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "481"
@@ -2713,31 +2697,31 @@
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Fave.List) -&gt; () in Fave.ListViewController.faveItemButtonTapped(item: Fave.Item, from: Swift.Bool, to: Swift.Bool) -&gt; ()"
+                  symbolName = "closure #2 (Fave.List) -&gt; () in Fave.ListViewController.faveItemButtonTapped(item: Fave.Item, from: Swift.Bool, to: Swift.Bool) -&gt; ()"
                   moduleName = "Fave"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Features/List/ListViewController.swift"
-                  timestampString = "578562389.134398"
+                  timestampString = "580361171.671471"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "433"
-                  endingLineNumber = "433"
-                  offsetFromSymbolStart = "56">
+                  startingLineNumber = "481"
+                  endingLineNumber = "481"
+                  offsetFromSymbolStart = "68">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Fave.Item&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Fave.List) -&gt; () in Fave.ListViewController.faveItemButtonTapped(item: Fave.Item, from: Swift.Bool, to: Swift.Bool) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Optional&lt;Fave.Item&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #2 (Fave.List) -&gt; () in Fave.ListViewController.faveItemButtonTapped(item: Fave.Item, from: Swift.Bool, to: Swift.Bool) -&gt; ()"
                   moduleName = "Fave"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Features/List/ListViewController.swift"
-                  timestampString = "578562389.138857"
+                  timestampString = "580361171.677451"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "434"
-                  endingLineNumber = "434"
-                  offsetFromSymbolStart = "56">
+                  startingLineNumber = "482"
+                  endingLineNumber = "482"
+                  offsetFromSymbolStart = "68">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2749,11 +2733,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.0182509"
+            timestampString = "580841212.750749"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
             landmarkName = "updateFaves(userId:)"
             landmarkType = "7">
             <Locations>
@@ -2797,11 +2781,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.0183851"
+            timestampString = "580841212.750798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "518"
-            endingLineNumber = "518"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
             landmarkName = "updateFaves(userId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2829,7 +2813,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.018553"
+            timestampString = "580841212.750908"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "486"
@@ -2845,55 +2829,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.018689"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "482"
-            endingLineNumber = "482"
-            landmarkName = "faveItemButtonTapped(item:from:to:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.3894759"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
-            landmarkName = "getFaves(userId:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.389533"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "305"
-            endingLineNumber = "305"
-            landmarkName = "getFaves(userId:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.018911"
+            timestampString = "580841212.751009"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "39"
@@ -2925,7 +2861,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.019069"
+            timestampString = "580841212.751129"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "473"
@@ -2941,11 +2877,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.019164"
+            timestampString = "580841212.751219"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "491"
-            endingLineNumber = "491"
+            startingLineNumber = "496"
+            endingLineNumber = "496"
             landmarkName = "faveItemButtonTapped(item:from:to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2957,11 +2893,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.389631"
+            timestampString = "580841212.751338"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "removeFave(userId:itemId:completion:)"
             landmarkType = "7">
             <Locations>
@@ -3005,11 +2941,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.389677"
+            timestampString = "580841212.7514139"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "removeFave(userId:itemId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3021,11 +2957,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.3897409"
+            timestampString = "580841212.751472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
             landmarkName = "removeFave(userId:itemId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3037,11 +2973,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.522586"
+            timestampString = "580929930.697293"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "sendDeleteRequest(endpoint:data:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3053,11 +2989,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.522665"
+            timestampString = "580929930.697389"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "sendDeleteRequest(endpoint:data:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3065,15 +3001,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/Networking.swift"
-            timestampString = "578719280.52273"
+            timestampString = "580929930.697492"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "sendPostRequest(endpoint:data:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3085,7 +3021,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.019473"
+            timestampString = "580841212.751891"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "474"
@@ -3101,11 +3037,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.019586"
+            timestampString = "580841212.751972"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
             landmarkName = "updateFaves(userId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3117,11 +3053,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.019707"
+            timestampString = "580841212.752046"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "518"
-            endingLineNumber = "518"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
             landmarkName = "updateFaves(userId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3133,28 +3069,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.019804"
+            timestampString = "580841212.752156"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "522"
-            endingLineNumber = "522"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
             landmarkName = "updateFaves(userId:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Fave/Features/LoggedOutViewController.swift"
-            timestampString = "580359438.434774"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "authenticateWithFacebook(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3165,7 +3085,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.389913"
+            timestampString = "580841212.7522891"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
@@ -3213,7 +3133,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.019999"
+            timestampString = "580841212.752556"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
@@ -3229,11 +3149,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.020083"
+            timestampString = "580841212.752647"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "498"
-            endingLineNumber = "498"
+            startingLineNumber = "501"
+            endingLineNumber = "501"
             landmarkName = "faveItemButtonTapped(item:from:to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3245,11 +3165,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.020172"
+            timestampString = "580841212.752707"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
+            startingLineNumber = "502"
+            endingLineNumber = "502"
             landmarkName = "faveItemButtonTapped(item:from:to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3341,7 +3261,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.02048"
+            timestampString = "580841212.752809"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -3389,7 +3309,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.020604"
+            timestampString = "580841212.752864"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "252"
@@ -3405,7 +3325,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.020707"
+            timestampString = "580841212.752955"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -3421,7 +3341,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.020834"
+            timestampString = "580841212.7530479"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "256"
@@ -3437,7 +3357,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.020938"
+            timestampString = "580841212.7531281"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "442"
@@ -3485,7 +3405,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.021084"
+            timestampString = "580841212.753197"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "439"
@@ -3501,7 +3421,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.021221"
+            timestampString = "580841212.753266"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "453"
@@ -3517,7 +3437,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.021347"
+            timestampString = "580841212.753317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "443"
@@ -3533,11 +3453,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.390241"
+            timestampString = "580841212.753363"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "unfollowList(listId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3549,11 +3469,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.390323"
+            timestampString = "580841212.753417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "followList(listId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3565,7 +3485,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/ListViewController.swift"
-            timestampString = "579806236.02151"
+            timestampString = "580841212.7534961"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "452"
@@ -3613,7 +3533,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/List/CreateListViewController.swift"
-            timestampString = "580360052.097536"
+            timestampString = "580929930.6983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "326"
@@ -3629,11 +3549,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.390661"
+            timestampString = "580841212.753978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
             landmarkName = "followList(listId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3709,7 +3629,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FeedViewController.swift"
-            timestampString = "580360052.0979151"
+            timestampString = "580361802.776638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "169"
@@ -3725,7 +3645,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FeedViewController.swift"
-            timestampString = "580360052.097975"
+            timestampString = "580361802.776722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "161"
@@ -3741,7 +3661,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FeedViewController.swift"
-            timestampString = "580360052.098026"
+            timestampString = "580361802.776791"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "171"
@@ -3757,7 +3677,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FeedViewController.swift"
-            timestampString = "580360052.098076"
+            timestampString = "580361802.776865"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "173"
@@ -3773,11 +3693,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Networking/FaveService.swift"
-            timestampString = "580004162.391083"
+            timestampString = "580841212.754195"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "getFeed(from:to:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3789,7 +3709,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Profile/ProfileViewController.swift"
-            timestampString = "579806236.024248"
+            timestampString = "580697145.5887769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "292"
@@ -3805,7 +3725,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Profile/ProfileViewController.swift"
-            timestampString = "579806236.024349"
+            timestampString = "580697145.588858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "296"
@@ -3821,7 +3741,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Profile/ProfileViewController.swift"
-            timestampString = "579806236.024455"
+            timestampString = "580697145.58894"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
@@ -4077,7 +3997,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FeedViewController.swift"
-            timestampString = "580360052.098297"
+            timestampString = "580361802.77721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "142"
@@ -4093,7 +4013,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FeedViewController.swift"
-            timestampString = "580360052.098339"
+            timestampString = "580361802.7772861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "143"
@@ -4109,7 +4029,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FeedViewController.swift"
-            timestampString = "580360052.0983779"
+            timestampString = "580361802.777362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "181"
@@ -4125,7 +4045,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FaveLoggedOutWelcomeView.swift"
-            timestampString = "580360052.098418"
+            timestampString = "580361802.777493"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
@@ -4141,7 +4061,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fave/Features/Feed/FeedViewController.swift"
-            timestampString = "580360052.0984581"
+            timestampString = "580361802.7776181"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "12"
@@ -4156,14 +4076,826 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Fave/Features/Feed/TopListCollectionViewCell.swift"
-            timestampString = "580360052.098498"
+            filePath = "Fave/Features/LoggedOutViewController.swift"
+            timestampString = "580841212.754656"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "seeAllItemsButton"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "authenticateWithFacebook(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/LoggedOutViewController.swift"
+            timestampString = "580841212.75473"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "loginState"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/LoggedOutViewController.swift"
+            timestampString = "580841212.754812"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "loginState"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.LoggedOutViewController.loginState.didset : Fave.LoggedOutViewController.LoginState"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Features/LoggedOutViewController.swift"
+                  timestampString = "580360506.061601"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "145">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in Fave.LoggedOutViewController.loginState.didset : Fave.LoggedOutViewController.LoginState"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Features/LoggedOutViewController.swift"
+                  timestampString = "580360506.064086"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "22">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/LoggedOutViewController.swift"
+            timestampString = "580841212.754879"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "loginState"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/Item/ItemViewController.swift"
+            timestampString = "580361016.843311"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "317"
+            endingLineNumber = "317"
+            landmarkName = "didSelectList(list:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/Item/CreateItemViewController.swift"
+            timestampString = "580449860.319517"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
+            landmarkName = "createItemButtonTapped(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveService.swift"
+            timestampString = "580841212.75501"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "createListItem(userId:listId:type:placeId:note:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.6997629"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "485"
+            endingLineNumber = "485">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.699892"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "485"
+            endingLineNumber = "485">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/Networking.swift"
+            timestampString = "580929930.700037"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "sendGraphqlRequest(query:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.Networking.sendGraphqlRequest(query: Swift.String, completion: (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/Networking.swift"
+                  timestampString = "580696843.848637"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "2193">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Any&gt;) -&gt; () in Fave.Networking.sendGraphqlRequest(query: Swift.String, completion: (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/Networking.swift"
+                  timestampString = "580696843.852524"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "55">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/Networking.swift"
+            timestampString = "580929930.700166"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "sendGraphqlRequest(query:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/GraphqlNetworking.swift"
+            timestampString = "580597996.980685"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "getUser(userId:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.70029"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "getUser(userId:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.FaveGraphQLService.getUser(userId: Swift.Int, completion: (Swift.Optional&lt;Fave.User&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580840313.428333"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "1277">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Fave.FaveGraphQLService.getUser(userId: Swift.Int, completion: (Swift.Optional&lt;Fave.User&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580840313.4306149"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "69">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/Profile/ProfileViewController.swift"
+            timestampString = "580697145.591678"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
+            landmarkName = "refreshData(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/Profile/ProfileViewController.swift"
+            timestampString = "580697145.591804"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "refreshData(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.700439"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "getUser(userId:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.FaveGraphQLService.getUser(userId: Swift.Int, completion: (Swift.Optional&lt;Fave.User&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580599864.538705"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "1299">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Fave.FaveGraphQLService.getUser(userId: Swift.Int, completion: (Swift.Optional&lt;Fave.User&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580599864.540532"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "61">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/Networking.swift"
+            timestampString = "580929930.700544"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "sendPostRequest(endpoint:data:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.Networking.sendPostRequest(endpoint: Fave.FaveEndpoint, data: Swift.Dictionary&lt;Swift.String, Swift.String&gt;, completion: (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/Networking.swift"
+                  timestampString = "580929931.032577"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "1948">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Any&gt;) -&gt; () in Fave.Networking.sendPostRequest(endpoint: Fave.FaveEndpoint, data: Swift.Dictionary&lt;Swift.String, Swift.String&gt;, completion: (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/Networking.swift"
+                  timestampString = "580929931.035319"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "145"
+                  endingLineNumber = "145"
+                  offsetFromSymbolStart = "55">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/LoggedOutViewController.swift"
+            timestampString = "580841212.756071"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "authenticateWithFacebook(sender:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (FacebookLogin.LoginResult) -&gt; () in Fave.LoggedOutViewController.authenticateWithFacebook(sender: Swift.Optional&lt;__C.UIButton&gt;) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Features/LoggedOutViewController.swift"
+                  timestampString = "580605495.230893"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "187"
+                  endingLineNumber = "187"
+                  offsetFromSymbolStart = "1087">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Fave.AuthenticationInfo&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (FacebookLogin.LoginResult) -&gt; () in Fave.LoggedOutViewController.authenticateWithFacebook(sender: Swift.Optional&lt;__C.UIButton&gt;) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Features/LoggedOutViewController.swift"
+                  timestampString = "580605495.232826"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "189"
+                  endingLineNumber = "189"
+                  offsetFromSymbolStart = "49">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/LoggedOutViewController.swift"
+            timestampString = "580841212.756125"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "authenticateWithFacebook(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/Networking.swift"
+            timestampString = "580929930.700665"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "sendGraphqlRequest(query:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Features/LoggedOutViewController.swift"
+            timestampString = "580841212.756305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "authenticateWithFacebook(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.700847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "getLists(userId:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.FaveGraphQLService.getLists(userId: Swift.Int, completion: (Swift.Optional&lt;Swift.Array&lt;Fave.List&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580927128.496341"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "199"
+                  endingLineNumber = "199"
+                  offsetFromSymbolStart = "4243">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Fave.FaveGraphQLService.getLists(userId: Swift.Int, completion: (Swift.Optional&lt;Swift.Array&lt;Fave.List&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580927128.498089"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "200"
+                  endingLineNumber = "200"
+                  offsetFromSymbolStart = "83">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Models/List.swift"
+            timestampString = "580926752.9257309"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "init(id:title:description:isPublic:numberOfFollowers:numberOfItems:numberOfRecommendations:items:owner:url:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Models/List.swift"
+            timestampString = "580926752.926044"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "init(data:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Models/List.swift"
+            timestampString = "580926752.926332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "init(data:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/Networking.swift"
+            timestampString = "580929930.70108"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "sendGraphqlRequest(query:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Models/List.swift"
+            timestampString = "580926752.926769"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "init(data:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.List.init(data: Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;) -&gt; Swift.Optional&lt;Fave.List&gt;"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Models/List.swift"
+                  timestampString = "580927988.164081"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
+                  offsetFromSymbolStart = "2642">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;) -&gt; Swift.Optional&lt;Fave.Item&gt; in Fave.List.init(data: Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;) -&gt; Swift.Optional&lt;Fave.List&gt;"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Models/List.swift"
+                  timestampString = "580927988.16618"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Models/List.swift"
+            timestampString = "580926752.927061"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "init(data:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.701183"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "getUser(userId:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.701257"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "getLists(userId:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.FaveGraphQLService.getLists(userId: Swift.Int, completion: (Swift.Optional&lt;Swift.Array&lt;Fave.List&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580926753.1704839"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "199"
+                  endingLineNumber = "199"
+                  offsetFromSymbolStart = "4243">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Fave.FaveGraphQLService.getLists(userId: Swift.Int, completion: (Swift.Optional&lt;Swift.Array&lt;Fave.List&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580926753.1727459"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "200"
+                  endingLineNumber = "200"
+                  offsetFromSymbolStart = "83">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.7013299"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "createList(userId:name:description:isPublic:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Fave.FaveGraphQLService.createList(userId: Swift.Int, name: Swift.String, description: Swift.String, isPublic: Swift.Bool, completion: (Swift.Optional&lt;Fave.List&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580929931.078392"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "228"
+                  endingLineNumber = "228"
+                  offsetFromSymbolStart = "126">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.AnyObject&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Fave.FaveGraphQLService.createList(userId: Swift.Int, name: Swift.String, description: Swift.String, isPublic: Swift.Bool, completion: (Swift.Optional&lt;Fave.List&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Fave"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patrickreynolds/Projects/Fave/ios-fave/Fave/Fave/Networking/FaveGraphQLService.swift"
+                  timestampString = "580929931.0834351"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "229"
+                  endingLineNumber = "229"
+                  offsetFromSymbolStart = "69">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fave/Networking/FaveGraphQLService.swift"
+            timestampString = "580929930.701406"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
+            landmarkName = "createList(userId:name:description:isPublic:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

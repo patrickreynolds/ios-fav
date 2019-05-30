@@ -478,7 +478,7 @@ extension ListViewController: EntryTableViewCellDelegate {
             selectListToFaveTo(canceledSelection: {
                 self.updateFaves(userId: user.id)
             }) { selectedList in
-                self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id) { response, error in
+                self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
 
                     self.updateFaves(userId: user.id)
 

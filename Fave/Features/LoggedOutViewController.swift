@@ -171,7 +171,7 @@ class LoggedOutViewController: FaveVC {
 //        }
 
         // add .userFriends back in eventually
-        loginManager.logIn(readPermissions: [ .publicProfile, .email, ], viewController: self) { loginResult in
+        loginManager.logIn(permissions: [Permission.publicProfile, Permission.email], viewController: self) { loginResult in
             switch loginResult {
             case .failed(let error):
                 self.loginState = .loggedOut
@@ -184,43 +184,25 @@ class LoggedOutViewController: FaveVC {
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
 
                 // POST: accessToken.authenticationToken
-                self.dependencyGraph.faveService.authenticate(network: "facebook", accessToken: accessToken.authenticationToken, completion: { response, error in
-                    // response: { "user": userObject, "token": jwtAuthToken }
+                self.dependencyGraph.faveService.authenticate(network: "facebook", accessToken: accessToken.tokenString, completion: { response, error in
 
-                    var jwtAuthToken: String?
-
-                    if let response = response {
-                        if let token = response["token"] as? String {
-                            print("\n\nToken: \(token)\n\n")
-                            jwtAuthToken = token
-                        }
-                    }
-
-                    if let response = response, let userData = response["user"] as? [String: AnyObject] {
-                        if let user = User(data: userData) {
-                            self.dependencyGraph.storage.saveUser(user: user)
-                        }
-                    }
-
-                    if let token = jwtAuthToken {
-                        // Login worked
-
-                        print("Token: \(token)")
-
-                        self.dependencyGraph.authenticator.login(jwtToken: token, completion: { completed in
-                            if completed {
-                                self.delegate?.didSuccessfullyAuthenticate(viewController: self)
-                            } else {
-                                self.loginState = .loggedOut
-                            }
-                        })
-                    } else {
-                        // Login didn't work
+                    guard let authenticationInfo = response else {
                         self.loginState = .loggedOut
+
+                        return
                     }
 
-                    self.loginState = .loggedOut
+                    self.dependencyGraph.authenticator.login(jwtToken: authenticationInfo.token, completion: { completed in
+                        if completed {
+                            self.dependencyGraph.storage.saveUser(user: authenticationInfo.user)
 
+                            self.delegate?.didSuccessfullyAuthenticate(viewController: self)
+                        } else {
+                            self.dependencyGraph.storage.deleteUser()
+
+                            self.loginState = .loggedOut
+                        }
+                    })
                 })
             }
         }

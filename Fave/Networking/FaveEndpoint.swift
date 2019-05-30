@@ -1,6 +1,7 @@
 import Foundation
 
 enum FaveEndpoint {
+    case graphql
     case flights(origin: String, destination: String)
     case authentication
     case getUsers
@@ -23,6 +24,8 @@ enum FaveEndpoint {
 
     var path: String {
         switch self {
+        case .graphql:
+            return "api"
         case .flights(let origin, let destination):
             return "api/v1/flights/quotes?origin=\(origin)&destination=\(destination)"
         case .authentication:
