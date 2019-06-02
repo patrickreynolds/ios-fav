@@ -242,13 +242,15 @@ struct FaveGraphQLService {
     }
 
     func createListItem(userId: Int, listId: Int, type: String, placeId: String, note: String, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
-        let data: [String: String] = [
-            "googlePlaceId": placeId,
-            "note": note
-        ]
+//        let data: [String: String] = [
+//            "googlePlaceId": placeId,
+//            "note": note
+//        ]
 
-        networking.sendPostRequest(endpoint: .createListItem(userId: userId, listId: listId, type: type), data: data) { response, error in
-            guard let unwrappedResponse = response, let itemData = unwrappedResponse as? [String: AnyObject] else {
+        let createGooglePlacesItemQuery = GraphQLQueryBuilder.createGooglePlacesItem(listId: listId, googlePlacesId: placeId, note: note)
+
+        networking.sendGraphqlRequest(query: createGooglePlacesItemQuery) { (response, error) in
+            guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["placeItem"] as? [String: AnyObject] else {
                 completion(nil, error)
 
                 return

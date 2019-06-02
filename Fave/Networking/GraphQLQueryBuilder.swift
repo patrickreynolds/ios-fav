@@ -56,4 +56,51 @@ struct GraphQLQueryBuilder {
             }
         """
     }
+
+    static func createGooglePlacesItem(listId: Int, googlePlacesId: String, note: String) -> String {
+        return """
+        mutation {
+        addGooglePlaceListItem(listId: \(listId), googlePlaceId: "\(googlePlacesId)", note: "\(note)") {
+        id
+        dataId
+        type
+        updatedAt
+        createdAt
+        listId
+        createdAt
+        updatedAt
+        note
+        dataItem {
+        connectorId
+        connectorType
+        content {
+        ... on GooglePlace {
+        name
+        vicinity
+        website
+        placeId
+        formattedAddress
+        internationalPhoneNumber
+        formattedPhoneNumber
+        rating
+        geometry {
+        location {
+        lat
+        lng
+        }
+        }
+        photos {
+        width
+        height
+        photoReference
+        }
+        types
+        }
+        }
+        }
+        }
+        }
+            """
+    }
 }
+

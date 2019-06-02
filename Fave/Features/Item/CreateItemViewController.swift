@@ -418,10 +418,10 @@ class CreateItemViewController: FaveVC {
         }
 
         isLoading = true
-        dependencyGraph.faveService.createListItem(userId: user.id, listId: list.id, type: type, placeId: placeId, note: note) { response, error in
+        dependencyGraph.faveService.createListItem(userId: user.id, listId: list.id, type: type, placeId: placeId, note: note) { item, error in
             self.isLoading = false
 
-            if let _ = error {
+            guard let _ = item else {
                 let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
 
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
@@ -433,10 +433,10 @@ class CreateItemViewController: FaveVC {
                 self.present(alertController, animated: true, completion: nil)
 
                 return
-            } else {
-                self.delegate?.didCreateItem()
-                self.dismiss(animated: true, completion: nil)
             }
+
+            self.delegate?.didCreateItem()
+            self.dismiss(animated: true, completion: nil)
         }
     }
 
