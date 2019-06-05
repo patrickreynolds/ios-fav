@@ -13,7 +13,7 @@ class FeedViewController: FaveVC {
         }
     }
 
-    var events: [TempFeedEvent] = [] {
+    var events: [FeedEvent] = [] {
         didSet {
             feedTableView.reloadData()
         }
@@ -61,7 +61,6 @@ class FeedViewController: FaveVC {
         tableView.delegate = self
         tableView.dataSource = self
 
-//        tableView.tableHeaderView = self.profileTableHeaderView
         tableView.tableFooterView = UIView(frame: .zero)
 
         tableView.register(FeedEventTableViewCell.self)
@@ -88,7 +87,7 @@ class FeedViewController: FaveVC {
 
         tabBarController?.delegate = self
 
-        let titleViewLabel = Label.init(text: "Fave", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Accent, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Fave", font: FaveFont.init(style: .h4, weight: .semiBold), textColor: FaveColors.Accent, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         view.addSubview(loadingIndicatorView)
@@ -201,7 +200,7 @@ extension FeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(FeedEventTableViewCell.self, indexPath: indexPath)
 
-//        cell.delegate = self
+        cell.delegate = self
 
         let event = events[indexPath.row]
         cell.populate(event: event)
@@ -290,5 +289,32 @@ extension FeedViewController: UITabBarControllerDelegate {
         } else {
             return true
         }
+    }
+}
+
+extension FeedViewController: FeedEventTableViewCellDelegate {
+    func userProfileSelected(user: User) {
+        // segue to user
+
+        print("profile selected for \(user.id)")
+
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
+
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        profileViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(profileViewController, animated: true)
+    }
+
+    func listItemSelected(item: Item, list: List) {
+
+        print("item selected for \(item.id)")
+
+        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
+
+        let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        itemViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(itemViewController, animated: true)
     }
 }

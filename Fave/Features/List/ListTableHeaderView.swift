@@ -87,7 +87,10 @@ class ListTableHeaderView: UIView {
     }()
 
     private lazy var listSegmentedControl: ListSegmentedControl = {
-        let listSegmentedControlView = ListSegmentedControl.init(tabs: ["\(list.numberOfItems) Entries", "0 Recs"])
+        let entryTitleString = list.numberOfItems == 1 ? "\(list.numberOfItems) Entry" : "\(list.numberOfItems) Entries"
+        let recommendationTitleString = list.numberOfRecommendations == 1 ? "\(list.numberOfRecommendations) Rec" : "\(list.numberOfRecommendations) Recs"
+
+        let listSegmentedControlView = ListSegmentedControl.init(tabs: [entryTitleString, recommendationTitleString])
 
         listSegmentedControlView.delegate = self
 
@@ -273,11 +276,11 @@ class ListTableHeaderView: UIView {
     }
 
     func updateHeaderInfo(list: List, listItems: [Item]) {
-        let entryTitle = listItems.count == 1 ? "\(listItems.count) Entry" : "\(listItems.count) Entries"
-        let recommendationTitle = list.numberOfRecommendations == 1 ? "\(list.numberOfRecommendations) Rec" : "\(list.numberOfRecommendations) Recs"
+        let entryTitleString = listItems.count == 1 ? "\(listItems.count) Entry" : "\(listItems.count) Entries"
+        let recommendationTitleString = list.numberOfRecommendations == 1 ? "\(list.numberOfRecommendations) Rec" : "\(list.numberOfRecommendations) Recs"
 
-        listSegmentedControl.updateTitleAtIndex(title: entryTitle, index: 0)
-        listSegmentedControl.updateTitleAtIndex(title: recommendationTitle, index: 1)
+        listSegmentedControl.updateTitleAtIndex(title: entryTitleString, index: 0)
+        listSegmentedControl.updateTitleAtIndex(title: recommendationTitleString, index: 1)
 
         numberOfFollowers = list.numberOfFollowers
 

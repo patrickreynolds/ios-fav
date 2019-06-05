@@ -31,12 +31,14 @@ class ListViewController: FaveVC {
         }
     }
 
-    var listOfCurrentFaveIds: [Int] = [] {
+    var listOfCurrentItems: [Item] = [] {
         didSet {
             self.listItems = self.listItems.map({ listItem in
                 var item = listItem
 
-                item.isFaved = listOfCurrentFaveIds.contains(item.dataId)
+                let allListDataIds = listOfCurrentItems.map({ item in item.dataId })
+
+                item.isFaved = allListDataIds.contains(item.dataId)
 
                 return item
             })
@@ -356,7 +358,7 @@ extension ListViewController {
 
         let alertController = UIAlertController(title: "Not yet implemented", message: "Coming soon!", preferredStyle: .alert)
 
-        alertController.addAction(UIAlertAction(title: "Nice", style: .default, handler: { action in
+        alertController.addAction(UIAlertAction(title: "Cool", style: .default, handler: { action in
             switch action.style {
             case .default, .cancel, .destructive:
                 alertController.dismiss(animated: true, completion: nil)
@@ -517,12 +519,12 @@ extension ListViewController: EntryTableViewCellDelegate {
     }
 
     func updateFaves(userId: Int) {
-        dependencyGraph.faveService.getFaves(userId: userId) { response, error in
-            guard let faves = response else {
+        dependencyGraph.faveService.myItems() { response, error in
+            guard let items = response else {
                 return
             }
 
-            self.listOfCurrentFaveIds = faves
+            self.listOfCurrentItems = items
         }
     }
 

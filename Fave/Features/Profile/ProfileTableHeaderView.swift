@@ -201,7 +201,7 @@ class ProfileTableHeaderView: UIView {
     func updateUserInfo(user: User, followingCount: Int = 0) {
         nameLabel.text = ("\(user.firstName) \(user.lastName)")
 
-        profilePictureImageView.image = UIImage.init(base64String: user.profilePicture)
+        profilePictureImageView.image = UIImage(base64String: user.profilePicture)
         profilePictureImageView.layer.cornerRadius = 80 / 2
         profilePictureImageView.layer.masksToBounds = true
         profilePictureImageView.clipsToBounds = true

@@ -10,8 +10,11 @@ struct FaveGraphQLService {
     }
 
     func getCurrentUser(completion: @escaping (_ user: User?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .currentUser) { response, error in
-            guard let userData = response as? [String: AnyObject], let user = User(data: userData) else {
+
+        let meQuery = GraphQLQueryBuilder.meQuery()
+
+        networking.sendGraphqlRequest(query: meQuery) { response, error in
+            guard let userResponse = response as? [String: AnyObject], let userData = userResponse["me"] as? [String: AnyObject], let user = User(data: userData) else {
                 completion(nil, error)
 
                 return
@@ -22,23 +25,6 @@ struct FaveGraphQLService {
     }
 
     func getUser(userId: Int, completion: @escaping (User?, Error?) -> ()) {
-
-//        let userQuery = Query.init(request: Request(withAlias: "",
-//                                                name: "user",
-//                                                arguments: [Argument(key: "userId", value: userId)],
-//                                                fields: [
-//                                                    "id",
-//                                                    "firstName",
-//                                                    "lastName",
-//                                                    "handle",
-//                                                    "profilePic",
-////                                                    "createdAt",
-////                                                    "updatedAt",
-//                                                    ]))
-//
-//        print(userQuery.create())
-//
-//        let queryString = userQuery.create()
 
         let userQuery = GraphQLQueryBuilder.userQuery(userId: userId)
 
@@ -54,38 +40,6 @@ struct FaveGraphQLService {
     }
 
     func authenticate(network: String, accessToken: String, completion: @escaping (_ authenticationInfo: AuthenticationInfo?, _ error: Error?) -> ()) {
-
-    /*
-        let userContentRequest = Request(
-            withAlias: "user",
-            name: "user",
-            fields: [
-                "id",
-                "firstName",
-                "lastName",
-                "email",
-                "handle",
-                "profilePic",
-//                "createdAt",
-//                "updatedAt",
-            ]
-        )
-
-        let authenticateMutationRequest = Request(withAlias: "authenticate",
-                                           name: "externalLogin",
-                                           arguments: [
-                                            Argument(key: "network", value: network),
-                                            Argument.init(key: "accessToken", value: accessToken),
-                                            Argument.init(key: "handle", value: "")
-            ], fields: [
-            "token",
-            userContentRequest
-            ])
-
-        let authenticationMutation = Mutation.init(mutatingRequest: authenticateMutationRequest)
-
-        let mutationStringFromBuilder = authenticationMutation.create()
-     */
 
         let mutationString = GraphQLQueryBuilder.externalLoginMutation(network: network, accessToken: accessToken, handle: "")
 
@@ -109,94 +63,7 @@ struct FaveGraphQLService {
         }
     }
 
-    //        let id: Int
-    //        let dataId: Int
-    //        let type: String
-    //        let updatedAt: Date
-    //        let createdAt: Date
-    //        let connectorType: String
-    //        let connectorId: String
-    //        let note: String
-    //        let contextualItem: ItemType
-    //        let content: [String: AnyObject]
-    //        let numberOfFaves: Int
-    //        let listId: Int
-    //        let addedBy: User
-    //        var isFaved: Bool? = nil
-
     func getLists(userId: Int, completion: @escaping (_ lists: [List]?, _ error: Error?) -> ()) {
-
-        /*
-        let followersRequest = Request(
-            withAlias: "followers",
-            name: "followers",
-            fields: [
-                "id",
-                "firstName",
-                "lastName",
-                "handle",
-                "profilePic",
-            ]
-        )
-
-        let ownerReqeust = Request(
-            withAlias: "owner",
-            name: "owner",
-            fields: [
-                "id",
-                "firstName",
-                "lastName",
-                "handle",
-                "profilePic",
-            ])
-
-        let addedByRequest = Request(
-            withAlias: "addedBy",
-            name: "addedBy",
-            fields: [
-                "id",
-                "firstName",
-                "lastName",
-                "handle",
-                "profilePic",
-            ])
-
-        let itemsRequest = Request(
-            withAlias: "items",
-            name: "items",
-            fields: [
-                "id",
-                "dataId",
-                "type",
-                "updatedAt",
-                "createdAt",
-//                "connectorType",
-//                "connectorId",
-                "note",
-                "content",
-                "numberOfFaves",
-                "listId",
-//                addedByRequest
-            ])
-
-        let myListsRequest = Request(
-            withAlias: "myLists",
-            name: "myLists",
-            fields: [
-                "id",
-                "title",
-                "description",
-                "isPublic",
-                "createdAt",
-                "updatedAt",
-                followersRequest,
-                ownerReqeust,
-                itemsRequest
-            ]
-        )
-
-        let myListsQuery = Query(request: myListsRequest)
-        */
 
         let listsQueryString = GraphQLQueryBuilder.listsQuery(userId: userId)
 
@@ -214,8 +81,11 @@ struct FaveGraphQLService {
     }
 
     func getList(userId: Int, listId: Int, completion:  @escaping (_ lists: List?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .getList(userId: userId, listId: listId)) { response, error in
-            guard let listData = response as? [String: AnyObject], let list = List(data: listData) else {
+
+        let listQueryString = GraphQLQueryBuilder.listQuery(listId: listId)
+
+        networking.sendGraphqlRequest(query: listQueryString) { response, error in
+            guard let listResponse = response as? [String: AnyObject], let listData = listResponse["list"] as? [String: AnyObject], let list = List(data: listData) else {
                 completion(nil, error)
 
                 return
@@ -242,14 +112,10 @@ struct FaveGraphQLService {
     }
 
     func createListItem(userId: Int, listId: Int, type: String, placeId: String, note: String, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
-//        let data: [String: String] = [
-//            "googlePlaceId": placeId,
-//            "note": note
-//        ]
 
-        let createGooglePlacesItemQuery = GraphQLQueryBuilder.createGooglePlacesItem(listId: listId, googlePlacesId: placeId, note: note)
+        let createGooglePlacesItemMutation = GraphQLQueryBuilder.createGooglePlacesItemMutation(listId: listId, googlePlacesId: placeId, note: note)
 
-        networking.sendGraphqlRequest(query: createGooglePlacesItemQuery) { (response, error) in
+        networking.sendGraphqlRequest(query: createGooglePlacesItemMutation) { (response, error) in
             guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["placeItem"] as? [String: AnyObject] else {
                 completion(nil, error)
 
@@ -263,22 +129,26 @@ struct FaveGraphQLService {
     }
 
     func getListItems(userId: Int, listId: Int, completion: @escaping (_ items: [Item]?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .getListItems(userId: userId, listId: listId)) { response, error in
-            guard let unwrappedResponse = response, let listItemData = unwrappedResponse as? [[String: AnyObject]] else {
+
+        let listQueryString = GraphQLQueryBuilder.listQuery(listId: listId)
+
+        networking.sendGraphqlRequest(query: listQueryString) { response, error in
+            guard let listResponse = response as? [String: AnyObject], let listData = listResponse["list"] as? [String: AnyObject], let list = List(data: listData) else {
                 completion(nil, error)
 
                 return
             }
 
-            let listItems = listItemData.map({ Item(data: $0)}).compactMap({ $0 })
-
-            completion(listItems, error)
+            completion(list.items, error)
         }
     }
 
     func getListItem(userId: Int, listId: Int, itemId: Int, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .getListItem(userId: userId, listId: listId, itemId: itemId)) { response, error in
-            guard let itemData = response as? [String: AnyObject] else {
+
+        let itemQuery = GraphQLQueryBuilder.getItem(itemId: itemId)
+
+        networking.sendGraphqlRequest(query: itemQuery) { response, error in
+            guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["item"] as? [String: AnyObject] else {
                 completion(nil, error)
 
                 return
@@ -290,29 +160,28 @@ struct FaveGraphQLService {
         }
     }
 
-    func getPaginatedFeed(page: Int, completion: @escaping FaveAPICallResultCompletionBlock) {
-        networking.sendGetRequest(endpoint: .paginatedFeed(page: page)) { response, error in
-            completion(response, error)
-        }
-    }
+    func getFeed(from: Int, to: Int, completion: @escaping (_ events: [FeedEvent]?, _ error: Error?) -> ()) {
 
-    func getFeed(from: Int, to: Int, completion: @escaping (_ events: [TempFeedEvent]?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .feed(from: from, to: to)) { response, error in
-            guard let eventResponse = response, let eventData = eventResponse["events"] as? [[String: AnyObject]] else {
+        let feedQuery = GraphQLQueryBuilder.feedQuery(from: from, to: to)
+
+        networking.sendGraphqlRequest(query: feedQuery) { response, error in
+            guard let eventResponse = response, let eventData = eventResponse["feed"] as? [[String: AnyObject]] else {
                 completion(nil, error)
 
                 return
             }
 
-            let feed = eventData.map({ TempFeedEvent(data: $0 )}).compactMap { $0 }
+            let feedEvents = eventData.map({ FeedEvent(data: $0 )}).compactMap { $0 }
 
-            completion(feed, error)
+            completion(feedEvents, error)
         }
     }
 
     func suggestions(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .suggestions) { response, error in
-            guard let suggestionData = response as? [[String: AnyObject]] else {
+        let suggestionsQuery = GraphQLQueryBuilder.listSuggestions()
+
+        networking.sendGraphqlRequest(query: suggestionsQuery) { response, error in
+            guard let suggestionResponse = response as? [String: AnyObject], let suggestionData = suggestionResponse["suggestions"] as? [[String: AnyObject]] else {
                 completion(nil, error)
 
                 return
@@ -324,6 +193,9 @@ struct FaveGraphQLService {
         }
     }
 
+    /*
+     TODO: Skipping for now
+     */
     func topLists(completion: @escaping (_ lists: [TopList]?, _ error: Error?) -> ()) {
 
         let list1Item1 = TopListItem.init(name: "Marufuku", type: "Ramen restaurnat")
@@ -350,8 +222,11 @@ struct FaveGraphQLService {
     }
 
     func getUsers(completion: @escaping (_ lists: [User]?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .getUsers) { response, error in
-            guard let userData = response as? [[String: AnyObject]] else {
+
+        let usersQuery = GraphQLQueryBuilder.getUsers()
+
+        networking.sendGraphqlRequest(query: usersQuery) { response, error in
+            guard let userResponse = response, let userData = userResponse["users"] as? [[String: AnyObject]] else {
                 completion(nil, error)
 
                 return
@@ -364,22 +239,24 @@ struct FaveGraphQLService {
     }
 
     func followersOfList(listId: Int, completion: @escaping (_ lists: [User]?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .followersOfList(listId: listId)) { response, error in
-            guard let followersOfListData = response as? [[String: AnyObject]] else {
+        let listQueryString = GraphQLQueryBuilder.listQuery(listId: listId)
+
+        networking.sendGraphqlRequest(query: listQueryString) { response, error in
+            guard let listResponse = response as? [String: AnyObject], let listData = listResponse["list"] as? [String: AnyObject], let list = List(data: listData) else {
                 completion(nil, error)
 
                 return
             }
 
-            let followersOfList = followersOfListData.map({ User(data: $0 )}).compactMap { $0 }
-
-            completion(followersOfList, error)
+            completion(list.followers, error)
         }
     }
 
     func listsUserFollows(userId: Int, completion: @escaping (_ lists: [List]?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .listsUserFollows(userId: userId)) { response, error in
-            guard let listsUserFollowsData = response as? [[String: AnyObject]] else {
+        let listsUserFollowsQuery = GraphQLQueryBuilder.listsUserFollows(userId: userId)
+
+        networking.sendGraphqlRequest(query: listsUserFollowsQuery) { response, error in
+            guard let listsResponse = response, let listsUserFollowsData = listsResponse["lists"] as? [[String: AnyObject]] else {
                 completion(nil, error)
 
                 return
@@ -393,47 +270,40 @@ struct FaveGraphQLService {
 
     func followList(listId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
 
-        let data = [String: String]()
+        let followListQuery = GraphQLQueryBuilder.followList(listId: listId)
 
-        networking.sendPostRequest(endpoint: .followUnfollow(listId: listId), data: data) { response, error in
-            guard let followResponseData = response as? [String: AnyObject] else {
+        networking.sendGraphqlRequest(query: followListQuery) { response, error in
+            guard let statusResponse = response as? [String: AnyObject], let status = statusResponse["status"] as? Bool else {
                 completion(false, error)
 
                 return
             }
 
-            var success = true
-            if let message = followResponseData["message"] as? String, message == "ok" {
-                success = true
-            }
-
-            completion(success, error)
+            completion(status, error)
         }
     }
 
     func unfollowList(listId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
 
-        let data = [String: String]()
+        let unfollowListQuery = GraphQLQueryBuilder.unfollowList(listId: listId)
 
-        networking.sendDeleteRequest(endpoint: .followUnfollow(listId: listId), data: data) { response, error in
-            guard let unfollowResponseData = response as? [String: AnyObject] else {
+        networking.sendGraphqlRequest(query: unfollowListQuery) { response, error in
+            guard let statusResponse = response as? [String: AnyObject], let status = statusResponse["status"] as? Bool else {
                 completion(false, error)
 
                 return
             }
 
-            var success = true
-            if let message = unfollowResponseData["message"] as? String, message == "ok" {
-                success = true
-            }
-
-            completion(success, error)
+            completion(status, error)
         }
     }
 
     func getFaves(userId: Int, completion: @escaping (_ faveIds: [Int]?, _ error: Error?) -> ()) {
-        networking.sendGetRequest(endpoint: .faves(userId: userId)) { response, error in
-            guard let faves = response as? [Int] else {
+
+        let myFavesQuery = GraphQLQueryBuilder.myFavesQuery()
+
+        networking.sendGraphqlRequest(query: myFavesQuery) { response, error in
+            guard let faveResponse = response as? [String: AnyObject], let faves = faveResponse["faves"] as? [Int] else {
                 completion(nil, error)
 
                 return
@@ -443,16 +313,15 @@ struct FaveGraphQLService {
         }
     }
 
+    /*
+        TODO: Double check that this works after the myFaves is updated
+     */
     func addFave(userId: Int, listId: Int, itemId: Int, note: String = "", completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
 
-        let data: [String: String] = [
-            "listId": "\(listId)",
-            "itemId": "\(itemId)",
-            "note": note
-        ]
+        let faveItemQuery = GraphQLQueryBuilder.faveItemMutation(listId: listId, itemId: itemId, note: note)
 
-        networking.sendPostRequest(endpoint: .faves(userId: userId), data: data) { response, error in
-            guard let itemData = response as? [String: AnyObject] else {
+        networking.sendGraphqlRequest(query: faveItemQuery) { response, error in
+            guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["item"] as? [String: AnyObject] else {
                 completion(nil, error)
 
                 return
@@ -464,26 +333,40 @@ struct FaveGraphQLService {
         }
     }
 
+    /*
+     TODO: Double check that this works after the myFaves is updated
+     */
     func removeFave(userId: Int, itemId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
 
-        let data: [String: String] = [
-            "dataId": "\(itemId)"
-        ]
+        let unFaveMutationString = GraphQLQueryBuilder.unFaveMutation(itemId: itemId)
 
-        networking.sendDeleteRequest(endpoint: .faves(userId: userId), data: data) { response, error in
-            guard let responseData = response as? [String: AnyObject] else {
+        networking.sendGraphqlRequest(query: unFaveMutationString) { response, error in
+            guard let statusResponse = response as? [String: AnyObject], let status = statusResponse["status"] as? Bool else {
                 completion(false, error)
 
                 return
             }
 
-            var success = false
-            if let message = responseData["message"] as? String, message == "ok" {
-                success = true
+            completion(status, error)
+        }
+    }
+
+    func myItems(completion: @escaping (_ items: [Item]?, _ error: Error?) -> ()) {
+
+        let myItemsQuery = GraphQLQueryBuilder.myItemsQuery()
+
+        networking.sendGraphqlRequest(query: myItemsQuery) { response, error in
+            guard let unwrappedResponse = response, let itemData = unwrappedResponse["items"] as? [[String: AnyObject]] else {
+                completion(nil, error)
+
+                return
             }
 
-            completion(success, error)
+            let items = itemData.map({ Item(data: $0)}).compactMap({ $0 })
+
+            completion(items, error)
         }
+
     }
 }
 
