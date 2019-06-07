@@ -229,14 +229,6 @@ class ProfileViewController: FaveVC {
             self.user = unwrappedUser
         }
 
-//        dependencyGraph.faveService.getCurrentUser { user, error in
-//            guard let unwrappedUser = user else {
-//                return
-//            }
-//
-//            self.user = user
-//        }
-
         dependencyGraph.faveService.getLists(userId: currentUser.id) { lists, error in
             guard let unwrappedLists = lists, error == nil else {
                 completion()
@@ -260,6 +252,16 @@ class ProfileViewController: FaveVC {
 
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
         print("\nOpen menu\n")
+
+        let alertController = UIAlertController(title: "Not yet implemented", message: "Coming soon!", preferredStyle: .alert)
+
+        alertController.addAction(UIAlertAction(title: "Cool", style: .default, handler: { action in
+            switch action.style {
+            case .default, .cancel, .destructive:
+                alertController.dismiss(animated: true, completion: nil)
+            }}))
+
+        self.present(alertController, animated: true, completion: nil)
     }
 
     @objc func backButtonTapped(sender: UIButton!) {

@@ -15,7 +15,7 @@ class EntryTableViewCell: UITableViewCell {
 
     var itemIsFavedByUser = false
     let faveActionIcon = UIImageView.init(frame: .zero)
-    let faveActionLabel = Label.init(text: "Fave", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
+    let faveActionLabel = Label.init(text: "Save", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
 
     var faveScoreLabel = Label(text: "",
                                font: FaveFont(style: .h5, weight: .regular),
@@ -74,7 +74,7 @@ class EntryTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 6
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 
-        let attributedTitle = NSAttributedString(string: "Fave",
+        let attributedTitle = NSAttributedString(string: "Save",
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: FaveColors.Accent)
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -276,12 +276,12 @@ class EntryTableViewCell: UITableViewCell {
     func updateFaveAction() {
         if itemIsFavedByUser {
             faveActionIcon.image = UIImage.init(named: "icon-fave-faved")?.withRenderingMode(.alwaysOriginal)
-            faveActionLabel.text = "Faved"
+            faveActionLabel.text = "Saved"
             faveActionLabel.textColor = FaveColors.Accent
         } else {
             faveActionIcon.image = UIImage.init(named: "icon-fave-not-faved")
             faveActionIcon.tintColor = FaveColors.Black60
-            faveActionLabel.text = "Fave"
+            faveActionLabel.text = "Save"
             faveActionLabel.textColor = FaveColors.Black70
         }
     }

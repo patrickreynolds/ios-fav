@@ -1,15 +1,86 @@
 import Foundation
 
+struct EventUser {
+
+    let id: Int
+    let handle: String
+    let firstName: String
+    let lastName: String
+    let profilePicture: String
+
+    init?(data: [String: AnyObject]) {
+        guard let id = data["id"] as? Int,
+              let handle = data["handle"] as? String,
+              let firstName = data["firstName"] as? String,
+              let lastName = data["lastName"] as? String,
+              let profilePicture = data["profilePic"] as? String else {
+                  return nil
+        }
+
+        self.id = id
+        self.handle = handle
+        self.firstName = firstName
+        self.lastName = lastName
+        self.profilePicture = profilePicture
+    }
+}
+
+struct EventList {
+
+    let id: Int
+    let title: String
+    let description: String
+
+    init?(data: [String: AnyObject]) {
+        guard let id = data["id"] as? Int,
+              let title = data["title"] as? String,
+              let description = data["description"] as? String else {
+                  return nil
+        }
+
+        self.id = id
+        self.title = title
+        self.description = description
+    }
+}
+
+struct EventItem {
+
+    let id: Int
+    let dataId: Int
+    let title: String
+    let note: String
+    let createdAt: Date
+
+    init?(data: [String: AnyObject]) {
+        guard let id = data["id"] as? Int,
+              let dataId = data["dataId"] as? Int,
+              let title = data["title"] as? String,
+              let note = data["note"] as? String,
+              let createdAtString = data["createdAt"] as? String else {
+                  return nil
+        }
+
+        let dateFormatter = DateFormatter()
+        // "2019-04-03T13:57:03.000Z"
+        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSSZ"
+
+        guard let createdAtDate = dateFormatter.date(from: createdAtString) else {
+            return nil
+        }
+
+        self.id = id
+        self.dataId = dataId
+        self.title = title
+        self.note = note
+        self.createdAt = createdAtDate
+    }
+}
+
 struct FeedEvent {
     let user: User
     let list: List
     let item: Item
-
-    init(user: User, list: List, item: Item) {
-        self.user = user
-        self.list = list
-        self.item = item
-    }
 
     init?(data: [String: AnyObject]) {
         guard let userData = data["user"] as? [String: AnyObject],
@@ -18,28 +89,10 @@ struct FeedEvent {
                 return nil
         }
 
-        guard let user = User.init(data: userData),
-              let list = List.init(data: listData),
-              let item = Item.init(data: itemData) else {
+        guard let user = User(data: userData),
+              let list = List(data: listData),
+              let item = Item(data: itemData) else {
                 return nil
-        }
-
-        self.user = user
-        self.list = list
-        self.item = item
-    }
-}
-
-struct TempFeedEvent {
-    let item: String
-    let user: String
-    let list: String
-
-    init?(data: [String: AnyObject]) {
-        guard let user = data["user"] as? String,
-              let list = data["list"] as? String,
-              let item = data["item"] as? String else {
-                  return nil
         }
 
         self.user = user

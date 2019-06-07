@@ -24,6 +24,8 @@
 		4334DB6F228F269800EE58BB /* TopListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */; };
 		4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */; };
 		4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */; };
+		434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434932882298F84D00F949D6 /* FaveGraphQLService.swift */; };
+		43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43493290229ED37A00F949D6 /* GraphQLQueryBuilder.swift */; };
 		43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */; };
 		43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */; };
 		4369CF432257C11300FCA156 /* FaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534CF223336BB00B99EC7 /* FaveTests.swift */; };
@@ -86,6 +88,7 @@
 		43AFEFCF22641F850022A854 /* UIImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFEFCE22641F850022A854 /* UIImageExt.swift */; };
 		43B26BB7223A065600CA2549 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB6223A065600CA2549 /* DiscoverViewController.swift */; };
 		43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B26BB8223A085900CA2549 /* ProfileViewController.swift */; };
+		43B512D822A7932B0018E9D5 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B512D722A7932B0018E9D5 /* DateExtension.swift */; };
 		43BD5689224C9039009D0AC8 /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD5688224C9039009D0AC8 /* SelectListViewController.swift */; };
 		43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */; };
 		43BEA2FA2268E13C001F930E /* TopLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEA2F92268E13C001F930E /* TopLists.swift */; };
@@ -131,6 +134,8 @@
 		4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
+		434932882298F84D00F949D6 /* FaveGraphQLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveGraphQLService.swift; sourceTree = "<group>"; };
+		43493290229ED37A00F949D6 /* GraphQLQueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQueryBuilder.swift; sourceTree = "<group>"; };
 		43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterSegmentedControl.swift; sourceTree = "<group>"; };
 		43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveAttributedLabel.swift; sourceTree = "<group>"; };
 		4369CF4422583E7300FCA156 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
@@ -199,6 +204,7 @@
 		43AFEFCE22641F850022A854 /* UIImageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExt.swift; sourceTree = "<group>"; };
 		43B26BB6223A065600CA2549 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		43B26BB8223A085900CA2549 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		43B512D722A7932B0018E9D5 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		43BD5688224C9039009D0AC8 /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
 		43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListTableViewCell.swift; sourceTree = "<group>"; };
 		43BEA2F92268E13C001F930E /* TopLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLists.swift; sourceTree = "<group>"; };
@@ -355,6 +361,7 @@
 				4369CF462258409D00FCA156 /* UIViewExt.swift */,
 				43AFEFCE22641F850022A854 /* UIImageExt.swift */,
 				43915CAA2276A02B00562B5A /* UICollectionViewExt.swift */,
+				43B512D722A7932B0018E9D5 /* DateExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -411,6 +418,8 @@
 				4385350622333AFF00B99EC7 /* FaveService.swift */,
 				4385350822333B3D00B99EC7 /* AnalyticsService.swift */,
 				4385350A22333B8200B99EC7 /* FaveEndpoint.swift */,
+				434932882298F84D00F949D6 /* FaveGraphQLService.swift */,
+				43493290229ED37A00F949D6 /* GraphQLQueryBuilder.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -535,7 +544,7 @@
 				438534B5223336BA00B99EC7 /* Resources */,
 				7E576F27352408BFD3DD6569 /* [CP] Embed Pods Frameworks */,
 				410A9957A4382443728A85CC /* [CP] Copy Pods Resources */,
-				43AFEFCD22640EA10022A854 /* ShellScript */,
+				43AFEFCD22640EA10022A854 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -703,7 +712,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fave/Pods-Fave-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		43AFEFCD22640EA10022A854 /* ShellScript */ = {
+		43AFEFCD22640EA10022A854 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -713,6 +722,7 @@
 			inputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
+			name = Fabric;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -731,17 +741,18 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Fave/Pods-Fave-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
 				"${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework",
+				"${BUILT_PRODUCTS_DIR}/Chester/Chester.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
+				"${BUILT_PRODUCTS_DIR}/GraphQLicious/GraphQLicious.framework",
 				"${BUILT_PRODUCTS_DIR}/KMPlaceholderTextView/KMPlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
@@ -751,17 +762,18 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apollo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cartography.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Chester.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GraphQLicious.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
@@ -793,6 +805,7 @@
 				438534EA2233386100B99EC7 /* CartographyExt.swift in Sources */,
 				438534FA2233397E00B99EC7 /* FaveVC.swift in Sources */,
 				431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */,
+				43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
 				43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */,
 				438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */,
@@ -825,6 +838,7 @@
 				4385350022333A0700B99EC7 /* AppConfiguration.swift in Sources */,
 				438534FC223339B200B99EC7 /* AnalyticsEvents.swift in Sources */,
 				439FDDE42245FACF00ED9343 /* ListTableHeaderView.swift in Sources */,
+				43B512D822A7932B0018E9D5 /* DateExtension.swift in Sources */,
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
@@ -842,6 +856,7 @@
 				43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */,
 				438534EC2233388900B99EC7 /* SaveCollections.swift in Sources */,
 				43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */,
+				434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,
 				43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */,
@@ -963,7 +978,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA1DE3DC9DEAE3E5142BACE2 /* Pods-Fave.local.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://localhost:3000/";
+				API_BASE_URL_ENDPOINT = "http://10.0.0.63:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;

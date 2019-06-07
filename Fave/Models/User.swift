@@ -6,15 +6,18 @@ class User: NSObject, NSCoding {
     @objc let lastName: String
     @objc let email: String
     @objc let handle: String
-    let profilePicture: String
-
+    @objc let profilePicture: String
+    @objc let createdAt: String
+    @objc let updatedAt: String
 
     init(id: Int,
         firstName: String,
         lastName: String,
         email: String,
         handle: String,
-        profilePicture: String) {
+        profilePicture: String,
+        createdAt: String,
+        updatedAt: String) {
 
         self.id = id
         self.firstName = firstName
@@ -22,6 +25,8 @@ class User: NSObject, NSCoding {
         self.email = email
         self.handle = handle
         self.profilePicture = profilePicture
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
 
         super.init()
     }
@@ -47,6 +52,18 @@ class User: NSObject, NSCoding {
             return nil
         }
 
+        var createdAtString = ""
+
+        if let unwrappedCreatedAtString = data["createdAt"] as? String {
+            createdAtString = unwrappedCreatedAtString
+        }
+
+
+        var updatedAtString = ""
+        if let unwrappedUpdatedAtString = data["updatedAt"] as? String {
+            updatedAtString = unwrappedUpdatedAtString
+        }
+
         let unwrappedEmail = data["email"] as? String ?? ""
 
         self.init(id: unwrappedId,
@@ -54,7 +71,9 @@ class User: NSObject, NSCoding {
             lastName: unwrappedLastName,
             email: unwrappedEmail,
             handle: unwrappedHandle,
-            profilePicture: unwrappedProfilePictureString)
+            profilePicture: unwrappedProfilePictureString,
+            createdAt: createdAtString,
+            updatedAt: updatedAtString)
     }
 
     func encode(with aCoder: NSCoder) {
@@ -64,6 +83,8 @@ class User: NSObject, NSCoding {
         aCoder.encode(self.email, forKey: "email")
         aCoder.encode(self.handle, forKey: "handle")
         aCoder.encode(self.profilePicture, forKey: "profilePic")
+        aCoder.encode(self.createdAt, forKey: "createdAt")
+        aCoder.encode(self.updatedAt, forKey: "updatedAt")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -73,16 +94,7 @@ class User: NSObject, NSCoding {
         email = aDecoder.decodeObject(forKey: "email") as! String
         handle = aDecoder.decodeObject(forKey: "handle") as! String
         profilePicture = aDecoder.decodeObject(forKey: "profilePic") as! String
+        createdAt = aDecoder.decodeObject(forKey: "createdAt") as! String
+        updatedAt = aDecoder.decodeObject(forKey: "updatedAt") as! String
     }
 }
-
-//extension User {
-//    static func ==(lhs: User, rhs: User) -> Bool {
-//        return lhs.id == rhs.id &&
-//            lhs.firstName == rhs.firstName &&
-//            lhs.lastName == rhs.lastName &&
-//            lhs.email == rhs.email &&
-//            lhs.handle == rhs.handle &&
-//            lhs.profilePicture == rhs.profilePicture
-//    }
-//}

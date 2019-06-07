@@ -3,17 +3,19 @@ import Foundation
 struct Item {
     let id: Int
     let dataId: Int
+    let title: String
     let type: String
     let updatedAt: Date
     let createdAt: Date
     let connectorType: String
     let connectorId: String
     let note: String
+    let isRecommendation: Bool
     let contextualItem: ItemType
     let content: [String: AnyObject]
     let numberOfFaves: Int
     let listId: Int
-    let addedBy: User
+    var addedBy: User? = nil
     var isFaved: Bool? = nil
 
     init?(data: [String: AnyObject]) {
@@ -22,6 +24,10 @@ struct Item {
         }
 
         guard let dataId = data["dataId"] as? Int else {
+            return nil
+        }
+
+        guard let title = data["title"] as? String else {
             return nil
         }
 
@@ -37,15 +43,19 @@ struct Item {
             return nil
         }
 
-        guard let connectorType = data["connectorType"] as? String else {
+        guard let dataItem = data["dataItem"] as? [String: AnyObject] else {
             return nil
         }
 
-        guard let connectorId = data["connectorId"] as? String else {
+        guard let connectorType = dataItem["connectorType"] as? String else {
             return nil
         }
 
-        guard let content = data["content"] as? [String: AnyObject] else {
+        guard let connectorId = dataItem["connectorId"] as? String else {
+            return nil
+        }
+
+        guard let content = dataItem["content"] as? [String: AnyObject] else {
             return nil
         }
 
@@ -53,9 +63,11 @@ struct Item {
             return nil
         }
 
-        guard let addedByData = data["addedBy"] as? [String: AnyObject], let addedBy = User.init(data: addedByData) else {
-            return nil
-        }
+
+        let addedBy: User? = nil
+//        guard let addedByData = data["addedBy"] as? [String: AnyObject], let addedBy = User.init(data: addedByData) else {
+//            return nil
+//        }
 
         let dateFormatter = DateFormatter()
 //        "2019-04-03T13:57:03.000Z"
@@ -81,16 +93,20 @@ struct Item {
 
         let note = data["note"] as? String ?? ""
 
+        let isRecommendation = data["isRecommendation"] as? Bool ?? false
+
         let numberOfFaves = data["numberOfFaves"] as? Int ?? 0
 
         self.id = id
         self.dataId = dataId
+        self.title = title
         self.type = type
         self.updatedAt = updatedAtDate
         self.createdAt = createdAtDate
         self.connectorType = connectorType
         self.connectorId = connectorId
         self.note = note
+        self.isRecommendation = isRecommendation
         self.content = content
         self.numberOfFaves = numberOfFaves
         self.listId = listId

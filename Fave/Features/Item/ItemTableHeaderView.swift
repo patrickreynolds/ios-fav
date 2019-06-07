@@ -31,7 +31,7 @@ class ItemTableHeaderView: UIView {
         button.layer.cornerRadius = 6
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 
-        let attributedTitle = NSAttributedString(string: "Faved",
+        let attributedTitle = NSAttributedString(string: "Saved",
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: FaveColors.White)
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -117,7 +117,7 @@ class ItemTableHeaderView: UIView {
             favedByOthersLabel.left == view.left + 16
         }
 
-        if let user = dependencyGraph.storage.getUser(), item.addedBy.id == user.id {
+        if let user = dependencyGraph.storage.getUser(), let addedBy = item.addedBy, addedBy.id == user.id {
             constrain(favedByOthersLabel, dividerView) { favedByOthersLabel, dividerView in
                 favedByOthersLabel.bottom == dividerView.top - 16
             }

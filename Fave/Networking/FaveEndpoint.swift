@@ -1,6 +1,7 @@
 import Foundation
 
 enum FaveEndpoint {
+    case graphql
     case flights(origin: String, destination: String)
     case authentication
     case getUsers
@@ -12,7 +13,6 @@ enum FaveEndpoint {
     case createListItem(userId: Int, listId: Int, type: String)
     case getListItems(userId: Int, listId: Int)
     case getListItem(userId: Int, listId: Int, itemId: Int)
-    case paginatedFeed(page: Int)
     case feed(from: Int, to: Int)
     case suggestions
     case followUnfollow(listId: Int)
@@ -23,6 +23,8 @@ enum FaveEndpoint {
 
     var path: String {
         switch self {
+        case .graphql:
+            return "api"
         case .flights(let origin, let destination):
             return "api/v1/flights/quotes?origin=\(origin)&destination=\(destination)"
         case .authentication:
@@ -45,8 +47,6 @@ enum FaveEndpoint {
             return "api/v1/users/\(userId)/lists/\(listId)/list-items"
         case .getListItem(let userId, let listId, let itemId):
             return "api/v1/users/\(userId)/lists/\(listId)/list-items/\(itemId)"
-        case .paginatedFeed(let page):
-            return "api/v1/feed?page=\(page)"
         case .feed(let from, let to):
             return "api/v1/feed?to=\(to)&from=\(from)"
         case .suggestions:

@@ -63,8 +63,8 @@ class EventItemView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func update(withEvent event: TempFeedEvent) {
-        titleLabel.text = event.item
-        subtitleLabel.text = event.list
+    func update(withEvent event: FeedEvent) {
+        titleLabel.text = event.item.title
+        subtitleLabel.text = event.list.title
     }
 }

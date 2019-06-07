@@ -27,8 +27,9 @@ class MyListsViewController: FaveVC {
         tableView.dataSource = self
 
         tableView.register(UITableViewCell.self)
+        tableView.tableFooterView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01))
 
-        tableView.separatorColor = FaveColors.Black30
+        tableView.separatorColor = FaveColors.Black20
 
         return tableView
     }()

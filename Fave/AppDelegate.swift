@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             https://developers.facebook.com/docs/swift/getting-started/#cocoapods
             This initializes the SDK when your app launches, and lets the SDK handle results from the native Facebook app when you perform a Login or Share action.
         */
-        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         /*
          Step 4: Add the API key to your application
@@ -118,7 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          Source: https://developers.facebook.com/docs/swift/appevents
          Description: Logging app activations as an app event enables most other functionality and should be the first thing that you add to your app. The SDK provides a helper method to log app activation. By logging an activation event, you can observe how frequently users activate your app, how much time they spend using it, and view other demographic information through Facebook Analytics.
         */
-        AppEventsLogger.activate(application)
+        AppEvents.activateApp()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -133,6 +133,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          https://developers.facebook.com/docs/swift/getting-started/#cocoapods
          This initializes the SDK when your app launches, and lets the SDK handle results from the native Facebook app when you perform a Login or Share action.
          */
-        return SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        return ApplicationDelegate.shared.application(app, open: url, options: options)
     }
 }
