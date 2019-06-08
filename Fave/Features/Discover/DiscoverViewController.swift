@@ -354,7 +354,7 @@ extension DiscoverViewController {
     func addListButtonTapped() {
         print("\n\nAdd List Button Tapped\n\n")
 
-        let createListViewController = CreateListViewController.init(dependencyGraph: self.dependencyGraph)
+        let createListViewController = CreateListViewController(dependencyGraph: self.dependencyGraph)
         let createListNavigationViewController = UINavigationController(rootViewController: createListViewController)
 
         createListViewController.delegate = self

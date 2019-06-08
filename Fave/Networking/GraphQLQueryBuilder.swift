@@ -21,13 +21,14 @@ struct GraphQLQueryBuilder {
             dataId
             title
             type
-            updatedAt
-            createdAt
-            listId
             createdAt
             updatedAt
             note
             isRecommendation
+            list {
+                id
+                title
+            }
             dataItem {
                 connectorId
                 connectorType

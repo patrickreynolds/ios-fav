@@ -15,7 +15,7 @@ class EventItemView: UIView {
 
     private lazy var titleLabel: Label = {
         let label = Label.init(text: "",
-                               font: FaveFont(style: .h5, weight: .semiBold),
+                               font: FaveFont(style: .h5, weight: .bold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
                                numberOfLines: 0)
@@ -38,7 +38,7 @@ class EventItemView: UIView {
         super.init(frame: CGRect.zero)
 
         backgroundColor = FaveColors.White
-        layer.borderColor = FaveColors.Black20.cgColor
+        layer.borderColor = FaveColors.Black30.cgColor
         layer.borderWidth = 1
         layer.cornerRadius = 6
         layer.masksToBounds = true

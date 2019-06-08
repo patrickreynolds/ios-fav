@@ -70,7 +70,7 @@ class FeedEventTableViewCell: UITableViewCell {
     private lazy var borderView: UIView = {
         let view = UIView(frame: CGRect.zero)
 
-        view.backgroundColor = FaveColors.Black20
+        view.backgroundColor = FaveColors.Black30
 
         return view
     }()
@@ -115,8 +115,8 @@ class FeedEventTableViewCell: UITableViewCell {
             noteLabel.left == titleLabel.left
             noteLabel.right == titleLabel.right
 
-            hasNoteTopLabelConstraint = noteLabel.top == titleLabel.bottom + 12
-            noNoteTopLabelConstraint = noteLabel.top == titleLabel.bottom
+            hasNoteTopLabelConstraint = noteLabel.top == titleLabel.bottom + 4
+            noNoteTopLabelConstraint = noteLabel.top == titleLabel.bottom + 4
         }
 
         constrain(eventItemView, titleLabel, noteLabel, contentView) { eventItemView, titleLabel, noteLabel, contentView in

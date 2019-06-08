@@ -15,8 +15,9 @@ struct Item {
     let content: [String: AnyObject]
     let numberOfFaves: Int
     let listId: Int
+    let listTitle: String
     var addedBy: User? = nil
-    var isFaved: Bool? = nil
+    var isSaved: Bool? = nil
 
     init?(data: [String: AnyObject]) {
         guard let id = data["id"] as? Int else {
@@ -59,7 +60,15 @@ struct Item {
             return nil
         }
 
-        guard let listId = data["listId"] as? Int else {
+        guard let listData = data["list"] as? [String: AnyObject] else {
+            return nil
+        }
+
+        guard let listId = listData["id"] as? Int else {
+            return nil
+        }
+
+        guard let listTitle = listData["title"] as? String else {
             return nil
         }
 
@@ -110,6 +119,7 @@ struct Item {
         self.content = content
         self.numberOfFaves = numberOfFaves
         self.listId = listId
+        self.listTitle = listTitle
         self.addedBy = addedBy
     }
 }

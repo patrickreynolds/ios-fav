@@ -38,7 +38,7 @@ class ListViewController: FaveVC {
 
                 let allListDataIds = listOfCurrentItems.map({ item in item.dataId })
 
-                item.isFaved = allListDataIds.contains(item.dataId)
+                item.isSaved = allListDataIds.contains(item.dataId)
 
                 return item
             })
@@ -247,7 +247,7 @@ class ListViewController: FaveVC {
 
             completion()
 
-            self.updateFaves(userId: user.id)
+            self.updateSaved(userId: user.id)
         }
 
         dependencyGraph.faveService.followersOfList(listId: list.id) { response, error in
@@ -410,7 +410,13 @@ extension ListViewController: UITableViewDataSource {
         cell.delegate = self
 
         let item = listItems[indexPath.row]
-        cell.populate(item: item)
+
+        var mySavedItem: Item? = nil
+        if item.isSaved ?? false {
+            mySavedItem = listOfCurrentItems.filter({$0.dataId == item.dataId}).first
+        }
+
+        cell.populate(item: item, currentUser: dependencyGraph.storage.getUser(), list: list, mySavedItem: mySavedItem)
 
         return cell
     }
@@ -478,11 +484,11 @@ extension ListViewController: EntryTableViewCellDelegate {
             // reload table
 
             selectListToFaveTo(canceledSelection: {
-                self.updateFaves(userId: user.id)
+                self.updateSaved(userId: user.id)
             }) { selectedList in
                 self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
 
-                    self.updateFaves(userId: user.id)
+                    self.updateSaved(userId: user.id)
 
 
                     guard let _ = response else {
@@ -493,7 +499,7 @@ extension ListViewController: EntryTableViewCellDelegate {
         } else {
             dependencyGraph.faveService.removeFave(userId: user.id, itemId: item.dataId) { success, error in
 
-                self.updateFaves(userId: user.id)
+                self.updateSaved(userId: user.id)
 
                 if let _ = error {
                     // TODO: Handle error
@@ -518,7 +524,7 @@ extension ListViewController: EntryTableViewCellDelegate {
         }
     }
 
-    func updateFaves(userId: Int) {
+    func updateSaved(userId: Int) {
         dependencyGraph.faveService.myItems() { response, error in
             guard let items = response else {
                 return

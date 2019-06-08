@@ -4,23 +4,51 @@ import UIKit
 import Cartography
 
 protocol ItemTableHeaderViewDelegate {
-    func faveItemTapped(item: Item)
+    func saveItemTapped(item: Item)
 }
 
 class ItemTableHeaderView: UIView {
+
+    var list: List?
+    var currentUser: User?
+    var mySavedItem: Item?
 
     var item: Item {
         didSet {
 
             // If item is on user's list
-            guard let user = dependencyGraph.storage.getUser() else {
+            guard let _ = currentUser else {
                 return
             }
+
+            isSaved = item.isSaved ?? false
         }
     }
 
     var delegate: ItemTableHeaderViewDelegate?
-    let dependencyGraph: DependencyGraphType
+
+    var userHasSavedThisItemConstraint: NSLayoutConstraint?
+    var userHasNotSavedThisItemConstraint: NSLayoutConstraint?
+
+    var isSaved: Bool = false {
+        didSet {
+            if isSaved {
+                faveItemButton.layer.borderWidth = 1
+                faveItemButton.backgroundColor = FaveColors.White
+                let attributedTitle = NSAttributedString(string: "Saved",
+                                                         font: FaveFont(style: .small, weight: .semiBold).font,
+                                                         textColor: FaveColors.Black90)
+                faveItemButton.setAttributedTitle(attributedTitle, for: .normal)
+            } else {
+                faveItemButton.layer.borderWidth = 0
+                faveItemButton.backgroundColor = FaveColors.Accent
+                let attributedTitle = NSAttributedString(string: "Save",
+                                                         font: FaveFont(style: .small, weight: .semiBold).font,
+                                                         textColor: FaveColors.White)
+                faveItemButton.setAttributedTitle(attributedTitle, for: .normal)
+            }
+        }
+    }
 
     private lazy var faveItemButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
@@ -29,9 +57,11 @@ class ItemTableHeaderView: UIView {
         button.backgroundColor = FaveColors.Accent
         button.addTarget(self, action: #selector(faveItemButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 6
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = FaveColors.Black50.cgColor
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 
-        let attributedTitle = NSAttributedString(string: "Saved",
+        let attributedTitle = NSAttributedString(string: "Save",
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: FaveColors.White)
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -60,7 +90,7 @@ class ItemTableHeaderView: UIView {
     }()
 
     private lazy var favedByOthersLabel: Label = {
-        let labelText = self.item.numberOfFaves == 1 ? "Faved by \(self.item.numberOfFaves) other" : "Faved by \(self.item.numberOfFaves) others"
+        let labelText = self.item.numberOfFaves == 1 ? "Saved by \(self.item.numberOfFaves) other" : "Saved by \(self.item.numberOfFaves) others"
 
         let label = Label(text: labelText,
                           font: FaveFont(style: .h5, weight: .regular) ,
@@ -83,9 +113,15 @@ class ItemTableHeaderView: UIView {
         return view
     }()
 
-    init(dependencyGraph: DependencyGraphType, item: Item) {
-        self.dependencyGraph = dependencyGraph
+    private lazy var savedItemContextView: SavedItemContextView = {
+        let view = SavedItemContextView()
+
+        return view
+    }()
+
+    init(item: Item, list: List) {
         self.item = item
+        self.list = list
 
         super.init(frame: CGRect.zero)
 
@@ -93,14 +129,21 @@ class ItemTableHeaderView: UIView {
 
         isUserInteractionEnabled = true
 
+        addSubview(savedItemContextView)
         addSubview(titleLabel)
         addSubview(itemNoteLabel)
         addSubview(favedByOthersLabel)
         addSubview(faveItemButton)
         addSubview(dividerView)
 
-        constrain(titleLabel, self) { label, view in
-            label.top == view.top + 16
+        constrain(titleLabel, savedItemContextView, self) { label, savedItemContextView, view in
+            userHasNotSavedThisItemConstraint = label.top == view.top + 16
+            userHasSavedThisItemConstraint = label.top == savedItemContextView.bottom + 8
+
+            savedItemContextView.top == view.top + 12
+            savedItemContextView.right == view.right - 16
+            savedItemContextView.left == label.left
+
             label.right == view.right - 16
             label.left == view.left + 16
         }
@@ -117,7 +160,7 @@ class ItemTableHeaderView: UIView {
             favedByOthersLabel.left == view.left + 16
         }
 
-        if let user = dependencyGraph.storage.getUser(), let addedBy = item.addedBy, addedBy.id == user.id {
+        if let user = currentUser, let addedBy = item.addedBy, addedBy.id == user.id {
             constrain(favedByOthersLabel, dividerView) { favedByOthersLabel, dividerView in
                 favedByOthersLabel.bottom == dividerView.top - 16
             }
@@ -135,19 +178,58 @@ class ItemTableHeaderView: UIView {
             dividerView.bottom == view.bottom
             dividerView.left == view.left
         }
+
+        updateSavedItemContext(item: item)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateHeader(item: Item) {
+    func updateHeader(item: Item, list: List, user: User?, mySavedItem: Item?) {
         self.item = item
+        self.list = list
+        self.currentUser = user
+        self.mySavedItem = mySavedItem
+
+        updateSavedItemContext(item: item)
+    }
+
+    private func updateSavedItemContext(item: Item) {
+        guard let user = currentUser, let list = list, let mySavedItem = mySavedItem else {
+            savedItemContextView.alpha = 0
+            userHasNotSavedThisItemConstraint?.isActive = true
+            userHasSavedThisItemConstraint?.isActive = false
+
+            return
+        }
+
+        let itemIsSavedByUser = item.isSaved ?? false
+        let isSameItem = item.dataId == mySavedItem.dataId
+        let notMyList = list.owner.id != user.id
+
+        if itemIsSavedByUser && isSameItem && notMyList {
+            savedItemContextView.setListTitle(title: mySavedItem.listTitle)
+
+            self.userHasSavedThisItemConstraint?.isActive = true
+            self.userHasNotSavedThisItemConstraint?.isActive = false
+
+            UIView.animate(withDuration: 0.15) {
+                self.savedItemContextView.alpha = 1
+            }
+        } else {
+            self.userHasNotSavedThisItemConstraint?.isActive = true
+            self.userHasSavedThisItemConstraint?.isActive = false
+
+            UIView.animate(withDuration: 0.15) {
+                self.savedItemContextView.alpha = 0
+            }
+        }
     }
 
     @objc func faveItemButtonTapped(sender: UIButton!) {
         print("\n Follow Item Button Tapped \n")
 
-        delegate?.faveItemTapped(item: item)
+        delegate?.saveItemTapped(item: item)
     }
 }

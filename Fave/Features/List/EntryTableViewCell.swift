@@ -11,9 +11,15 @@ protocol EntryTableViewCellDelegate {
 class EntryTableViewCell: UITableViewCell {
 
     var item: Item?
+    var list: List?
+    var currentUser: User?
+    var mySavedItem: Item?
     var delegate: EntryTableViewCellDelegate?
 
-    var itemIsFavedByUser = false
+    var itemIsAlreadySavedConstraint: NSLayoutConstraint?
+    var itemIsNotAlreadySavedConstraint: NSLayoutConstraint?
+
+    var itemIsSavedByUser = false
     let faveActionIcon = UIImageView.init(frame: .zero)
     let faveActionLabel = Label.init(text: "Save", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
 
@@ -192,6 +198,12 @@ class EntryTableViewCell: UITableViewCell {
         return view
     }()
 
+    private lazy var savedItemContextView: SavedItemContextView = {
+        let view = SavedItemContextView()
+
+        return view
+    }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -203,9 +215,17 @@ class EntryTableViewCell: UITableViewCell {
 
         contentView.addSubview(dividerView)
         contentView.addSubview(borderView)
+        contentView.addSubview(savedItemContextView)
+
+        constrain(savedItemContextView, titleLabel, contentView) { savedItemContextView, titleLabel, view in
+            itemIsAlreadySavedConstraint = savedItemContextView.top == view.top + 16
+            savedItemContextView.right == view.right - 16
+            savedItemContextView.bottom == titleLabel.top - 4
+            savedItemContextView.left == view.left + 16
+        }
 
         constrain(titleLabel, contentView) { label, view in
-            label.top == view.top + 16
+            itemIsNotAlreadySavedConstraint = label.top == view.top + 16
             label.right == view.right - 16
             label.left == view.left + 16
         }
@@ -242,12 +262,15 @@ class EntryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(item: Item) {
+    func populate(item: Item, currentUser: User?, list: List, mySavedItem: Item?) {
         self.item = item
+        self.list = list
+        self.mySavedItem = mySavedItem
+        self.currentUser = currentUser
 
-        itemIsFavedByUser = item.isFaved ?? false
+        itemIsSavedByUser = item.isSaved ?? false
 
-        updateFaveAction()
+        updateSavedItemContext(item: item)
 
         titleLabel.text = item.contextualItem.name
         subtitleLabel.text = item.note
@@ -273,16 +296,30 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
 
-    func updateFaveAction() {
-        if itemIsFavedByUser {
-            faveActionIcon.image = UIImage.init(named: "icon-fave-faved")?.withRenderingMode(.alwaysOriginal)
-            faveActionLabel.text = "Saved"
-            faveActionLabel.textColor = FaveColors.Accent
+    private func updateSavedItemContext(item: Item) {
+        guard let user = currentUser, let list = list, let mySavedItem = mySavedItem else {
+            savedItemContextView.alpha = 0
+            itemIsNotAlreadySavedConstraint?.isActive = true
+            itemIsAlreadySavedConstraint?.isActive = false
+
+            return
+        }
+
+        let isSameItem = item.dataId == mySavedItem.dataId
+        let notMyList = list.owner.id != user.id
+
+        if itemIsSavedByUser && isSameItem && notMyList {
+            UIView.animate(withDuration: 0.15) {
+                self.savedItemContextView.alpha = 1
+            }
+
+            itemIsAlreadySavedConstraint?.isActive = true
+            itemIsNotAlreadySavedConstraint?.isActive = false
+            savedItemContextView.setListTitle(title: mySavedItem.listTitle)
         } else {
-            faveActionIcon.image = UIImage.init(named: "icon-fave-not-faved")
-            faveActionIcon.tintColor = FaveColors.Black60
-            faveActionLabel.text = "Save"
-            faveActionLabel.textColor = FaveColors.Black70
+            savedItemContextView.alpha = 0
+            itemIsNotAlreadySavedConstraint?.isActive = true
+            itemIsAlreadySavedConstraint?.isActive = false
         }
     }
 
@@ -291,11 +328,11 @@ class EntryTableViewCell: UITableViewCell {
             return
         }
 
-        delegate?.faveItemButtonTapped(item: item, from: itemIsFavedByUser, to: !itemIsFavedByUser)
+        delegate?.faveItemButtonTapped(item: item, from: itemIsSavedByUser, to: !itemIsSavedByUser)
 
-        itemIsFavedByUser = !itemIsFavedByUser
+        itemIsSavedByUser = !itemIsSavedByUser
 
-        updateFaveAction()
+        updateSavedItemContext(item: item)
     }
 
     @objc func shareItemButtonTapped() {

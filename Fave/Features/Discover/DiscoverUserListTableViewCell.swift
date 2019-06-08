@@ -107,7 +107,7 @@ class DiscoverUserListTableViewCell: UITableViewCell {
 
         constrain(followButton, titleLabel, contentView) { followButton, titleLabel, view in
             followButton.right == view.right - 16
-            followButton.left == titleLabel.right + 16
+            followButton.left == titleLabel.right + 8
             followButton.centerY == view.centerY
         }
     }

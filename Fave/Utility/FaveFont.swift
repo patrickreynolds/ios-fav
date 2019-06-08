@@ -70,6 +70,7 @@ enum FaveFontStyle: CGFloat {
         switch self {
         case .display: return 0
         case .title: return 0
+        case .h5: return 6
         default: return 8
         }
     }

@@ -15,9 +15,7 @@ class ItemViewController: FaveVC {
 
     var item: Item {
         didSet {
-            itemTableView.reloadData()
 
-            itemTableHeaderView.updateHeader(item: item)
         }
     }
 
@@ -27,8 +25,24 @@ class ItemViewController: FaveVC {
         }
     }
 
+    var listOfCurrentItems: [Item] = [] {
+        didSet {
+            let allListDataIds = listOfCurrentItems.map({ item in item.dataId })
+
+            item.isSaved = allListDataIds.contains(item.dataId)
+
+            let mySavedItem = listOfCurrentItems.first { currentItem in
+                return currentItem.dataId == item.dataId
+            }
+
+            itemTableHeaderView.updateHeader(item: item, list: list, user: self.dependencyGraph.storage.getUser(), mySavedItem: mySavedItem)
+            view.setNeedsLayout()
+            itemTableView.reloadData()
+        }
+    }
+
     private lazy var itemTableHeaderView: ItemTableHeaderView = {
-        let view = ItemTableHeaderView(dependencyGraph: dependencyGraph, item: item)
+        let view = ItemTableHeaderView(item: item, list: list)
 
         view.delegate = self
 
@@ -127,6 +141,8 @@ class ItemViewController: FaveVC {
         constrain(itemTableView, view) { tableView, view in
             tableView.top == view.topMargin
         }
+
+        refreshData()
     }
 
     override func viewDidLayoutSubviews() {
@@ -178,6 +194,18 @@ class ItemViewController: FaveVC {
             }
 
             self.item = item
+
+            self.updateSaved(userId: user.id)
+        }
+    }
+
+    func updateSaved(userId: Int) {
+        dependencyGraph.faveService.myItems() { response, error in
+            guard let items = response else {
+                return
+            }
+
+            self.listOfCurrentItems = items
         }
     }
 
@@ -319,8 +347,10 @@ extension ItemViewController: ItemListSuggestionsTableViewCellDelegate {
 }
 
 extension ItemViewController: ItemTableHeaderViewDelegate {
-    func faveItemTapped(item: Item) {
+    func saveItemTapped(item: Item) {
         print("\n Fave Item Tapped \n")
+
+        
     }
 }
 

@@ -37,6 +37,7 @@
 		4376A9EB225A509400741F92 /* ItemMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EA225A509400741F92 /* ItemMapTableViewCell.swift */; };
 		4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */; };
 		4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */; };
+		4378624922AA0F350011420D /* SavedItemContextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4378624822AA0F350011420D /* SavedItemContextView.swift */; };
 		43824890227B50E800257D27 /* MyListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382488F227B50E800257D27 /* MyListsViewController.swift */; };
 		43824892227C069900257D27 /* AutosizingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43824891227C069900257D27 /* AutosizingTableView.swift */; };
 		438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BA223336BA00B99EC7 /* AppDelegate.swift */; };
@@ -146,6 +147,7 @@
 		4376A9EA225A509400741F92 /* ItemMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemMapTableViewCell.swift; sourceTree = "<group>"; };
 		4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPhotosTableViewCell.swift; sourceTree = "<group>"; };
 		4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSuggestionsTableViewCell.swift; sourceTree = "<group>"; };
+		4378624822AA0F350011420D /* SavedItemContextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedItemContextView.swift; sourceTree = "<group>"; };
 		4382488F227B50E800257D27 /* MyListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsViewController.swift; sourceTree = "<group>"; };
 		43824891227C069900257D27 /* AutosizingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizingTableView.swift; sourceTree = "<group>"; };
 		438534B7223336BA00B99EC7 /* Fave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fave.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -376,6 +378,7 @@
 				43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */,
 				43824891227C069900257D27 /* AutosizingTableView.swift */,
 				431A0DDB228DCC7300F2E6BD /* EventItemView.swift */,
+				4378624822AA0F350011420D /* SavedItemContextView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,
+				4378624922AA0F350011420D /* SavedItemContextView.swift in Sources */,
 				43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */,
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
 				4385350522333AA700B99EC7 /* Networking.swift in Sources */,
