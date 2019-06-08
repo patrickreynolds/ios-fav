@@ -4,7 +4,7 @@ import UIKit
 import Cartography
 
 protocol ItemTableHeaderViewDelegate {
-    func saveItemTapped(item: Item)
+    func saveItemButtonTapped(item: Item, from: Bool, to: Bool)
 }
 
 class ItemTableHeaderView: UIView {
@@ -15,13 +15,7 @@ class ItemTableHeaderView: UIView {
 
     var item: Item {
         didSet {
-
-            // If item is on user's list
-            guard let _ = currentUser else {
-                return
-            }
-
-            isSaved = item.isSaved ?? false
+            itemIsSavedByUser = item.isSaved ?? false
         }
     }
 
@@ -30,9 +24,9 @@ class ItemTableHeaderView: UIView {
     var userHasSavedThisItemConstraint: NSLayoutConstraint?
     var userHasNotSavedThisItemConstraint: NSLayoutConstraint?
 
-    var isSaved: Bool = false {
+    var itemIsSavedByUser: Bool = false {
         didSet {
-            if isSaved {
+            if itemIsSavedByUser {
                 faveItemButton.layer.borderWidth = 1
                 faveItemButton.backgroundColor = FaveColors.White
                 let attributedTitle = NSAttributedString(string: "Saved",
@@ -187,9 +181,9 @@ class ItemTableHeaderView: UIView {
     }
 
     func updateHeader(item: Item, list: List, user: User?, mySavedItem: Item?) {
+        self.currentUser = user
         self.item = item
         self.list = list
-        self.currentUser = user
         self.mySavedItem = mySavedItem
 
         updateSavedItemContext(item: item)
@@ -204,7 +198,6 @@ class ItemTableHeaderView: UIView {
             return
         }
 
-        let itemIsSavedByUser = item.isSaved ?? false
         let isSameItem = item.dataId == mySavedItem.dataId
         let notMyList = list.owner.id != user.id
 
@@ -230,6 +223,10 @@ class ItemTableHeaderView: UIView {
     @objc func faveItemButtonTapped(sender: UIButton!) {
         print("\n Follow Item Button Tapped \n")
 
-        delegate?.saveItemTapped(item: item)
+        delegate?.saveItemButtonTapped(item: item, from: itemIsSavedByUser, to: !itemIsSavedByUser)
+
+        itemIsSavedByUser = !itemIsSavedByUser
+
+        updateSavedItemContext(item: item)
     }
 }

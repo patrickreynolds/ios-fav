@@ -255,6 +255,14 @@ class ItemViewController: FaveVC {
 
         self.present(activityViewController, animated: true, completion: nil)
     }
+
+    func selectListToFaveTo(canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
+
+        let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, canceledSelection: canceledSelection, didSelectList: didSelectList)
+        myListsViewController.modalPresentationStyle = .overCurrentContext
+
+        present(myListsViewController, animated: false, completion: nil)
+    }
 }
 
 extension ItemViewController: UITableViewDelegate {
@@ -347,10 +355,59 @@ extension ItemViewController: ItemListSuggestionsTableViewCellDelegate {
 }
 
 extension ItemViewController: ItemTableHeaderViewDelegate {
-    func saveItemTapped(item: Item) {
-        print("\n Fave Item Tapped \n")
+    func saveItemButtonTapped(item: Item, from: Bool, to: Bool) {
+        print("\n Save Item Tapped \n")
 
-        
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
+        }
+
+        let weShouldFave = !from
+
+        if weShouldFave {
+            // fave the item
+            // update faves endpoint
+            // reload table
+
+            selectListToFaveTo(canceledSelection: {
+                self.updateSaved(userId: user.id)
+            }) { selectedList in
+                self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+
+                    self.updateSaved(userId: user.id)
+
+
+                    guard let _ = response else {
+                        return
+                    }
+                }
+            }
+        } else {
+            dependencyGraph.faveService.removeFave(userId: user.id, itemId: item.dataId) { success, error in
+
+                self.updateSaved(userId: user.id)
+
+                if let _ = error {
+                    // TODO: Handle error
+
+                    return
+                }
+
+                if success {
+                    // Success placeholder
+                } else {
+                    let alertController = UIAlertController(title: "Oops!", message: "Something went wrong. Try unfaving again.", preferredStyle: .alert)
+
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style {
+                        case .default, .cancel, .destructive:
+                            alertController.dismiss(animated: true, completion: nil)
+                        }}))
+
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            }
+        }
     }
 }
 
