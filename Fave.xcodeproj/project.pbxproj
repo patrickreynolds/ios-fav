@@ -22,6 +22,9 @@
 		431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431ED5EB22922CD1008B9A9A /* TopListUserSectionHeaderView.swift */; };
 		4334DB6D228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */; };
 		4334DB6F228F269800EE58BB /* TopListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */; };
+		433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */; };
+		433E4F8622AC40DD00B0A531 /* ProfileInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */; };
+		433E4F8822AC47AB00B0A531 /* ProfileActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */; };
 		4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */; };
 		4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */; };
 		434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434932882298F84D00F949D6 /* FaveGraphQLService.swift */; };
@@ -133,6 +136,9 @@
 		431ED5EB22922CD1008B9A9A /* TopListUserSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListUserSectionHeaderView.swift; sourceTree = "<group>"; };
 		4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveLoggedOutWelcomeView.swift; sourceTree = "<group>"; };
 		4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListCollectionViewCell.swift; sourceTree = "<group>"; };
+		433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputTitleView.swift; sourceTree = "<group>"; };
+		433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputView.swift; sourceTree = "<group>"; };
+		433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionView.swift; sourceTree = "<group>"; };
 		4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
 		434932882298F84D00F949D6 /* FaveGraphQLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveGraphQLService.swift; sourceTree = "<group>"; };
@@ -496,6 +502,9 @@
 				43AFB44C223DE8F500B243E1 /* ProfileTableHeaderView.swift */,
 				43AFB450223EE6D100B243E1 /* EditProfileViewController.swift */,
 				4305F37622400A3500F6DE77 /* ListTableViewCell.swift */,
+				433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */,
+				433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */,
+				433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -853,9 +862,12 @@
 				43915CAB2276A02B00562B5A /* UICollectionViewExt.swift in Sources */,
 				43BEA2FD226B84DA001F930E /* DiscoverUserListTableViewCell.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
+				433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */,
 				438534F52233391500B99EC7 /* Color.swift in Sources */,
 				43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */,
 				4385350B22333B8200B99EC7 /* FaveEndpoint.swift in Sources */,
+				433E4F8822AC47AB00B0A531 /* ProfileActionView.swift in Sources */,
+				433E4F8622AC40DD00B0A531 /* ProfileInputView.swift in Sources */,
 				43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */,
 				438534EC2233388900B99EC7 /* SaveCollections.swift in Sources */,
 				43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */,

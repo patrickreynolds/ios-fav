@@ -14,17 +14,20 @@ class DiscoverViewController: FaveVC {
     var suggestions: [List] = [] {
         didSet {
 //            discoverTableView.reloadData()
+            cachedSuggestionSections = suggestionSections()
         }
     }
 
-    var suggestionSections: [SuggestionSection] {
-        var uniqueUsers: [String: User] = [:]
+    var cachedSuggestionSections: [SuggestionSection] = []
+
+    func suggestionSections() -> [SuggestionSection] {
+        var uniqueUsers: [Int: User] = [:]
 
         suggestions.forEach { list in
-            if let _ = uniqueUsers["\(list.owner.id)"] {
+            if let _ = uniqueUsers[list.owner.id] {
                 return
             } else {
-                uniqueUsers["\(list.owner.id)"] = list.owner
+                uniqueUsers[list.owner.id] = list.owner
             }
         }
 
@@ -33,14 +36,14 @@ class DiscoverViewController: FaveVC {
             let recommendationsTitle = "Recommendations".lowercased()
             let savedForLaterTitle = "Saved For Later".lowercased()
 
-            if let user = uniqueUsers["\(key)"] {
+            if let user = uniqueUsers[key] {
                 let lists = suggestions.filter({ list -> Bool in
                     return list.owner.id == user.id
                 })
-                .filter({ list in
-                    let listTitle = list.title.lowercased()
-                    return listTitle != recommendationsTitle && listTitle != savedForLaterTitle
-                })
+                    .filter({ list in
+                        let listTitle = list.title.lowercased()
+                        return listTitle != recommendationsTitle && listTitle != savedForLaterTitle
+                    })
 
                 return SuggestionSection(user: user, lists: lists)
             } else {
@@ -209,7 +212,7 @@ class DiscoverViewController: FaveVC {
 
         view.bringSubviewToFront(createButton)
 
-        refreshData()
+//        refreshData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -273,7 +276,7 @@ extension DiscoverViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         discoverTableView.deselectRow(at: indexPath, animated: true)
 
-        let list = suggestionSections[indexPath.section].lists[indexPath.row]
+        let list = cachedSuggestionSections[indexPath.section].lists[indexPath.row]
 
         let listViewController = ListViewController.init(dependencyGraph: dependencyGraph, list: list)
 
@@ -286,17 +289,17 @@ extension DiscoverViewController: UITableViewDelegate {
 
 extension DiscoverViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let maxNumberOfRows = 3
+        let maxNumberOfRows = 5
 
-        if suggestionSections[section].lists.count > maxNumberOfRows {
-            return 3
+        if cachedSuggestionSections[section].lists.count > maxNumberOfRows {
+            return maxNumberOfRows
         } else {
-            return suggestionSections[section].lists.count
+            return cachedSuggestionSections[section].lists.count
         }
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return suggestionSections.count
+        return cachedSuggestionSections.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -304,7 +307,7 @@ extension DiscoverViewController: UITableViewDataSource {
 
         cell.delegate = self
 
-        let list = suggestionSections[indexPath.section].lists[indexPath.row]
+        let list = cachedSuggestionSections[indexPath.section].lists[indexPath.row]
         cell.populate(list: list)
 
         return cell
@@ -319,7 +322,7 @@ extension DiscoverViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let user = suggestionSections[section].user
+        let user = cachedSuggestionSections[section].user
         let header = DiscoverUserSectionHeaderView(user: user)
 
         header.delegate = self

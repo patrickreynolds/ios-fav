@@ -9,6 +9,7 @@ protocol FaveServiceType {
     func authenticate(network: String, accessToken: String, completion: @escaping (_ authenticationInfo: AuthenticationInfo?, _ error: Error?) -> ())
     func getCurrentUser(completion: @escaping (_ user: User?, _ error: Error?) -> ())
     func getUser(userId: Int, completion: @escaping (_ user: User?, _ error: Error?) -> ())
+    func updateUser(firstName: String, lastName: String, email: String, handle: String, bio: String, completion: @escaping (_ user: User?, _ error: Error?) -> ())
     func getLists(userId: Int, completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
     func getList(userId: Int, listId: Int, completion:  @escaping (_ lists: List?, _ error: Error?) -> ())
     func createList(userId: Int, name: String, description: String, isPublic: Bool, completion: @escaping (_ list: List?, _ error: Error?) -> ())
@@ -383,6 +384,20 @@ struct FaveService {
             completion(items, error)
         }
 
+    }
+
+    func updateUser(firstName: String, lastName: String, email: String, handle: String, bio: String, completion: @escaping (_ user: User?, _ error: Error?) -> ()) {
+        let updateUserMutationString = GraphQLQueryBuilder.updateUserMutation(firstName: firstName, lastName: lastName, email: email, handle: handle, bio: bio)
+
+        networking.sendGraphqlRequest(query: updateUserMutationString) { response, error in
+            guard let unwrappedResponse = response, let userData = unwrappedResponse["user"] as? [String: AnyObject], let user = User.init(data: userData) else {
+                completion(nil, error)
+
+                return
+            }
+
+            completion(user, error)
+        }
     }
 }
 

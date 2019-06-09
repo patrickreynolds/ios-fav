@@ -63,6 +63,20 @@ struct FaveGraphQLService {
         }
     }
 
+    func updateUser(firstName: String, lastName: String, email: String, handle: String, bio: String, completion: @escaping (_ user: User?, _ error: Error?) -> ()) {
+        let updateUserMutationString = GraphQLQueryBuilder.updateUserMutation(firstName: firstName, lastName: lastName, email: email, handle: handle, bio: bio)
+
+        networking.sendGraphqlRequest(query: updateUserMutationString) { response, error in
+            guard let unwrappedResponse = response, let userData = unwrappedResponse["user"] as? [String: AnyObject], let user = User(data: userData) else {
+                completion(nil, error)
+
+                return
+            }
+
+            completion(user, error)
+        }
+    }
+
     func getLists(userId: Int, completion: @escaping (_ lists: [List]?, _ error: Error?) -> ()) {
 
         let listsQueryString = GraphQLQueryBuilder.listsQuery(userId: userId)

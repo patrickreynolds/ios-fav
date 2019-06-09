@@ -203,7 +203,7 @@ extension FeedViewController: UITableViewDataSource {
         cell.delegate = self
 
         let event = events[indexPath.row]
-        cell.populate(event: event)
+        cell.populate(dependencyGraph: dependencyGraph, event: event)
 
         return cell
     }
