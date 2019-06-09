@@ -17,14 +17,17 @@ class ProfileViewController: FaveVC {
 
             let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
             navigationItem.titleView = titleViewLabel
+
+            view.setNeedsLayout()
         }
     }
 
     var lists: [List] = [] {
         didSet {
-            self.profileTableView.reloadData()
-
             profileTableHeaderView.updateListInfo(lists: lists)
+            view.setNeedsLayout()
+
+            self.profileTableView.reloadData()
         }
     }
 
@@ -35,6 +38,7 @@ class ProfileViewController: FaveVC {
             }
 
             profileTableHeaderView.updateUserInfo(user: user, followingCount: listsUserFollows.count)
+            view.setNeedsLayout()
         }
     }
 
@@ -362,7 +366,11 @@ extension ProfileViewController: CreateItemViewControllerDelegate {
 
 extension ProfileViewController: ProfileTableHeaderViewDelegate {
     func editProfileButtonTapped() {
-        let editProfileViewController = EditProfileViewController(dependencyGraph: dependencyGraph)
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
+        }
+
+        let editProfileViewController = EditProfileViewController(dependencyGraph: dependencyGraph, user: user)
         let editProfileNavigationViewController = UINavigationController.init(rootViewController: editProfileViewController)
 
         present(editProfileNavigationViewController, animated: true, completion: nil)

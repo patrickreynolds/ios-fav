@@ -90,7 +90,7 @@ class ListTableHeaderView: UIView {
         let entryTitleString = list.numberOfItems == 1 ? "\(list.numberOfItems) Entry" : "\(list.numberOfItems) Entries"
         let recommendationTitleString = list.numberOfRecommendations == 1 ? "\(list.numberOfRecommendations) Rec" : "\(list.numberOfRecommendations) Recs"
 
-        let listSegmentedControlView = ListSegmentedControl.init(tabs: [entryTitleString, recommendationTitleString])
+        let listSegmentedControlView = ListSegmentedControl(tabs: [entryTitleString, recommendationTitleString])
 
         listSegmentedControlView.delegate = self
 

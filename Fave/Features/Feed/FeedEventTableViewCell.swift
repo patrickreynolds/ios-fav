@@ -11,6 +11,7 @@ protocol FeedEventTableViewCellDelegate {
 class FeedEventTableViewCell: UITableViewCell {
 
     var delegate: FeedEventTableViewCellDelegate?
+    var dependencyGraph: DependencyGraphType?
 
     private var hasNoteLabelConstraint: NSLayoutConstraint?
     private var noNoteLabelConstraint: NSLayoutConstraint?
@@ -52,7 +53,7 @@ class FeedEventTableViewCell: UITableViewCell {
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
-                               numberOfLines: 0)
+                               numberOfLines: 2)
 
         return label
     }()
@@ -62,7 +63,7 @@ class FeedEventTableViewCell: UITableViewCell {
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
-                               numberOfLines: 0)
+                               numberOfLines: 2)
 
         return label
     }()
@@ -76,7 +77,7 @@ class FeedEventTableViewCell: UITableViewCell {
     }()
 
     private lazy var eventItemView: EventItemView = {
-        let view = EventItemView()
+        let view = EventItemView(dependencyGraph: self.dependencyGraph)
 
         _ = view.tapped { tapped in
             guard let item = self.feedEvent?.item, let list = self.feedEvent?.list else {
@@ -108,7 +109,7 @@ class FeedEventTableViewCell: UITableViewCell {
         constrain(userProfileImageView, titleLabel, contentView) { imageView, label, view in
             label.top == view.top + 8
             label.right == view.right - 16
-            label.left == imageView.right + 16
+            label.left == imageView.right + 8
         }
 
         constrain(noteLabel, titleLabel) { noteLabel, titleLabel in
@@ -120,8 +121,8 @@ class FeedEventTableViewCell: UITableViewCell {
         }
 
         constrain(eventItemView, titleLabel, noteLabel, contentView) { eventItemView, titleLabel, noteLabel, contentView in
-            noNoteLabelConstraint = eventItemView.top == titleLabel.bottom + 8
-            hasNoteLabelConstraint = eventItemView.top == noteLabel.bottom + 8
+            noNoteLabelConstraint = eventItemView.top == titleLabel.bottom + 24
+            hasNoteLabelConstraint = eventItemView.top == noteLabel.bottom + 16
 
             eventItemView.right == contentView.right - 16
             eventItemView.bottom == contentView.bottom - 16
@@ -140,8 +141,9 @@ class FeedEventTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(event: FeedEvent) {
+    func populate(dependencyGraph: DependencyGraphType, event: FeedEvent) {
         self.feedEvent = event
+        self.dependencyGraph = dependencyGraph
 
         titleLabel.text = "\(event.user.handle) added an item. \(event.item.createdAt.condensedTimeSinceString())"
 
@@ -159,6 +161,6 @@ class FeedEventTableViewCell: UITableViewCell {
 
         userProfileImageView.image = UIImage(base64String: event.user.profilePicture)
 
-        eventItemView.update(withEvent: event)
+        eventItemView.update(dependencyGraph: dependencyGraph, withEvent: event)
     }
 }
