@@ -231,7 +231,7 @@ class EntryTableViewCell: UITableViewCell {
         }
 
         constrain(subtitleLabel, titleLabel) { subtitleLabel, titleLabel in
-            subtitleLabel.top == titleLabel.bottom + 4
+            subtitleLabel.top == titleLabel.bottom + 8
             subtitleLabel.right == titleLabel.right
             subtitleLabel.left == titleLabel.left
         }
