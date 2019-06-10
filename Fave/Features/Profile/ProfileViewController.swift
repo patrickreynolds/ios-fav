@@ -161,7 +161,7 @@ class ProfileViewController: FaveVC {
         let titleViewLabel = Label.init(text: user?.handle ?? "", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
-        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+//        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
 
         if let navigationController = navigationController, navigationController.viewControllers.count > 1 {
             navigationController.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
@@ -373,6 +373,17 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
         let editProfileViewController = EditProfileViewController(dependencyGraph: dependencyGraph, user: user)
         let editProfileNavigationViewController = UINavigationController.init(rootViewController: editProfileViewController)
 
+        editProfileViewController.delegate = self
+
         present(editProfileNavigationViewController, animated: true, completion: nil)
+    }
+}
+
+extension ProfileViewController: EditProfileViewControllerDelegate {
+    func didLogout() {
+        if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
+            tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+            tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        }
     }
 }

@@ -4,6 +4,10 @@ import UIKit
 import Cartography
 import MBProgressHUD
 
+protocol EditProfileViewControllerDelegate {
+    func didLogout()
+}
+
 enum AuthenticationState {
     case loggedIn
     case loggedOut
@@ -12,6 +16,8 @@ enum AuthenticationState {
 class EditProfileViewController: FaveVC {
 
     var user: User
+
+    var delegate: EditProfileViewControllerDelegate?
 
     private lazy var contentView: UIView = {
         let view = UIView(frame: .zero)
@@ -352,11 +358,27 @@ class EditProfileViewController: FaveVC {
     }
 
     func didTapAuthentication() {
+        let tabBC: UITabBarController? = self.presentingViewController as? UITabBarController ?? nil
+
+//        if let tabBar = self.presentingViewController as? UITabBarController {
+//            tabBC = tabBar
+//        }
+
+
         if dependencyGraph.authenticator.isLoggedIn() {
             self.dependencyGraph.authenticator.logout { success in
-                self.authenticationState = .loggedOut
 
-                self.login()
+                if success {
+                    self.authenticationState = .loggedOut
+
+                    if let tabBarController = tabBC {
+                        tabBarController.selectedIndex = 0
+                    }
+
+                    self.delegate?.didLogout()
+
+                    self.dismiss(animated: true) {}
+                }
             }
         } else {
             login()

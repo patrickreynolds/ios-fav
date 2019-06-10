@@ -152,7 +152,7 @@ class ListViewController: FaveVC {
         view.backgroundColor = UIColor.white
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
-        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+//        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
         navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         view.addSubview(listTableView)

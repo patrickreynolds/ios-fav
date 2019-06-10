@@ -153,6 +153,11 @@ class FeedViewController: FaveVC {
 
             dependencyGraph.faveService.getCurrentUser { user, error in
                 guard let user = user else {
+                    if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
+                        tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                        tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                    }
+
                     return
                 }
 
