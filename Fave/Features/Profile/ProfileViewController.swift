@@ -15,7 +15,7 @@ class ProfileViewController: FaveVC {
 
             profileTableHeaderView.updateUserInfo(user: user, followingCount: listsUserFollows.count)
 
-            let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+            let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
             navigationItem.titleView = titleViewLabel
 
             view.setNeedsLayout()
@@ -158,7 +158,7 @@ class ProfileViewController: FaveVC {
             button.height == 56
         }
 
-        let titleViewLabel = Label.init(text: user?.handle ?? "", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: user?.handle ?? "", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
 //        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
@@ -286,7 +286,7 @@ extension ProfileViewController: UITableViewDelegate {
 
         let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
 
-        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)

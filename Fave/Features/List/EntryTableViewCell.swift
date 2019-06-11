@@ -137,7 +137,7 @@ class EntryTableViewCell: UITableViewCell {
         shareIcon.image = UIImage.init(named: "icon-share")
         shareIcon.tintColor = FaveColors.Black60
 
-        let shareLabel = Label.init(text: "Share", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
+        let shareLabel = Label(text: "Share", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
 
         actionContentView.addSubview(shareIcon)
         actionContentView.addSubview(shareLabel)

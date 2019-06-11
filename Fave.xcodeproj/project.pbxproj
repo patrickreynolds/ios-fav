@@ -25,6 +25,10 @@
 		433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */; };
 		433E4F8622AC40DD00B0A531 /* ProfileInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */; };
 		433E4F8822AC47AB00B0A531 /* ProfileActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */; };
+		433E4F8B22AF3EEC00B0A531 /* ShareItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8A22AF3EEC00B0A531 /* ShareItemViewController.swift */; };
+		433E4F8D22AF47C800B0A531 /* ShareItemActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8C22AF47C800B0A531 /* ShareItemActionView.swift */; };
+		433E4F8F22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8E22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift */; };
+		433E4F9122B0351000B0A531 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F9022B0351000B0A531 /* ToastView.swift */; };
 		4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */; };
 		4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */; };
 		434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434932882298F84D00F949D6 /* FaveGraphQLService.swift */; };
@@ -139,6 +143,10 @@
 		433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputTitleView.swift; sourceTree = "<group>"; };
 		433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputView.swift; sourceTree = "<group>"; };
 		433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionView.swift; sourceTree = "<group>"; };
+		433E4F8A22AF3EEC00B0A531 /* ShareItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItemViewController.swift; sourceTree = "<group>"; };
+		433E4F8C22AF47C800B0A531 /* ShareItemActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItemActionView.swift; sourceTree = "<group>"; };
+		433E4F8E22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItemUserSearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		433E4F9022B0351000B0A531 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
 		434932882298F84D00F949D6 /* FaveGraphQLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveGraphQLService.swift; sourceTree = "<group>"; };
@@ -284,6 +292,16 @@
 			path = Item;
 			sourceTree = "<group>";
 		};
+		433E4F8922AF3ECC00B0A531 /* Share Item */ = {
+			isa = PBXGroup;
+			children = (
+				433E4F8A22AF3EEC00B0A531 /* ShareItemViewController.swift */,
+				433E4F8C22AF47C800B0A531 /* ShareItemActionView.swift */,
+				433E4F8E22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift */,
+			);
+			path = "Share Item";
+			sourceTree = "<group>";
+		};
 		4382488E227B50DA00257D27 /* Fave Item */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +403,7 @@
 				43824891227C069900257D27 /* AutosizingTableView.swift */,
 				431A0DDB228DCC7300F2E6BD /* EventItemView.swift */,
 				4378624822AA0F350011420D /* SavedItemContextView.swift */,
+				433E4F9022B0351000B0A531 /* ToastView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -483,6 +502,7 @@
 		439FDDDE2245D1E100ED9343 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				433E4F8922AF3ECC00B0A531 /* Share Item */,
 				439FDDDF2245D1FC00ED9343 /* ListViewController.swift */,
 				439FDDE12245D2DE00ED9343 /* EntryTableViewCell.swift */,
 				439FDDE32245FACF00ED9343 /* ListTableHeaderView.swift */,
@@ -809,6 +829,7 @@
 				43915CAD2276AF5900562B5A /* ItemGooglePhotoCollectionViewCell.swift in Sources */,
 				4369CF4D22598C1400FCA156 /* ItemInfoTableViewCell.swift in Sources */,
 				43AFEFCF22641F850022A854 /* UIImageExt.swift in Sources */,
+				433E4F8B22AF3EEC00B0A531 /* ShareItemViewController.swift in Sources */,
 				4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */,
 				43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */,
 				4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */,
@@ -842,6 +863,7 @@
 				4386BFE3223351DF006A3ED7 /* Utility.swift in Sources */,
 				43BD5689224C9039009D0AC8 /* SelectListViewController.swift in Sources */,
 				438534F2223338E700B99EC7 /* FaveColors.swift in Sources */,
+				433E4F8D22AF47C800B0A531 /* ShareItemActionView.swift in Sources */,
 				4386BFE022334760006A3ED7 /* LoggedOutViewController.swift in Sources */,
 				43AFB44A223DD00500B243E1 /* Storage.swift in Sources */,
 				430D8D30224DF1730082FCF2 /* Friend.swift in Sources */,
@@ -854,6 +876,7 @@
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
+				433E4F8F22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift in Sources */,
 				4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */,
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
 				43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */,
@@ -871,6 +894,7 @@
 				43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */,
 				438534EC2233388900B99EC7 /* SaveCollections.swift in Sources */,
 				43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */,
+				433E4F9122B0351000B0A531 /* ToastView.swift in Sources */,
 				434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,

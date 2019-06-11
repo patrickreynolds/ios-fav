@@ -15,6 +15,7 @@ class FaveColors: NSObject {
     static let Black30 = UIColor(hexString: "D5D9DE")
     static let Black20 = UIColor(hexString: "F2F4F5")
     static let Black10 = UIColor(hexString: "F5F8FC")
+    static let Black05 = UIColor(hexString: "FAFAFA")
 
     // MARK: Primary Palette
 
@@ -24,6 +25,7 @@ class FaveColors: NSObject {
     static let Indigo = UIColor(hexString: "0FA0EA")
     static let Blue = UIColor(hexString: "0F72E5")
     static let Purple = UIColor(hexString: "5846E4")
+    static let SuccessGreen = UIColor(hexString: "4BB543")
 
     // MARK: Secondary Palette
 

@@ -162,7 +162,7 @@ class SelectListViewController: FaveVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let titleViewLabel = Label.init(text: "Select a list", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Select a list", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
     }
 
