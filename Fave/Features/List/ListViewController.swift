@@ -582,17 +582,71 @@ extension ListViewController: EntryTableViewCellDelegate {
     func shareItemButtonTapped(item: Item) {
         print("\nShare Item Button Tapped\n")
 
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
+        }
+
         guard let contextualItem = item.contextualItem as? GoogleItemType, let url = NSURL(string: "https://www.fave.com/lists/\(list.id)/item/\(item.id)") else {
             return
         }
 
-        let title = contextualItem.name
-        let itemsToShare: [Any] = [title, url]
+        // Show the share sheet
+        // Pass handlers for each of the actions
 
-        let activityViewController = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
+        let addToListHandler: (() -> ()) = {
+            self.dismiss(animated: true, completion: {
+                let myListsViewController = MyListsViewController(dependencyGraph: self.dependencyGraph, canceledSelection: {
+                    self.dismiss(animated: true, completion: nil)
+                }, didSelectList: { selectedList in
+                    self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
 
-        self.present(activityViewController, animated: true, completion: nil)
+                        self.updateSaved(userId: user.id)
+
+
+                        guard let _ = response else {
+                            return
+                        }
+
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                })
+
+                myListsViewController.modalPresentationStyle = .overCurrentContext
+
+                self.present(myListsViewController, animated: false, completion: nil)
+            })
+        }
+
+        let copyLinkActionHandler: (() -> ()) = {
+            self.dismiss(animated: true, completion: {
+                // Show copied toast
+            })
+        }
+
+        let shareActionHandler: (() -> ()) = {
+            self.dismiss(animated: true, completion: {
+                let title = contextualItem.name
+                let itemsToShare: [Any] = [title, url]
+
+                let activityViewController = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+                activityViewController.popoverPresentationController?.sourceView = self.view
+
+                self.present(activityViewController, animated: true, completion: nil)
+            })
+        }
+
+        let shareViewController = ShareItemViewController(dependencyGraph: dependencyGraph, user: user, item: item)
+
+        shareViewController.delegate = self
+
+        shareViewController.shareActionHandler = shareActionHandler
+        shareViewController.copyLinkActionHandler = copyLinkActionHandler
+        shareViewController.addToListHandler = addToListHandler
+
+        let navigationController = UINavigationController.init(rootViewController: shareViewController)
+
+        present(navigationController, animated: true, completion: nil)
+
     }
 
     func selectListToFaveTo(canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
@@ -609,5 +663,9 @@ extension ListViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+
+}
+
+extension ListViewController: ShareItemViewControllerDelegate {
 
 }

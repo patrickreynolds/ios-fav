@@ -14,4 +14,5 @@ enum AnalyticsImpressionEvent: String {
     case itemScreenShown = "screen_shown_item"
     case searchResultsScreenShown = "screen_shown_search-results"
     case myListsScreenShown = "screen_shown_my-lists"
+    case shareItemScreenShown = "screen_shown_share_item"
 }
