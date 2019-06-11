@@ -33,11 +33,12 @@ class FeedEventTableViewCell: UITableViewCell {
         imageView.isUserInteractionEnabled = true
 
         _ = imageView.tapped { tapped in
-            guard let user = self.feedEvent?.user else {
+
+            guard let event = self.feedEvent else {
                 return
             }
 
-            self.delegate?.userProfileSelected(user: user)
+            self.delegate?.userProfileSelected(user: event.item.addedBy)
         }
 
         constrain(imageView) { imageView in
@@ -141,12 +142,19 @@ class FeedEventTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        titleLabel.attributedText = NSMutableAttributedString(string: "")
+        noteLabel.text = ""
+        userProfileImageView.image = nil
+    }
+
     func populate(dependencyGraph: DependencyGraphType, event: FeedEvent) {
         self.feedEvent = event
         self.dependencyGraph = dependencyGraph
 
-        var titleLabelText = ""
-        let titleLabelAttributedText: NSMutableAttributedString = NSMutableAttributedString.init()
+        let titleLabelAttributedText: NSMutableAttributedString = NSMutableAttributedString()
 
         let primaryAttributes: [NSAttributedString.Key : Any]? = [
             NSAttributedString.Key.font: FaveFont(style: .h5, weight: .semiBold).font,
@@ -175,11 +183,7 @@ class FeedEventTableViewCell: UITableViewCell {
             titleLabelAttributedText.append(ownerText)
             titleLabelAttributedText.append(suffixText)
             titleLabelAttributedText.append(timeText)
-
-//            titleLabelText = "\(event.item.addedBy.handle) recommended an item to \(event.list.owner.handle) list. \(event.item.createdAt.condensedTimeSinceString())"
         } else {
-//            titleLabelText = "\(event.item.addedBy.handle) added an item. \(event.item.createdAt.condensedTimeSinceString())"
-
             let handleText = NSAttributedString.init(string: "\(event.item.addedBy.handle)", attributes: primaryAttributes)
             let recommendationText = NSAttributedString.init(string: " added an item. ", attributes: standardAttributes)
             let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: primaryAttributes)
@@ -194,13 +198,20 @@ class FeedEventTableViewCell: UITableViewCell {
         noteLabel.text = event.item.note
 
         if !event.item.note.isEmpty {
+            hasNoteLabelConstraint?.isActive = true
             noNoteTopLabelConstraint?.isActive = false
+
+            hasNoteTopLabelConstraint?.isActive = true
             noNoteLabelConstraint?.isActive = false
         } else {
             hasNoteLabelConstraint?.isActive = false
+            noNoteTopLabelConstraint?.isActive = true
+
             hasNoteTopLabelConstraint?.isActive = false
+            noNoteLabelConstraint?.isActive = true
         }
 
+        contentView.setNeedsLayout()
         contentView.layoutIfNeeded()
 
         userProfileImageView.image = UIImage(base64String: event.item.addedBy.profilePicture)

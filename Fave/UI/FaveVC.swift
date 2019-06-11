@@ -1,9 +1,19 @@
 import UIKit
+import Cartography
 
 class FaveVC: UIViewController {
 
     let dependencyGraph: DependencyGraphType
     let analyticsImpressionEvent: AnalyticsImpressionEvent
+
+    var toastViewShownConstraint: NSLayoutConstraint?
+    var toastViewHiddenConstraint: NSLayoutConstraint?
+
+    private lazy var toastView: ToastView = {
+        let toastView = ToastView()
+
+        return toastView
+    }()
 
     init(dependencyGraph: DependencyGraphType, analyticsImpressionEvent: AnalyticsImpressionEvent) {
         self.dependencyGraph = dependencyGraph
@@ -19,6 +29,18 @@ class FaveVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.addSubview(toastView)
+
+        constrain(toastView, view) { toastView, view in
+            toastViewShownConstraint = toastView.top == view.topMargin
+            toastViewHiddenConstraint = toastView.bottom == view.topMargin
+
+            toastView.left == view.left
+            toastView.right == view.right
+        }
+
+        toastView.alpha = 0
+        toastViewShownConstraint?.isActive = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -29,6 +51,31 @@ class FaveVC: UIViewController {
 
     func analyticsImpressionEventInfo() -> [String: AnyObject]? {
         return nil
+    }
+
+    func showToast(title: String) {
+        view.bringSubviewToFront(toastView)
+
+        toastView.title = title
+        toastView.setNeedsLayout()
+        toastView.layoutIfNeeded()
+
+        toastViewShownConstraint?.isActive = true
+        toastViewHiddenConstraint?.isActive = false
+        toastView.alpha = 1
+
+        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }) { completed in
+            self.toastViewShownConstraint?.isActive = false
+            self.toastViewHiddenConstraint?.isActive = true
+
+            UIView.animate(withDuration: 0.3, delay: 2.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: { completed in
+                self.toastView.alpha = 0
+            })
+        }
     }
 }
 

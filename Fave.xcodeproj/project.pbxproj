@@ -27,6 +27,8 @@
 		433E4F8822AC47AB00B0A531 /* ProfileActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */; };
 		433E4F8B22AF3EEC00B0A531 /* ShareItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8A22AF3EEC00B0A531 /* ShareItemViewController.swift */; };
 		433E4F8D22AF47C800B0A531 /* ShareItemActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8C22AF47C800B0A531 /* ShareItemActionView.swift */; };
+		433E4F8F22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8E22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift */; };
+		433E4F9122B0351000B0A531 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F9022B0351000B0A531 /* ToastView.swift */; };
 		4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */; };
 		4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */; };
 		434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434932882298F84D00F949D6 /* FaveGraphQLService.swift */; };
@@ -143,6 +145,8 @@
 		433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionView.swift; sourceTree = "<group>"; };
 		433E4F8A22AF3EEC00B0A531 /* ShareItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItemViewController.swift; sourceTree = "<group>"; };
 		433E4F8C22AF47C800B0A531 /* ShareItemActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItemActionView.swift; sourceTree = "<group>"; };
+		433E4F8E22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItemUserSearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		433E4F9022B0351000B0A531 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		4342708C226ECAA00079AB22 /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		4342708E226EE00F0079AB22 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
 		434932882298F84D00F949D6 /* FaveGraphQLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveGraphQLService.swift; sourceTree = "<group>"; };
@@ -293,6 +297,7 @@
 			children = (
 				433E4F8A22AF3EEC00B0A531 /* ShareItemViewController.swift */,
 				433E4F8C22AF47C800B0A531 /* ShareItemActionView.swift */,
+				433E4F8E22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift */,
 			);
 			path = "Share Item";
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 				43824891227C069900257D27 /* AutosizingTableView.swift */,
 				431A0DDB228DCC7300F2E6BD /* EventItemView.swift */,
 				4378624822AA0F350011420D /* SavedItemContextView.swift */,
+				433E4F9022B0351000B0A531 /* ToastView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -870,6 +876,7 @@
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
+				433E4F8F22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift in Sources */,
 				4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */,
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
 				43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */,
@@ -887,6 +894,7 @@
 				43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */,
 				438534EC2233388900B99EC7 /* SaveCollections.swift in Sources */,
 				43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */,
+				433E4F9122B0351000B0A531 /* ToastView.swift in Sources */,
 				434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,

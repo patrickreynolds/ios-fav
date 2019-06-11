@@ -345,7 +345,7 @@ class CreateItemViewController: FaveVC {
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.createButton)
 
 
-        let titleViewLabel = Label.init(text: self.titleViewLabelText, font: FaveFont(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: self.titleViewLabelText, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         createButton.layer.cornerRadius = 32 / 2

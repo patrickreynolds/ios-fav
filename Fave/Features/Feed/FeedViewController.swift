@@ -87,7 +87,7 @@ class FeedViewController: FaveVC {
 
         tabBarController?.delegate = self
 
-        let titleViewLabel = Label.init(text: "Fave", font: FaveFont.init(style: .h3, weight: .semiBold), textColor: FaveColors.Accent, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Fave", font: FaveFont.init(style: .h3, weight: .bold), textColor: FaveColors.Accent, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         view.addSubview(loadingIndicatorView)
@@ -322,7 +322,7 @@ extension FeedViewController: FeedEventTableViewCellDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)
@@ -334,7 +334,7 @@ extension FeedViewController: FeedEventTableViewCellDelegate {
 
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)

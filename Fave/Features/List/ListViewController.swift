@@ -283,35 +283,15 @@ class ListViewController: FaveVC {
     @objc func backButtonTapped(sender: UIButton!) {
         _ = navigationController?.popViewController(animated: true)
     }
+
+    private func showSuccess(title: String) {
+        showToast(title: title)
+    }
 }
 
 // Create button logic
 
 extension ListViewController {
-//    @objc func createButtonTapped(sender: UIButton!) {
-//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-        // Have to decide whether the user can add an item or suggest an item
-
-//        alertController.addAction(UIAlertAction(title: "Entry", style: .default , handler: { alertAction in
-//            self.addItemButtonTapped()
-
-//            alertController.dismiss(animated: true, completion: nil)
-//        }))
-
-//        alertController.addAction(UIAlertAction(title: "List", style: .default , handler: { alertAction in
-//            self.addListButtonTapped()
-//
-//            alertController.dismiss(animated: true, completion: nil)
-//        }))
-
-//        alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { alertAction in
-//            alertController.dismiss(animated: true, completion: nil)
-//        }))
-//
-//        self.present(alertController, animated: true, completion: nil)
-//    }
-
     func addListButtonTapped() {
         print("\n\nAdd List Button Tapped\n\n")
 
@@ -425,7 +405,7 @@ extension ListViewController: UITableViewDelegate {
 
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
@@ -619,7 +599,9 @@ extension ListViewController: EntryTableViewCellDelegate {
 
         let copyLinkActionHandler: (() -> ()) = {
             self.dismiss(animated: true, completion: {
-                // Show copied toast
+                print("\n\n Show copied link toast \n\n")
+
+                self.showSuccess(title: "Copied link to clipboard")
             })
         }
 
@@ -635,6 +617,53 @@ extension ListViewController: EntryTableViewCellDelegate {
             })
         }
 
+        let sendRecommendationHandler: ((_ selectedUser: User, _ item: Item) -> ()) = { selectedUser, item in
+            guard let currentUser = self.dependencyGraph.storage.getUser() else {
+                return
+            }
+
+            self.dependencyGraph.faveService.getLists(userId: selectedUser.id) { lists, error in
+                guard let lists = lists else {
+                    return
+                }
+
+                guard let recommendationsList = lists.filter({ list in
+                    return list.title.lowercased() == "recommendations"
+                }).first else {
+                    return
+                }
+
+                guard let googleItem = item.contextualItem as? GoogleItemType else {
+                    return
+                }
+
+                self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationsList.id, type: item.type, placeId: googleItem.placeId, note: "") { item, error in
+
+                    guard let _ = item else {
+                        let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
+
+                        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                            switch action.style {
+                            case .default, .cancel, .destructive:
+                                alertController.dismiss(animated: true, completion: nil)
+                            }}))
+
+                        self.present(alertController, animated: true, completion: nil)
+
+                        return
+                    }
+
+                    self.dismiss(animated: true, completion: {
+                        // show sent recommendation toast
+
+                        print("\n\n Show recommendation sent toast \n\n")
+
+                        self.showSuccess(title: "Recommendation sent!")
+                    })
+                }
+            }
+        }
+
         let shareViewController = ShareItemViewController(dependencyGraph: dependencyGraph, user: user, item: item)
 
         shareViewController.delegate = self
@@ -642,6 +671,7 @@ extension ListViewController: EntryTableViewCellDelegate {
         shareViewController.shareActionHandler = shareActionHandler
         shareViewController.copyLinkActionHandler = copyLinkActionHandler
         shareViewController.addToListHandler = addToListHandler
+        shareViewController.sendRecommendationHandler = sendRecommendationHandler
 
         let navigationController = UINavigationController.init(rootViewController: shareViewController)
 

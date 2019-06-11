@@ -84,7 +84,7 @@ extension ResultsTableViewController: UITableViewDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         presentingViewController?.navigationController?.pushViewController(profileViewController, animated: true)
