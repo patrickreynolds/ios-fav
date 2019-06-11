@@ -127,7 +127,7 @@ struct FaveGraphQLService {
 
     func createListItem(userId: Int, listId: Int, type: String, placeId: String, note: String, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
 
-        let createGooglePlacesItemMutation = GraphQLQueryBuilder.createGooglePlacesItemMutation(listId: listId, googlePlacesId: placeId, note: note)
+        let createGooglePlacesItemMutation = GraphQLQueryBuilder.createGooglePlacesItemMutation(userId: userId, listId: listId, googlePlacesId: placeId, note: note)
 
         networking.sendGraphqlRequest(query: createGooglePlacesItemMutation) { (response, error) in
             guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["placeItem"] as? [String: AnyObject] else {

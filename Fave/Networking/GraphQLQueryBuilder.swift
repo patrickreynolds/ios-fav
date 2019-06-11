@@ -29,6 +29,9 @@ struct GraphQLQueryBuilder {
                 id
                 title
             }
+            recommendedBy {
+                \(userString())
+            }
             dataItem {
                 connectorId
                 connectorType
@@ -137,10 +140,10 @@ struct GraphQLQueryBuilder {
         """
     }
 
-    static func createGooglePlacesItemMutation(listId: Int, googlePlacesId: String, note: String) -> String {
+    static func createGooglePlacesItemMutation(userId: Int, listId: Int, googlePlacesId: String, note: String) -> String {
         return """
             mutation {
-                placeItem: addGooglePlaceListItem(listId: \(listId), googlePlaceId: "\(googlePlacesId)", note: "\(note)") {
+                placeItem: addGooglePlaceListItem(addedBy: \(userId), listId: \(listId), googlePlaceId: "\(googlePlacesId)", note: "\(note)") {
                     \(itemString())
                 }
             }

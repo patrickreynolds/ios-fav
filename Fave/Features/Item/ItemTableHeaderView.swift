@@ -154,7 +154,7 @@ class ItemTableHeaderView: UIView {
             favedByOthersLabel.left == view.left + 16
         }
 
-        if let user = currentUser, let addedBy = item.addedBy, addedBy.id == user.id {
+        if let user = currentUser, item.addedBy.id == user.id {
             constrain(favedByOthersLabel, dividerView) { favedByOthersLabel, dividerView in
                 favedByOthersLabel.bottom == dividerView.top - 16
             }

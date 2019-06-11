@@ -335,13 +335,19 @@ extension DiscoverViewController {
     @objc func createButtonTapped(sender: UIButton!) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Entry", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Make a recommendation", style: .default , handler: { alertAction in
+            self.recommendItemButtonTapped()
+
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+
+        alertController.addAction(UIAlertAction(title: "Add an entry", style: .default , handler: { alertAction in
             self.addItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)
         }))
 
-        alertController.addAction(UIAlertAction(title: "List", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Create a list", style: .default , handler: { alertAction in
             self.addListButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)
@@ -368,7 +374,16 @@ extension DiscoverViewController {
     func addItemButtonTapped() {
         print("\n\nAdd Item Button Tapped\n\n")
 
-        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph)
+        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, creationType: .addition)
+        let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
+
+        createItemViewController.delegate = self
+
+        present(createItemNavigationViewController, animated: true, completion: nil)
+    }
+
+    func recommendItemButtonTapped() {
+        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, creationType: .recommendation)
         let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
 
         createItemViewController.delegate = self

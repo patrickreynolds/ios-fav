@@ -145,7 +145,51 @@ class FeedEventTableViewCell: UITableViewCell {
         self.feedEvent = event
         self.dependencyGraph = dependencyGraph
 
-        titleLabel.text = "\(event.user.handle) added an item. \(event.item.createdAt.condensedTimeSinceString())"
+        var titleLabelText = ""
+        let titleLabelAttributedText: NSMutableAttributedString = NSMutableAttributedString.init()
+
+        let primaryAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .semiBold).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black90
+        ]
+
+        let standardAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .regular).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black90
+        ]
+
+        let subtleAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .regular).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black70
+        ]
+
+        if event.list.owner.id != event.item.addedBy.id {
+            let handleText = NSAttributedString.init(string: "\(event.item.addedBy.handle)", attributes: primaryAttributes)
+            let recommendationText = NSAttributedString.init(string: " recommended an item for ", attributes: standardAttributes)
+            let ownerText = NSAttributedString.init(string: "\(event.list.owner.handle)'s", attributes: primaryAttributes)
+            let suffixText = NSAttributedString.init(string: " list. ", attributes: standardAttributes)
+            let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
+
+            titleLabelAttributedText.append(handleText)
+            titleLabelAttributedText.append(recommendationText)
+            titleLabelAttributedText.append(ownerText)
+            titleLabelAttributedText.append(suffixText)
+            titleLabelAttributedText.append(timeText)
+
+//            titleLabelText = "\(event.item.addedBy.handle) recommended an item to \(event.list.owner.handle) list. \(event.item.createdAt.condensedTimeSinceString())"
+        } else {
+//            titleLabelText = "\(event.item.addedBy.handle) added an item. \(event.item.createdAt.condensedTimeSinceString())"
+
+            let handleText = NSAttributedString.init(string: "\(event.item.addedBy.handle)", attributes: primaryAttributes)
+            let recommendationText = NSAttributedString.init(string: " added an item. ", attributes: standardAttributes)
+            let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: primaryAttributes)
+
+            titleLabelAttributedText.append(handleText)
+            titleLabelAttributedText.append(recommendationText)
+            titleLabelAttributedText.append(timeText)
+        }
+
+        titleLabel.attributedText = titleLabelAttributedText
 
         noteLabel.text = event.item.note
 
@@ -159,7 +203,7 @@ class FeedEventTableViewCell: UITableViewCell {
 
         contentView.layoutIfNeeded()
 
-        userProfileImageView.image = UIImage(base64String: event.user.profilePicture)
+        userProfileImageView.image = UIImage(base64String: event.item.addedBy.profilePicture)
 
         eventItemView.update(dependencyGraph: dependencyGraph, withEvent: event)
     }

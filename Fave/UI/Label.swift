@@ -41,6 +41,12 @@ class Label: UIView, Shimmerable {
         }
     }
 
+    var attributedText: NSMutableAttributedString? {
+        didSet {
+            updateLabel()
+        }
+    }
+
     // MARK: - Initializers
 
     init(text: String? = nil,
@@ -88,7 +94,7 @@ class Label: UIView, Shimmerable {
     // MARK: - Private Methods
 
     private func updateLabel(secondaryTextColor: UIColor? = nil, secondaryTextLocation: NSRange? = nil) {
-        if let text = text, text.isEmpty == false {
+        if let text = text, text.isEmpty == false || attributedText != nil {
             var attributes = [NSAttributedString.Key: AnyObject]()
             attributes[NSAttributedString.Key.font] = font.font
             attributes[NSAttributedString.Key.foregroundColor] = textColor
@@ -128,6 +134,11 @@ class Label: UIView, Shimmerable {
 
             if let huggingPriority = contentHuggingPriority {
                 label.setContentHuggingPriority(huggingPriority, for: NSLayoutConstraint.Axis.horizontal)
+            }
+
+            if let attributedText = attributedText {
+                attributedText.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSRange.init(location: 0, length: attributedText.string.count))
+                label.attributedText = attributedText
             }
         } else {
             label.attributedText = nil

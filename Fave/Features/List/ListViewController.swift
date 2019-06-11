@@ -20,6 +20,9 @@ class ListViewController: FaveVC {
 
     var listItems: [Item] = []
 
+    var entries: [Item] = []
+    var recommendations: [Item] = []
+
     var listsUserFollows: [List] = [] {
         didSet {
 
@@ -41,6 +44,14 @@ class ListViewController: FaveVC {
                 item.isSaved = allListDataIds.contains(item.dataId)
 
                 return item
+            })
+
+            self.entries = self.listItems.filter({ item in
+                return !item.isRecommendation
+            })
+
+            self.recommendations = self.listItems.filter({ item in
+                return item.isRecommendation
             })
 
             listTableView.reloadData()
@@ -116,12 +127,22 @@ class ListViewController: FaveVC {
     private lazy var createButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
-        button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         button.setTitleColor(FaveColors.Accent, for: .normal)
         button.backgroundColor = FaveColors.Accent
         button.layer.cornerRadius = 56 / 2
-        button.setImage(UIImage(named: "icon-add"), for: .normal)
         button.tintColor = FaveColors.White
+
+        if let currentUser = dependencyGraph.storage.getUser(), currentUser.id == list.owner.id {
+            button.setImage(UIImage(named: "icon-add"), for: .normal)
+            button.addTarget(self, action: #selector(addItemButtonTapped), for: .touchUpInside)
+        } else {
+
+            let icon = UIImage(named: "icon-comment")?.withRenderingMode(.alwaysTemplate)
+            button.tintColor = FaveColors.White
+
+            button.setImage(icon, for: .normal)
+            button.addTarget(self, action: #selector(recommendItemButtonTapped), for: .touchUpInside)
+        }
 
         return button
     }()
@@ -267,13 +288,13 @@ class ListViewController: FaveVC {
 // Create button logic
 
 extension ListViewController {
-    @objc func createButtonTapped(sender: UIButton!) {
+//    @objc func createButtonTapped(sender: UIButton!) {
 //        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         // Have to decide whether the user can add an item or suggest an item
 
 //        alertController.addAction(UIAlertAction(title: "Entry", style: .default , handler: { alertAction in
-            self.addItemButtonTapped()
+//            self.addItemButtonTapped()
 
 //            alertController.dismiss(animated: true, completion: nil)
 //        }))
@@ -289,7 +310,7 @@ extension ListViewController {
 //        }))
 //
 //        self.present(alertController, animated: true, completion: nil)
-    }
+//    }
 
     func addListButtonTapped() {
         print("\n\nAdd List Button Tapped\n\n")
@@ -302,10 +323,19 @@ extension ListViewController {
         present(createListNavigationViewController, animated: true, completion: nil)
     }
 
-    func addItemButtonTapped() {
+    @objc func addItemButtonTapped(sender: UIButton!) {
         print("\n\nAdd Item Button Tapped\n\n")
 
-        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, defaultList: list)
+        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, defaultList: list, creationType: .addition)
+        let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
+
+        createItemViewController.delegate = self
+
+        present(createItemNavigationViewController, animated: true, completion: nil)
+    }
+
+    @objc func recommendItemButtonTapped(sender: UIButton!) {
+        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, defaultList: list, creationType: .recommendation)
         let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
 
         createItemViewController.delegate = self
@@ -316,7 +346,7 @@ extension ListViewController {
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Share this list", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Share list", style: .default , handler: { alertAction in
             self.shareListButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)
@@ -384,11 +414,18 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         listTableView.deselectRow(at: indexPath, animated: true)
 
-        let item = listItems[indexPath.row]
+        let item: Item
+
+        switch filterType {
+            case .entries:
+                item = entries[indexPath.row]
+            case .recommendations:
+                item = recommendations[indexPath.row]
+        }
 
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
@@ -397,10 +434,11 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if filterType == .entries {
-            return listItems.count
-        } else {
-            return 0
+        switch filterType {
+        case .entries:
+            return entries.count
+        case .recommendations:
+            return recommendations.count
         }
     }
 
@@ -409,7 +447,14 @@ extension ListViewController: UITableViewDataSource {
 
         cell.delegate = self
 
-        let item = listItems[indexPath.row]
+        let item: Item
+
+        switch filterType {
+        case .entries:
+            item = entries[indexPath.row]
+        case .recommendations:
+            item = recommendations[indexPath.row]
+        }
 
         var mySavedItem: Item? = nil
         if item.isSaved ?? false {

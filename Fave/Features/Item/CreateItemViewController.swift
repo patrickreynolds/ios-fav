@@ -16,9 +16,16 @@ enum ListType: String {
     case undefined
 }
 
+enum ItemCreationType {
+    case addition
+    case recommendation
+}
+
 class CreateItemViewController: FaveVC {
 
     var delegate: CreateItemViewControllerDelegate?
+
+    let creationType: ItemCreationType
 
     var listType: ListType = .undefined
     var list: List? {
@@ -308,8 +315,18 @@ class CreateItemViewController: FaveVC {
         return view
     }()
 
-    init(dependencyGraph: DependencyGraphType, defaultList: List? = nil) {
+    private var titleViewLabelText: String {
+        switch creationType {
+        case .addition:
+            return "New entry"
+        case .recommendation:
+            return "Recommendation"
+        }
+    }
+
+    init(dependencyGraph: DependencyGraphType, defaultList: List? = nil, creationType: ItemCreationType) {
         self.list = defaultList
+        self.creationType = creationType
 
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .profileScreenShown)
     }
@@ -327,7 +344,8 @@ class CreateItemViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.createButton)
 
-        let titleViewLabel = Label.init(text: "New entry", font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+
+        let titleViewLabel = Label.init(text: self.titleViewLabelText, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         createButton.layer.cornerRadius = 32 / 2
@@ -374,6 +392,10 @@ class CreateItemViewController: FaveVC {
     }
 
     func listLabelTapped() {
+        if creationType == .recommendation {
+            return
+        }
+
         let selectListViewController = SelectListViewController(dependencyGraph: dependencyGraph)
         let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
 

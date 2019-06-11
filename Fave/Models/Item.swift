@@ -16,7 +16,7 @@ struct Item {
     let numberOfFaves: Int
     let listId: Int
     let listTitle: String
-    var addedBy: User? = nil
+    var addedBy: User
     var isSaved: Bool? = nil
 
     init?(data: [String: AnyObject]) {
@@ -73,10 +73,10 @@ struct Item {
         }
 
 
-        let addedBy: User? = nil
-//        guard let addedByData = data["addedBy"] as? [String: AnyObject], let addedBy = User.init(data: addedByData) else {
-//            return nil
-//        }
+//        let addedBy: User? = nil
+        guard let addedByData = data["recommendedBy"] as? [String: AnyObject], let addedBy = User.init(data: addedByData) else {
+            return nil
+        }
 
         let dateFormatter = DateFormatter()
 //        "2019-04-03T13:57:03.000Z"

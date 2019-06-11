@@ -20,6 +20,28 @@ class ListTableHeaderView: UIView {
     var delegate: ListTableHeaderViewDelegate?
     let dependencyGraph: DependencyGraphType
 
+    var listItems: [Item] = []
+
+    var entries: [Item] {
+        return listItems.filter({ item in
+            return !item.isRecommendation
+        })
+    }
+
+    var recommendations: [Item] {
+        return listItems.filter({ item in
+            return item.isRecommendation
+        })
+    }
+
+    var entryTitleString: String {
+        return entries.count == 1 ? "\(entries.count) Entry" : "\(entries.count) Entries"
+    }
+
+    var recommendationTitleString: String {
+        return recommendations.count == 1 ? "\(recommendations.count) Rec" : "\(recommendations.count) Recs"
+    }
+
     var numberOfFollowers = 0 {
         didSet {
             guard numberOfFollowers != oldValue else {
@@ -87,9 +109,6 @@ class ListTableHeaderView: UIView {
     }()
 
     private lazy var listSegmentedControl: ListSegmentedControl = {
-        let entryTitleString = list.numberOfItems == 1 ? "\(list.numberOfItems) Entry" : "\(list.numberOfItems) Entries"
-        let recommendationTitleString = list.numberOfRecommendations == 1 ? "\(list.numberOfRecommendations) Rec" : "\(list.numberOfRecommendations) Recs"
-
         let listSegmentedControlView = ListSegmentedControl(tabs: [entryTitleString, recommendationTitleString])
 
         listSegmentedControlView.delegate = self
@@ -188,6 +207,7 @@ class ListTableHeaderView: UIView {
     init(dependencyGraph: DependencyGraphType, list: List) {
         self.dependencyGraph = dependencyGraph
         self.list = list
+        self.listItems = list.items
 
         super.init(frame: CGRect.zero)
 
@@ -276,8 +296,8 @@ class ListTableHeaderView: UIView {
     }
 
     func updateHeaderInfo(list: List, listItems: [Item]) {
-        let entryTitleString = listItems.count == 1 ? "\(listItems.count) Entry" : "\(listItems.count) Entries"
-        let recommendationTitleString = list.numberOfRecommendations == 1 ? "\(list.numberOfRecommendations) Rec" : "\(list.numberOfRecommendations) Recs"
+
+        self.listItems = listItems
 
         listSegmentedControl.updateTitleAtIndex(title: entryTitleString, index: 0)
         listSegmentedControl.updateTitleAtIndex(title: recommendationTitleString, index: 1)
