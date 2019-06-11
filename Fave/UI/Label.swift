@@ -1,6 +1,5 @@
-import Foundation
-import Cartography
 import UIKit
+import Cartography
 
 class Label: UIView, Shimmerable {
     // MARK: - Properties

@@ -1,12 +1,3 @@
-//
-//  FaveLoggedOutWelcomeView.swift
-//  Fave
-//
-//  Created by Patrick Reynolds on 5/17/19.
-//  Copyright © 2019 Patrick Reynolds. All rights reserved.
-//
-
-import Foundation
 import UIKit
 
 import Cartography

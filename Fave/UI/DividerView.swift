@@ -1,12 +1,3 @@
-//
-//  Divider.swift
-//  Fave
-//
-//  Created by Patrick Reynolds on 3/21/19.
-//  Copyright © 2019 Patrick Reynolds. All rights reserved.
-//
-
-import Foundation
 import UIKit
 import Cartography
 

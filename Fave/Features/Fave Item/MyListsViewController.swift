@@ -1,13 +1,8 @@
-import Foundation
 import UIKit
 
 import Cartography
 
 class MyListsViewController: FaveVC {
-
-    struct Constants {
-        static let SheetHeight: CGFloat = UIScreen.main.bounds.height / 2
-    }
 
     var sheetOffsetLayoutConstraint: NSLayoutConstraint?
 
@@ -242,8 +237,6 @@ extension MyListsViewController: UITableViewDataSource {
         let list = lists[indexPath.row]
 
         cell.textLabel?.text = list.title
-
-//            = Label(text: list.title, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: FaveColors.Black90, textAlignment: .left, numberOfLines: 0)
 
         return cell
     }

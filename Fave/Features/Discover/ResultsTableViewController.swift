@@ -1,12 +1,3 @@
-//
-//  ResultsTableViewController.swift
-//  Fave
-//
-//  Created by Patrick Reynolds on 4/22/19.
-//  Copyright © 2019 Patrick Reynolds. All rights reserved.
-//
-
-import Foundation
 import UIKit
 
 import Cartography
