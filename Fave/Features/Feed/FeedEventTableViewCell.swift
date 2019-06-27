@@ -185,7 +185,7 @@ class FeedEventTableViewCell: UITableViewCell {
         } else {
             let handleText = NSAttributedString.init(string: "\(event.item.addedBy.handle)", attributes: primaryAttributes)
             let recommendationText = NSAttributedString.init(string: " added an item. ", attributes: standardAttributes)
-            let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: primaryAttributes)
+            let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
 
             titleLabelAttributedText.append(handleText)
             titleLabelAttributedText.append(recommendationText)

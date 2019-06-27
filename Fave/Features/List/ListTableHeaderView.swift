@@ -76,7 +76,7 @@ class ListTableHeaderView: UIView {
 
                 relationshipButton.backgroundColor = FaveColors.White
 
-                relationshipButton.layer.borderColor = FaveColors.Black50.cgColor
+                relationshipButton.layer.borderColor = FaveColors.Black30.cgColor
                 relationshipButton.layer.borderWidth = 1
             } else {
                 let attributedTitle = NSAttributedString(string: "Follow",

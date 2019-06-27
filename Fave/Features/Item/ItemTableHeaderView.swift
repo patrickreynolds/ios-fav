@@ -26,6 +26,7 @@ class ItemTableHeaderView: UIView {
     var itemIsSavedByUser: Bool = false {
         didSet {
             if itemIsSavedByUser {
+                faveItemButton.layer.borderColor = FaveColors.Black30.cgColor
                 faveItemButton.layer.borderWidth = 1
                 faveItemButton.backgroundColor = FaveColors.White
                 let attributedTitle = NSAttributedString(string: "Saved",

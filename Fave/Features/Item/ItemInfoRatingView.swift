@@ -33,6 +33,12 @@ class ItemInfoRatingView: UIView {
 
     let ratingType: ItemInfoRatingType
 
+    var rating: Double = 0 {
+        didSet {
+            ratingLabel.text = "\(rating)"
+        }
+    }
+
     private lazy var ratingImageView: UIImageView = {
         let imageView = self.ratingType.ratingImageView
 
@@ -67,7 +73,7 @@ class ItemInfoRatingView: UIView {
             label.right == view.right
         }
 
-        ratingLabel.text = "\(rating)"
+        self.rating = rating
     }
 
     required init?(coder aDecoder: NSCoder) {

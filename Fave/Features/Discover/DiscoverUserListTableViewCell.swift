@@ -26,7 +26,7 @@ class DiscoverUserListTableViewCell: UITableViewCell {
 
                 followButton.backgroundColor = FaveColors.White
 
-                followButton.layer.borderColor = FaveColors.Black50.cgColor
+                followButton.layer.borderColor = FaveColors.Black30.cgColor
                 followButton.layer.borderWidth = 1
             } else {
                 let attributedTitle = NSAttributedString(string: "Follow",

@@ -43,7 +43,7 @@ class EntryTableViewCell: UITableViewCell {
 
     private lazy var titleLabel: Label = {
         let label = Label(text: "",
-                           font: FaveFont(style: .h4, weight: .semiBold),
+                           font: FaveFont(style: .h5, weight: .bold),
                            textColor: FaveColors.Black90,
                            textAlignment: .left,
                            numberOfLines: 0)
@@ -109,8 +109,8 @@ class EntryTableViewCell: UITableViewCell {
             label.left == icon.right + 8
             label.right == view.right
 
-            icon.width == 20
-            icon.height == 20
+            icon.width == 16
+            icon.height == 16
         }
 
         view.addSubview(actionContentView)
@@ -150,8 +150,8 @@ class EntryTableViewCell: UITableViewCell {
             shareLabel.left == shareIcon.right + 8
             shareLabel.right == view.right
 
-            shareIcon.width == 20
-            shareIcon.height == 20
+            shareIcon.width == 16
+            shareIcon.height == 16
         }
 
         view.addSubview(actionContentView)
@@ -212,14 +212,13 @@ class EntryTableViewCell: UITableViewCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(actionStackView)
 
-        contentView.addSubview(dividerView)
         contentView.addSubview(borderView)
         contentView.addSubview(savedItemContextView)
 
         constrain(savedItemContextView, titleLabel, contentView) { savedItemContextView, titleLabel, view in
             itemIsAlreadySavedConstraint = savedItemContextView.top == view.top + 16
             savedItemContextView.right == view.right - 16
-            savedItemContextView.bottom == titleLabel.top - 4
+            savedItemContextView.bottom == titleLabel.top - 2
             savedItemContextView.left == view.left + 16
         }
 
@@ -230,22 +229,15 @@ class EntryTableViewCell: UITableViewCell {
         }
 
         constrain(subtitleLabel, titleLabel) { subtitleLabel, titleLabel in
-            subtitleLabel.top == titleLabel.bottom + 8
+            subtitleLabel.top == titleLabel.bottom + 4
             subtitleLabel.right == titleLabel.right
             subtitleLabel.left == titleLabel.left
         }
 
-        constrain(dividerView, subtitleLabel, actionStackView, contentView) { dividerView, subtitleLabel, actionStackView, view in
-            dividerView.top == subtitleLabel.bottom + 16
-            dividerView.right == view.right - 16
-            dividerView.bottom == actionStackView.top - 8
-            dividerView.left == view.left + 16
-            dividerView.height == 1
-        }
-
-        constrain(actionStackView, borderView, contentView) { actionStackView, borderView, contentView in
+        constrain(actionStackView, borderView, subtitleLabel, contentView) { actionStackView, borderView, subtitleLabel, contentView in
+            actionStackView.top == subtitleLabel.bottom + 16
             actionStackView.right == contentView.right - 16
-            actionStackView.bottom == borderView.top - 8
+            actionStackView.bottom == borderView.top
             actionStackView.left == contentView.left + 16
         }
 

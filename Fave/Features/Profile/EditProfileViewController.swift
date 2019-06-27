@@ -339,6 +339,13 @@ class EditProfileViewController: FaveVC {
             textField.placeholder = "Let us know what you think..."
         })
 
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { action in
+            switch action.style {
+            case .default, .cancel, .destructive:
+                alertController.dismiss(animated: true, completion: nil)
+            }}
+        ))
+
         alertController.addAction(UIAlertAction(title: "Submit", style: .default, handler: { action in
             switch action.style {
             case .default, .cancel, .destructive:
@@ -350,18 +357,14 @@ class EditProfileViewController: FaveVC {
                 }
 
                 alertController.dismiss(animated: true, completion: nil)
-            }}))
+            }}
+        ))
 
         self.present(alertController, animated: true, completion: nil)
     }
 
     func didTapAuthentication() {
         let tabBC: UITabBarController? = self.presentingViewController as? UITabBarController ?? nil
-
-//        if let tabBar = self.presentingViewController as? UITabBarController {
-//            tabBC = tabBar
-//        }
-
 
         if dependencyGraph.authenticator.isLoggedIn() {
             self.dependencyGraph.authenticator.logout { success in

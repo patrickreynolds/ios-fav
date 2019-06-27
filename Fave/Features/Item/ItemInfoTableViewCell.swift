@@ -48,15 +48,23 @@ class ItemInfoTableViewCell: UITableViewCell {
         return view
     }()
 
+    private lazy var googleItemInfoRatingView: ItemInfoRatingView = {
+        var rating: Double = 0
+
+        if let item = item, let googleItem = item.contextualItem as? GoogleItemType {
+            rating = googleItem.rating
+        }
+
+        let ratingView = ItemInfoRatingView.init(ratingType: .google, rating: rating)
+
+        return ratingView
+    }()
+
     private lazy var ratingStackView: UIStackView = {
         let ratingStackView = UIStackView.init(frame: .zero)
 
-//        guard let item = item, let googleItem = item.contextualItem as? GoogleItemType else {
-//            return ratingStackView
-//        }
-
-        ratingStackView.addArrangedSubview(ItemInfoRatingView.init(ratingType: .google, rating: 5.0))
-        ratingStackView.addArrangedSubview(ItemInfoRatingView.init(ratingType: .yelp, rating: 3.14))
+        ratingStackView.addArrangedSubview(googleItemInfoRatingView)
+//        ratingStackView.addArrangedSubview(ItemInfoRatingView.init(ratingType: .yelp, rating: 3.14))
 
         ratingStackView.axis = .horizontal
         ratingStackView.spacing = 24
@@ -324,6 +332,8 @@ class ItemInfoTableViewCell: UITableViewCell {
         }
 
         websiteLabel.text = formattedWebsite
+
+        googleItemInfoRatingView.rating = googleItem.rating
     }
 
     @objc func faveItemButtonTapped(sender: UIButton!) {
