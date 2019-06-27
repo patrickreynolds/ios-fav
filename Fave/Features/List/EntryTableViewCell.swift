@@ -205,7 +205,7 @@ class EntryTableViewCell: UITableViewCell {
         shadowView.layer.shadowColor = FaveColors.Black100.cgColor
         shadowView.layer.shadowOffset = CGSize(width: 0, height: 1.0)
         shadowView.layer.shadowRadius = 3
-        shadowView.layer.shadowOpacity = 0.12
+        shadowView.layer.shadowOpacity = 0.08
 
         return shadowView
     }()
