@@ -197,6 +197,34 @@ class EntryTableViewCell: UITableViewCell {
         return view
     }()
 
+    private lazy var cardShadowView: UIView = {
+        let shadowView = UIView.init(frame: .zero)
+
+        shadowView.backgroundColor = UIColor.clear
+
+        shadowView.layer.shadowColor = FaveColors.Black100.cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+        shadowView.layer.shadowRadius = 3
+        shadowView.layer.shadowOpacity = 0.12
+
+        return shadowView
+    }()
+
+    private lazy var cardView: UIView = {
+        let view = UIView.init(frame: .zero)
+
+        view.backgroundColor = FaveColors.White
+
+        view.layer.cornerRadius = 6
+        view.layer.masksToBounds = true
+        view.clipsToBounds = true
+
+        view.layer.borderColor = FaveColors.Black20.cgColor
+        view.layer.borderWidth = 1.0
+
+        return view
+    }()
+
     private lazy var savedItemContextView: SavedItemContextView = {
         let view = SavedItemContextView()
 
@@ -208,21 +236,37 @@ class EntryTableViewCell: UITableViewCell {
 
         selectionStyle = .none
 
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(subtitleLabel)
-        contentView.addSubview(actionStackView)
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.clear
 
-        contentView.addSubview(borderView)
-        contentView.addSubview(savedItemContextView)
+        contentView.addSubview(cardShadowView)
 
-        constrain(savedItemContextView, titleLabel, contentView) { savedItemContextView, titleLabel, view in
+        cardShadowView.addSubview(cardView)
+
+        constrainToSuperview(cardView)
+
+        cardView.addSubview(titleLabel)
+        cardView.addSubview(subtitleLabel)
+        cardView.addSubview(actionStackView)
+
+        cardView.addSubview(borderView)
+        cardView.addSubview(savedItemContextView)
+
+        constrain(cardShadowView, contentView) { cardShadowView, contentView in
+            cardShadowView.top == contentView.top + 8
+            cardShadowView.right == contentView.right - 8
+            cardShadowView.bottom == contentView.bottom
+            cardShadowView.left == contentView.left + 8
+        }
+
+        constrain(savedItemContextView, titleLabel, cardView) { savedItemContextView, titleLabel, view in
             itemIsAlreadySavedConstraint = savedItemContextView.top == view.top + 16
             savedItemContextView.right == view.right - 16
             savedItemContextView.bottom == titleLabel.top - 2
             savedItemContextView.left == view.left + 16
         }
 
-        constrain(titleLabel, contentView) { label, view in
+        constrain(titleLabel, cardView) { label, view in
             itemIsNotAlreadySavedConstraint = label.top == view.top + 16
             label.right == view.right - 16
             label.left == view.left + 16
@@ -234,18 +278,18 @@ class EntryTableViewCell: UITableViewCell {
             subtitleLabel.left == titleLabel.left
         }
 
-        constrain(actionStackView, borderView, subtitleLabel, contentView) { actionStackView, borderView, subtitleLabel, contentView in
+        constrain(actionStackView, borderView, subtitleLabel, cardView) { actionStackView, borderView, subtitleLabel, contentView in
             actionStackView.top == subtitleLabel.bottom + 16
             actionStackView.right == contentView.right - 16
             actionStackView.bottom == borderView.top
             actionStackView.left == contentView.left + 16
         }
 
-        constrain(borderView, contentView) { borderView, view in
+        constrain(borderView, cardView) { borderView, view in
             borderView.left == view.left
             borderView.right == view.right
             borderView.bottom == view.bottom
-            borderView.height == 4
+            borderView.height == 0
         }
     }
 

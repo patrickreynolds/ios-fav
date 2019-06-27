@@ -118,6 +118,7 @@ class ListViewController: FaveVC {
         tableView.addSubview(self.refreshControl)
 
         tableView.separatorColor = UIColor.clear
+        tableView.backgroundColor = FaveColors.White
 
         return tableView
     }()
