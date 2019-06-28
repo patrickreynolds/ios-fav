@@ -1,5 +1,4 @@
 import Foundation
-import Chester
 import GraphQLicious
 
 struct FaveGraphQLService {
