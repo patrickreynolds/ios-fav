@@ -1,5 +1,4 @@
 import Foundation
-import GraphQLicious
 
 struct FaveGraphQLService {
     private let networking: NetworkingType
