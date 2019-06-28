@@ -9,9 +9,6 @@ target 'Fave' do
   pod 'R.swift'
   pod 'KMPlaceholderTextView', '~> 1.4.0'
   pod 'TTTAttributedLabel', '~> 2.0.0'
-  pod 'Apollo', '~> 0.10.1'
-  pod 'Chester', '~> 0.9.0'
-  pod "GraphQLicious", '~> 0.8.2'
 
   pod 'FacebookCore'
   pod 'FacebookLogin'
