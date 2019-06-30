@@ -314,13 +314,13 @@ extension ProfileViewController: UITableViewDataSource {
             alertController.dismiss(animated: true, completion: nil)
         }))
 
-        alertController.addAction(UIAlertAction(title: "Add an ntry", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Add an entry", style: .default , handler: { alertAction in
             self.addItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)
         }))
 
-        alertController.addAction(UIAlertAction(title: "Create a ist", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Create a list", style: .default , handler: { alertAction in
             self.addListButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)
