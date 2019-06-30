@@ -216,6 +216,15 @@ class ProfileViewController: FaveVC {
             currentUser = passedUser
         } else if let user = dependencyGraph.storage.getUser() {
             currentUser = user
+
+            if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
+                let tabBarItemImage = UIImage(base64String: user.profilePicture)?
+                    .resize(targetSize: CGSize.init(width: 24, height: 24))?
+                    .roundedImage?
+                    .withRenderingMode(.alwaysOriginal)
+                tabBarItem.image = tabBarItemImage
+                tabBarItem.selectedImage = tabBarItemImage
+            }
         } else {
             login()
 

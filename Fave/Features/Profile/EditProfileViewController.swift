@@ -368,7 +368,6 @@ class EditProfileViewController: FaveVC {
 
         if dependencyGraph.authenticator.isLoggedIn() {
             self.dependencyGraph.authenticator.logout { success in
-
                 if success {
                     self.authenticationState = .loggedOut
 

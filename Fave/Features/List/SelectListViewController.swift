@@ -105,7 +105,7 @@ class SelectListViewController: FaveVC {
     }()
 
     init(dependencyGraph: DependencyGraphType) {
-        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .profileScreenShown)
+        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .selectListScreenShown)
     }
 
     required init?(coder aDecoder: NSCoder) {

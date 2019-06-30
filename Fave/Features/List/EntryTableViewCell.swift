@@ -281,7 +281,7 @@ class EntryTableViewCell: UITableViewCell {
         constrain(actionStackView, borderView, subtitleLabel, cardView) { actionStackView, borderView, subtitleLabel, contentView in
             actionStackView.top == subtitleLabel.bottom + 16
             actionStackView.right == contentView.right - 16
-            actionStackView.bottom == borderView.top
+            actionStackView.bottom == borderView.top - 8
             actionStackView.left == contentView.left + 16
         }
 

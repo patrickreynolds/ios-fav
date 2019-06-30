@@ -92,6 +92,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         window?.makeKeyAndVisible()
 
+        dependencyGraph.faveService.getCurrentUser { user, error in
+            guard let user = user else {
+                self.dependencyGraph.authenticator.logout { success in
+                    print("Logged out")
+                }
+
+                return
+            }
+
+            self.dependencyGraph.storage.saveUser(user: user)
+        }
+
         return true
     }
 

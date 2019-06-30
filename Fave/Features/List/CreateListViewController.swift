@@ -255,7 +255,7 @@ class CreateListViewController: FaveVC {
     }()
 
     init(dependencyGraph: DependencyGraphType) {
-        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .profileScreenShown)
+        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .createListScreenShown)
     }
 
     required init?(coder aDecoder: NSCoder) {

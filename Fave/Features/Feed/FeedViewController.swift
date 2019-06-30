@@ -73,7 +73,7 @@ class FeedViewController: FaveVC {
     }()
 
     init(dependencyGraph: DependencyGraphType) {
-        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .homescreenFeedTabScreenShown)
+        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .homescreenFeedScreenShown)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -122,13 +122,13 @@ class FeedViewController: FaveVC {
         view.bringSubviewToFront(loadingIndicatorView)
         view.bringSubviewToFront(createButton)
 
-        updateUI()
+//        updateUI()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        updateUI()
+//        updateUI()
         refreshFeed()
     }
 
@@ -158,10 +158,16 @@ class FeedViewController: FaveVC {
                         tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
                     }
 
+                    self.dependencyGraph.authenticator.logout { success in
+                        print("Logged out")
+                    }
+
                     return
                 }
 
                 self.dependencyGraph.storage.saveUser(user: user)
+
+                self.updateUI()
 
                 if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
                     let tabBarItemImage = UIImage(base64String: user.profilePicture)?
@@ -173,6 +179,8 @@ class FeedViewController: FaveVC {
                 }
             }
         } else {
+            updateUI()
+
             dependencyGraph.faveService.topLists { topLists, error in
                 self.topLists = topLists ?? []
 

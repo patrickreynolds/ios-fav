@@ -220,7 +220,7 @@ class ShareItemViewController: FaveVC {
 
         view.backgroundColor = FaveColors.White
 
-        let titleViewLabel = Label.init(text: "Share item", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Share \(item.title)", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(dismissView))

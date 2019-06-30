@@ -159,7 +159,7 @@ class ListViewController: FaveVC {
     init(dependencyGraph: DependencyGraphType, list: List) {
         self.list = list
 
-        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .profileScreenShown)
+        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .listScreenShown)
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -327,7 +327,7 @@ class CreateItemViewController: FaveVC {
         self.list = defaultList
         self.creationType = creationType
 
-        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .profileScreenShown)
+        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .createItemScreenShown)
     }
 
     required init?(coder aDecoder: NSCoder) {
