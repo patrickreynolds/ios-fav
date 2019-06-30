@@ -6,14 +6,14 @@ protocol DiscoverUserListTableViewCellDelegate {
 //    func faveItemButtonTapped(item: Item)
 //    func shareItemButtonTapped(item: Item)
 //    func didTapFollowButtonForList(list: List?)
+    func showLogin()
     func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List)
 }
-
-
 
 class DiscoverUserListTableViewCell: UITableViewCell {
 
     var list: List?
+    var dependencyGraph: DependencyGraphType?
     var delegate: DiscoverUserListTableViewCellDelegate?
 
     private var relationship: FaveRelationshipType = .notFollowing {
@@ -115,8 +115,9 @@ class DiscoverUserListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(list: List) {
+    func populate(dependencyGraph: DependencyGraphType, list: List) {
         self.list = list
+        self.dependencyGraph = dependencyGraph
 
         titleLabel.text = list.title
 
@@ -134,6 +135,13 @@ class DiscoverUserListTableViewCell: UITableViewCell {
     }
 
     @objc func didTapFollowButton() {
+
+        guard let dependencyGraph = dependencyGraph, dependencyGraph.authenticator.isLoggedIn() else {
+            delegate?.showLogin()
+
+            return
+        }
+
         guard let list = list else {
             return
         }

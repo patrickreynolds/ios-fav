@@ -331,13 +331,17 @@ class ItemInfoTableViewCell: UITableViewCell {
             formattedWebsite = String(formattedWebsite.dropFirst(8))
         }
 
-        websiteLabel.text = formattedWebsite
+        websiteLabel.text = formattedWebsite.isEmpty ? "No website listed" : formattedWebsite
 
         googleItemInfoRatingView.rating = googleItem.rating
     }
 
     @objc func faveItemButtonTapped(sender: UIButton!) {
-        guard let item = item else {
+        guard let item = item, let googleItem = item.contextualItem as? GoogleItemType else {
+            return
+        }
+
+        guard !googleItem.website.isEmpty else {
             return
         }
 

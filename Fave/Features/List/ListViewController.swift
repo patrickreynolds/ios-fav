@@ -236,10 +236,6 @@ class ListViewController: FaveVC {
 
     private func refreshData(completion: @escaping () -> () = {}) {
 
-        guard let user = dependencyGraph.storage.getUser() else {
-            return
-        }
-
         dependencyGraph.faveService.getList(userId: list.owner.id, listId: self.list.id) { response, error in
             guard let list = response else {
                 return
@@ -247,7 +243,7 @@ class ListViewController: FaveVC {
 
             self.list = list
 
-            self.dependencyGraph.faveService.listsUserFollows(userId: user.id) { response, error in
+            self.dependencyGraph.faveService.listsUserFollows(userId: list.owner.id) { response, error in
                 guard let listsUserFollows = response else {
                     return
                 }
@@ -267,7 +263,7 @@ class ListViewController: FaveVC {
 
             completion()
 
-            self.updateSaved(userId: user.id)
+            self.updateSaved(userId: self.list.owner.id)
         }
 
         dependencyGraph.faveService.followersOfList(listId: list.id) { response, error in
@@ -285,6 +281,15 @@ class ListViewController: FaveVC {
 
     private func showSuccess(title: String) {
         showToast(title: title)
+    }
+
+    private func handleItemTapped(item: Item) {
+        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
+
+        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        itemViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(itemViewController, animated: true)
     }
 }
 
@@ -396,18 +401,13 @@ extension ListViewController: UITableViewDelegate {
         let item: Item
 
         switch filterType {
-            case .entries:
-                item = entries[indexPath.row]
-            case .recommendations:
-                item = recommendations[indexPath.row]
+        case .entries:
+            item = entries[indexPath.row]
+        case .recommendations:
+            item = recommendations[indexPath.row]
         }
 
-        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
-
-        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
-        itemViewController.navigationItem.titleView = titleViewLabel
-
-        navigationController?.pushViewController(itemViewController, animated: true)
+        handleItemTapped(item: item)
     }
 }
 
@@ -440,7 +440,7 @@ extension ListViewController: UITableViewDataSource {
             mySavedItem = listOfCurrentItems.filter({$0.dataId == item.dataId}).first
         }
 
-        cell.populate(item: item, currentUser: dependencyGraph.storage.getUser(), list: list, mySavedItem: mySavedItem)
+        cell.populate(dependencyGraph: dependencyGraph, item: item, currentUser: dependencyGraph.storage.getUser(), list: list, mySavedItem: mySavedItem)
 
         return cell
     }
@@ -455,6 +455,11 @@ extension ListViewController: UITableViewDataSource {
 }
 
 extension ListViewController: ListTableHeaderViewDelegate {
+
+    func showLogin() {
+        login()
+    }
+
     func entriesButtonTapped() {
         print("\nLists Button Tapped\n")
 
@@ -493,6 +498,11 @@ extension ListViewController: ListTableHeaderViewDelegate {
 }
 
 extension ListViewController: EntryTableViewCellDelegate {
+
+    func googlePhotoTapped(item: Item) {
+        handleItemTapped(item: item)
+    }
+
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool) {
         print("\nFave Item Button Tapped\n")
 

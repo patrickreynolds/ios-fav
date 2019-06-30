@@ -56,7 +56,7 @@ class LoggedOutViewController: FaveVC {
         let facebookBlueHexString = "#3A5997"
 
         button.backgroundColor = UIColor(hexString: facebookBlueHexString)
-        button.layer.cornerRadius = 56 / 2
+        button.layer.cornerRadius = 6
         button.setTitle("Log In With Facebook", for: .normal)
         button.addTarget(self, action: #selector(authenticateWithFacebook), for: .touchUpInside)
 

@@ -5,10 +5,12 @@ import Cartography
 protocol EntryTableViewCellDelegate {
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool)
     func shareItemButtonTapped(item: Item)
+    func googlePhotoTapped(item: Item)
 }
 
 class EntryTableViewCell: UITableViewCell {
 
+    var dependencyGraph: DependencyGraphType?
     var item: Item?
     var list: List?
     var currentUser: User?
@@ -17,6 +19,14 @@ class EntryTableViewCell: UITableViewCell {
 
     var itemIsAlreadySavedConstraint: NSLayoutConstraint?
     var itemIsNotAlreadySavedConstraint: NSLayoutConstraint?
+
+    var googlePhotos: [GooglePhoto] {
+        guard let item = item, let googleItem = item.contextualItem as? GoogleItemType else {
+            return []
+        }
+
+        return googleItem.photos
+    }
 
     var itemIsSavedByUser = false
     let faveActionIcon = UIImageView.init(frame: .zero)
@@ -43,7 +53,7 @@ class EntryTableViewCell: UITableViewCell {
 
     private lazy var titleLabel: Label = {
         let label = Label(text: "",
-                           font: FaveFont(style: .h5, weight: .bold),
+                           font: FaveFont(style: .h4, weight: .bold),
                            textColor: FaveColors.Black90,
                            textAlignment: .left,
                            numberOfLines: 0)
@@ -231,6 +241,32 @@ class EntryTableViewCell: UITableViewCell {
         return view
     }()
 
+
+    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout.init()
+
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 80, height: 80)
+
+        return layout
+    }()
+
+    private lazy var photosCollectionView: UICollectionView = {
+        let collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: collectionViewLayout)
+
+        collectionView.allowsMultipleSelection = false
+        collectionView.allowsSelection = false
+        collectionView.register(ItemGooglePhotoCollectionViewCell.self)
+        collectionView.backgroundColor = FaveColors.White
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.contentInset = UIEdgeInsets.init(top: 0, left: 16, bottom: 0, right: 16)
+
+        collectionView.delegate = self
+        collectionView.dataSource = self
+
+        return collectionView
+    }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -247,6 +283,7 @@ class EntryTableViewCell: UITableViewCell {
 
         cardView.addSubview(titleLabel)
         cardView.addSubview(subtitleLabel)
+        cardView.addSubview(photosCollectionView)
         cardView.addSubview(actionStackView)
 
         cardView.addSubview(borderView)
@@ -278,8 +315,15 @@ class EntryTableViewCell: UITableViewCell {
             subtitleLabel.left == titleLabel.left
         }
 
-        constrain(actionStackView, borderView, subtitleLabel, cardView) { actionStackView, borderView, subtitleLabel, contentView in
-            actionStackView.top == subtitleLabel.bottom + 16
+        constrain(photosCollectionView, subtitleLabel, cardView) { collectionView, subtitleLabel, cardView in
+            collectionView.top == subtitleLabel.bottom + 16
+            collectionView.right == cardView.right
+            collectionView.left == cardView.left
+            collectionView.height == 80
+        }
+
+        constrain(actionStackView, borderView, photosCollectionView, cardView) { actionStackView, borderView, photosCollectionView, contentView in
+            actionStackView.top == photosCollectionView.bottom + 16
             actionStackView.right == contentView.right - 16
             actionStackView.bottom == borderView.top - 8
             actionStackView.left == contentView.left + 16
@@ -297,7 +341,8 @@ class EntryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(item: Item, currentUser: User?, list: List, mySavedItem: Item?) {
+    func populate(dependencyGraph: DependencyGraphType, item: Item, currentUser: User?, list: List, mySavedItem: Item?) {
+        self.dependencyGraph = dependencyGraph
         self.item = item
         self.list = list
         self.mySavedItem = mySavedItem
@@ -376,5 +421,41 @@ class EntryTableViewCell: UITableViewCell {
         }
 
         delegate?.shareItemButtonTapped(item: item)
+    }
+}
+
+extension EntryTableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = item else {
+            return
+        }
+
+        delegate?.googlePhotoTapped(item: item)
+    }
+}
+
+extension EntryTableViewCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return googlePhotos.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeue(ItemGooglePhotoCollectionViewCell.self, indexPath: indexPath)
+
+        let photo = googlePhotos[indexPath.row]
+
+        if let dependencyGraph = dependencyGraph {
+            cell.populate(photo: photo, dependencyGraph: dependencyGraph)
+        }
+
+//        cell.isUserInteractionEnabled = false
+
+        return cell
+    }
+}
+
+extension EntryTableViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize.init(width: 80, height: 80)
     }
 }

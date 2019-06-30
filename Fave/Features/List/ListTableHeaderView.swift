@@ -3,6 +3,7 @@ import UIKit
 import Cartography
 
 protocol ListTableHeaderViewDelegate {
+    func showLogin()
     func entriesButtonTapped()
     func suggestionsButtonTapped()
     func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List)
@@ -259,6 +260,12 @@ class ListTableHeaderView: UIView {
 
     @objc func didTapRelationshipButton(sender: UIButton!) {
         print("\nFollow List Button Tapped\n")
+
+        guard dependencyGraph.authenticator.isLoggedIn() else {
+            delegate?.showLogin()
+
+            return
+        }
 
         let newRelationship: FaveRelationshipType = followerRelationship == .notFollowing ? .following : .notFollowing
 

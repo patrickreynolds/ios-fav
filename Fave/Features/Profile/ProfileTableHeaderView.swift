@@ -160,7 +160,11 @@ class ProfileTableHeaderView: UIView {
 
         constrainToSuperview(primaryContentView, exceptEdges: [.bottom])
 
-        let isUserProfile = true
+        var isUserProfile = false
+
+        if let user = user, let currentUser = dependencyGraph.storage.getUser() {
+            isUserProfile = user.id == currentUser.id
+        }
 
         if isUserProfile {
             constrain(editProfileButton, primaryContentView, dividerView, self) { editProfileButton, primaryContentView, dividerView, view in

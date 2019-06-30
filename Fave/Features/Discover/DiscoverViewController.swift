@@ -308,7 +308,7 @@ extension DiscoverViewController: UITableViewDataSource {
         cell.delegate = self
 
         let list = cachedSuggestionSections[indexPath.section].lists[indexPath.row]
-        cell.populate(list: list)
+        cell.populate(dependencyGraph: dependencyGraph, list: list)
 
         return cell
     }
@@ -333,6 +333,13 @@ extension DiscoverViewController: UITableViewDataSource {
 
 extension DiscoverViewController {
     @objc func createButtonTapped(sender: UIButton!) {
+
+        guard dependencyGraph.authenticator.isLoggedIn() else {
+            login()
+
+            return
+        }
+
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         alertController.addAction(UIAlertAction(title: "Make a recommendation", style: .default , handler: { alertAction in
@@ -561,6 +568,10 @@ extension DiscoverViewController: DiscoverUserListTableViewCellDelegate {
                 }
             }
         }
+    }
+
+    func showLogin() {
+        login()
     }
 }
 

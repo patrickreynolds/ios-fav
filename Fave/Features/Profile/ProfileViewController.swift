@@ -315,6 +315,12 @@ extension ProfileViewController: UITableViewDataSource {
     }
 
     @objc func createButtonTapped(sender: UIButton!) {
+        guard dependencyGraph.authenticator.isLoggedIn() else {
+            login()
+
+            return
+        }
+
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         alertController.addAction(UIAlertAction(title: "Make a recommendation", style: .default , handler: { alertAction in
