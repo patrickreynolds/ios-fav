@@ -204,6 +204,18 @@ class ListTableHeaderView: UIView {
         return stackView
     }()
 
+    private lazy var borderView: UIView = {
+        let view = UIView.init(frame: .zero)
+
+        view.backgroundColor = FaveColors.Black20
+
+        constrain(view) { view in
+            view.height == 8
+        }
+
+        return view
+    }()
+
     init(dependencyGraph: DependencyGraphType, list: List) {
         self.dependencyGraph = dependencyGraph
         self.list = list
@@ -220,6 +232,7 @@ class ListTableHeaderView: UIView {
         addSubview(listDescriptionLabel)
         addSubview(relationshipStackView)
         addSubview(listSegmentedControl)
+        addSubview(borderView)
 
         constrain(titleLabel, self) { label, view in
             label.left == view.left + 16
@@ -250,7 +263,23 @@ class ListTableHeaderView: UIView {
             listSegmentedControl.right == view.right
             listSegmentedControl.bottom == view.bottom
             listSegmentedControl.left == view.left
-            listSegmentedControl.height == 61 // 1 (top divider) + 56 (tab height) + 4 (bottom divider)
+            listSegmentedControl.height == (list.title.lowercased() == "recommendations" ? 0 : 61) // 1 (top divider) + 56 (tab height) + 4 (bottom divider)
+        }
+
+        constrain(borderView, relationshipStackView, self) { borderView, relationshipStackView, view in
+            borderView.right == view.right
+            borderView.bottom == view.bottom
+            borderView.left == view.left
+
+            borderView.top == relationshipStackView.bottom + 12
+        }
+
+        if list.title.lowercased() == "recommendations" {
+            listSegmentedControl.isHidden = true
+            borderView.isHidden = false
+        } else {
+            borderView.isHidden = true
+            listSegmentedControl.isHidden = false
         }
     }
 
@@ -302,7 +331,6 @@ class ListTableHeaderView: UIView {
     }
 
     func updateHeaderInfo(list: List, listItems: [Item]) {
-
         self.listItems = listItems
 
         listSegmentedControl.updateTitleAtIndex(title: entryTitleString, index: 0)

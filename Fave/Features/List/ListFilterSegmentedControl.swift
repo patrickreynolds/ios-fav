@@ -172,11 +172,9 @@ class ListSegmentedControl: UIView {
 
     func updateTitleAtIndex(title: String, index: Int) {
         if index >= 0 && index < tabModels.count {
-            var tab = tabModels[index]
+            tabModels[index].title = title
 
-            tab.title = title
-
-            tabViews[index].tab = tab
+            tabViews[index].tab = tabModels[index]
         }
     }
 

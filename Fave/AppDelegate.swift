@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let discoverViewController = DiscoverViewController(dependencyGraph: dependencyGraph)
         let discoverNavigationViewController = UINavigationController(rootViewController: discoverViewController)
 
-        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: dependencyGraph.storage.getUser())
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: nil)
         let profileNavigationViewController = UINavigationController(rootViewController: profileViewController)
 
 

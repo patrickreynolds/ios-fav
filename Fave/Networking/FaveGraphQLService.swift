@@ -172,6 +172,40 @@ struct FaveGraphQLService {
         }
     }
 
+    func deleteListItem(itemId: Int, completion: @escaping (_ itemId: Int?, _ error: Error?) -> ()) {
+
+        let itemMutation = GraphQLQueryBuilder.deleteItem(itemId: itemId)
+
+        networking.sendGraphqlRequest(query: itemMutation) { response, error in
+            guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["deleteItem"] as? [String: AnyObject] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let itemId = itemData["id"] as? Int
+
+            completion(itemId, nil)
+        }
+    }
+
+    func updateListItem(listId: Int, isRecommendation: Bool, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
+
+        let updateListItemMutation = GraphQLQueryBuilder.updateItemMutation(listId: listId, isRecommendation: isRecommendation)
+
+        networking.sendGraphqlRequest(query: updateListItemMutation) { response, error in
+            guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["deleteItem"] as? [String: AnyObject] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let item = Item(data: itemData)
+
+            completion(item, nil)
+        }
+    }
+
     func getFeed(from: Int, to: Int, completion: @escaping (_ events: [FeedEvent]?, _ error: Error?) -> ()) {
 
         let feedQuery = GraphQLQueryBuilder.feedQuery(from: from, to: to)

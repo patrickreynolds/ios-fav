@@ -162,8 +162,12 @@ class ProfileTableHeaderView: UIView {
 
         var isUserProfile = false
 
-        if let user = user, let currentUser = dependencyGraph.storage.getUser() {
-            isUserProfile = user.id == currentUser.id
+        if let user = user {
+            if let currentUser = dependencyGraph.storage.getUser() {
+                isUserProfile = user.id == currentUser.id
+            }
+        } else {
+            isUserProfile = true
         }
 
         if isUserProfile {

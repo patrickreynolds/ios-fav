@@ -191,6 +191,12 @@ class ListViewController: FaveVC {
             button.height == 56
         }
 
+        if let currentUser = dependencyGraph.storage.getUser() {
+            if list.title.lowercased() == "recommendations" && list.owner.id == currentUser.id {
+                filterType = .recommendations
+            }
+        }
+
         refreshData()
     }
 
@@ -499,6 +505,33 @@ extension ListViewController: ListTableHeaderViewDelegate {
 
 extension ListViewController: EntryTableViewCellDelegate {
 
+    func dismissButtonTapped(item: Item) {
+        // delete recommendation
+        // reload entries
+
+        dependencyGraph.faveService.deleteListItem(itemId: item.id) { itemId, error in
+            guard let itemId = itemId else {
+                return
+            }
+
+            print("\(itemId)")
+
+            self.refreshData()
+        }
+    }
+
+    func addToListButtonTapped(item: Item) {
+        // prompt lists
+        // upon selection, post update to isRecommendation = false
+
+        let selectListViewController = SelectListViewController(dependencyGraph: dependencyGraph)
+        let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
+
+        selectListViewController.delegate = self
+
+        present(selectListNavigationController, animated: true)
+    }
+
     func googlePhotoTapped(item: Item) {
         handleItemTapped(item: item)
     }
@@ -707,4 +740,17 @@ extension ListViewController: UIGestureRecognizerDelegate {
 
 extension ListViewController: ShareItemViewControllerDelegate {
 
+}
+
+extension ListViewController: SelectListViewControllerDelegate {
+    func didSelectList(list: List) {
+
+        dependencyGraph.faveService.updateListItem(listId: list.id, isRecommendation: false) { item, error in
+            guard let _ = item else {
+                return
+            }
+
+            self.refreshData()
+        }
+    }
 }

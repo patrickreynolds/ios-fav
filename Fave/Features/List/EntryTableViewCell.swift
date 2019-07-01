@@ -6,6 +6,8 @@ protocol EntryTableViewCellDelegate {
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool)
     func shareItemButtonTapped(item: Item)
     func googlePhotoTapped(item: Item)
+    func dismissButtonTapped(item: Item)
+    func addToListButtonTapped(item: Item)
 }
 
 class EntryTableViewCell: UITableViewCell {
@@ -179,11 +181,72 @@ class EntryTableViewCell: UITableViewCell {
         return view
     }()
 
+    private lazy var addToListActionView: UIView = {
+        let view = UIView.init(frame: .zero)
+
+        let button = UIButton(frame: .zero)
+
+        button.backgroundColor = FaveColors.Accent
+        button.layer.cornerRadius = 6
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
+        button.addTarget(self, action: #selector(addToListButtonTapped), for: .touchUpInside)
+
+        let attributedTitle = NSAttributedString(string: "Add to list",
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 textColor: FaveColors.White)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        view.addSubview(button)
+
+        constrain(button, view) { button, view in
+            button.top == view.top + 8
+            button.bottom == view.bottom - 8
+            button.left == view.left
+            button.right == view.right
+        }
+
+        return view
+    }()
+
+    private lazy var dismissActionView: UIView = {
+        let view = UIView.init(frame: .zero)
+
+        let button = UIButton(frame: .zero)
+
+        button.backgroundColor = FaveColors.White
+        button.layer.cornerRadius = 6
+        button.layer.borderColor = FaveColors.Black40.cgColor
+        button.layer.borderWidth = 1.0
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
+        button.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
+
+        let attributedTitle = NSAttributedString(string: "Dismiss",
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 textColor: FaveColors.Black80)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        view.addSubview(button)
+
+        constrain(button, view) { button, view in
+            button.top == view.top + 8
+            button.bottom == view.bottom - 8
+            button.left == view.left
+            button.right == view.right
+        }
+
+        view.addSubview(button)
+
+        constrain(button, view) { button, view in
+            button.centerX == view.centerX
+            button.centerY == view.centerY
+        }
+
+        return view
+    }()
+
     private lazy var actionStackView: UIStackView = {
         let stackView = UIStackView.init(frame: .zero)
 
-        stackView.addArrangedSubview(faveActionView)
-        stackView.addArrangedSubview(shareActionView)
         stackView.distribution = .fillEqually
         stackView.axis = .horizontal
         stackView.spacing = 16.0
@@ -208,13 +271,13 @@ class EntryTableViewCell: UITableViewCell {
     }()
 
     private lazy var cardShadowView: UIView = {
-        let shadowView = UIView.init(frame: .zero)
+        let shadowView = UIView(frame: .zero)
 
         shadowView.backgroundColor = UIColor.clear
 
         shadowView.layer.shadowColor = FaveColors.Black100.cgColor
-        shadowView.layer.shadowOffset = CGSize(width: 0, height: 1.0)
-        shadowView.layer.shadowRadius = 3
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        shadowView.layer.shadowRadius = 6
         shadowView.layer.shadowOpacity = 0.08
 
         return shadowView
@@ -229,8 +292,8 @@ class EntryTableViewCell: UITableViewCell {
         view.layer.masksToBounds = true
         view.clipsToBounds = true
 
-        view.layer.borderColor = FaveColors.Black20.cgColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderColor = FaveColors.Black30.cgColor
+        view.layer.borderWidth = 0.5
 
         return view
     }()
@@ -290,10 +353,10 @@ class EntryTableViewCell: UITableViewCell {
         cardView.addSubview(savedItemContextView)
 
         constrain(cardShadowView, contentView) { cardShadowView, contentView in
-            cardShadowView.top == contentView.top + 8
-            cardShadowView.right == contentView.right - 8
+            cardShadowView.top == contentView.top + 16
+            cardShadowView.right == contentView.right - 16
             cardShadowView.bottom == contentView.bottom
-            cardShadowView.left == contentView.left + 8
+            cardShadowView.left == contentView.left + 16
         }
 
         constrain(savedItemContextView, titleLabel, cardView) { savedItemContextView, titleLabel, view in
@@ -374,6 +437,14 @@ class EntryTableViewCell: UITableViewCell {
 
             subtitleLabel.text = keywords
         }
+
+        if let currentUser = dependencyGraph.storage.getUser(), list.owner.id == currentUser.id, item.isRecommendation {
+            actionStackView.addArrangedSubview(addToListActionView)
+            actionStackView.addArrangedSubview(dismissActionView)
+        } else {
+            actionStackView.addArrangedSubview(faveActionView)
+            actionStackView.addArrangedSubview(shareActionView)
+        }
     }
 
     private func updateSavedItemContext(item: Item) {
@@ -421,6 +492,22 @@ class EntryTableViewCell: UITableViewCell {
         }
 
         delegate?.shareItemButtonTapped(item: item)
+    }
+
+    @objc func addToListButtonTapped(sender: UIButton!) {
+        guard let item = item else {
+            return
+        }
+
+        delegate?.addToListButtonTapped(item: item)
+    }
+
+    @objc func dismissButtonTapped(sender: UIButton!) {
+        guard let item = item else {
+            return
+        }
+
+        delegate?.dismissButtonTapped(item: item)
     }
 }
 
