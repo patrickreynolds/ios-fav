@@ -63,12 +63,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let discoverViewController = DiscoverViewController(dependencyGraph: dependencyGraph)
         let discoverNavigationViewController = UINavigationController(rootViewController: discoverViewController)
 
+        let recommendationsViewController = RecommendationsViewController(dependencyGraph: dependencyGraph)
+        let recommendationsNavigationViewController = UINavigationController(rootViewController: recommendationsViewController)
+
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: nil)
         let profileNavigationViewController = UINavigationController(rootViewController: profileViewController)
 
 
         // Add tabs
-        tabBarController.viewControllers = [feedNavigationViewController, discoverNavigationViewController, profileNavigationViewController]
+        tabBarController.viewControllers = [feedNavigationViewController, discoverNavigationViewController, recommendationsNavigationViewController, profileNavigationViewController]
 
         if let tabBarItem = tabBarController.tabBar.items?[0] {
             tabBarItem.image = UIImage(named: "tab-icon-home")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
@@ -81,6 +84,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if let tabBarItem = tabBarController.tabBar.items?[2] {
+            tabBarItem.image = UIImage(named: "tab-icon-recommendations")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+            tabBarItem.selectedImage = UIImage(named: "tab-icon-recommendations-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        }
+
+        if let tabBarItem = tabBarController.tabBar.items?[3] {
             tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
             tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         }
@@ -144,6 +152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          https://developers.facebook.com/docs/swift/getting-started/#cocoapods
          This initializes the SDK when your app launches, and lets the SDK handle results from the native Facebook app when you perform a Login or Share action.
          */
+
         return ApplicationDelegate.shared.application(app, open: url, options: options)
     }
 }

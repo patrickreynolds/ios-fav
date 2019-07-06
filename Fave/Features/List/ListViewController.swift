@@ -446,7 +446,7 @@ extension ListViewController: UITableViewDataSource {
             mySavedItem = listOfCurrentItems.filter({$0.dataId == item.dataId}).first
         }
 
-        cell.populate(dependencyGraph: dependencyGraph, item: item, currentUser: dependencyGraph.storage.getUser(), list: list, mySavedItem: mySavedItem)
+        cell.populate(dependencyGraph: dependencyGraph, item: item, currentUser: dependencyGraph.storage.getUser(), list: nil, mySavedItem: mySavedItem)
 
         return cell
     }

@@ -404,7 +404,7 @@ class EntryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(dependencyGraph: DependencyGraphType, item: Item, currentUser: User?, list: List, mySavedItem: Item?) {
+    func populate(dependencyGraph: DependencyGraphType, item: Item, currentUser: User?, list: List?, mySavedItem: Item?) {
         self.dependencyGraph = dependencyGraph
         self.item = item
         self.list = list
@@ -438,7 +438,7 @@ class EntryTableViewCell: UITableViewCell {
             subtitleLabel.text = keywords
         }
 
-        if let currentUser = dependencyGraph.storage.getUser(), list.owner.id == currentUser.id, item.isRecommendation {
+        if let currentUser = dependencyGraph.storage.getUser(), let list = list, list.owner.id == currentUser.id, item.isRecommendation {
             actionStackView.addArrangedSubview(addToListActionView)
             actionStackView.addArrangedSubview(dismissActionView)
         } else {
@@ -448,7 +448,7 @@ class EntryTableViewCell: UITableViewCell {
     }
 
     private func updateSavedItemContext(item: Item) {
-        guard let user = currentUser, let list = list, let mySavedItem = mySavedItem else {
+        guard let user = currentUser, let mySavedItem = mySavedItem else {
             savedItemContextView.alpha = 0
             itemIsNotAlreadySavedConstraint?.isActive = true
             itemIsAlreadySavedConstraint?.isActive = false
@@ -456,8 +456,13 @@ class EntryTableViewCell: UITableViewCell {
             return
         }
 
+        var notMyList = true
+
+        if let list = list {
+            notMyList = list.owner.id != user.id
+        }
+
         let isSameItem = item.dataId == mySavedItem.dataId
-        let notMyList = list.owner.id != user.id
 
         if itemIsSavedByUser && isSameItem && notMyList {
             UIView.animate(withDuration: 0.15) {

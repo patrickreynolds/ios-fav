@@ -217,7 +217,7 @@ class ProfileViewController: FaveVC {
         } else if let user = dependencyGraph.storage.getUser() {
             currentUser = user
 
-            if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
+            if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
                 let tabBarItemImage = UIImage(base64String: user.profilePicture)?
                     .resize(targetSize: CGSize.init(width: 24, height: 24))?
                     .roundedImage?
@@ -247,7 +247,7 @@ class ProfileViewController: FaveVC {
                 return
             }
 
-            self.lists = unwrappedLists
+            self.lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
 
             completion()
         }
@@ -282,36 +282,6 @@ class ProfileViewController: FaveVC {
     private func logUserData(userData: [String: AnyObject]) {
         print("\n\nUser keys: \(Array(userData.keys))\n\n")
         print("User: \(userData.description)")
-    }
-}
-
-extension ProfileViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        profileTableView.deselectRow(at: indexPath, animated: true)
-
-        let list = self.lists[indexPath.row]
-
-        let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
-
-        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
-        listViewController.navigationItem.titleView = titleViewLabel
-
-        navigationController?.pushViewController(listViewController, animated: true)
-    }
-}
-
-extension ProfileViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return lists.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(ListTableViewCell.self, indexPath: indexPath)
-
-        let list = lists[indexPath.row]
-        cell.populate(list: list)
-
-        return cell
     }
 
     @objc func createButtonTapped(sender: UIButton!) {
@@ -382,6 +352,36 @@ extension ProfileViewController: UITableViewDataSource {
     }
 }
 
+extension ProfileViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        profileTableView.deselectRow(at: indexPath, animated: true)
+
+        let list = self.lists[indexPath.row]
+
+        let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
+
+        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        listViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(listViewController, animated: true)
+    }
+}
+
+extension ProfileViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return lists.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeue(ListTableViewCell.self, indexPath: indexPath)
+
+        let list = lists[indexPath.row]
+        cell.populate(list: list)
+
+        return cell
+    }
+}
+
 extension ProfileViewController: CreateListViewControllerDelegate {
     func didCreateList(list: List) {
         refreshData()
@@ -411,7 +411,7 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
 
 extension ProfileViewController: EditProfileViewControllerDelegate {
     func didLogout() {
-        if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
+        if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
             tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
             tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         }

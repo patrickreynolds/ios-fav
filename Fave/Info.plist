@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key></key>
+	<string></string>
 	<key>API_BASE_URL_ENDPOINT</key>
 	<string>$(API_BASE_URL_ENDPOINT)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -49,12 +51,17 @@
 	<string>271692000391199</string>
 	<key>FacebookDisplayName</key>
 	<string>Fav</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<false/>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<true/>
 	<key>GOOGLE_API_KEY</key>
 	<string>$(GOOGLE_API_KEY)</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>comgooglemaps</string>
 		<string>fbapi</string>
 		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>

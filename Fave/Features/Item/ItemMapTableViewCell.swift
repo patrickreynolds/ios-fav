@@ -39,7 +39,7 @@ class ItemMapTableViewCell: UITableViewCell {
 
     private lazy var addressLabel: Label = {
         let label = Label(text: "",
-                          font: FaveFont(style: .small, weight: .regular),
+                          font: FaveFont(style: .h5, weight: .regular),
                           textColor: FaveColors.Black90,
                           textAlignment: .left,
                           numberOfLines: 0)
@@ -198,7 +198,14 @@ class ItemMapTableViewCell: UITableViewCell {
         let destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: googleItem.geometry.latitude, longitude: googleItem.geometry.longitude)))
         destination.name = googleItem.name
 
-        MKMapItem.openMaps(with: [destination], launchOptions: nil)
+        // URL(string: "comgooglemaps://?center=\(Float(googleItem.geometry.latitude)),\(Float(googleItem.geometry.longitude))&daddr=\(Float(googleItem.geometry.latitude)),\(Float(googleItem.geometry.longitude))&directionsmode=driving")
+
+        if let _ = URL(string:"comgooglemaps://"),
+            let locationURL = URL(string: "comgooglemaps://?center=\(Float(googleItem.geometry.latitude)),\(Float(googleItem.geometry.longitude))&daddr=\(googleItem.name),\(googleItem.formattedAddress)&directionsmode=driving") {
+            UIApplication.shared.open(locationURL, options: [:], completionHandler: nil)
+        } else {
+            MKMapItem.openMaps(with: [destination], launchOptions: nil)
+        }
     }
 
     func getDirectionsTapped() {
@@ -217,7 +224,7 @@ class ItemMapTableViewCell: UITableViewCell {
 
     func setupMap(withGoogleItem item: GoogleItemType) {
         let initialLocation = CLLocation(latitude: item.geometry.latitude, longitude: item.geometry.longitude)
-        let regionRadius: CLLocationDistance = 1000
+        let regionRadius: CLLocationDistance = 1200
 
         let coordinateRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
 
@@ -228,6 +235,6 @@ class ItemMapTableViewCell: UITableViewCell {
 
         mapView.setRegion(coordinateRegion, animated: true)
 
-        mapView.isUserInteractionEnabled = false
+//        mapView.isUserInteractionEnabled = false
     }
 }

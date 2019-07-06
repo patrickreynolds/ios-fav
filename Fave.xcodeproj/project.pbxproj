@@ -104,6 +104,9 @@
 		43BF88112243E10E0096CCA1 /* DictionaryExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF88102243E10E0096CCA1 /* DictionaryExt.swift */; };
 		43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881222447BB80096CCA1 /* CreateListViewController.swift */; };
 		43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF881422449EFB0096CCA1 /* DividerView.swift */; };
+		43D63C1522D0275F006486FE /* RecommendationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D63C1422D0275F006486FE /* RecommendationsViewController.swift */; };
+		43D63C1722D116BD006486FE /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D63C1622D116BD006486FE /* UIStackViewExtension.swift */; };
+		43D63C1922D11D54006486FE /* CollectionExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D63C1822D11D54006486FE /* CollectionExt.swift */; };
 		DE2303A16BE2436E59DAE2A9 /* Pods_Fave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 959568249CF04E72C443846A /* Pods_Fave.framework */; };
 /* End PBXBuildFile section */
 
@@ -228,6 +231,9 @@
 		43BF88102243E10E0096CCA1 /* DictionaryExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExt.swift; sourceTree = "<group>"; };
 		43BF881222447BB80096CCA1 /* CreateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewController.swift; sourceTree = "<group>"; };
 		43BF881422449EFB0096CCA1 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
+		43D63C1422D0275F006486FE /* RecommendationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsViewController.swift; sourceTree = "<group>"; };
+		43D63C1622D116BD006486FE /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
+		43D63C1822D11D54006486FE /* CollectionExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExt.swift; sourceTree = "<group>"; };
 		6404CA777F7C8002A35EDFED /* Pods-Fave.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fave.release.xcconfig"; path = "Target Support Files/Pods-Fave/Pods-Fave.release.xcconfig"; sourceTree = "<group>"; };
 		7D008E896F0A760160472C00 /* Pods-Fave.albert.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fave.albert.xcconfig"; path = "Target Support Files/Pods-Fave/Pods-Fave.albert.xcconfig"; sourceTree = "<group>"; };
 		959568249CF04E72C443846A /* Pods_Fave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -388,6 +394,8 @@
 				43AFEFCE22641F850022A854 /* UIImageExt.swift */,
 				43915CAA2276A02B00562B5A /* UICollectionViewExt.swift */,
 				43B512D722A7932B0018E9D5 /* DateExtension.swift */,
+				43D63C1622D116BD006486FE /* UIStackViewExtension.swift */,
+				43D63C1822D11D54006486FE /* CollectionExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -455,6 +463,7 @@
 		4386BFDD223340C3006A3ED7 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				43D63C1322D02742006486FE /* Recommendations */,
 				4382488E227B50DA00257D27 /* Fave Item */,
 				431DF8A02249EFFC00717312 /* Item */,
 				439FDDDE2245D1E100ED9343 /* List */,
@@ -539,6 +548,14 @@
 				43915CA62272C7D400562B5A /* DiscoverUserSectionHeaderView.swift */,
 			);
 			path = Discover;
+			sourceTree = "<group>";
+		};
+		43D63C1322D02742006486FE /* Recommendations */ = {
+			isa = PBXGroup;
+			children = (
+				43D63C1422D0275F006486FE /* RecommendationsViewController.swift */,
+			);
+			path = Recommendations;
 			sourceTree = "<group>";
 		};
 		B1C139997BE476638080E0E2 /* Pods */ = {
@@ -870,6 +887,7 @@
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
+				43D63C1922D11D54006486FE /* CollectionExt.swift in Sources */,
 				433E4F8F22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift in Sources */,
 				4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */,
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
@@ -877,10 +895,12 @@
 				4334DB6D228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift in Sources */,
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,
 				43915CAB2276A02B00562B5A /* UICollectionViewExt.swift in Sources */,
+				43D63C1722D116BD006486FE /* UIStackViewExtension.swift in Sources */,
 				43BEA2FD226B84DA001F930E /* DiscoverUserListTableViewCell.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
 				433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */,
 				438534F52233391500B99EC7 /* Color.swift in Sources */,
+				43D63C1522D0275F006486FE /* RecommendationsViewController.swift in Sources */,
 				43BF881522449EFB0096CCA1 /* DividerView.swift in Sources */,
 				4385350B22333B8200B99EC7 /* FaveEndpoint.swift in Sources */,
 				433E4F8822AC47AB00B0A531 /* ProfileActionView.swift in Sources */,

@@ -153,7 +153,7 @@ class FeedViewController: FaveVC {
 
             dependencyGraph.faveService.getCurrentUser { user, error in
                 guard let user = user else {
-                    if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
+                    if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
                         tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
                         tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
                     }
@@ -169,7 +169,7 @@ class FeedViewController: FaveVC {
 
                 self.updateUI()
 
-                if let tabBarItem = self.tabBarController?.tabBar.items?[2] {
+                if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
                     let tabBarItemImage = UIImage(base64String: user.profilePicture)?
                         .resize(targetSize: CGSize.init(width: 24, height: 24))?
                         .roundedImage?
@@ -222,9 +222,7 @@ extension FeedViewController: UITableViewDataSource {
     }
 }
 
-extension FeedViewController: UITableViewDelegate {
-
-}
+extension FeedViewController: UITableViewDelegate {}
 
 extension FeedViewController {
     @objc func createButtonTapped(sender: UIButton!) {
