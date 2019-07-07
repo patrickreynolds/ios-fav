@@ -341,14 +341,16 @@ class ProfileViewController: FaveVC {
     }
 
     func recommendItemButtonTapped() {
-        print("\n\nRecommend Item Button Tapped\n\n")
+        print("\n\nAdd Item Button Tapped\n\n")
 
-        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, creationType: .recommendation)
-        let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
+        let createRecommendationViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph)
+        let createRecommendationNavigationViewController = UINavigationController(rootViewController: createRecommendationViewController)
 
-        createItemViewController.delegate = self
+        createRecommendationViewController.delegate = self
 
-        present(createItemNavigationViewController, animated: true, completion: nil)
+        createRecommendationViewController.modalPresentationStyle = .overFullScreen
+
+        present(createRecommendationNavigationViewController, animated: true, completion: nil)
     }
 }
 
@@ -416,5 +418,13 @@ extension ProfileViewController: EditProfileViewControllerDelegate {
             tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
             tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         }
+    }
+}
+
+extension ProfileViewController: CreateRecommendationViewControllerDelegate {
+    func didSendRecommendations(selectedUsers: [User]) {
+        let titleString = selectedUsers.count == 1 ? "Recommendation sent!" : "Recommendations sent!"
+
+        self.showToast(title: titleString)
     }
 }

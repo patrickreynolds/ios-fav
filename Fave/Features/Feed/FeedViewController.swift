@@ -283,12 +283,14 @@ extension FeedViewController {
     func recommendItemButtonTapped() {
         print("\n\nAdd Item Button Tapped\n\n")
 
-        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, creationType: .recommendation)
-        let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
+        let createRecommendationViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph)
+        let createRecommendationNavigationViewController = UINavigationController(rootViewController: createRecommendationViewController)
 
-        createItemViewController.delegate = self
+        createRecommendationViewController.delegate = self
 
-        present(createItemNavigationViewController, animated: true, completion: nil)
+        createRecommendationViewController.modalPresentationStyle = .overFullScreen
+
+        present(createRecommendationNavigationViewController, animated: true, completion: nil)
     }
 }
 
@@ -344,5 +346,13 @@ extension FeedViewController: FeedEventTableViewCellDelegate {
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
+    }
+}
+
+extension FeedViewController: CreateRecommendationViewControllerDelegate {
+    func didSendRecommendations(selectedUsers: [User]) {
+        let titleString = selectedUsers.count == 1 ? "Recommendation sent!" : "Recommendations sent!"
+
+        self.showToast(title: titleString)
     }
 }

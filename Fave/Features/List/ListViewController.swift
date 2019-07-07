@@ -325,12 +325,16 @@ extension ListViewController {
     }
 
     @objc func recommendItemButtonTapped(sender: UIButton!) {
-        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, defaultList: list, creationType: .recommendation)
-        let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
+        print("\n\nAdd Item Button Tapped\n\n")
 
-        createItemViewController.delegate = self
+        let createRecommendationViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph)
+        let createRecommendationNavigationViewController = UINavigationController(rootViewController: createRecommendationViewController)
 
-        present(createItemNavigationViewController, animated: true, completion: nil)
+        createRecommendationViewController.delegate = self
+
+        createRecommendationViewController.modalPresentationStyle = .overFullScreen
+
+        present(createRecommendationNavigationViewController, animated: true, completion: nil)
     }
 
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
@@ -745,6 +749,12 @@ extension ListViewController: UIGestureRecognizerDelegate {
 
 }
 
-extension ListViewController: ShareItemViewControllerDelegate {
+extension ListViewController: ShareItemViewControllerDelegate {}
 
+extension ListViewController: CreateRecommendationViewControllerDelegate {
+    func didSendRecommendations(selectedUsers: [User]) {
+        let titleString = selectedUsers.count == 1 ? "Recommendation sent!" : "Recommendations sent!"
+
+        self.showToast(title: titleString)
+    }
 }

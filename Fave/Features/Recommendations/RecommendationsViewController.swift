@@ -577,14 +577,14 @@ extension RecommendationsViewController {
     func recommendItemButtonTapped() {
         print("\n\nAdd Item Button Tapped\n\n")
 
-        let createItemViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph)
-        let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
+        let createRecommendationViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph)
+        let createRecommendationNavigationViewController = UINavigationController(rootViewController: createRecommendationViewController)
 
-        createItemViewController.delegate = self
+        createRecommendationViewController.delegate = self
 
-        createItemViewController.modalPresentationStyle = .overFullScreen
+        createRecommendationViewController.modalPresentationStyle = .overFullScreen
 
-        present(createItemNavigationViewController, animated: true, completion: nil)
+        present(createRecommendationNavigationViewController, animated: true, completion: nil)
     }
 }
 

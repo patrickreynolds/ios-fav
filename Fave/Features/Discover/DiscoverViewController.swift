@@ -390,12 +390,16 @@ extension DiscoverViewController {
     }
 
     func recommendItemButtonTapped() {
-        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, creationType: .recommendation)
-        let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
+        print("\n\nAdd Item Button Tapped\n\n")
 
-        createItemViewController.delegate = self
+        let createRecommendationViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph)
+        let createRecommendationNavigationViewController = UINavigationController(rootViewController: createRecommendationViewController)
 
-        present(createItemNavigationViewController, animated: true, completion: nil)
+        createRecommendationViewController.delegate = self
+
+        createRecommendationViewController.modalPresentationStyle = .overFullScreen
+
+        present(createRecommendationNavigationViewController, animated: true, completion: nil)
     }
 }
 
@@ -575,3 +579,10 @@ extension DiscoverViewController: DiscoverUserListTableViewCellDelegate {
     }
 }
 
+extension DiscoverViewController: CreateRecommendationViewControllerDelegate {
+    func didSendRecommendations(selectedUsers: [User]) {
+        let titleString = selectedUsers.count == 1 ? "Recommendation sent!" : "Recommendations sent!"
+
+        self.showToast(title: titleString)
+    }
+}
