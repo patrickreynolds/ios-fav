@@ -17,7 +17,7 @@ protocol FaveServiceType {
     func getListItem(userId: Int, listId: Int, itemId: Int, completion: @escaping (_ item: Item?, _ error: Error?) -> ())
     func getListItems(userId: Int, listId: Int, completion: @escaping (_ items: [Item]?, _ error: Error?) -> ())
     func deleteListItem(itemId: Int, completion: @escaping (_ item: Int?, _ error: Error?) -> ())
-    func updateListItem(listId: Int, isRecommendation: Bool, completion: @escaping (_ item: Item?, _ error: Error?) -> ())
+    func updateListItem(itemId: Int, listId: Int, isRecommendation: Bool, completion: @escaping (_ item: Item?, _ error: Error?) -> ())
     func getFeed(from: Int, to: Int, completion: @escaping (_ events: [FeedEvent]?, _ error: Error?) -> ())
     func suggestions(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
     func topLists(completion: @escaping (_ lists: [TopList]?, _ error: Error?) -> ())

@@ -299,8 +299,8 @@ extension FeedViewController: CreateListViewControllerDelegate {
 }
 
 extension FeedViewController: CreateItemViewControllerDelegate {
-    func didCreateItem() {
-
+    func didCreateItem(item: Item) {
+        self.showToast(title: "Created \(item.contextualItem.name)")
     }
 }
 

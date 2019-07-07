@@ -395,7 +395,8 @@ extension ListViewController: CreateListViewControllerDelegate {
 }
 
 extension ListViewController: CreateItemViewControllerDelegate {
-    func didCreateItem() {
+    func didCreateItem(item: Item) {
+        showToast(title: "Created \(item.contextualItem.name)")
         refreshData()
     }
 }
@@ -527,7 +528,15 @@ extension ListViewController: EntryTableViewCellDelegate {
         let selectListViewController = SelectListViewController(dependencyGraph: dependencyGraph)
         let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
 
-        selectListViewController.delegate = self
+        selectListViewController.didSelectList = { list in
+            self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: list.id, isRecommendation: false) { item, error in
+                guard let _ = item else {
+                    return
+                }
+
+                self.refreshData()
+            }
+        }
 
         present(selectListNavigationController, animated: true)
     }
@@ -537,7 +546,6 @@ extension ListViewController: EntryTableViewCellDelegate {
     }
 
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool) {
-        print("\nFave Item Button Tapped\n")
 
         guard let user = dependencyGraph.storage.getUser() else {
             return
@@ -718,7 +726,6 @@ extension ListViewController: EntryTableViewCellDelegate {
         let navigationController = UINavigationController.init(rootViewController: shareViewController)
 
         present(navigationController, animated: true, completion: nil)
-
     }
 
     func selectListToFaveTo(canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
@@ -740,17 +747,4 @@ extension ListViewController: UIGestureRecognizerDelegate {
 
 extension ListViewController: ShareItemViewControllerDelegate {
 
-}
-
-extension ListViewController: SelectListViewControllerDelegate {
-    func didSelectList(list: List) {
-
-        dependencyGraph.faveService.updateListItem(listId: list.id, isRecommendation: false) { item, error in
-            guard let _ = item else {
-                return
-            }
-
-            self.refreshData()
-        }
-    }
 }

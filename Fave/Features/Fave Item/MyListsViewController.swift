@@ -163,9 +163,7 @@ class MyListsViewController: FaveVC {
                 return
             }
 
-            self.lists = unwrappedLists.filter({ (list) -> Bool in
-                return list.title.lowercased() != "recommendations"
-            })
+            self.lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
 
             completion()
         }

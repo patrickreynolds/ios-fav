@@ -88,6 +88,8 @@ struct FaveGraphQLService {
 
             let faveLists = listData.map({ List(data: $0)}).compactMap({ $0 })
 
+            let filteredLists = faveLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
+
             completion(faveLists, error)
         }
     }
@@ -189,9 +191,9 @@ struct FaveGraphQLService {
         }
     }
 
-    func updateListItem(listId: Int, isRecommendation: Bool, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
+    func updateListItem(itemId: Int, listId: Int, isRecommendation: Bool, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
 
-        let updateListItemMutation = GraphQLQueryBuilder.updateItemMutation(listId: listId, isRecommendation: isRecommendation)
+        let updateListItemMutation = GraphQLQueryBuilder.updateItemMutation(itemId: itemId, listId: listId, isRecommendation: isRecommendation)
 
         networking.sendGraphqlRequest(query: updateListItemMutation) { response, error in
             guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["deleteItem"] as? [String: AnyObject] else {

@@ -406,8 +406,8 @@ extension DiscoverViewController: CreateListViewControllerDelegate {
 }
 
 extension DiscoverViewController: CreateItemViewControllerDelegate {
-    func didCreateItem() {
-
+    func didCreateItem(item: Item) {
+        self.showToast(title: "Created \(item.contextualItem.name)")
     }
 }
 

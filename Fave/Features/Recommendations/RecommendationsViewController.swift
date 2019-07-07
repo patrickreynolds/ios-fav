@@ -31,7 +31,7 @@ class RecommendationsViewController: FaveVC {
     private var items: [Item] = [] {
         didSet {
             // $0.listTitle.lowercased() == "recommendations"
-            self.recommendations = [] // items.filter({ $0.isRecommendation })
+            self.recommendations = items.filter({ $0.isRecommendation })
         }
     }
 
@@ -82,13 +82,13 @@ class RecommendationsViewController: FaveVC {
     private lazy var noRecommendationsView: UIView = {
         let view = UIView.init(frame: .zero)
 
-        let titleLabel = Label(text: "No recommendations yet",
+        let titleLabel = Label(text: "No recommendations",
                           font: FaveFont(style: .h4, weight: .bold) ,
                           textColor: FaveColors.Black90,
                           textAlignment: .center,
                           numberOfLines: 1)
 
-        let subtitleLabel = Label(text: "When someone sends you a recommendation, you'll see them here.",
+        let subtitleLabel = Label(text: "You don't have any recommendations at the moment. We'll make sure you see them here when you do.",
                           font: FaveFont(style: .h5, weight: .regular) ,
                           textColor: FaveColors.Black70,
                           textAlignment: .center,
@@ -205,6 +205,12 @@ class RecommendationsViewController: FaveVC {
         let recommendationIds = recommendations.map { $0.id }
         let listIds = recommendations.map { $0.listId }
 
+        guard !recommendationIds.isEmpty else {
+            completion()
+
+            return
+        }
+
         listIds.enumerated().forEach { (index: Int, id: Int) in
             dependencyGraph.faveService.getList(userId: user.id, listId: id, completion: { list, error in
                 responses += 1
@@ -220,6 +226,17 @@ class RecommendationsViewController: FaveVC {
                 }
             })
         }
+    }
+
+    private func showSuccess(title: String) {
+        showToast(title: title)
+    }
+
+    private func selectListToFaveTo(canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
+        let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, canceledSelection: canceledSelection, didSelectList: didSelectList)
+        myListsViewController.modalPresentationStyle = .overCurrentContext
+
+        present(myListsViewController, animated: false, completion: nil)
     }
 }
 
@@ -266,27 +283,238 @@ extension RecommendationsViewController: UITableViewDataSource {
 
         return cell
     }
+
+    func updateSaved(userId: Int) {
+        dependencyGraph.faveService.myItems() { response, error in
+            guard let items = response else {
+                return
+            }
+
+            self.listOfCurrentItems = items
+        }
+    }
+
+    private func handleItemTapped(item: Item) {
+        guard let list = listsForRecommendations[item.id] else {
+            return
+        }
+
+        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
+
+        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        itemViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(itemViewController, animated: true)
+    }
 }
 
 extension RecommendationsViewController: EntryTableViewCellDelegate {
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool) {
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
+        }
 
+        let weShouldFave = !from
+
+        if weShouldFave {
+            // fave the item
+            // update faves endpoint
+            // reload table
+
+            selectListToFaveTo(canceledSelection: {
+                self.updateSaved(userId: user.id)
+            }) { selectedList in
+                self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+
+                    self.updateSaved(userId: user.id)
+
+
+                    guard let _ = response else {
+                        return
+                    }
+                }
+            }
+        } else {
+            dependencyGraph.faveService.removeFave(userId: user.id, itemId: item.dataId) { success, error in
+
+                self.updateSaved(userId: user.id)
+
+                if let _ = error {
+                    // TODO: Handle error
+
+                    return
+                }
+
+                if success {
+                    // Success placeholder
+                } else {
+                    let alertController = UIAlertController(title: "Oops!", message: "Something went wrong. Try unfaving again.", preferredStyle: .alert)
+
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style {
+                        case .default, .cancel, .destructive:
+                            alertController.dismiss(animated: true, completion: nil)
+                        }}))
+
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            }
+        }
     }
 
     func shareItemButtonTapped(item: Item) {
+        print("\nShare Item Button Tapped\n")
 
+        guard let user = dependencyGraph.storage.getUser() else {
+            return
+        }
+
+        guard let list = listsForRecommendations[item.id], let contextualItem = item.contextualItem as? GoogleItemType, let url = NSURL(string: "https://www.fave.com/lists/\(list.id)/item/\(item.id)") else {
+            return
+        }
+
+        // Show the share sheet
+        // Pass handlers for each of the actions
+
+        let addToListHandler: (() -> ()) = {
+            self.dismiss(animated: true, completion: {
+                let myListsViewController = MyListsViewController(dependencyGraph: self.dependencyGraph, canceledSelection: {
+                    self.dismiss(animated: true, completion: nil)
+                }, didSelectList: { selectedList in
+                    self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+
+                        self.updateSaved(userId: user.id)
+
+
+                        guard let _ = response else {
+                            return
+                        }
+
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                })
+
+                myListsViewController.modalPresentationStyle = .overCurrentContext
+
+                self.present(myListsViewController, animated: false, completion: nil)
+            })
+        }
+
+        let copyLinkActionHandler: (() -> ()) = {
+            self.dismiss(animated: true, completion: {
+                print("\n\n Show copied link toast \n\n")
+
+                self.showSuccess(title: "Copied link to clipboard")
+            })
+        }
+
+        let shareActionHandler: (() -> ()) = {
+            self.dismiss(animated: true, completion: {
+                let title = contextualItem.name
+                let itemsToShare: [Any] = [title, url]
+
+                let activityViewController = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+                activityViewController.popoverPresentationController?.sourceView = self.view
+
+                self.present(activityViewController, animated: true, completion: nil)
+            })
+        }
+
+        let sendRecommendationHandler: ((_ selectedUser: User, _ item: Item) -> ()) = { selectedUser, item in
+            guard let currentUser = self.dependencyGraph.storage.getUser() else {
+                return
+            }
+
+            self.dependencyGraph.faveService.getLists(userId: selectedUser.id) { lists, error in
+                guard let lists = lists else {
+                    return
+                }
+
+                guard let recommendationsList = lists.filter({ list in
+                    return list.title.lowercased() == "recommendations"
+                }).first else {
+                    return
+                }
+
+                guard let googleItem = item.contextualItem as? GoogleItemType else {
+                    return
+                }
+
+                self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationsList.id, type: item.type, placeId: googleItem.placeId, note: "") { item, error in
+
+                    guard let _ = item else {
+                        let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
+
+                        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                            switch action.style {
+                            case .default, .cancel, .destructive:
+                                alertController.dismiss(animated: true, completion: nil)
+                            }}))
+
+                        self.present(alertController, animated: true, completion: nil)
+
+                        return
+                    }
+
+                    self.dismiss(animated: true, completion: {
+                        // show sent recommendation toast
+
+                        print("\n\n Show recommendation sent toast \n\n")
+
+                        self.showSuccess(title: "Recommendation sent!")
+                    })
+                }
+            }
+        }
+
+        let shareViewController = ShareItemViewController(dependencyGraph: dependencyGraph, user: user, item: item)
+
+        shareViewController.delegate = self
+
+        shareViewController.shareActionHandler = shareActionHandler
+        shareViewController.copyLinkActionHandler = copyLinkActionHandler
+        shareViewController.addToListHandler = addToListHandler
+        shareViewController.sendRecommendationHandler = sendRecommendationHandler
+
+        let navigationController = UINavigationController.init(rootViewController: shareViewController)
+
+        present(navigationController, animated: true, completion: nil)
     }
 
     func googlePhotoTapped(item: Item) {
-
+        handleItemTapped(item: item)
     }
 
     func dismissButtonTapped(item: Item) {
+        dependencyGraph.faveService.deleteListItem(itemId: item.id) { itemId, error in
+            guard let itemId = itemId else {
+                return
+            }
 
+            print("\(itemId)")
+
+            self.refreshData()
+        }
     }
 
     func addToListButtonTapped(item: Item) {
+        // prompt lists
+        // upon selection, post update to isRecommendation = false
 
+        let selectListViewController = SelectListViewController(dependencyGraph: dependencyGraph)
+        let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
+
+        selectListViewController.didSelectList = { (list: List) in
+            self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: list.id, isRecommendation: false) { item, error in
+                guard let _ = item else {
+                    return
+                }
+
+                self.refreshData()
+            }
+        }
+
+        present(selectListNavigationController, animated: true)
     }
 }
 
@@ -349,12 +577,22 @@ extension RecommendationsViewController {
     func recommendItemButtonTapped() {
         print("\n\nAdd Item Button Tapped\n\n")
 
-        let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, creationType: .recommendation)
+        let createItemViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph)
         let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
 
         createItemViewController.delegate = self
 
+        createItemViewController.modalPresentationStyle = .overFullScreen
+
         present(createItemNavigationViewController, animated: true, completion: nil)
+    }
+}
+
+extension RecommendationsViewController: CreateRecommendationViewControllerDelegate {
+    func didSendRecommendations(selectedUsers: [User]) {
+        let titleString = selectedUsers.count == 1 ? "Recommendation sent!" : "Recommendations sent!"
+
+        self.showToast(title: titleString)
     }
 }
 
@@ -365,7 +603,9 @@ extension RecommendationsViewController: CreateListViewControllerDelegate {
 }
 
 extension RecommendationsViewController: CreateItemViewControllerDelegate {
-    func didCreateItem() {
-
+    func didCreateItem(item: Item) {
+        self.showToast(title: "Created \(item.contextualItem.name)")
     }
 }
+
+extension RecommendationsViewController: ShareItemViewControllerDelegate {}

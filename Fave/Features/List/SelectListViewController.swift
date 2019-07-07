@@ -2,11 +2,9 @@ import UIKit
 
 import Cartography
 
-protocol SelectListViewControllerDelegate {
-    func didSelectList(list: List)
-}
-
 class SelectListViewController: FaveVC {
+
+    var didSelectList: ((_ list: List) -> ())?
 
     var lists = [List]() {
         didSet {
@@ -26,7 +24,6 @@ class SelectListViewController: FaveVC {
             }
         }
     }
-    var delegate: SelectListViewControllerDelegate?
 
     var isLoading: Bool = false {
         didSet {
@@ -154,7 +151,7 @@ class SelectListViewController: FaveVC {
                 return
             }
 
-            self.lists = unwrappedLists
+            self.lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
         }
     }
 
@@ -184,7 +181,7 @@ extension SelectListViewController: UITableViewDelegate {
 
         let list = lists[indexPath.row]
 
-        delegate?.didSelectList(list: list)
+        didSelectList?(list)
 
         dismiss(animated: true, completion: nil)
     }
@@ -207,6 +204,6 @@ extension SelectListViewController: UITableViewDataSource {
 
 extension SelectListViewController: CreateListViewControllerDelegate {
     func didCreateList(list: List) {
-        delegate?.didSelectList(list: list)
+        didSelectList?(list)
     }
 }

@@ -168,10 +168,12 @@ struct GraphQLQueryBuilder {
         """
     }
 
-    static func updateItemMutation(listId: Int, isRecommendation: Bool) -> String {
+    static func updateItemMutation(itemId: Int, listId: Int, isRecommendation: Bool, note: String = "") -> String {
+        // isRecommendation: \(isRecommendation),
+
         return """
             mutation {
-                updateItem(listId: \(listId), isRecommendation: \(isRecommendation) { \(itemString()) }
+                updateItem(itemId: \(itemId), listId: \(listId), input: { note: "\(note)", isRecommendation: \(isRecommendation) }) { \(itemString()) }
             }
         """
     }

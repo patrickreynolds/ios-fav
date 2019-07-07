@@ -53,7 +53,7 @@ class FeedEventTableViewCell: UITableViewCell {
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
-                               numberOfLines: 2)
+                               numberOfLines: 0)
 
         return label
     }()
@@ -63,7 +63,7 @@ class FeedEventTableViewCell: UITableViewCell {
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
-                               numberOfLines: 2)
+                               numberOfLines: 0)
 
         return label
     }()

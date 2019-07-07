@@ -389,7 +389,8 @@ extension ProfileViewController: CreateListViewControllerDelegate {
 }
 
 extension ProfileViewController: CreateItemViewControllerDelegate {
-    func didCreateItem() {
+    func didCreateItem(item: Item) {
+        showToast(title: "Created \(item.contextualItem.name)")
         refreshData()
     }
 }

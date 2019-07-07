@@ -41,6 +41,8 @@
 		4369CF49225982F900FCA156 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF48225982F900FCA156 /* ItemViewController.swift */; };
 		4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4A2259884C00FCA156 /* ItemTableHeaderView.swift */; };
 		4369CF4D22598C1400FCA156 /* ItemInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4C22598C1400FCA156 /* ItemInfoTableViewCell.swift */; };
+		4372896A22D1393100B72549 /* CreateRecommendationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4372896922D1393100B72549 /* CreateRecommendationViewController.swift */; };
+		4372896C22D13CDF00B72549 /* SelectUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4372896B22D13CDF00B72549 /* SelectUserViewController.swift */; };
 		4376A9EB225A509400741F92 /* ItemMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EA225A509400741F92 /* ItemMapTableViewCell.swift */; };
 		4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */; };
 		4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */; };
@@ -161,6 +163,8 @@
 		4369CF48225982F900FCA156 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		4369CF4A2259884C00FCA156 /* ItemTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableHeaderView.swift; sourceTree = "<group>"; };
 		4369CF4C22598C1400FCA156 /* ItemInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInfoTableViewCell.swift; sourceTree = "<group>"; };
+		4372896922D1393100B72549 /* CreateRecommendationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecommendationViewController.swift; sourceTree = "<group>"; };
+		4372896B22D13CDF00B72549 /* SelectUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUserViewController.swift; sourceTree = "<group>"; };
 		4376A9EA225A509400741F92 /* ItemMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemMapTableViewCell.swift; sourceTree = "<group>"; };
 		4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPhotosTableViewCell.swift; sourceTree = "<group>"; };
 		4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSuggestionsTableViewCell.swift; sourceTree = "<group>"; };
@@ -554,6 +558,8 @@
 			isa = PBXGroup;
 			children = (
 				43D63C1422D0275F006486FE /* RecommendationsViewController.swift */,
+				4372896922D1393100B72549 /* CreateRecommendationViewController.swift */,
+				4372896B22D13CDF00B72549 /* SelectUserViewController.swift */,
 			);
 			path = Recommendations;
 			sourceTree = "<group>";
@@ -866,6 +872,7 @@
 				4369CF4522583E7300FCA156 /* Haptic.swift in Sources */,
 				43A69B2E2254FDC100DA2BA1 /* ContextualItems.swift in Sources */,
 				43AFB451223EE6D100B243E1 /* EditProfileViewController.swift in Sources */,
+				4372896C22D13CDF00B72549 /* SelectUserViewController.swift in Sources */,
 				43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */,
 				43B26BB7223A065600CA2549 /* DiscoverViewController.swift in Sources */,
 				4305F37722400A3500F6DE77 /* ListTableViewCell.swift in Sources */,
@@ -876,6 +883,7 @@
 				438534F2223338E700B99EC7 /* FaveColors.swift in Sources */,
 				433E4F8D22AF47C800B0A531 /* ShareItemActionView.swift in Sources */,
 				4386BFE022334760006A3ED7 /* LoggedOutViewController.swift in Sources */,
+				4372896A22D1393100B72549 /* CreateRecommendationViewController.swift in Sources */,
 				43AFB44A223DD00500B243E1 /* Storage.swift in Sources */,
 				430D8D30224DF1730082FCF2 /* Friend.swift in Sources */,
 				439FDDE22245D2DE00ED9343 /* EntryTableViewCell.swift in Sources */,
