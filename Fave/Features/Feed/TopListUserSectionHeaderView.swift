@@ -3,12 +3,14 @@ import UIKit
 import Cartography
 
 protocol TopListUserSectionHeaderViewDelegate {
-    func didSelectTopListUserHeader()
+    func didSelectTopListUserHeader(user: User)
 }
 
 class TopListUserSectionHeaderView: UIView {
 
     var delegate: TopListUserSectionHeaderViewDelegate?
+
+    var owner: User?
 
     let profileImageView: UIImageView = {
         let imageView = UIImageView.init(frame: .zero)
@@ -48,7 +50,9 @@ class TopListUserSectionHeaderView: UIView {
         return label
     }()
 
-    init(name: String, owner: String) {
+    init(list: List) {
+        self.owner = list.owner
+
         super.init(frame: CGRect.zero)
 
         addSubview(profileImageView)
@@ -76,13 +80,16 @@ class TopListUserSectionHeaderView: UIView {
             ownerLabel.bottom == view.bottom - 12
         }
 
-//        profileImageView.image = UIImage(base64String: user.profilePicture)
-        titleLabel.text = name
-        ownerLabel.text = "by \(owner)"
+        profileImageView.image = UIImage(base64String: list.owner.profilePicture)
+        titleLabel.text = list.title
+        ownerLabel.text = "by \(list.owner.handle)"
 
         isUserInteractionEnabled = true
+
         _ = tapped { tapped in
-            self.delegate?.didSelectTopListUserHeader()
+            if let owner = self.owner {
+                self.delegate?.didSelectTopListUserHeader(user: owner)
+            }
         }
     }
 

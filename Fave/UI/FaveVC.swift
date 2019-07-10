@@ -90,7 +90,20 @@ extension FaveVC: Authenticateable {
 
 extension FaveVC: LoggedOutViewControllerDelegate {
     func didSkipAuthentication(viewController: LoggedOutViewController) {
-        viewController.dismiss(animated: true, completion: nil)
+        viewController.dismiss(animated: true, completion: {
+
+            let tabBC: UITabBarController? = self.presentingViewController as? UITabBarController ?? nil
+
+            if let tabBarController = tabBC {
+                tabBarController.selectedIndex = 0
+            }
+
+            if let _ = self.presentingViewController as? ProfileViewController {
+                if let tabBarController = tabBC {
+                    tabBarController.selectedIndex = 3
+                }
+            }
+        })
     }
 
     @objc func didSuccessfullyAuthenticate(viewController: LoggedOutViewController) {

@@ -7,7 +7,7 @@ class FeedViewController: FaveVC {
     var user: User?
     var lastPage: Int = 1
 
-    var topLists: [TopList] = [] {
+    var topLists: [List] = [] {
         didSet {
             welcomeView.update(withTopLists: topLists, dependencyGraph: self.dependencyGraph)
         }
@@ -51,6 +51,8 @@ class FeedViewController: FaveVC {
 
     private lazy var welcomeView: FaveLoggedOutWelcomeView = {
         let view = FaveLoggedOutWelcomeView()
+
+        view.delegate = self
 
         return view
     }()
@@ -306,22 +308,6 @@ extension FeedViewController: CreateItemViewControllerDelegate {
     }
 }
 
-extension FeedViewController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if dependencyGraph.authenticator.isLoggedIn() {
-            return true
-        }
-
-        if viewController == tabBarController.viewControllers?[2] {
-            login()
-
-            return false
-        } else {
-            return true
-        }
-    }
-}
-
 extension FeedViewController: FeedEventTableViewCellDelegate {
     func userProfileSelected(user: User) {
         // segue to user
@@ -354,5 +340,32 @@ extension FeedViewController: CreateRecommendationViewControllerDelegate {
         let titleString = selectedUsers.count == 1 ? "Recommendation sent!" : "Recommendations sent!"
 
         self.showToast(title: titleString)
+    }
+}
+
+extension FeedViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if dependencyGraph.authenticator.isLoggedIn() {
+            return true
+        }
+
+        if viewController == tabBarController.viewControllers?[2] || viewController == tabBarController.viewControllers?[3] {
+            login()
+
+            return false
+        } else {
+            return true
+        }
+    }
+}
+
+extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
+    func didSelectUser(user: User) {
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
+
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        profileViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(profileViewController, animated: true)
     }
 }

@@ -2,11 +2,17 @@ import UIKit
 
 import Cartography
 
+protocol FaveLoggedOutWelcomeViewDelegate {
+    func didSelectUser(user: User)
+}
+
 class FaveLoggedOutWelcomeView: UIView {
 
     private var dependencyGraph: DependencyGraphType?
 
-    private var topLists: [TopList] = [] {
+    var delegate: FaveLoggedOutWelcomeViewDelegate?
+
+    private var topLists: [List] = [] {
         didSet {
             collectionView.reloadData()
         }
@@ -100,7 +106,7 @@ class FaveLoggedOutWelcomeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func update(withTopLists lists: [TopList], dependencyGraph: DependencyGraphType) {
+    func update(withTopLists lists: [List], dependencyGraph: DependencyGraphType) {
         self.topLists = lists
         self.dependencyGraph = dependencyGraph
     }
@@ -120,10 +126,16 @@ extension FaveLoggedOutWelcomeView: UICollectionViewDataSource {
             cell.populate(topList: list, dependencyGraph: dependencyGraph)
         }
 
+        cell.delegate = self
+
         return cell
     }
 }
 
-extension FaveLoggedOutWelcomeView: UICollectionViewDelegate {
+extension FaveLoggedOutWelcomeView: UICollectionViewDelegate {}
 
+extension FaveLoggedOutWelcomeView: TopListCollectionViewCellDelegate {
+    func didSelectUser(user: User) {
+        delegate?.didSelectUser(user: user)
+    }
 }

@@ -84,9 +84,9 @@ class TopListItemTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(item: TopListItem) {
+    func populate(item: Item) {
 //        if let contextualItem = item.contextualItem as? GoogleItemType {
-            titleLabel.text = item.name
+            titleLabel.text = item.contextualItem.name
 //        }
 
 //        let followerString = list.numberOfFollowers == 1 ? "\(list.numberOfFollowers) follower" : "\(list.numberOfFollowers) followers"

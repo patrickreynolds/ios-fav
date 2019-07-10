@@ -285,4 +285,14 @@ struct GraphQLQueryBuilder {
             }
         """
     }
+
+    static func getTopLists() -> String {
+        return """
+            query {
+                topTenLists {
+                    \(listString(owner: true, followers: false, items: true))
+                }
+            }
+        """
+    }
 }

@@ -2,17 +2,23 @@ import UIKit
 
 import Cartography
 
+protocol TopListCollectionViewCellDelegate {
+    func didSelectUser(user: User)
+}
+
 class TopListCollectionViewCell: UICollectionViewCell {
 
     private var dependencyGraph: DependencyGraphType?
 
-    private var topList: TopList? {
+    var delegate: TopListCollectionViewCellDelegate?
+
+    private var topList: List? {
         didSet {
             topListsTableView.reloadData()
 
             var title = ""
             if let topList = topList {
-                title = "See all in \(topList.name)"
+                title = "See all in \(topList.title)"
             }
 
             let attributedTitle = NSAttributedString(string: title,
@@ -55,7 +61,7 @@ class TopListCollectionViewCell: UICollectionViewCell {
 
         var title = ""
         if let topList = topList {
-            title = "See all in \(topList.name)"
+            title = "See all in \(topList.title)"
         }
 
         let attributedTitle = NSAttributedString(string: title,
@@ -102,7 +108,7 @@ class TopListCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(topList: TopList, dependencyGraph: DependencyGraphType) {
+    func populate(topList: List, dependencyGraph: DependencyGraphType) {
         self.dependencyGraph = dependencyGraph
         self.topList = topList
     }
@@ -137,7 +143,7 @@ extension TopListCollectionViewCell: UITableViewDataSource {
             return UIView()
         }
 
-        let header = TopListUserSectionHeaderView(name: topList.name, owner: topList.owner)
+        let header = TopListUserSectionHeaderView(list: topList)
 
         header.delegate = self
 
@@ -145,12 +151,18 @@ extension TopListCollectionViewCell: UITableViewDataSource {
     }
 }
 
-extension TopListCollectionViewCell: UITableViewDelegate {
-
-}
+extension TopListCollectionViewCell: UITableViewDelegate {}
 
 extension TopListCollectionViewCell: TopListUserSectionHeaderViewDelegate {
-    func didSelectTopListUserHeader() {
+    func didSelectTopListUserHeader(user: User) {
         print("\n Did Select Top List User Header \n")
+
+        delegate?.didSelectUser(user: user)
     }
+
+//    func didSelectItem(item: Item) {
+//
+//        delegate?.didSelectItem(item: item)
+//
+//    }
 }

@@ -244,7 +244,21 @@ struct FaveGraphQLService {
     /*
      TODO: Skipping for now
      */
-    func topLists(completion: @escaping (_ lists: [TopList]?, _ error: Error?) -> ()) {
+    func topLists(completion: @escaping (_ lists: [List]?, _ error: Error?) -> ()) {
+
+        let topListsQuery = GraphQLQueryBuilder.getTopLists()
+
+        networking.sendGraphqlRequest(query: topListsQuery) { response, error in
+            guard let listResponse = response, let listData = listResponse["topTenLists"] as? [[String: AnyObject]] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let lists = listData.map({ List(data: $0 )}).compactMap { $0 }
+
+            completion(lists, error)
+        }
 
         let list1Item1 = TopListItem.init(name: "Marufuku", type: "Ramen restaurnat")
         let list1Item2 = TopListItem.init(name: "Ippudo", type: "Ramen")
@@ -264,9 +278,9 @@ struct FaveGraphQLService {
 
         let topLists = [list1, list2, list3]
 
-        delay(3.0) {
-            completion(topLists, nil)
-        }
+//        delay(3.0) {
+//            completion(topLists, nil)
+//        }
     }
 
     func getUsers(completion: @escaping (_ lists: [User]?, _ error: Error?) -> ()) {
