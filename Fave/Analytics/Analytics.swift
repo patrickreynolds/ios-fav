@@ -12,8 +12,20 @@ struct Analytics {
     func logEvent(dependencyGraph: DependencyGraphType, title: String, info: [String: AnyObject]? = nil, level: AnalyticsLogLevel = .Debug) {
         print("\(title) – \(info?.description ?? "no info") – \(level.rawValue)")
 
-        let event = AnalyticsEvent.init(deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "", eventName: title)
+        var userId = ""
 
-        dependencyGraph.analyticsService.logEvent(event: event)
+        if let userIdInt = dependencyGraph.storage.getUser()?.id {
+            userId = "\(userIdInt)"
+        }
+
+        let event = AnalyticsEvent.init(deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "", eventName: title, userId: userId)
+
+        dependencyGraph.analyticsService.logEvent(event: event) { success, error in
+            guard let success = success else {
+                return
+            }
+
+            print(success ? "\nEvent logged: \(event.eventName)\n" : "\nEvent log failed: \(event.eventName)\n")
+        }
     }
 }

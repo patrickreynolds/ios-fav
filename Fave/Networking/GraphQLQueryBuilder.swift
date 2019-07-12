@@ -295,4 +295,26 @@ struct GraphQLQueryBuilder {
             }
         """
     }
+
+    static func eventMutation(event: AnalyticsEvent) -> String {
+        var userId: Int?
+
+        if let eventUserId = event.userId, let userIdInt = Int(eventUserId) {
+            userId = userIdInt
+        }
+
+        if let userId = userId {
+            return """
+                mutation {
+                    status: logEvent(userId: \(userId), type: "\(event.eventName)", data: {deviceId: "\(event.deviceId)"})
+                }
+            """
+        } else {
+            return """
+                mutation {
+                    status: logEvent(type: "\(event.eventName)", data: {deviceId: "\(event.deviceId)"})
+                }
+            """
+        }
+    }
 }
