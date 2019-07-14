@@ -170,8 +170,7 @@ class LoggedOutViewController: FaveVC {
             loginManager.logOut()
 //        }
 
-        // add .userFriends back in eventually
-        loginManager.logIn(permissions: [Permission.publicProfile, Permission.email], viewController: self) { loginResult in
+        loginManager.logIn(permissions: [Permission.publicProfile, Permission.email, Permission.userFriends], viewController: self) { loginResult in
             switch loginResult {
             case .failed(let error):
                 self.loginState = .loggedOut
