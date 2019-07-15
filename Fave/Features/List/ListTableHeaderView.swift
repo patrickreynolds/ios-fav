@@ -266,12 +266,12 @@ class ListTableHeaderView: UIView {
             listSegmentedControl.height == (list.title.lowercased() == "recommendations" ? 0 : 61) // 1 (top divider) + 56 (tab height) + 4 (bottom divider)
         }
 
-        constrain(borderView, relationshipStackView, self) { borderView, relationshipStackView, view in
+        constrain(borderView, relationshipStackView, listSegmentedControl, self) { borderView, relationshipStackView, listSegmentedControl, view in
             borderView.right == view.right
             borderView.bottom == view.bottom
             borderView.left == view.left
 
-            borderView.top == relationshipStackView.bottom + 12
+//            borderView.top == listSegmentedControl.top - 1
         }
 
         if list.title.lowercased() == "recommendations" {

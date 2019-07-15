@@ -444,6 +444,8 @@ class CreateItemViewController: FaveVC {
         dependencyGraph.faveService.createListItem(userId: user.id, listId: list.id, type: type, placeId: placeId, note: note) { item, error in
             self.isLoading = false
 
+            self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemCreatedLocation.rawValue)
+
             guard let item = item else {
                 let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
 

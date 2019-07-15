@@ -4,6 +4,8 @@ import Cartography
 
 protocol FaveLoggedOutWelcomeViewDelegate {
     func didSelectUser(user: User)
+    func didSelectList(list: List)
+    func didSelectItem(item: Item, list: List)
 }
 
 class FaveLoggedOutWelcomeView: UIView {
@@ -137,5 +139,13 @@ extension FaveLoggedOutWelcomeView: UICollectionViewDelegate {}
 extension FaveLoggedOutWelcomeView: TopListCollectionViewCellDelegate {
     func didSelectUser(user: User) {
         delegate?.didSelectUser(user: user)
+    }
+
+    func didSelectList(list: List) {
+        delegate?.didSelectList(list: list)
+    }
+
+    func didSelectItem(item: Item, list: List) {
+        delegate?.didSelectItem(item: item, list: list)
     }
 }

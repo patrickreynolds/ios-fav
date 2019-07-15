@@ -4,6 +4,8 @@ import Cartography
 
 protocol TopListCollectionViewCellDelegate {
     func didSelectUser(user: User)
+    func didSelectList(list: List)
+    func didSelectItem(item: Item, list: List)
 }
 
 class TopListCollectionViewCell: UICollectionViewCell {
@@ -22,7 +24,7 @@ class TopListCollectionViewCell: UICollectionViewCell {
             }
 
             let attributedTitle = NSAttributedString(string: title,
-                                                     font: FaveFont(style: .small, weight: .semiBold).font,
+                                                     font: FaveFont(style: .h5, weight: .semiBold).font,
                                                      textColor: FaveColors.Accent)
 
             seeAllItemsButton.setAttributedTitle(attributedTitle, for: .normal)
@@ -46,7 +48,6 @@ class TopListCollectionViewCell: UICollectionViewCell {
         tableView.isScrollEnabled = false
         tableView.separatorColor = UIColor.clear
         tableView.separatorStyle = .none
-        tableView.allowsSelection = false
 
         return tableView
     }()
@@ -65,9 +66,11 @@ class TopListCollectionViewCell: UICollectionViewCell {
         }
 
         let attributedTitle = NSAttributedString(string: title,
-                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
                                                  textColor: FaveColors.Accent)
         button.setAttributedTitle(attributedTitle, for: .normal)
+
+        button.addTarget(self, action: #selector(didTapListButton), for: .touchUpInside)
 
         return button
     }()
@@ -112,6 +115,12 @@ class TopListCollectionViewCell: UICollectionViewCell {
         self.dependencyGraph = dependencyGraph
         self.topList = topList
     }
+
+    @objc func didTapListButton(sender: UIButton!) {
+        if let topList = topList {
+            delegate?.didSelectList(list: topList)
+        }
+    }
 }
 
 extension TopListCollectionViewCell: UITableViewDataSource {
@@ -151,7 +160,15 @@ extension TopListCollectionViewCell: UITableViewDataSource {
     }
 }
 
-extension TopListCollectionViewCell: UITableViewDelegate {}
+extension TopListCollectionViewCell: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        if let list = topList {
+            delegate?.didSelectItem(item: list.items[indexPath.row], list: list)
+        }
+    }
+}
 
 extension TopListCollectionViewCell: TopListUserSectionHeaderViewDelegate {
     func didSelectTopListUserHeader(user: User) {
@@ -159,10 +176,4 @@ extension TopListCollectionViewCell: TopListUserSectionHeaderViewDelegate {
 
         delegate?.didSelectUser(user: user)
     }
-
-//    func didSelectItem(item: Item) {
-//
-//        delegate?.didSelectItem(item: item)
-//
-//    }
 }

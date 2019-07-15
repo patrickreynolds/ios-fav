@@ -7,7 +7,7 @@ class TopListItemTableViewCell: UITableViewCell {
                                font: FaveFont(style: .h5, weight: .semiBold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
-                               numberOfLines: 0)
+                               numberOfLines: 1)
 
         label.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
         label.contentHuggingPriority = .defaultLow
@@ -56,12 +56,14 @@ class TopListItemTableViewCell: UITableViewCell {
         constrain(titleLabel, contentView) { label, view in
             label.top == view.top + 12
             label.left == view.left + 16
+            label.right == view.right - 48
         }
 
         constrain(followerLabel, titleLabel, contentView) { label, titleLabel, view in
             label.left == titleLabel.left
             label.top == titleLabel.bottom
             label.bottom == view.bottom - 12
+            label.right == view.right - 48
         }
 
         constrain(navigationIndicatorImageView, titleLabel, contentView) { imageView, titleLabel, view in
@@ -90,6 +92,6 @@ class TopListItemTableViewCell: UITableViewCell {
 //        }
 
 //        let followerString = list.numberOfFollowers == 1 ? "\(list.numberOfFollowers) follower" : "\(list.numberOfFollowers) followers"
-        followerLabel.text = item.type
+        followerLabel.text = item.note
     }
 }

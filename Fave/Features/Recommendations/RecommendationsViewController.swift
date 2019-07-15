@@ -326,6 +326,8 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
             }) { selectedList in
                 self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
 
+                    self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemFaved.rawValue)
+
                     self.updateSaved(userId: user.id)
 
 
@@ -382,6 +384,8 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
                     self.dismiss(animated: true, completion: nil)
                 }, didSelectList: { selectedList in
                     self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+
+                        self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemFaved.rawValue)
 
                         self.updateSaved(userId: user.id)
 

@@ -129,7 +129,7 @@ class ItemViewController: FaveVC {
         view.backgroundColor = UIColor.white
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
-        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+//        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
         navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         view.addSubview(itemTableView)
@@ -357,6 +357,11 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
         print("\n Save Item Tapped \n")
 
         guard let user = dependencyGraph.storage.getUser() else {
+
+            login()
+
+            listOfCurrentItems = []
+
             return
         }
 
@@ -368,6 +373,8 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
                 self.updateSaved(userId: user.id)
             }) { selectedList in
                 self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+
+                    self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemFaved.rawValue)
 
                     self.updateSaved(userId: user.id)
 

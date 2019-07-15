@@ -326,8 +326,6 @@ extension FeedViewController: UITabBarControllerDelegate {
 
 extension FeedViewController: FeedEventTableViewCellDelegate {
     func userProfileSelected(user: User) {
-        // segue to user
-
         print("profile selected for \(user.id)")
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
@@ -359,22 +357,6 @@ extension FeedViewController: CreateRecommendationViewControllerDelegate {
     }
 }
 
-extension FeedViewController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if dependencyGraph.authenticator.isLoggedIn() {
-            return true
-        }
-
-        if viewController == tabBarController.viewControllers?[2] || viewController == tabBarController.viewControllers?[3] {
-            login()
-
-            return false
-        } else {
-            return true
-        }
-    }
-}
-
 extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
     func didSelectUser(user: User) {
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
@@ -383,5 +365,23 @@ extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)
+    }
+
+    func didSelectList(list: List) {
+        let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
+
+        let titleViewLabel = Label(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        listViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(listViewController, animated: true)
+    }
+
+    func didSelectItem(item: Item, list: List) {
+        let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item, list: list)
+
+        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        itemViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(itemViewController, animated: true)
     }
 }

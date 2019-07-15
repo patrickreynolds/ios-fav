@@ -260,23 +260,23 @@ struct FaveGraphQLService {
             completion(lists, error)
         }
 
-        let list1Item1 = TopListItem.init(name: "Marufuku", type: "Ramen restaurnat")
-        let list1Item2 = TopListItem.init(name: "Ippudo", type: "Ramen")
-        let list1Item3 = TopListItem.init(name: "Waraku", type: "Japanese Cuisine")
-
-        let list2Item1 = TopListItem.init(name: "Another Cafe", type: "Cafe")
-        let list2Item2 = TopListItem.init(name: "Reveille Coffee", type: "Cafe")
-        let list2Item3 = TopListItem.init(name: "Matching Half", type: "Coffee Shop")
-
-        let list3Item1 = TopListItem.init(name: "Arsicault Bakery", type: "Bakery")
-        let list3Item2 = TopListItem.init(name: "b. patisserie", type: "Bakery")
-        let list3Item3 = TopListItem.init(name: "Mr. Holmes Bakehouse", type: "Bakery")
-
-        let list1 = TopList(name: "SF Ramen Shops", owner: "Albert", items: [list1Item1, list1Item2, list1Item3])
-        let list2 = TopList(name: "Croissants", owner: "Patrick", items: [list2Item1, list2Item2, list2Item3])
-        let list3 = TopList(name: "Coffee Shops", owner: "Shelley", items: [list3Item1, list3Item2, list3Item3])
-
-        let topLists = [list1, list2, list3]
+//        let list1Item1 = TopListItem.init(name: "Marufuku", type: "Ramen restaurnat")
+//        let list1Item2 = TopListItem.init(name: "Ippudo", type: "Ramen")
+//        let list1Item3 = TopListItem.init(name: "Waraku", type: "Japanese Cuisine")
+//
+//        let list2Item1 = TopListItem.init(name: "Another Cafe", type: "Cafe")
+//        let list2Item2 = TopListItem.init(name: "Reveille Coffee", type: "Cafe")
+//        let list2Item3 = TopListItem.init(name: "Matching Half", type: "Coffee Shop")
+//
+//        let list3Item1 = TopListItem.init(name: "Arsicault Bakery", type: "Bakery")
+//        let list3Item2 = TopListItem.init(name: "b. patisserie", type: "Bakery")
+//        let list3Item3 = TopListItem.init(name: "Mr. Holmes Bakehouse", type: "Bakery")
+//
+//        let list1 = TopList(name: "SF Ramen Shops", owner: "Albert", items: [list1Item1, list1Item2, list1Item3])
+//        let list2 = TopList(name: "Croissants", owner: "Patrick", items: [list2Item1, list2Item2, list2Item3])
+//        let list3 = TopList(name: "Coffee Shops", owner: "Shelley", items: [list3Item1, list3Item2, list3Item3])
+//
+//        let topLists = [list1, list2, list3]
 
 //        delay(3.0) {
 //            completion(topLists, nil)
@@ -388,6 +388,7 @@ struct FaveGraphQLService {
 
                 return
             }
+
 
             let item = Item(data: itemData)
 

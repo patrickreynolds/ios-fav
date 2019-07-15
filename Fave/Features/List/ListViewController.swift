@@ -136,6 +136,8 @@ class ListViewController: FaveVC {
 
         tableView.addSubview(self.refreshControl)
 
+        tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 16, right: 0)
+
         tableView.separatorColor = UIColor.clear
         tableView.backgroundColor = FaveColors.White
 
@@ -198,10 +200,11 @@ class ListViewController: FaveVC {
         view.addSubview(createButton)
         view.addSubview(progressHud)
 
-        constrainToSuperview(listTableView, exceptEdges: [.top])
+        constrainToSuperview(listTableView, exceptEdges: [.top, .bottom])
 
         constrain(listTableView, view) { tableView, view in
             tableView.top == view.topMargin
+            tableView.bottom == view.bottomMargin
         }
 
         constrain(createButton, view) { button, view in
@@ -266,7 +269,6 @@ class ListViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-
         dependencyGraph.faveService.getList(userId: list.owner.id, listId: self.list.id) { response, error in
             guard let list = response else {
                 return
@@ -577,6 +579,9 @@ extension ListViewController: EntryTableViewCellDelegate {
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool) {
 
         guard let user = dependencyGraph.storage.getUser() else {
+
+            login()
+
             return
         }
 
@@ -591,6 +596,8 @@ extension ListViewController: EntryTableViewCellDelegate {
                 self.updateSaved(userId: user.id)
             }) { selectedList in
                 self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+
+                    self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemFaved.rawValue)
 
                     self.updateSaved(userId: user.id)
 
@@ -646,7 +653,10 @@ extension ListViewController: EntryTableViewCellDelegate {
 
     func updateSaved(userId: Int) {
         dependencyGraph.faveService.myItems() { response, error in
+
             guard let items = response else {
+                self.listOfCurrentItems = []
+
                 return
             }
 
@@ -658,6 +668,9 @@ extension ListViewController: EntryTableViewCellDelegate {
         print("\nShare Item Button Tapped\n")
 
         guard let user = dependencyGraph.storage.getUser() else {
+
+            login()
+
             return
         }
 
@@ -674,6 +687,8 @@ extension ListViewController: EntryTableViewCellDelegate {
                     self.dismiss(animated: true, completion: nil)
                 }, didSelectList: { selectedList in
                     self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+
+                        self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemFaved.rawValue)
 
                         self.updateSaved(userId: user.id)
 
@@ -739,6 +754,8 @@ extension ListViewController: EntryTableViewCellDelegate {
                     }
 
                     self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationsList.id, type: item.type, placeId: googleItem.placeId, note: "") { item, error in
+
+                        self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.recommendationSent.rawValue)
 
                         completedRequests += 1
 

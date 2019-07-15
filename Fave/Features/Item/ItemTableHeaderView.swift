@@ -194,6 +194,7 @@ class ItemTableHeaderView: UIView {
             savedItemContextView.alpha = 0
             userHasNotSavedThisItemConstraint?.isActive = true
             userHasSavedThisItemConstraint?.isActive = false
+            itemIsSavedByUser = false
 
             return
         }

@@ -434,6 +434,8 @@ class CreateRecommendationViewController: FaveVC {
 
                 self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationsList.id, type: type, placeId: placeId, note: note) { item, error in
 
+                    self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.recommendationSent.rawValue)
+
                     completedRequests += 1
 
                     guard let _ = item else {
