@@ -477,6 +477,10 @@ class EntryTableViewCell: UITableViewCell {
             itemIsNotAlreadySavedConstraint?.isActive = true
             itemIsAlreadySavedConstraint?.isActive = false
         }
+
+
+        faveActionIcon.image = itemIsSavedByUser ? UIImage.init(named: "icon-fave-faved") : UIImage.init(named: "icon-fave-not-faved")
+        faveActionLabel.text = itemIsSavedByUser ? "Saved" : "Save"
     }
 
     @objc func faveItemButtonTapped() {

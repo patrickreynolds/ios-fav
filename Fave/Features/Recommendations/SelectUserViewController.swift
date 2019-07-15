@@ -224,7 +224,7 @@ extension SelectUserViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         isSearching = true
 
-        searchBar.setShowsCancelButton(true, animated: true)
+        searchBar.setShowsCancelButton(false, animated: true)
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -274,11 +274,15 @@ extension SelectUserViewController: UITableViewDelegate {
 
         let user = userResults[indexPath.row]
 
-        var isSelected = selectedUsers.map({ $0.id }).contains(user.id)
+        let isSelected = selectedUsers.map({ $0.id }).contains(user.id)
 
         cell.populate(user: user, isSelected: isSelected)
 
         return cell
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
     }
 }
 

@@ -237,7 +237,7 @@ extension FeedViewController {
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Make a recommendation", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Send a recommendation", style: .default , handler: { alertAction in
             self.recommendItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)
@@ -305,6 +305,22 @@ extension FeedViewController: CreateListViewControllerDelegate {
 extension FeedViewController: CreateItemViewControllerDelegate {
     func didCreateItem(item: Item) {
         self.showToast(title: "Created \(item.contextualItem.name)")
+    }
+}
+
+extension FeedViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if dependencyGraph.authenticator.isLoggedIn() {
+            return true
+        }
+
+        if viewController == tabBarController.viewControllers?[2] || viewController == tabBarController.viewControllers?[3] {
+            login()
+
+            return false
+        } else {
+            return true
+        }
     }
 }
 

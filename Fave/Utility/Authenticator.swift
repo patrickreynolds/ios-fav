@@ -19,8 +19,11 @@ struct Authenticator {
     }
 
     func isLoggedIn() -> Bool {
-        guard let _ = storage.getUser() else {
-            logout { _ in }
+        if storage.getUser() == nil {
+            logout { success in
+
+                print("\n\(success)\n")
+            }
 
             return false
         }

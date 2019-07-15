@@ -350,10 +350,6 @@ class CreateRecommendationViewController: FaveVC {
         }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     func nameLabelTapped() {
         // Show google search view controller
         let autocompleteViewController = GMSAutocompleteViewController()
@@ -424,7 +420,7 @@ class CreateRecommendationViewController: FaveVC {
 
         var completedRequests = 0
 
-        for (index, selectedUser) in selectedUsers.enumerated() {
+        for selectedUser in selectedUsers {
             self.dependencyGraph.faveService.getLists(userId: selectedUser.id) { lists, error in
                 guard let lists = lists else {
                     return
@@ -456,9 +452,9 @@ class CreateRecommendationViewController: FaveVC {
 
 
                     if completedRequests == self.selectedUsers.count {
-                        self.dismiss(animated: true, completion: {
-                            // show sent recommendation toast
+                        self.isLoading = false
 
+                        self.dismiss(animated: true, completion: {
                             self.delegate?.didSendRecommendations(selectedUsers: self.selectedUsers)
                         })
                     }

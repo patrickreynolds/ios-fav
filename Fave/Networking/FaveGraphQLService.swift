@@ -430,6 +430,21 @@ struct FaveGraphQLService {
         }
 
     }
+
+    func submitFeedback(feedback: String, completion: @escaping (_ success: Bool?, _ error: Error?) -> ()) {
+
+        let submitFeedbackMutation = GraphQLQueryBuilder.submitFeedbackMutation(feedback: feedback)
+
+        networking.sendGraphqlRequest(query: submitFeedbackMutation) { response, error in
+            guard let unwrappedResponse = response, let success = unwrappedResponse["success"] as? Bool else {
+                completion(false, error)
+
+                return
+            }
+
+            completion(success, error)
+        }
+    }
 }
 
 extension FaveGraphQLService: FaveServiceType {}

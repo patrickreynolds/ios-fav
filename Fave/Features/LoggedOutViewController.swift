@@ -195,6 +195,15 @@ class LoggedOutViewController: FaveVC {
                         if completed {
                             self.dependencyGraph.storage.saveUser(user: authenticationInfo.user)
 
+                            if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
+                                let tabBarItemImage = UIImage(base64String: authenticationInfo.user.profilePicture)?
+                                    .resize(targetSize: CGSize.init(width: 24, height: 24))?
+                                    .roundedImage?
+                                    .withRenderingMode(.alwaysOriginal)
+                                tabBarItem.image = tabBarItemImage
+                                tabBarItem.selectedImage = tabBarItemImage
+                            }
+
                             self.delegate?.didSuccessfullyAuthenticate(viewController: self)
                         } else {
                             self.dependencyGraph.storage.deleteUser()

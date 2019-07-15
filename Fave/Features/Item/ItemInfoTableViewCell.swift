@@ -32,7 +32,7 @@ class ItemInfoTableViewCell: UITableViewCell {
                               font: FaveFont(style: .small, weight: .regular),
                               textColor: FaveColors.Black90,
                               textAlignment: .right,
-                              numberOfLines: 0)
+                              numberOfLines: 1)
 
     let phoneNumberLabel = Label(text: "",
                               font: FaveFont(style: .small, weight: .regular),
@@ -114,6 +114,9 @@ class ItemInfoTableViewCell: UITableViewCell {
             dividerView.left == view.left + 16
             dividerView.height == 1
         }
+
+        websiteTitleLabel.contentCompressionResistancePriority = .defaultHigh
+        websiteLabel.contentCompressionResistancePriority = .defaultLow
 
         return view
     }()

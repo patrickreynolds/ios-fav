@@ -420,51 +420,51 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
             })
         }
 
-        let sendRecommendationHandler: ((_ selectedUser: User, _ item: Item) -> ()) = { selectedUser, item in
+        let sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item) -> ()) = { selectedUser, item in
             guard let currentUser = self.dependencyGraph.storage.getUser() else {
                 return
             }
 
-            self.dependencyGraph.faveService.getLists(userId: selectedUser.id) { lists, error in
-                guard let lists = lists else {
-                    return
-                }
-
-                guard let recommendationsList = lists.filter({ list in
-                    return list.title.lowercased() == "recommendations"
-                }).first else {
-                    return
-                }
-
-                guard let googleItem = item.contextualItem as? GoogleItemType else {
-                    return
-                }
-
-                self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationsList.id, type: item.type, placeId: googleItem.placeId, note: "") { item, error in
-
-                    guard let _ = item else {
-                        let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
-
-                        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                            switch action.style {
-                            case .default, .cancel, .destructive:
-                                alertController.dismiss(animated: true, completion: nil)
-                            }}))
-
-                        self.present(alertController, animated: true, completion: nil)
-
-                        return
-                    }
-
-                    self.dismiss(animated: true, completion: {
-                        // show sent recommendation toast
-
-                        print("\n\n Show recommendation sent toast \n\n")
-
-                        self.showSuccess(title: "Recommendation sent!")
-                    })
-                }
-            }
+//            self.dependencyGraph.faveService.getLists(userId: selectedUser.id) { lists, error in
+//                guard let lists = lists else {
+//                    return
+//                }
+//
+//                guard let recommendationsList = lists.filter({ list in
+//                    return list.title.lowercased() == "recommendations"
+//                }).first else {
+//                    return
+//                }
+//
+//                guard let googleItem = item.contextualItem as? GoogleItemType else {
+//                    return
+//                }
+//
+//                self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationsList.id, type: item.type, placeId: googleItem.placeId, note: "") { item, error in
+//
+//                    guard let _ = item else {
+//                        let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
+//
+//                        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//                            switch action.style {
+//                            case .default, .cancel, .destructive:
+//                                alertController.dismiss(animated: true, completion: nil)
+//                            }}))
+//
+//                        self.present(alertController, animated: true, completion: nil)
+//
+//                        return
+//                    }
+//
+//                    self.dismiss(animated: true, completion: {
+//                        // show sent recommendation toast
+//
+//                        print("\n\n Show recommendation sent toast \n\n")
+//
+//                        self.showSuccess(title: "Recommendation sent!")
+//                    })
+//                }
+//            }
         }
 
         let shareViewController = ShareItemViewController(dependencyGraph: dependencyGraph, user: user, item: item)
@@ -474,7 +474,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
         shareViewController.shareActionHandler = shareActionHandler
         shareViewController.copyLinkActionHandler = copyLinkActionHandler
         shareViewController.addToListHandler = addToListHandler
-        shareViewController.sendRecommendationHandler = sendRecommendationHandler
+        shareViewController.sendRecommendationsHandler = sendRecommendationsHandler
 
         let navigationController = UINavigationController.init(rootViewController: shareViewController)
 
@@ -529,7 +529,7 @@ extension RecommendationsViewController {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Make a recommendation", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Send a recommendation", style: .default , handler: { alertAction in
             self.recommendItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)

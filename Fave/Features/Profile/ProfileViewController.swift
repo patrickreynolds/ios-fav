@@ -293,7 +293,7 @@ class ProfileViewController: FaveVC {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Make a recommendation", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Send a recommendation", style: .default , handler: { alertAction in
             self.recommendItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)

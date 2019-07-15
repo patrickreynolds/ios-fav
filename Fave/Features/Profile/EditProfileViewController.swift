@@ -354,6 +354,15 @@ class EditProfileViewController: FaveVC {
                     print("\n\nFeedback: \(feedback)\n\n")
 
                     // TODO: Post feedback
+                    let submitFeedbackIsEnabled = false
+
+                    if submitFeedbackIsEnabled {
+                        self.dependencyGraph.faveService.submitFeedback(feedback: feedback) { success, error in
+                            if let success = success {
+                                print("\nFeedback success: \(success)\n")
+                            }
+                        }
+                    }
                 }
 
                 alertController.dismiss(animated: true, completion: nil)

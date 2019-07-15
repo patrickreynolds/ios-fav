@@ -458,8 +458,9 @@ class CreateItemViewController: FaveVC {
                 return
             }
 
-            self.delegate?.didCreateItem(item: item)
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: {
+                self.delegate?.didCreateItem(item: item)
+            })
         }
     }
 

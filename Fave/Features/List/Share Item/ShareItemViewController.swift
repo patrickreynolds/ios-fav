@@ -85,6 +85,18 @@ class ShareItemViewController: FaveVC {
         }
     }
 
+    var selectedUsers: [User] = [] {
+        didSet {
+            searchBar.resignFirstResponder()
+            searchBar.setShowsCancelButton(false, animated: true)
+            isSearching = false
+
+            sendButtonEnabled = selectedUsers.isEmpty ? true : false
+
+            usersTableView.reloadData()
+        }
+    }
+
     var currentSearchInput: String = "" {
         didSet {
             usersTableView.reloadData()
@@ -116,7 +128,7 @@ class ShareItemViewController: FaveVC {
     var shareActionHandler: (() -> ())?
     var copyLinkActionHandler: (() -> ())?
     var addToListHandler: (() -> ())?
-    var sendRecommendationHandler: ((_ selectedUser: User, _ item: Item) -> ())?
+    var sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item) -> ())?
 
     private lazy var addToListActionView: ShareItemActionView = {
         let actionView = ShareItemActionView.init(shareItemActionType: .addToList)
@@ -269,7 +281,7 @@ class ShareItemViewController: FaveVC {
     }
 
     @objc func sendButtonTapped(sender: UIButton!) {
-        guard let selecteduser = lastSelectedUser else {
+        guard !selectedUsers.isEmpty else {
             // TODO: Throw error
 
             return
@@ -277,7 +289,7 @@ class ShareItemViewController: FaveVC {
 
         // Send recommendation request
         // Dismiss view when done
-        sendRecommendationHandler?(selecteduser, item)
+        sendRecommendationsHandler?(selectedUsers, item)
     }
 
     func refreshUsers() {

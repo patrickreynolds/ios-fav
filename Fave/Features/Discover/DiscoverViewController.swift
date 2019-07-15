@@ -342,7 +342,7 @@ extension DiscoverViewController {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Make a recommendation", style: .default , handler: { alertAction in
+        alertController.addAction(UIAlertAction(title: "Send a recommendation", style: .default , handler: { alertAction in
             self.recommendItemButtonTapped()
 
             alertController.dismiss(animated: true, completion: nil)
@@ -434,7 +434,7 @@ extension DiscoverViewController: UITabBarControllerDelegate {
             return true
         }
 
-        if viewController == tabBarController.viewControllers?[2] {
+        if viewController == tabBarController.viewControllers?[2] || viewController == tabBarController.viewControllers?[3] {
             login()
 
             return false

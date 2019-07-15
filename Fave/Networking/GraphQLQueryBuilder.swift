@@ -317,4 +317,12 @@ struct GraphQLQueryBuilder {
             """
         }
     }
+
+    static func submitFeedbackMutation(feedback: String) -> String {
+        return """
+            mutation {
+                success: submitFeedback(feedback: "\(feedback)")
+            }
+        """
+    }
 }

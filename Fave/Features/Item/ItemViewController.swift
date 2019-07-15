@@ -363,9 +363,6 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
         let weShouldFave = !from
 
         if weShouldFave {
-            // fave the item
-            // update faves endpoint
-            // reload table
 
             selectListToFaveTo(canceledSelection: {
                 self.updateSaved(userId: user.id)
@@ -381,30 +378,47 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
                 }
             }
         } else {
-            dependencyGraph.faveService.removeFave(userId: user.id, itemId: item.dataId) { success, error in
+            let removeFaveAlertController = UIAlertController(title: "Remove \(item.contextualItem.name)", message: "Are you sure you want to remove \(item.contextualItem.name) from your list?", preferredStyle: .alert)
 
-                self.updateSaved(userId: user.id)
+            removeFaveAlertController.addAction(UIAlertAction(title: "Nevermind", style: .default, handler: { action in
+                switch action.style {
+                case .default, .cancel, .destructive:
+                    removeFaveAlertController.dismiss(animated: true, completion: nil)
+                    self.updateSaved(userId: user.id)
+                }}))
 
-                if let _ = error {
-                    // TODO: Handle error
+            removeFaveAlertController.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { action in
+                switch action.style {
+                case .default, .cancel, .destructive:
+                    removeFaveAlertController.dismiss(animated: true, completion: nil)
 
-                    return
-                }
+                    self.dependencyGraph.faveService.removeFave(userId: user.id, itemId: item.id) { success, error in
 
-                if success {
-                    // Success placeholder
-                } else {
-                    let alertController = UIAlertController(title: "Oops!", message: "Something went wrong. Try unfaving again.", preferredStyle: .alert)
+                        self.updateSaved(userId: user.id)
 
-                    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                        switch action.style {
-                        case .default, .cancel, .destructive:
-                            alertController.dismiss(animated: true, completion: nil)
-                        }}))
+                        if let _ = error {
+                            // TODO: Handle error
 
-                    self.present(alertController, animated: true, completion: nil)
-                }
-            }
+                            return
+                        }
+
+                        if success {
+                            // Success placeholder
+                        } else {
+                            let alertController = UIAlertController(title: "Oops!", message: "Something went wrong. Try unfaving again.", preferredStyle: .alert)
+
+                            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                                switch action.style {
+                                case .default, .cancel, .destructive:
+                                    alertController.dismiss(animated: true, completion: nil)
+                                }}))
+
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+                    }
+                }}))
+
+            present(removeFaveAlertController, animated: true, completion: nil)
         }
     }
 }
