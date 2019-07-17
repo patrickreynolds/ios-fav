@@ -166,7 +166,7 @@ class FeedEventTableViewCell: UITableViewCell {
         ]
 
         let subtleAttributes: [NSAttributedString.Key : Any]? = [
-            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .regular).font,
+            NSAttributedString.Key.font: FaveFont(style: .small, weight: .regular).font,
             NSAttributedString.Key.foregroundColor: FaveColors.Black70
         ]
 

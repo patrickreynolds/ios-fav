@@ -14,7 +14,7 @@ extension Date {
         }
 
         if let week = calendar.weekOfYear, abs(week) > 0 {
-            return "\(abs(week))mo"
+            return "\(abs(week))w"
         }
 
         if let day = calendar.day, abs(day) > 0 {

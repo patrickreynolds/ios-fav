@@ -53,11 +53,11 @@ class LoggedOutViewController: FaveVC {
     private lazy var logInWithFacebookButton: UIButton = {
         let button = UIButton(frame: .zero)
 
-        let facebookBlueHexString = "#3A5997"
+        let facebookBlueHexString = "#4267B2"
 
         button.backgroundColor = UIColor(hexString: facebookBlueHexString)
         button.layer.cornerRadius = 6
-        button.setTitle("Log In With Facebook", for: .normal)
+        button.setTitle("Continue with Facebook", for: .normal)
         button.addTarget(self, action: #selector(authenticateWithFacebook), for: .touchUpInside)
 
         return button
@@ -101,7 +101,7 @@ class LoggedOutViewController: FaveVC {
             numberOfLines: 0)
 
         let subtitle = Label(
-            text: "Finding the best places, products, and people is great, but finding the best ones for you is even better.",
+            text: "Forget the stars. Come create, share, and discover new places with friends.",
             font: FaveFont(style: .h5, weight: .regular),
             textColor: FaveColors.Black70,
             textAlignment: .center,
