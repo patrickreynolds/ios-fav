@@ -484,15 +484,25 @@ class EntryTableViewCell: UITableViewCell {
             subtitleLabel.text = keywords
         }
 
-        if let currentUser = dependencyGraph.storage.getUser(), let list = list, list.owner.id == currentUser.id, item.isRecommendation {
-            actionStackView.addArrangedSubview(addToListActionView)
-            actionStackView.addArrangedSubview(dismissActionView)
+        if let currentUser = dependencyGraph.storage.getUser(), item.isRecommendation {
+            
+            if let list = list, list.owner.id == currentUser.id {
+                actionStackView.addArrangedSubview(addToListActionView)
+                actionStackView.addArrangedSubview(dismissActionView)
+            } else {
+                actionStackView.addArrangedSubview(faveActionView)
+                actionStackView.addArrangedSubview(shareActionView)
+            }
             
             isRecommendationConstraint?.isActive = true
             isNotRecommendationConstraint?.isActive = false
             
-            UIView.animate(withDuration: 0.15) {
-                self.ownerView.alpha = 1
+            UIView.animate(withDuration: 0.15, animations: {
+                self.layoutIfNeeded()
+            }) { success in
+                UIView.animate(withDuration: 0.15) {
+                    self.ownerView.alpha = 1
+                }
             }
             
             ownerNameLabel.text = "Recommended by \(item.addedBy.firstName) \(item.addedBy.lastName)"
@@ -501,7 +511,13 @@ class EntryTableViewCell: UITableViewCell {
             isRecommendationConstraint?.isActive = false
             isNotRecommendationConstraint?.isActive = true
             
-            ownerView.alpha = 0
+            UIView.animate(withDuration: 0.15, animations: {
+                self.ownerView.alpha = 0
+            }) { success in
+                UIView.animate(withDuration: 0.15) {
+                    self.layoutIfNeeded()
+                }
+            }
             
             actionStackView.addArrangedSubview(faveActionView)
             actionStackView.addArrangedSubview(shareActionView)

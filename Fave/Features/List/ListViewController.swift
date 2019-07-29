@@ -356,7 +356,7 @@ extension ListViewController {
     @objc func recommendItemButtonTapped(sender: UIButton!) {
         print("\n\nAdd Item Button Tapped\n\n")
 
-        let createRecommendationViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph)
+        let createRecommendationViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph, recipient: list.owner, list: list)
         let createRecommendationNavigationViewController = UINavigationController(rootViewController: createRecommendationViewController)
 
         createRecommendationViewController.delegate = self

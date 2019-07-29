@@ -17,6 +17,7 @@ class CreateRecommendationViewController: FaveVC {
     var listType: ListType = .undefined
     
     private var recipient: User?
+    private var list: List?
 
     var place: GMSPlace? {
         didSet {
@@ -316,9 +317,10 @@ class CreateRecommendationViewController: FaveVC {
         }
     }
 
-    init(dependencyGraph: DependencyGraphType, recipient: User? = nil) {
+    init(dependencyGraph: DependencyGraphType, recipient: User? = nil, list: List? = nil) {
         self.creationType = .recommendation
         self.recipient = recipient
+        self.list = list
 
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .createItemScreenShown)
     }
@@ -436,14 +438,22 @@ class CreateRecommendationViewController: FaveVC {
                 guard let lists = lists else {
                     return
                 }
+                
+                var recommendationList: List
 
                 guard let recommendationsList = lists.filter({ list in
                     return list.title.lowercased() == "recommendations"
                 }).first else {
                     return
                 }
+                
+                if let list = self.list, let _ = self.recipient {
+                    recommendationList = list
+                } else {
+                    recommendationList = recommendationsList
+                }
 
-                self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationsList.id, type: type, placeId: placeId, note: note) { item, error in
+                self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationList.id, type: type, placeId: placeId, note: note) { item, error in
 
                     self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.recommendationSent.rawValue)
 
