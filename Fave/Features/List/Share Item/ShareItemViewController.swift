@@ -166,7 +166,7 @@ class ShareItemViewController: FaveVC {
         let searchBar = UISearchBar.init(frame: .zero)
 
         searchBar.searchBarStyle = UISearchBar.Style.minimal
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = "Search all users"
         searchBar.delegate = self
 
         return searchBar

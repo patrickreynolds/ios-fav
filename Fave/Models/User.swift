@@ -58,7 +58,6 @@ class User: NSObject, NSCoding {
             createdAtString = unwrappedCreatedAtString
         }
 
-
         var updatedAtString = ""
         if let unwrappedUpdatedAtString = data["updatedAt"] as? String {
             updatedAtString = unwrappedUpdatedAtString

@@ -76,7 +76,7 @@ class ItemInfoTableViewCell: UITableViewCell {
     private lazy var websiteView: UIView = {
         let view = UIView(frame: CGRect.zero)
 
-        let websiteTitleLabel = Label(text: "Website",
+        let websiteTitleLabel = Label(text: "Visit website",
                                       font: FaveFont(style: .h5, weight: .semiBold),
                                       textColor: FaveColors.Accent,
                                       textAlignment: .left,

@@ -25,7 +25,10 @@ class ItemViewController: FaveVC {
 
     var listOfCurrentItems: [Item] = [] {
         didSet {
-            let allListDataIds = listOfCurrentItems.map({ item in item.dataId })
+            let allListDataIds = listOfCurrentItems
+                                    .filter({ !$0.isRecommendation })
+                                    .map({ item in item.dataId })
+            
 
             item.isSaved = allListDataIds.contains(item.dataId)
 

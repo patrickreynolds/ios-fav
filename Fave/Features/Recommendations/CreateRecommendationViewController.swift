@@ -15,6 +15,8 @@ class CreateRecommendationViewController: FaveVC {
     let creationType: ItemCreationType
 
     var listType: ListType = .undefined
+    
+    private var recipient: User?
 
     var place: GMSPlace? {
         didSet {
@@ -251,8 +253,12 @@ class CreateRecommendationViewController: FaveVC {
         userLabel.isUserInteractionEnabled = true
         userLabel.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
 
-        _ = userLabel.tapped { recognizer in
-            self.userLabelTapped()
+        if let recipient = recipient {
+            userLabel.text = "\(recipient.firstName) \(recipient.lastName)"
+        } else {
+            _ = userLabel.tapped { recognizer in
+                self.userLabelTapped()
+            }
         }
 
         let userDividerView = DividerView()
@@ -310,8 +316,9 @@ class CreateRecommendationViewController: FaveVC {
         }
     }
 
-    init(dependencyGraph: DependencyGraphType) {
+    init(dependencyGraph: DependencyGraphType, recipient: User? = nil) {
         self.creationType = .recommendation
+        self.recipient = recipient
 
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .createItemScreenShown)
     }
@@ -347,6 +354,10 @@ class CreateRecommendationViewController: FaveVC {
         constrain(progressHud, view) { hud, view in
             hud.centerX == view.centerX
             hud.centerY == view.centerY
+        }
+        
+        if let recipient = recipient {
+            selectedUsers = [recipient]
         }
     }
 

@@ -14,6 +14,14 @@ class DiscoverViewController: FaveVC {
         didSet {
 //            discoverTableView.reloadData()
             cachedSuggestionSections = suggestionSections()
+            
+            let noRecommendationsViewAlpha: CGFloat = cachedSuggestionSections.isEmpty ? 1.0 : 0
+            let discoverTableViewAlpha: CGFloat = cachedSuggestionSections.isEmpty ? 0 : 1.0
+            
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.noSuggestionsView.alpha = noRecommendationsViewAlpha
+                self.discoverTableView.alpha = discoverTableViewAlpha
+            }, completion: nil)
         }
     }
 
@@ -81,6 +89,38 @@ class DiscoverViewController: FaveVC {
             discoverTableView.reloadData()
         }
     }
+    
+    private lazy var noSuggestionsView: UIView = {
+        let view = UIView.init(frame: .zero)
+        
+        let titleLabel = Label(text: "Friends on Fave",
+                               font: FaveFont(style: .h4, weight: .bold) ,
+                               textColor: FaveColors.Black90,
+                               textAlignment: .center,
+                               numberOfLines: 1)
+        
+        let subtitleLabel = Label(text: "After signing up with Facebook, you'll see your friends on Fave right here. \n\nMeanwhile, you can search for people above to browse around.",
+                                  font: FaveFont(style: .h5, weight: .regular) ,
+                                  textColor: FaveColors.Black70,
+                                  textAlignment: .center,
+                                  numberOfLines: 0)
+        
+        view.addSubview(titleLabel)
+        view.addSubview(subtitleLabel)
+        
+        constrain(titleLabel, subtitleLabel, view) { titleLabel, subtitleLabel, view in
+            titleLabel.top == view.top
+            titleLabel.right == view.right - 16
+            titleLabel.left == view.left + 16
+            
+            subtitleLabel.top == titleLabel.bottom + 8
+            subtitleLabel.right == view.right - 16
+            subtitleLabel.left == view.left + 16
+            subtitleLabel.bottom == view.bottom
+        }
+        
+        return view
+    }()
 
     private lazy var resultsTableController: ResultsTableViewController = {
         let viewController = ResultsTableViewController(dependencyGraph: self.dependencyGraph)
@@ -101,6 +141,7 @@ class DiscoverViewController: FaveVC {
         searchController.delegate = self
         searchController.dimsBackgroundDuringPresentation = false // The default is true.
         searchController.searchBar.delegate = self // Monitor when the search button is tapped.
+        searchController.searchBar.placeholder = "Search all users"
 
         return searchController
     }()
@@ -163,6 +204,8 @@ class DiscoverViewController: FaveVC {
 
         tableView.addSubview(self.refreshControl)
         tableView.separatorColor = UIColor.clear
+        
+        tableView.alpha = 0
 
         return tableView
     }()
@@ -217,6 +260,7 @@ class DiscoverViewController: FaveVC {
         */
 
         view.addSubview(discoverTableView)
+        view.addSubview(noSuggestionsView)
         view.addSubview(createButton)
 
         constrain(createButton, view) { button, view in
@@ -227,6 +271,12 @@ class DiscoverViewController: FaveVC {
         }
 
         constrainToSuperview(discoverTableView, exceptEdges: [.top])
+        
+        constrain(noSuggestionsView, view) { suggestionsView, view in
+            suggestionsView.centerY == view.centerY
+            suggestionsView.right == view.right - 16
+            suggestionsView.left == view.left + 16
+        }
 
         constrain(discoverTableView, view) { tableView, view in
             tableView.top == view.topMargin

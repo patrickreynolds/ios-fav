@@ -230,7 +230,7 @@ struct FaveGraphQLService {
 
         networking.sendGraphqlRequest(query: suggestionsQuery) { response, error in
             guard let suggestionResponse = response as? [String: AnyObject], let suggestionData = suggestionResponse["suggestions"] as? [[String: AnyObject]] else {
-                completion(nil, error)
+                completion([], error)
 
                 return
             }
