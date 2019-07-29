@@ -123,18 +123,17 @@ class FeedViewController: FaveVC {
 
         view.bringSubviewToFront(loadingIndicatorView)
         view.bringSubviewToFront(createButton)
-
-//        updateUI()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-//        updateUI()
         refreshFeed()
     }
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        loadingIndicatorView.isHidden = true
+
         refreshFeed()
     }
 
@@ -142,6 +141,8 @@ class FeedViewController: FaveVC {
         loadingIndicatorView.startAnimating()
 
         if dependencyGraph.authenticator.isLoggedIn() {
+            loadingIndicatorView.isHidden = true
+            
             dependencyGraph.faveService.getFeed(from: 0, to: 100) { response, error in
                 self.loadingIndicatorView.stopAnimating()
                 self.refreshControl.endRefreshing()

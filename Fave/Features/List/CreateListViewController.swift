@@ -147,7 +147,7 @@ class CreateListViewController: FaveVC {
         commentTextView.layer.cornerRadius = 6
         commentTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 
-        commentTextViewPlaceholder = Label(text: "Description", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        commentTextViewPlaceholder = Label(text: "Description (Optional)", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
         commentTextViewPlaceholder.translatesAutoresizingMaskIntoConstraints = false
         commentTextViewPlaceholder.isHidden = false
 

@@ -171,9 +171,13 @@ class FeedEventTableViewCell: UITableViewCell {
         ]
 
         if event.list.owner.id != event.item.addedBy.id {
-            let handleText = NSAttributedString.init(string: "\(event.item.addedBy.handle)", attributes: primaryAttributes)
+            let handleText = NSAttributedString.init(string: "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)", attributes: primaryAttributes)
             let recommendationText = NSAttributedString.init(string: " recommended an item for ", attributes: standardAttributes)
-            let ownerText = NSAttributedString.init(string: "\(event.list.owner.handle)'s", attributes: primaryAttributes)
+            
+            let lastOwnerCharacterString = String(event.list.owner.lastName.last ?? Character.init(""))
+            let possessiveCharacter = lastOwnerCharacterString.lowercased() == "s" ? "'" : "'s"
+            
+            let ownerText = NSAttributedString.init(string: "\(event.list.owner.firstName) \(event.list.owner.lastName)\(possessiveCharacter)", attributes: primaryAttributes)
             let suffixText = NSAttributedString.init(string: " list. ", attributes: standardAttributes)
             let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
 
@@ -183,7 +187,7 @@ class FeedEventTableViewCell: UITableViewCell {
             titleLabelAttributedText.append(suffixText)
             titleLabelAttributedText.append(timeText)
         } else {
-            let handleText = NSAttributedString.init(string: "\(event.item.addedBy.handle)", attributes: primaryAttributes)
+            let handleText = NSAttributedString.init(string: "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)", attributes: primaryAttributes)
             let recommendationText = NSAttributedString.init(string: " added an item. ", attributes: standardAttributes)
             let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
 

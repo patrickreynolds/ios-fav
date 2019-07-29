@@ -94,7 +94,7 @@ class LoggedOutViewController: FaveVC {
         let faveLogo = UIImageView(image: UIImage(named: "fave-logo"))
 
         let title = Label(
-            text: "Join The Community!",
+            text: "Welcome!",
             font: FaveFont(style: .h2, weight: .bold),
             textColor: FaveColors.Black90,
             textAlignment: .center,

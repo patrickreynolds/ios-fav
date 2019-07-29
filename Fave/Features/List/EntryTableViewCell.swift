@@ -21,6 +21,9 @@ class EntryTableViewCell: UITableViewCell {
 
     var itemIsAlreadySavedConstraint: NSLayoutConstraint?
     var itemIsNotAlreadySavedConstraint: NSLayoutConstraint?
+    
+    var isRecommendationConstraint: NSLayoutConstraint?
+    var isNotRecommendationConstraint: NSLayoutConstraint?
 
     var googlePhotos: [GooglePhoto] {
         guard let item = item, let googleItem = item.contextualItem as? GoogleItemType else {
@@ -51,7 +54,14 @@ class EntryTableViewCell: UITableViewCell {
                                textColor: FaveColors.FaveOrange,
                                textAlignment: .left,
                                numberOfLines: 1)
-
+    
+    let ownerNameLabel = Label(text: "",
+        font: FaveFont(style: .h5, weight: .regular),
+        textColor: FaveColors.Black90,
+        textAlignment: .left,
+        numberOfLines: 0)
+    
+    let ownerImageView = UIImageView.init(frame: .zero)
 
     private lazy var titleLabel: Label = {
         let label = Label(text: "",
@@ -303,6 +313,34 @@ class EntryTableViewCell: UITableViewCell {
 
         return view
     }()
+    
+    private lazy var ownerView: UIView = {
+        let view = UIView(frame: .zero)
+        
+        let ownerImageViewDiameter: CGFloat = 24.0
+        
+        ownerImageView.layer.cornerRadius = ownerImageViewDiameter / 2
+        ownerImageView.clipsToBounds = true
+        ownerImageView.layer.masksToBounds = true
+        
+        view.addSubview(ownerNameLabel)
+        view.addSubview(ownerImageView)
+        
+        constrain(ownerNameLabel, ownerImageView, view) { label, imageView, view in
+            imageView.left == view.left
+            imageView.right == label.left - 8
+            imageView.centerX == label.centerX
+            
+            label.top == view.top
+            label.right == view.right
+            label.bottom == view.bottom
+            
+            imageView.height == 24
+            imageView.width == 24
+        }
+        
+        return view
+    }()
 
 
     private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
@@ -345,6 +383,7 @@ class EntryTableViewCell: UITableViewCell {
         constrainToSuperview(cardView)
 
         cardView.addSubview(titleLabel)
+        cardView.addSubview(ownerView)
         cardView.addSubview(subtitleLabel)
         cardView.addSubview(photosCollectionView)
         cardView.addSubview(actionStackView)
@@ -371,9 +410,16 @@ class EntryTableViewCell: UITableViewCell {
             label.right == view.right - 16
             label.left == view.left + 16
         }
+        
+        constrain(ownerView, titleLabel) { ownerView, titleLabel in
+            ownerView.top == titleLabel.bottom + 8
+            ownerView.right == titleLabel.right
+            ownerView.left == titleLabel.left
+        }
 
-        constrain(subtitleLabel, titleLabel) { subtitleLabel, titleLabel in
-            subtitleLabel.top == titleLabel.bottom + 4
+        constrain(subtitleLabel, titleLabel, ownerView) { subtitleLabel, titleLabel, ownerView in
+            isRecommendationConstraint = subtitleLabel.top == ownerView.bottom + 8
+            isNotRecommendationConstraint = subtitleLabel.top == titleLabel.bottom + 4
             subtitleLabel.right == titleLabel.right
             subtitleLabel.left == titleLabel.left
         }
@@ -441,7 +487,22 @@ class EntryTableViewCell: UITableViewCell {
         if let currentUser = dependencyGraph.storage.getUser(), let list = list, list.owner.id == currentUser.id, item.isRecommendation {
             actionStackView.addArrangedSubview(addToListActionView)
             actionStackView.addArrangedSubview(dismissActionView)
+            
+            isRecommendationConstraint?.isActive = true
+            isNotRecommendationConstraint?.isActive = false
+            
+            UIView.animate(withDuration: 0.15) {
+                self.ownerView.alpha = 1
+            }
+            
+            ownerNameLabel.text = "Recommended by \(item.addedBy.firstName) \(item.addedBy.lastName)"
+            ownerImageView.image = UIImage(base64String: item.addedBy.profilePicture)
         } else {
+            isRecommendationConstraint?.isActive = false
+            isNotRecommendationConstraint?.isActive = true
+            
+            ownerView.alpha = 0
+            
             actionStackView.addArrangedSubview(faveActionView)
             actionStackView.addArrangedSubview(shareActionView)
         }

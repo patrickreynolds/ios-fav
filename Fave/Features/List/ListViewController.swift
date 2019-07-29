@@ -276,12 +276,14 @@ class ListViewController: FaveVC {
 
             self.list = list
 
-            self.dependencyGraph.faveService.listsUserFollows(userId: list.owner.id) { response, error in
-                guard let listsUserFollows = response else {
-                    return
-                }
+            if let user = self.dependencyGraph.storage.getUser() {
+                self.dependencyGraph.faveService.listsUserFollows(userId: user.id) { response, error in
+                    guard let listsUserFollows = response else {
+                        return
+                    }
 
-                self.listsUserFollows = listsUserFollows
+                    self.listsUserFollows = listsUserFollows
+                }
             }
         }
 

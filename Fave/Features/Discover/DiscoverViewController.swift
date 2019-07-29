@@ -48,7 +48,9 @@ class DiscoverViewController: FaveVC {
             } else {
                 return nil
             }
-        }).compactMap { $0 }
+        })
+        .compactMap { $0 }
+        .sorted { $0.user.firstName < $1.user.lastName }
 
         return sections
     }
@@ -84,6 +86,8 @@ class DiscoverViewController: FaveVC {
         let viewController = ResultsTableViewController(dependencyGraph: self.dependencyGraph)
 
         viewController.delegate = self
+        
+        viewController.resultsTableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
 
         return viewController
     }()
@@ -121,25 +125,43 @@ class DiscoverViewController: FaveVC {
 
         return refreshControl
     }()
+    
+    private lazy var tableHeaderView: UIView = {
+        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 56.0))
+        
+        let titleLabel = Label(text: "Friends on Fave",
+                              font: FaveFont(style: .h3, weight: .bold),
+                              textColor: FaveColors.Black90,
+                              textAlignment: .left,
+                              numberOfLines: 1)
+        
+        view.addSubview(titleLabel)
+        
+        constrain(titleLabel, view) { label, view in
+            label.top == view.top + 16
+            label.right == view.right - 16
+            label.bottom == view.bottom - 8
+            label.left == view.left + 16
+        }
+        
+        return view
+    }()
 
     private lazy var discoverTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .plain)
 
         tableView.delegate = self
         tableView.dataSource = self
-//
-//        tableView.tableHeaderView = UIView(frame: .zero)
-//        tableView.tableFooterView = UIView(frame: .zero)
-//
 
         tableView.estimatedSectionHeaderHeight = 64
         tableView.sectionHeaderHeight = UITableView.automaticDimension
 
         tableView.register(DiscoverUserListTableViewCell.self)
         tableView.register(UserSearchTableViewCell.self)
+        
+        tableView.tableHeaderView = tableHeaderView
 
         tableView.addSubview(self.refreshControl)
-
         tableView.separatorColor = UIColor.clear
 
         return tableView
@@ -331,6 +353,9 @@ extension DiscoverViewController: UITableViewDataSource {
     }
 }
 
+extension DiscoverViewController: UIScrollViewDelegate {
+}
+
 extension DiscoverViewController {
     @objc func createButtonTapped(sender: UIButton!) {
 
@@ -508,7 +533,6 @@ extension DiscoverViewController: UISearchResultsUpdating {
 // MARK: - UISearchBarDelegate
 
 extension DiscoverViewController: UISearchBarDelegate {
-
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
@@ -545,7 +569,6 @@ extension DiscoverViewController: UISearchControllerDelegate {
         debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
 }
-
 
 extension DiscoverViewController: DiscoverUserListTableViewCellDelegate {
 
