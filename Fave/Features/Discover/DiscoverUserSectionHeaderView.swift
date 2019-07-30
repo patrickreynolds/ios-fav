@@ -42,6 +42,8 @@ class DiscoverUserSectionHeaderView: UIView {
         self.user = user
 
         super.init(frame: CGRect.zero)
+        
+        backgroundColor = FaveColors.White
 
         addSubview(profileImageView)
         addSubview(titleLabel)

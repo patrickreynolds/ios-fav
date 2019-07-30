@@ -93,6 +93,8 @@ class DiscoverViewController: FaveVC {
     private lazy var noSuggestionsView: UIView = {
         let view = UIView.init(frame: .zero)
         
+        view.backgroundColor = FaveColors.White
+        
         let titleLabel = Label(text: "Friends on Fave",
                                font: FaveFont(style: .h4, weight: .bold) ,
                                textColor: FaveColors.Black90,
@@ -170,6 +172,8 @@ class DiscoverViewController: FaveVC {
     private lazy var tableHeaderView: UIView = {
         let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 56.0))
         
+        view.backgroundColor = FaveColors.White
+        
         let titleLabel = Label(text: "Friends on Fave",
                               font: FaveFont(style: .h3, weight: .bold),
                               textColor: FaveColors.Black90,
@@ -189,7 +193,9 @@ class DiscoverViewController: FaveVC {
     }()
 
     private lazy var discoverTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .plain)
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .grouped)
+        
+        tableView.backgroundColor = FaveColors.White
 
         tableView.delegate = self
         tableView.dataSource = self
