@@ -143,11 +143,11 @@ class EditProfileViewController: FaveVC {
     }()
 
     private lazy var bioProfileInputView: ProfileInputView = {
-        let profileInputView = ProfileInputView(title: "Bio", placeholder: "Bio", value: "", autocapitalizationType: .sentences)
+        let bioInputView = ProfileInputView(title: "Bio", placeholder: "Bio", value: user.bio, autocapitalizationType: .sentences)
 
-        profileInputView.delegate = self
+        bioInputView.delegate = self
 
-        return profileInputView
+        return bioInputView
     }()
 
     private lazy var userInfoContentView: UIStackView = {

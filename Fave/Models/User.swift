@@ -9,6 +9,7 @@ class User: NSObject, NSCoding {
     @objc let profilePicture: String
     @objc let createdAt: String
     @objc let updatedAt: String
+    @objc let bio: String
 
     init(id: Int,
         firstName: String,
@@ -17,7 +18,8 @@ class User: NSObject, NSCoding {
         handle: String,
         profilePicture: String,
         createdAt: String,
-        updatedAt: String) {
+        updatedAt: String,
+        bio: String) {
 
         self.id = id
         self.firstName = firstName
@@ -27,6 +29,7 @@ class User: NSObject, NSCoding {
         self.profilePicture = profilePicture
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.bio = bio
 
         super.init()
     }
@@ -64,6 +67,8 @@ class User: NSObject, NSCoding {
         }
 
         let unwrappedEmail = data["email"] as? String ?? ""
+        
+        let unwrappedBio = data["bio"] as? String ?? ""
 
         self.init(id: unwrappedId,
             firstName: unwrappedFirstName,
@@ -72,7 +77,8 @@ class User: NSObject, NSCoding {
             handle: unwrappedHandle,
             profilePicture: unwrappedProfilePictureString,
             createdAt: createdAtString,
-            updatedAt: updatedAtString)
+            updatedAt: updatedAtString,
+            bio: unwrappedBio)
     }
 
     func encode(with aCoder: NSCoder) {
@@ -84,6 +90,7 @@ class User: NSObject, NSCoding {
         aCoder.encode(self.profilePicture, forKey: "profilePic")
         aCoder.encode(self.createdAt, forKey: "createdAt")
         aCoder.encode(self.updatedAt, forKey: "updatedAt")
+        aCoder.encode(self.bio, forKey: "bio")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -95,5 +102,6 @@ class User: NSObject, NSCoding {
         profilePicture = aDecoder.decodeObject(forKey: "profilePic") as! String
         createdAt = aDecoder.decodeObject(forKey: "createdAt") as! String
         updatedAt = aDecoder.decodeObject(forKey: "updatedAt") as! String
+        bio = aDecoder.decodeObject(forKey: "bio") as! String
     }
 }

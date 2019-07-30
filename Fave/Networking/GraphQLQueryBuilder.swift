@@ -12,6 +12,7 @@ struct GraphQLQueryBuilder {
             profilePic
             updatedAt
             createdAt
+            bio
         """
     }
 
@@ -107,11 +108,9 @@ struct GraphQLQueryBuilder {
 
     static func updateUserMutation(firstName: String, lastName: String, email: String, handle: String, bio: String) -> String {
 
-        // TODO: Add bio when I putt the latest from Albert
-
         return """
             mutation {
-                user: updateUser(input: { firstName: "\(firstName)", lastName: "\(lastName)", email: "\(email)", handle: "\(handle)"}) {
+                user: updateUser(input: { firstName: "\(firstName)", lastName: "\(lastName)", email: "\(email)", handle: "\(handle)", bio: "\(bio)"}) {
                     \(userString(isPrivate: true))
                 }
             }

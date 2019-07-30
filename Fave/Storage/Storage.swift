@@ -27,6 +27,7 @@ struct TemporaryStorage {
         userDefaults.set(user.profilePicture, forKey: "\(StorageKey.currentUser.rawValue).profilePicture)")
         userDefaults.set(user.createdAt, forKey: "\(StorageKey.currentUser.rawValue).createdAt)")
         userDefaults.set(user.updatedAt, forKey: "\(StorageKey.currentUser.rawValue).updatedAt)")
+        userDefaults.set(user.bio, forKey: "\(StorageKey.currentUser.rawValue).bio)")
 
         userDefaults.synchronize()
 
@@ -44,6 +45,7 @@ struct TemporaryStorage {
         let profilePicture = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).profilePicture)") as? String
         let createdAt = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).createdAt)") as? String
         let updatedAt = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).updatedAt)") as? String
+        let bio = userDefaults.object(forKey: "\(StorageKey.currentUser.rawValue).bio)") as? String
 
         guard let unwrappedId = id,
             let unwrappedFirstName = firstName,
@@ -52,7 +54,8 @@ struct TemporaryStorage {
             let unwrappedHandle = handle,
             let unwrappedProfilePicture = profilePicture,
             let unwrappedCreatedAt = createdAt,
-            let unwrappedUpdatedAt = updatedAt else {
+            let unwrappedUpdatedAt = updatedAt,
+            let unwrappedBio = bio else {
                 return nil
         }
 
@@ -63,7 +66,8 @@ struct TemporaryStorage {
                     handle: unwrappedHandle,
                     profilePicture: unwrappedProfilePicture,
                     createdAt: unwrappedCreatedAt,
-                    updatedAt: unwrappedUpdatedAt)
+                    updatedAt: unwrappedUpdatedAt,
+                    bio: unwrappedBio)
     }
 
     func deleteUser() {
@@ -75,6 +79,7 @@ struct TemporaryStorage {
         userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).profilePicture)")
         userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).createdAt)")
         userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).updatedAt)")
+        userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).bio)")
 
         Crashlytics.sharedInstance().setUserIdentifier("")
     }

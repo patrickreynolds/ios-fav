@@ -214,6 +214,15 @@ class ProfileTableHeaderView: UIView {
         profilePictureImageView.clipsToBounds = true
 
         self.followingCount = followingCount
+        
+        if user.bio.isEmpty {
+            aboutMeLabel.text = "You don't have a bio yet. \nEdit your profile to add one."
+        } else {
+            aboutMeLabel.text = user.bio
+            aboutMeLabel.textColor = FaveColors.Black90
+        }
+        
+        aboutMeLabel.text = user.bio.isEmpty ? "You don't have a bio yet. \nEdit your profile to add one." : user.bio
     }
 
     func updateListInfo(lists: [List]) {
