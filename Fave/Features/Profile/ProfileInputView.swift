@@ -46,7 +46,6 @@ class ProfileInputView: UIView {
         textfield.text = _value
         textfield.placeholder = placeholder
         textfield.font = FaveFont(style: .h5, weight: .regular).font
-        textfield.autocorrectionType = .no
 
         textfield.delegate = delegate
 
