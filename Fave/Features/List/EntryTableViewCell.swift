@@ -522,6 +522,8 @@ class EntryTableViewCell: UITableViewCell {
             actionStackView.addArrangedSubview(faveActionView)
             actionStackView.addArrangedSubview(shareActionView)
         }
+
+        photosCollectionView.reloadData()
     }
 
     private func updateSavedItemContext(item: Item) {
@@ -620,8 +622,6 @@ extension EntryTableViewCell: UICollectionViewDataSource {
         if let dependencyGraph = dependencyGraph {
             cell.populate(photo: photo, dependencyGraph: dependencyGraph)
         }
-
-//        cell.isUserInteractionEnabled = false
 
         return cell
     }
