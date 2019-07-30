@@ -73,25 +73,13 @@ class ShareItemViewController: FaveVC {
         }
     }
 
-    var lastSelectedUser: User? {
-        didSet {
-            searchBar.resignFirstResponder()
-            searchBar.setShowsCancelButton(false, animated: true)
-            isSearching = false
-
-            sendButtonEnabled = lastSelectedUser == nil ? false : true
-
-            usersTableView.reloadData()
-        }
-    }
-
     var selectedUsers: [User] = [] {
         didSet {
             searchBar.resignFirstResponder()
             searchBar.setShowsCancelButton(false, animated: true)
             isSearching = false
 
-            sendButtonEnabled = selectedUsers.isEmpty ? true : false
+            sendButtonEnabled = selectedUsers.isEmpty ? false : true
 
             usersTableView.reloadData()
         }
@@ -384,13 +372,13 @@ extension ShareItemViewController: UITableViewDataSource {
 
         let user = userResults[indexPath.row]
 
-        if let lastSelectedUser = lastSelectedUser, user.id == lastSelectedUser.id {
-            self.lastSelectedUser = nil
+        let userAlreadySelected = selectedUsers.map({ $0.id }).contains(user.id)
 
-            return
+        if userAlreadySelected {
+            selectedUsers = selectedUsers.filter({ $0.id != user.id })
+        } else {
+            selectedUsers.append(user)
         }
-
-        lastSelectedUser = userResults[indexPath.row]
     }
 }
 
@@ -400,11 +388,7 @@ extension ShareItemViewController: UITableViewDelegate {
 
         let user = userResults[indexPath.row]
 
-        var isSelected = false
-
-        if let selectedUser = lastSelectedUser {
-            isSelected = selectedUser.id == user.id
-        }
+        let isSelected = selectedUsers.map({ $0.id }).contains(user.id)
 
         cell.populate(user: user, isSelected: isSelected)
 
