@@ -15,7 +15,8 @@ class EventItemView: UIView {
                                textAlignment: .left,
                                numberOfLines: 2)
 
-        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        label.contentHuggingPriority = .defaultHigh
+        label.contentCompressionResistancePriority = .defaultHigh
 
         return label
     }()
@@ -28,13 +29,16 @@ class EventItemView: UIView {
                                textAlignment: .left,
                                numberOfLines: 2)
 
-        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        label.contentHuggingPriority = .defaultHigh
+        label.contentCompressionResistancePriority = .defaultHigh
 
         return label
     }()
 
     private lazy var previewImageView: UIImageView = {
         let imageView = UIImageView.init(frame: .zero)
+
+        imageView.backgroundColor = FaveColors.Black20
 
         imageView.contentMode = UIView.ContentMode.scaleAspectFill
         imageView.clipsToBounds = true
@@ -90,13 +94,16 @@ class EventItemView: UIView {
         titleLabel.text = event.item.title
         subtitleLabel.text = event.list.title
 
-        if imageViewHeightConstraint == nil && previewImageView.image != nil {
-            let currentHeight = previewImageView.frame.size.height
+        previewImageView.image = nil
 
-            constrain(previewImageView) { previewImageView in
-                imageViewHeightConstraint = previewImageView.height == currentHeight
-            }
-        }
+        // Removing in favor of variable EventItemView heights via huggingPriority and compressionResistance
+//        if imageViewHeightConstraint == nil && previewImageView.image != nil {
+//            let currentHeight = previewImageView.frame.size.height
+//
+//            constrain(previewImageView) { previewImageView in
+//                imageViewHeightConstraint = previewImageView.height == currentHeight
+//            }
+//        }
 
         if let googleItem = event.item.contextualItem as? GoogleItemType,
             let photo = googleItem.photos.first,
@@ -107,7 +114,7 @@ class EventItemView: UIView {
                         let data = try Data(contentsOf: googlePhotoUrl)
 
                         DispatchQueue.main.async {
-                            UIView.transition(with: self.previewImageView, duration: 0.2, options: .transitionCrossDissolve,animations: {
+                            UIView.transition(with: self.previewImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {
                                 self.previewImageView.image = UIImage(data: data)
                             }, completion: nil)
                         }

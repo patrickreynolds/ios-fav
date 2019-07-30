@@ -147,6 +147,13 @@ class FeedEventTableViewCell: UITableViewCell {
         titleLabel.attributedText = NSMutableAttributedString(string: "")
         noteLabel.text = ""
         userProfileImageView.image = nil
+
+        if let event = feedEvent, let dependencyGraph = self.dependencyGraph {
+            eventItemView.update(dependencyGraph: dependencyGraph, withEvent: event)
+        }
+
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 
     func populate(dependencyGraph: DependencyGraphType, event: FeedEvent) {

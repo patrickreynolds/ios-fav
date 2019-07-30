@@ -129,10 +129,12 @@ class Label: UIView, Shimmerable {
 
             if let compressionPriority = contentCompressionResistancePriority {
                 label.setContentCompressionResistancePriority(compressionPriority, for: NSLayoutConstraint.Axis.horizontal)
+                label.setContentCompressionResistancePriority(compressionPriority, for: NSLayoutConstraint.Axis.vertical)
             }
 
             if let huggingPriority = contentHuggingPriority {
                 label.setContentHuggingPriority(huggingPriority, for: NSLayoutConstraint.Axis.horizontal)
+                label.setContentHuggingPriority(huggingPriority, for: NSLayoutConstraint.Axis.vertical)
             }
 
             if let attributedText = attributedText {
