@@ -257,9 +257,9 @@ class ItemViewController: FaveVC {
         self.present(activityViewController, animated: true, completion: nil)
     }
 
-    func selectListToFaveTo(canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
+    func selectListToFaveTo(item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
 
-        let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, canceledSelection: canceledSelection, didSelectList: didSelectList)
+        let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, item: item, canceledSelection: canceledSelection, didSelectList: didSelectList)
         myListsViewController.modalPresentationStyle = .overCurrentContext
 
         present(myListsViewController, animated: false, completion: nil)
@@ -372,7 +372,7 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
 
         if weShouldFave {
 
-            selectListToFaveTo(canceledSelection: {
+            selectListToFaveTo(item: item, canceledSelection: {
                 self.updateSaved(userId: user.id)
             }) { selectedList in
                 self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in

@@ -87,31 +87,19 @@ class ShareItemViewController: FaveVC {
 
     var currentSearchInput: String = "" {
         didSet {
+            computeUserResults()
             usersTableView.reloadData()
         }
     }
 
     var users: [User] = [] {
         didSet {
+            computeUserResults()
             usersTableView.reloadData()
         }
     }
 
-    var userResults: [User] {
-        if isSearching && !currentSearchInput.isEmpty {
-            return users.filter({ user in
-                let fullName = "\(user.firstName) \(user.lastName)".lowercased()
-                let handle = user.handle.lowercased()
-
-                let fullNameContainsQuery = fullName.contains(currentSearchInput)
-                let handleContainsQuery = handle.contains(currentSearchInput)
-
-                return fullNameContainsQuery || handleContainsQuery
-            })
-        } else {
-            return users
-        }
-    }
+    var computedUserResults: [User] = []
 
     var shareActionHandler: (() -> ())?
     var copyLinkActionHandler: (() -> ())?
@@ -259,8 +247,6 @@ class ShareItemViewController: FaveVC {
 
         searchExperienceExpandedConstraint?.isActive = false
 
-        sendButtonEnabled = false
-
         refreshUsers()
     }
 
@@ -287,6 +273,22 @@ class ShareItemViewController: FaveVC {
             }
 
             self.users = users
+        }
+    }
+
+    private func computeUserResults() {
+        if isSearching && !currentSearchInput.isEmpty {
+            computedUserResults = users.filter({ user in
+                let fullName = "\(user.firstName) \(user.lastName)".lowercased()
+                let handle = user.handle.lowercased()
+
+                let fullNameContainsQuery = fullName.contains(currentSearchInput)
+                let handleContainsQuery = handle.contains(currentSearchInput)
+
+                return fullNameContainsQuery || handleContainsQuery
+            })
+        } else {
+            computedUserResults = users
         }
     }
 }
@@ -364,13 +366,13 @@ extension ShareItemViewController: UISearchBarDelegate {
 
 extension ShareItemViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userResults.count
+        return computedUserResults.count
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         usersTableView.deselectRow(at: indexPath, animated: true)
 
-        let user = userResults[indexPath.row]
+        let user = computedUserResults[indexPath.row]
 
         let userAlreadySelected = selectedUsers.map({ $0.id }).contains(user.id)
 
@@ -386,7 +388,7 @@ extension ShareItemViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ShareItemUserSearchResultTableViewCell.self, indexPath: indexPath)
 
-        let user = userResults[indexPath.row]
+        let user = computedUserResults[indexPath.row]
 
         let isSelected = selectedUsers.map({ $0.id }).contains(user.id)
 

@@ -4,6 +4,8 @@ import Cartography
 
 class MyListsViewController: FaveVC {
 
+    let item: Item
+
     var sheetOffsetLayoutConstraint: NSLayoutConstraint?
 
     var didSelectList: ((_ list: List) -> ())
@@ -24,14 +26,15 @@ class MyListsViewController: FaveVC {
         tableView.register(UITableViewCell.self)
         tableView.tableFooterView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01))
 
-        tableView.separatorColor = FaveColors.Black20
+        tableView.separatorColor = FaveColors.Black30
 
         return tableView
     }()
 
-    init(dependencyGraph: DependencyGraphType, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
+    init(dependencyGraph: DependencyGraphType, item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
         self.didSelectList = didSelectList
         self.canceledSelection = canceledSelection
+        self.item = item
 
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .myListsScreenShown)
     }
@@ -75,7 +78,7 @@ class MyListsViewController: FaveVC {
     }()
 
     private lazy var pickerTitleLabel: Label = {
-        let label = Label.init(text: "Add to List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let label = Label.init(text: "Choose a list", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
 
         self.pickerView.addSubview(label)
 
@@ -88,7 +91,7 @@ class MyListsViewController: FaveVC {
     }()
 
     private lazy var cancelLabel: Label = {
-        let label = Label.init(text: "Cancel", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black60, textAlignment: .left, numberOfLines: 1)
+        let label = Label.init(text: "Cancel", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .left, numberOfLines: 1)
 
         label.isUserInteractionEnabled = true
 
@@ -163,7 +166,10 @@ class MyListsViewController: FaveVC {
                 return
             }
 
-            self.lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
+            let lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
+            let filterForDuplicates = lists.filter({ $0.id != self.item.listId })
+
+            self.lists = filterForDuplicates
 
             completion()
         }
@@ -235,6 +241,7 @@ extension MyListsViewController: UITableViewDataSource {
         let list = lists[indexPath.row]
 
         cell.textLabel?.text = list.title
+        cell.textLabel?.font = FaveFont.init(style: .h5, weight: .regular).font
 
         return cell
     }

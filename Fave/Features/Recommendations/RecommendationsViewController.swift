@@ -232,8 +232,8 @@ class RecommendationsViewController: FaveVC {
         showToast(title: title)
     }
 
-    private func selectListToFaveTo(canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
-        let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, canceledSelection: canceledSelection, didSelectList: didSelectList)
+    private func selectListToFaveTo(item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
+        let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, item: item, canceledSelection: canceledSelection, didSelectList: didSelectList)
         myListsViewController.modalPresentationStyle = .overCurrentContext
 
         present(myListsViewController, animated: false, completion: nil)
@@ -321,7 +321,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
             // update faves endpoint
             // reload table
 
-            selectListToFaveTo(canceledSelection: {
+            selectListToFaveTo(item: item, canceledSelection: {
                 self.updateSaved(userId: user.id)
             }) { selectedList in
                 self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
@@ -380,7 +380,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
 
         let addToListHandler: (() -> ()) = {
             self.dismiss(animated: true, completion: {
-                let myListsViewController = MyListsViewController(dependencyGraph: self.dependencyGraph, canceledSelection: {
+                let myListsViewController = MyListsViewController(dependencyGraph: self.dependencyGraph, item: item, canceledSelection: {
                     self.dismiss(animated: true, completion: nil)
                 }, didSelectList: { selectedList in
                     self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
