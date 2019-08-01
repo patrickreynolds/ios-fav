@@ -25,7 +25,11 @@ class DiscoverViewController: FaveVC {
         }
     }
 
-    var cachedSuggestionSections: [SuggestionSection] = []
+    var cachedSuggestionSections: [SuggestionSection] = [] {
+        didSet {
+            discoverTableView.reloadData()
+        }
+    }
 
     func suggestionSections() -> [SuggestionSection] {
         var uniqueUsers: [Int: User] = [:]
