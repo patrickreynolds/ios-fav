@@ -60,7 +60,7 @@ class ProfileTableHeaderView: UIView {
                                numberOfLines: 0)
 
     let aboutMeLabel = Label(
-        text: "You don't have a bio yet. \nEdit your profile to add one.",
+        text: "",
         font: FaveFont.init(style: .h5, weight: .regular),
         textColor: FaveColors.Black70,
         textAlignment: .left,
@@ -216,13 +216,11 @@ class ProfileTableHeaderView: UIView {
         self.followingCount = followingCount
         
         if user.bio.isEmpty {
-            aboutMeLabel.text = "You don't have a bio yet. \nEdit your profile to add one."
+            aboutMeLabel.text = ""
         } else {
             aboutMeLabel.text = user.bio
             aboutMeLabel.textColor = FaveColors.Black90
         }
-        
-        aboutMeLabel.text = user.bio.isEmpty ? "You don't have a bio yet. \nEdit your profile to add one." : user.bio
     }
 
     func updateListInfo(lists: [List]) {
