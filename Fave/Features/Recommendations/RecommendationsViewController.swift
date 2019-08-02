@@ -383,7 +383,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
                 let myListsViewController = MyListsViewController(dependencyGraph: self.dependencyGraph, item: item, canceledSelection: {
                     self.dismiss(animated: true, completion: nil)
                 }, didSelectList: { selectedList in
-                    self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+                    self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: item.note) { response, error in
 
                         self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemFaved.rawValue)
 
