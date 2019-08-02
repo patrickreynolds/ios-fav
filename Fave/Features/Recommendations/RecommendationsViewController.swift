@@ -431,47 +431,6 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
             guard let currentUser = self.dependencyGraph.storage.getUser() else {
                 return
             }
-
-//            self.dependencyGraph.faveService.getLists(userId: selectedUser.id) { lists, error in
-//                guard let lists = lists else {
-//                    return
-//                }
-//
-//                guard let recommendationsList = lists.filter({ list in
-//                    return list.title.lowercased() == "recommendations"
-//                }).first else {
-//                    return
-//                }
-//
-//                guard let googleItem = item.contextualItem as? GoogleItemType else {
-//                    return
-//                }
-//
-//                self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationsList.id, type: item.type, placeId: googleItem.placeId, note: "") { item, error in
-//
-//                    guard let _ = item else {
-//                        let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
-//
-//                        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-//                            switch action.style {
-//                            case .default, .cancel, .destructive:
-//                                alertController.dismiss(animated: true, completion: nil)
-//                            }}))
-//
-//                        self.present(alertController, animated: true, completion: nil)
-//
-//                        return
-//                    }
-//
-//                    self.dismiss(animated: true, completion: {
-//                        // show sent recommendation toast
-//
-//                        print("\n\n Show recommendation sent toast \n\n")
-//
-//                        self.showSuccess(title: "Recommendation sent!")
-//                    })
-//                }
-//            }
         }
 
         let shareViewController = ShareItemViewController(dependencyGraph: dependencyGraph, user: user, item: item)
@@ -522,6 +481,17 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
         }
 
         present(selectListNavigationController, animated: true)
+    }
+
+    func didTapOwnerView(owner: User) {
+        print("profile selected for \(owner.id)")
+
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: owner)
+
+        let titleViewLabel = Label.init(text: owner.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        profileViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
 

@@ -221,11 +221,13 @@ class ListViewController: FaveVC {
             hud.centerY == view.centerY
         }
 
-        if let currentUser = dependencyGraph.storage.getUser() {
-            if list.title.lowercased() == "recommendations" && list.owner.id == currentUser.id {
+        // TOOD: Open up recommendations to everyone to see
+//        if let currentUser = dependencyGraph.storage.getUser() {
+//            if list.title.lowercased() == "recommendations" && list.owner.id == currentUser.id {
+            if list.title.lowercased() == "recommendations" {
                 filterType = .recommendations
             }
-        }
+//        }
 
         refreshData()
     }
@@ -444,6 +446,7 @@ extension ListViewController: CreateListViewControllerDelegate {
 extension ListViewController: CreateItemViewControllerDelegate {
     func didCreateItem(item: Item) {
         showToast(title: "Created \(item.contextualItem.name)")
+
         refreshData()
     }
 }
@@ -665,6 +668,17 @@ extension ListViewController: EntryTableViewCellDelegate {
 
             present(removeFaveAlertController, animated: true, completion: nil)
         }
+    }
+
+    func didTapOwnerView(owner: User) {
+        print("profile selected for \(owner.id)")
+
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: owner)
+
+        let titleViewLabel = Label(text: owner.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        profileViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(profileViewController, animated: true)
     }
 
     func updateSaved(userId: Int) {

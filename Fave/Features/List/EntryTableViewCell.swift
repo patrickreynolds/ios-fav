@@ -8,6 +8,7 @@ protocol EntryTableViewCellDelegate {
     func googlePhotoTapped(item: Item)
     func dismissButtonTapped(item: Item)
     func addToListButtonTapped(item: Item)
+    func didTapOwnerView(owner: User)
 }
 
 class EntryTableViewCell: UITableViewCell {
@@ -507,6 +508,10 @@ class EntryTableViewCell: UITableViewCell {
             
             ownerNameLabel.text = "Recommended by \(item.addedBy.firstName) \(item.addedBy.lastName)"
             ownerImageView.image = UIImage(base64String: item.addedBy.profilePicture)
+
+            _ = ownerView.tapped { tapped in
+                self.delegate?.didTapOwnerView(owner: item.addedBy)
+            }
         } else {
             isRecommendationConstraint?.isActive = false
             isNotRecommendationConstraint?.isActive = true
