@@ -89,7 +89,7 @@ class FeedViewController: FaveVC {
 
         tabBarController?.delegate = self
 
-        let titleViewLabel = Label.init(text: "Fave", font: FaveFont.init(style: .h3, weight: .bold), textColor: FaveColors.Accent, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Home", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         view.addSubview(loadingIndicatorView)
