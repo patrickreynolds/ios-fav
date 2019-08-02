@@ -247,7 +247,11 @@ class ProfileViewController: FaveVC {
                 return
             }
 
-            self.lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
+            // TODO: Uncomment this if we want to hide recommendations again
+            // self.lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
+            let lists = unwrappedLists.filter({ $0.title.lowercased() != "saved for later" })
+
+            self.lists = lists
 
             completion()
         }

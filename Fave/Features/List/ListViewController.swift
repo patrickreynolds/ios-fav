@@ -47,10 +47,12 @@ class ListViewController: FaveVC {
             self.entries = self.listItems.filter({ item in
                 return !item.isRecommendation
             })
+            .sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
 
             self.recommendations = self.listItems.filter({ item in
                 return item.isRecommendation
             })
+            .sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
 
             listTableView.reloadData()
         }
