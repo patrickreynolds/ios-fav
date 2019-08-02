@@ -345,6 +345,12 @@ extension ListViewController {
     @objc func addItemButtonTapped(sender: UIButton!) {
         print("\n\nAdd Item Button Tapped\n\n")
 
+        guard self.dependencyGraph.authenticator.isLoggedIn() else {
+            login()
+
+            return
+        }
+
         let createItemViewController = CreateItemViewController(dependencyGraph: self.dependencyGraph, defaultList: list, creationType: .addition)
         let createItemNavigationViewController = UINavigationController(rootViewController: createItemViewController)
 
@@ -355,6 +361,12 @@ extension ListViewController {
 
     @objc func recommendItemButtonTapped(sender: UIButton!) {
         print("\n\nAdd Item Button Tapped\n\n")
+
+        guard self.dependencyGraph.authenticator.isLoggedIn() else {
+            login()
+
+            return
+        }
 
         let createRecommendationViewController = CreateRecommendationViewController(dependencyGraph: self.dependencyGraph, recipient: list.owner, list: list)
         let createRecommendationNavigationViewController = UINavigationController(rootViewController: createRecommendationViewController)
