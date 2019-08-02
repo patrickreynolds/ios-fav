@@ -31,7 +31,10 @@ class RecommendationsViewController: FaveVC {
     private var items: [Item] = [] {
         didSet {
             // $0.listTitle.lowercased() == "recommendations"
-            self.recommendations = items.filter({ $0.isRecommendation })
+            let recommendations = items.filter({ $0.isRecommendation })
+            let sortedRecommendations = recommendations.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
+
+            self.recommendations = sortedRecommendations
         }
     }
 
