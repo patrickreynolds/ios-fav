@@ -199,10 +199,6 @@ class RecommendationsViewController: FaveVC {
     }
 
     private func fetchLists(completion: @escaping () -> ()) {
-        guard let user = dependencyGraph.storage.getUser() else {
-            return
-        }
-
         var responses = 0
 
         let recommendationIds = recommendations.map { $0.id }
@@ -428,9 +424,9 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
         }
 
         let sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item) -> ()) = { selectedUser, item in
-            guard let currentUser = self.dependencyGraph.storage.getUser() else {
-                return
-            }
+            // TODO: Patrick
+
+            // Not needed for the recommendations view controller, but should refactor at some point
         }
 
         let shareViewController = ShareItemViewController(dependencyGraph: dependencyGraph, user: user, item: item)
