@@ -2,13 +2,8 @@ import UIKit
 
 import Cartography
 
-enum LoadingState {
-    case loading
-    case presenting
-}
-
-class FollowedByViewController: FaveVC {
-    let list: List
+class FollowingListViewController: FaveVC {
+    let user: User
 
     var state: LoadingState = .presenting {
         didSet {
@@ -16,9 +11,9 @@ class FollowedByViewController: FaveVC {
         }
     }
 
-    var followers: [User] = [] {
+    var listsUserFollows: [List] = [] {
         didSet {
-            followedByTableView.reloadData()
+            followingTableView.reloadData()
         }
     }
 
@@ -53,7 +48,7 @@ class FollowedByViewController: FaveVC {
         return refreshControl
     }()
 
-    private lazy var followedByTableView: UITableView = {
+    private lazy var followingTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .plain)
 
         tableView.delegate = self
@@ -62,7 +57,7 @@ class FollowedByViewController: FaveVC {
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01))
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01))
 
-        tableView.register(UserTableViewCell.self)
+        tableView.register(ListTableViewCell.self)
 
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
 
@@ -74,10 +69,10 @@ class FollowedByViewController: FaveVC {
         return tableView
     }()
 
-    init(dependencyGraph: DependencyGraphType, list: List) {
-        self.list = list
+    init(dependencyGraph: DependencyGraphType, user: User) {
+        self.user = user
 
-        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .followedByScreenShown)
+        super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .followingListsScreenShown)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -89,9 +84,9 @@ class FollowedByViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
 
-        view.addSubview(followedByTableView)
+        view.addSubview(followingTableView)
 
-        constrainToSuperview(followedByTableView)
+        constrainToSuperview(followingTableView)
 
         refreshControl.refreshManually()
     }
@@ -99,19 +94,17 @@ class FollowedByViewController: FaveVC {
     private func refreshData(completion: @escaping () -> () = {}) {
         state = .loading
 
-            dependencyGraph.faveService.getList(listId: list.id) { list, error in
-                completion()
+        dependencyGraph.faveService.listsUserFollows(userId: user.id) { response, error in
+            completion()
 
-                self.state = .presenting
+            self.state = .presenting
 
-                guard let list = list else {
-                    // TODO: Throw error
-
-                    return
-                }
-
-                self.followers = list.followers
+            guard let listsUserFollows = response else {
+                return
             }
+
+            self.listsUserFollows = listsUserFollows
+        }
     }
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -125,32 +118,32 @@ class FollowedByViewController: FaveVC {
     }
 }
 
-extension FollowedByViewController: UITableViewDataSource {
+extension FollowingListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return followers.count
+        return listsUserFollows.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(UserTableViewCell.self, indexPath: indexPath)
+        let cell = tableView.dequeue(ListTableViewCell.self, indexPath: indexPath)
 
-        let user = followers[indexPath.row]
-        cell.populate(user: user)
+        let list = listsUserFollows[indexPath.row]
+        cell.populate(list: list)
 
         return cell
     }
 }
 
-extension FollowedByViewController: UITableViewDelegate {
+extension FollowingListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        followedByTableView.deselectRow(at: indexPath, animated: true)
+        followingTableView.deselectRow(at: indexPath, animated: true)
 
-        let user = self.followers[indexPath.row]
+        let list = self.listsUserFollows[indexPath.row]
 
-        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
+        let listViewController = ListViewController.init(dependencyGraph: dependencyGraph, list: list)
 
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
-        profileViewController.navigationItem.titleView = titleViewLabel
+        let titleViewLabel = Label.init(text: "Following", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        listViewController.navigationItem.titleView = titleViewLabel
 
-        navigationController?.pushViewController(profileViewController, animated: true)
+        navigationController?.pushViewController(listViewController, animated: true)
     }
 }

@@ -252,7 +252,7 @@ extension RecommendationsViewController: UITableViewDelegate {
         if let list = listsForRecommendations[item.id] {
             let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item, list: list)
 
-            let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+            let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
             itemViewController.navigationItem.titleView = titleViewLabel
 
             navigationController?.pushViewController(itemViewController, animated: true)
@@ -304,7 +304,7 @@ extension RecommendationsViewController: UITableViewDataSource {
 
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
@@ -488,7 +488,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: owner)
 
-        let titleViewLabel = Label.init(text: owner.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: owner.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)

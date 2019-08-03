@@ -23,6 +23,7 @@
 		432B3EB922F4F370005F7EF5 /* SavedByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EB822F4F370005F7EF5 /* SavedByViewController.swift */; };
 		432B3EBB22F50221005F7EF5 /* FollowedByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EBA22F50221005F7EF5 /* FollowedByViewController.swift */; };
 		432B3EBD22F505D4005F7EF5 /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EBC22F505D4005F7EF5 /* UIRefreshControlExtension.swift */; };
+		432B3EBF22F50CD7005F7EF5 /* FollowingListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EBE22F50CD7005F7EF5 /* FollowingListsViewController.swift */; };
 		4334DB6D228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */; };
 		4334DB6F228F269800EE58BB /* TopListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */; };
 		433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */; };
@@ -149,6 +150,7 @@
 		432B3EB822F4F370005F7EF5 /* SavedByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedByViewController.swift; sourceTree = "<group>"; };
 		432B3EBA22F50221005F7EF5 /* FollowedByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowedByViewController.swift; sourceTree = "<group>"; };
 		432B3EBC22F505D4005F7EF5 /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
+		432B3EBE22F50CD7005F7EF5 /* FollowingListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingListsViewController.swift; sourceTree = "<group>"; };
 		4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveLoggedOutWelcomeView.swift; sourceTree = "<group>"; };
 		4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListCollectionViewCell.swift; sourceTree = "<group>"; };
 		433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputTitleView.swift; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 				433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */,
 				433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */,
 				433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */,
+				432B3EBE22F50CD7005F7EF5 /* FollowingListsViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -901,6 +904,7 @@
 				4385350522333AA700B99EC7 /* Networking.swift in Sources */,
 				432B3EB922F4F370005F7EF5 /* SavedByViewController.swift in Sources */,
 				4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */,
+				432B3EBF22F50CD7005F7EF5 /* FollowingListsViewController.swift in Sources */,
 				430D8D2E224DEBA20082FCF2 /* FeedEvent.swift in Sources */,
 				4305F373224007C500F6DE77 /* List.swift in Sources */,
 				439FDDE02245D1FC00ED9343 /* ListViewController.swift in Sources */,

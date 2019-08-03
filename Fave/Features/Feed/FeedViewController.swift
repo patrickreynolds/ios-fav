@@ -331,7 +331,7 @@ extension FeedViewController: FeedEventTableViewCellDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)
@@ -343,7 +343,7 @@ extension FeedViewController: FeedEventTableViewCellDelegate {
 
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Entry", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
@@ -362,7 +362,7 @@ extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
     func didSelectUser(user: User) {
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)
@@ -371,7 +371,7 @@ extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
     func didSelectList(list: List) {
         let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
 
-        let titleViewLabel = Label(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)
@@ -380,7 +380,7 @@ extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
     func didSelectItem(item: Item, list: List) {
         let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)

@@ -442,7 +442,7 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
 
         let savedByViewController = SavedByViewController(dependencyGraph: dependencyGraph, item: item)
 
-        let titleViewLabel = Label(text: "Saved by", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Saved by", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         savedByViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(savedByViewController, animated: true)

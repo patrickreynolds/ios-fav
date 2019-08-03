@@ -4,6 +4,7 @@ import Cartography
 
 protocol ProfileTableHeaderViewDelegate {
     func editProfileButtonTapped()
+    func didTapFollowingListsLabel(user: User)
 }
 
 class ProfileTableHeaderView: UIView {
@@ -12,7 +13,7 @@ class ProfileTableHeaderView: UIView {
     }
 
     let dependencyGraph: DependencyGraphType
-    let user: User?
+    var user: User?
     var delegate: ProfileTableHeaderViewDelegate?
 
     var followingCount: Int = 0 {
@@ -66,12 +67,24 @@ class ProfileTableHeaderView: UIView {
         textAlignment: .left,
         numberOfLines: 0)
 
-    let followingLabel = Label(
-        text: "Not following any lists",
-        font: FaveFont.init(style: .h5, weight: .regular),
-        textColor: FaveColors.Black90,
-        textAlignment: .left,
-        numberOfLines: 0)
+    lazy var followingLabel: Label = {
+        let label = Label(
+            text: "Not following any lists",
+            font: FaveFont.init(style: .h5, weight: .regular),
+            textColor: FaveColors.Black90,
+            textAlignment: .left,
+            numberOfLines: 0)
+
+        _ = label.tapped { _ in
+            if let user = self.user {
+                self.delegate?.didTapFollowingListsLabel(user: user)
+            }
+        }
+
+        label.isUserInteractionEnabled = true
+
+        return label
+    }()
 
     let listCountLabel = Label(
         text: "No lists",
@@ -105,7 +118,6 @@ class ProfileTableHeaderView: UIView {
             aboutMeLabel.top == nameLabel.bottom + 4
             aboutMeLabel.right == nameLabel.right
             aboutMeLabel.left == nameLabel.left
-//            aboutMeLabel.bottom == view.bottom - 16
         }
 
         constrain(followingLabel, aboutMeLabel, view) { followingLabel, aboutMeLabel, view in
@@ -165,6 +177,8 @@ class ProfileTableHeaderView: UIView {
         if let user = user {
             if let currentUser = dependencyGraph.storage.getUser() {
                 isUserProfile = user.id == currentUser.id
+
+                self.user = isUserProfile ? currentUser : user
             }
         } else {
             isUserProfile = true
@@ -206,6 +220,8 @@ class ProfileTableHeaderView: UIView {
     }
 
     func updateUserInfo(user: User, followingCount: Int = 0) {
+        self.user = user
+
         nameLabel.text = ("\(user.firstName) \(user.lastName)")
 
         profilePictureImageView.image = UIImage(base64String: user.profilePicture)

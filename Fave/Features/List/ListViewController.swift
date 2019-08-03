@@ -331,7 +331,7 @@ class ListViewController: FaveVC {
     private func handleItemTapped(item: Item) {
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
@@ -560,12 +560,12 @@ extension ListViewController: ListTableHeaderViewDelegate {
     }
 
     func didTapFollowedByLabel(list: List) {
-        let savedByViewController = FollowedByViewController(dependencyGraph: dependencyGraph, list: list)
+        let followedByViewController = FollowedByViewController(dependencyGraph: dependencyGraph, list: list)
 
-        let titleViewLabel = Label(text: "Followed by", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
-        savedByViewController.navigationItem.titleView = titleViewLabel
+        let titleViewLabel = Label(text: "Followed by", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        followedByViewController.navigationItem.titleView = titleViewLabel
 
-        navigationController?.pushViewController(savedByViewController, animated: true)
+        navigationController?.pushViewController(followedByViewController, animated: true)
     }
 }
 
@@ -690,7 +690,7 @@ extension ListViewController: EntryTableViewCellDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: owner)
 
-        let titleViewLabel = Label(text: owner.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: owner.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)

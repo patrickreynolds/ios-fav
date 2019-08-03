@@ -372,7 +372,7 @@ extension ProfileViewController: UITableViewDelegate {
 
         let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
 
-        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)
@@ -419,6 +419,15 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
         editProfileViewController.delegate = self
 
         present(editProfileNavigationViewController, animated: true, completion: nil)
+    }
+
+    func didTapFollowingListsLabel(user: User) {
+        let followingListsViewController = FollowingListViewController(dependencyGraph: dependencyGraph, user: user)
+
+        let titleViewLabel = Label(text: "Following", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        followingListsViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(followingListsViewController, animated: true)
     }
 }
 

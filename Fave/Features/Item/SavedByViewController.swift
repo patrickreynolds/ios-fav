@@ -104,7 +104,7 @@ extension SavedByViewController: UITableViewDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)
