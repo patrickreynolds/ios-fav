@@ -37,8 +37,8 @@ enum FaveEndpoint {
             return "api/v1/users/\(userId)"
         case .getLists(let userId):
             return "api/v1/users/\(userId)/lists"
-        case .getList(let userId, let listId):
-            return "api/v1/users/\(userId)/lists/\(listId)"
+        case .getList(let _, let _):
+            return ""
         case .createList(let userId):
             return "api/v1/users/\(userId)/lists"
         case .createListItem(let userId, let listId, let type):

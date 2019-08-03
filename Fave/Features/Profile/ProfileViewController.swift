@@ -110,15 +110,21 @@ class ProfileViewController: FaveVC {
         let image = UIImage.init(named: "icon-nav-chevron-left")
         let imageView = UIImageView(image: image)
 
+        let button = UIButton.init(frame: .zero)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.tintColor = FaveColors.Black90
+        button.contentHorizontalAlignment = .left
+
         constrain(imageView) { imageView in
             imageView.width == 24
             imageView.height == 24
         }
 
-        let button = UIButton.init(frame: .zero)
-        button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        button.tintColor = FaveColors.Black90
+        constrain(button) { button in
+            button.width == 40
+            button.height == 24
+        }
 
         return button
     }()

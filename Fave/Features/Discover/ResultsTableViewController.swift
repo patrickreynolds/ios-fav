@@ -2,13 +2,7 @@ import UIKit
 
 import Cartography
 
-protocol ResultsTableViewControllerDelegate {
-    func didSelectUser(user: User)
-}
-
 class ResultsTableViewController: FaveVC {
-
-    var delegate: ResultsTableViewControllerDelegate?
 
     var filteredUsers: [User] = [] {
         didSet {
@@ -22,7 +16,7 @@ class ResultsTableViewController: FaveVC {
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.register(UserSearchTableViewCell.self)
+        tableView.register(UserTableViewCell.self)
 
         tableView.separatorColor = UIColor.clear
 
@@ -58,7 +52,7 @@ extension ResultsTableViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(UserSearchTableViewCell.self, indexPath: indexPath)
+        let cell = tableView.dequeue(UserTableViewCell.self, indexPath: indexPath)
 
         let user = filteredUsers[indexPath.row]
         cell.populate(user: user)
@@ -79,7 +73,5 @@ extension ResultsTableViewController: UITableViewDelegate {
         profileViewController.navigationItem.titleView = titleViewLabel
 
         presentingViewController?.navigationController?.pushViewController(profileViewController, animated: true)
-
-        delegate?.didSelectUser(user: user)
     }
 }

@@ -33,6 +33,10 @@ struct GraphQLQueryBuilder {
             recommendedBy {
                 \(userString())
             }
+            numberOfFaves
+            friendsWhoLikeItem {
+                \(userString())
+            }
             dataItem {
                 connectorId
                 connectorType

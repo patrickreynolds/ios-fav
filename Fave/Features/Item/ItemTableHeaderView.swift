@@ -4,6 +4,7 @@ import Cartography
 
 protocol ItemTableHeaderViewDelegate {
     func saveItemButtonTapped(item: Item, from: Bool, to: Bool)
+    func didTapSavedByOthersLabel(item: Item)
 }
 
 class ItemTableHeaderView: UIView {
@@ -83,7 +84,7 @@ class ItemTableHeaderView: UIView {
         return label
     }()
 
-    private lazy var favedByOthersLabel: Label = {
+    private lazy var savedByOthersLabel: Label = {
         let labelText = self.item.numberOfFaves == 1 ? "Saved by \(self.item.numberOfFaves) other" : "Saved by \(self.item.numberOfFaves) others"
 
         let label = Label(text: labelText,
@@ -91,6 +92,12 @@ class ItemTableHeaderView: UIView {
                           textColor: FaveColors.Black90,
                           textAlignment: .left,
                           numberOfLines: 0)
+
+        _ = label.tapped({ tapped in
+            self.delegate?.didTapSavedByOthersLabel(item: self.item)
+        })
+
+//        label.isUserInteractionEnabled = true
 
         return label
     }()
@@ -126,7 +133,7 @@ class ItemTableHeaderView: UIView {
         addSubview(savedItemContextView)
         addSubview(titleLabel)
         addSubview(itemNoteLabel)
-        addSubview(favedByOthersLabel)
+        addSubview(savedByOthersLabel)
         addSubview(faveItemButton)
         addSubview(dividerView)
 
@@ -148,19 +155,19 @@ class ItemTableHeaderView: UIView {
             itemNoteLabel.left == titleLabel.left
         }
 
-        constrain(itemNoteLabel, favedByOthersLabel, self) { noteLabel, favedByOthersLabel, view in
-            favedByOthersLabel.top == noteLabel.bottom + 16
-            favedByOthersLabel.right == view.right - 16
-            favedByOthersLabel.left == view.left + 16
+        constrain(itemNoteLabel, savedByOthersLabel, self) { noteLabel, savedByOthersLabel, view in
+            savedByOthersLabel.top == noteLabel.bottom + 16
+            savedByOthersLabel.right == view.right - 16
+            savedByOthersLabel.left == view.left + 16
         }
 
         if let user = currentUser, item.addedBy.id == user.id {
-            constrain(favedByOthersLabel, dividerView) { favedByOthersLabel, dividerView in
-                favedByOthersLabel.bottom == dividerView.top - 16
+            constrain(savedByOthersLabel, dividerView) { savedByOthersLabel, dividerView in
+                savedByOthersLabel.bottom == dividerView.top - 16
             }
         } else {
-            constrain(faveItemButton, favedByOthersLabel, dividerView, self) { stackView, favedByOthersLabel, dividerView, view in
-                stackView.top == favedByOthersLabel.bottom + 16
+            constrain(faveItemButton, savedByOthersLabel, dividerView, self) { stackView, savedByOthersLabel, dividerView, view in
+                stackView.top == savedByOthersLabel.bottom + 16
                 stackView.right == view.right - 16
                 stackView.bottom == dividerView.top - 16
                 stackView.left == view.left + 16

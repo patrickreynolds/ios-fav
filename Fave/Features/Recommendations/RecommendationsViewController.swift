@@ -215,7 +215,7 @@ class RecommendationsViewController: FaveVC {
         }
 
         listIds.enumerated().forEach { (index: Int, id: Int) in
-            dependencyGraph.faveService.getList(userId: user.id, listId: id, completion: { list, error in
+            dependencyGraph.faveService.getList(listId: id, completion: { list, error in
                 responses += 1
 
                 guard let list = list else {

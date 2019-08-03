@@ -7,6 +7,7 @@ protocol ListTableHeaderViewDelegate {
     func entriesButtonTapped()
     func suggestionsButtonTapped()
     func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List)
+    func didTapFollowedByLabel(list: List)
 }
 
 enum FaveRelationshipType {
@@ -178,6 +179,12 @@ class ListTableHeaderView: UIView {
                           textColor: FaveColors.Black90,
                           textAlignment: .left,
                           numberOfLines: 0)
+
+        _ = label.tapped { _ in
+            self.delegate?.didTapFollowedByLabel(list: self.list)
+        }
+
+        label.isUserInteractionEnabled = true
 
         return label
     }()

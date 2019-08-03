@@ -18,6 +18,7 @@ struct Item {
     let listTitle: String
     var addedBy: User
     var isSaved: Bool? = nil
+    let friendsWhoLikeItem: [User]
 
     init?(data: [String: AnyObject]) {
         guard let id = data["id"] as? Int else {
@@ -106,6 +107,12 @@ struct Item {
 
         let numberOfFaves = data["numberOfFaves"] as? Int ?? 0
 
+        var friendsWhoLikeItem: [User] = []
+
+        if let friendsData = data["friendsWhoLikeItem"] as? [[String: AnyObject]] {
+            friendsWhoLikeItem = friendsData.compactMap({ User(data: $0) })
+        }
+
         self.id = id
         self.dataId = dataId
         self.title = title
@@ -121,6 +128,7 @@ struct Item {
         self.listId = listId
         self.listTitle = listTitle
         self.addedBy = addedBy
+        self.friendsWhoLikeItem = friendsWhoLikeItem
     }
 }
 

@@ -94,7 +94,7 @@ struct FaveGraphQLService {
         }
     }
 
-    func getList(userId: Int, listId: Int, completion:  @escaping (_ lists: List?, _ error: Error?) -> ()) {
+    func getList(listId: Int, completion:  @escaping (_ lists: List?, _ error: Error?) -> ()) {
 
         let listQueryString = GraphQLQueryBuilder.listQuery(listId: listId)
 

@@ -71,15 +71,21 @@ class ItemViewController: FaveVC {
         let image = UIImage.init(named: "icon-nav-chevron-left")
         let imageView = UIImageView(image: image)
 
+        let button = UIButton.init(frame: .zero)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.tintColor = FaveColors.Black90
+        button.contentHorizontalAlignment = .left
+
         constrain(imageView) { imageView in
             imageView.width == 24
             imageView.height == 24
         }
 
-        let button = UIButton.init(frame: .zero)
-        button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        button.tintColor = FaveColors.Black90
+        constrain(button) { button in
+            button.width == 40
+            button.height == 24
+        }
 
         return button
     }()
@@ -430,6 +436,16 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
 
             present(removeFaveAlertController, animated: true, completion: nil)
         }
+    }
+
+    func didTapSavedByOthersLabel(item: Item) {
+
+        let savedByViewController = SavedByViewController(dependencyGraph: dependencyGraph, item: item)
+
+        let titleViewLabel = Label(text: "Saved by", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        savedByViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(savedByViewController, animated: true)
     }
 }
 

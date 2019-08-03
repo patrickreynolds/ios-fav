@@ -130,8 +130,6 @@ class DiscoverViewController: FaveVC {
 
     private lazy var resultsTableController: ResultsTableViewController = {
         let viewController = ResultsTableViewController(dependencyGraph: self.dependencyGraph)
-
-        viewController.delegate = self
         
         viewController.resultsTableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
 
@@ -208,7 +206,7 @@ class DiscoverViewController: FaveVC {
         tableView.sectionHeaderHeight = UITableView.automaticDimension
 
         tableView.register(DiscoverUserListTableViewCell.self)
-        tableView.register(UserSearchTableViewCell.self)
+        tableView.register(UserTableViewCell.self)
         
         tableView.tableHeaderView = tableHeaderView
 
@@ -528,11 +526,6 @@ extension DiscoverViewController: UITabBarControllerDelegate {
         }
     }
 }
-
-extension DiscoverViewController: ResultsTableViewControllerDelegate {
-    func didSelectUser(user: User) {}
-}
-
 
 /* Users search experience */
 extension DiscoverViewController: UISearchResultsUpdating {

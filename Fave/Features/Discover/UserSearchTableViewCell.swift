@@ -1,7 +1,7 @@
 import UIKit
 import Cartography
 
-class UserSearchTableViewCell: UITableViewCell {
+class UserTableViewCell: UITableViewCell {
 
     private lazy var profilePictureImageView: UIImageView = {
         let imageView = UIImageView.init(frame: .zero)
@@ -100,6 +100,7 @@ class UserSearchTableViewCell: UITableViewCell {
     func populate(user: User) {
         titleLabel.text = user.handle
         subtitleLabel.text = "\(user.firstName) \(user.lastName)"
+
         self.profilePictureImageView.image = UIImage(base64String: user.profilePicture)
     }
 }
