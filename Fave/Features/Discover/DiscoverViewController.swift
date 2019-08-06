@@ -61,7 +61,7 @@ class DiscoverViewController: FaveVC {
             }
         })
         .compactMap { $0 }
-        .sorted { $0.user.firstName < $1.user.lastName }
+        .sorted { $0.user.firstName < $1.user.firstName }
 
         return sections
     }
