@@ -1,10 +1,5 @@
-//
-//  FaveImageCache.swift
-//  Fave
-//
-//  Created by Patrick Reynolds on 8/9/19.
-//  Copyright © 2019 Patrick Reynolds. All rights reserved.
-//
+// Inspiration found here:
+// https://medium.com/journey-of-one-thousand-apps/caching-images-in-swift-e909a8e5db17
 
 import UIKit
 

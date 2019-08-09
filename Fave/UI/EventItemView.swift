@@ -112,7 +112,15 @@ class EventItemView: UIView {
 
             FaveImageCache.downloadImage(url: googlePhotoUrl) { image in
                 UIView.transition(with: self.previewImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {
+
+                    guard let image = image else {
+                        self.previewImageView.image = FaveColors.Black20
+
+                        return
+                    }
+
                     self.previewImageView.image = image
+
                 }, completion: nil)
             }
 //                DispatchQueue.global().async {
