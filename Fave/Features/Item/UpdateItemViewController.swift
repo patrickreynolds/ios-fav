@@ -4,20 +4,26 @@ import Cartography
 import MBProgressHUD
 import GooglePlaces
 
-protocol CreateRecommendationViewControllerDelegate {
-    func didSendRecommendations(selectedUsers: [User])
+protocol UpdateItemViewControllerDelegate {
+    func didUpdateItem(viewController: FaveVC)
 }
 
-class CreateRecommendationViewController: FaveVC {
+class UpdateItemViewController: FaveVC {
 
-    var delegate: CreateRecommendationViewControllerDelegate?
+    var delegate: UpdateItemViewControllerDelegate?
+
+    let item: Item
 
     let creationType: ItemCreationType
 
     var listType: ListType = .undefined
-    
-    private var recipient: User?
-    private var list: List?
+    var list: List? {
+        didSet {
+            if let unwrappedList = list {
+                self.listLabelText = unwrappedList.title
+            }
+        }
+    }
 
     var place: GMSPlace? {
         didSet {
@@ -30,12 +36,12 @@ class CreateRecommendationViewController: FaveVC {
             } else {
                 createListEnabled = false
 
-                nameLabelText = "Location"
+                nameLabelText = item.title
             }
         }
     }
 
-    var nameLabelText: String = "Location" {
+    var nameLabelText: String = "" {
         didSet {
             if !nameLabelText.isEmpty {
                 nameLabel.text = nameLabelText
@@ -47,28 +53,20 @@ class CreateRecommendationViewController: FaveVC {
         }
     }
 
-    var userLabelText: String = "" {
+    var listLabelText: String = "" {
         didSet {
-            if !userLabelText.isEmpty {
-                userLabel.text = userLabelText
-                userLabel.textColor = FaveColors.Black90
+            if !listLabelText.isEmpty {
+                listLabel.text = listLabelText
+                listLabel.textColor = FaveColors.Black90
             } else {
-                userLabel.text = userLabelText
-                userLabel.textColor = FaveColors.Black50
+                listLabel.text = listLabelText
+                listLabel.textColor = FaveColors.Black50
             }
         }
     }
 
-    var selectedUsers: [User] = [] {
-        didSet {
-            var textString = selectedUsers.reduce("") { "\($0) \($1.handle), " }
-            textString = String(textString.dropLast(2))
-            userLabelText = textString
-        }
-    }
-
     var nameLabel: Label = Label(font: FaveFont(style: .h5, weight: .regular))
-    var userLabel: Label = Label(font: FaveFont(style: .h5, weight: .regular))
+    var listLabel: Label = Label(font: FaveFont(style: .h5, weight: .regular))
     var noteTextView: UITextView = UITextView(frame: .zero)
     var noteTextViewCharacterCountLabel: Label = Label(font: FaveFont(style: .small, weight: .regular))
 
@@ -77,9 +75,9 @@ class CreateRecommendationViewController: FaveVC {
     var createListEnabled: Bool = false {
         didSet {
             if createListEnabled {
-                self.sendButton.backgroundColor = FaveColors.Accent
+                self.createButton.backgroundColor = FaveColors.Accent
             } else {
-                self.sendButton.backgroundColor = FaveColors.Accent.withAlphaComponent(0.56)
+                self.createButton.backgroundColor = FaveColors.Accent.withAlphaComponent(0.56)
             }
         }
     }
@@ -105,15 +103,15 @@ class CreateRecommendationViewController: FaveVC {
         return hud
     }()
 
-    private lazy var sendButton: UIButton = {
+    private lazy var createButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
-        button.addTarget(self, action: #selector(createRecommendationButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(updateItemButtonTapped), for: .touchUpInside)
         button.setTitleColor(FaveColors.Accent, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         button.layer.cornerRadius = 16
 
-        let attributedTitle = NSAttributedString(string: "Send",
+        let attributedTitle = NSAttributedString(string: "Update",
                                                  font: FaveFont(style: .small, weight: .semiBold).font,
                                                  textColor: FaveColors.White)
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -145,11 +143,13 @@ class CreateRecommendationViewController: FaveVC {
         nameInputIconImageView.image = UIImage(named: "icon-star")
         nameInputIconImageView.tintColor = FaveColors.Black50
 
-        nameLabel = Label.init(text: "Place", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        nameLabel = Label.init(text: item.title, font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .left, numberOfLines: 1)
         nameLabel.isUserInteractionEnabled = true
 
         _ = nameLabel.tapped { recognizer in
-            self.nameLabelTapped()
+//            self.nameLabelTapped()
+
+            // TODO: Show popup to say we're not supporting this yet
         }
 
         let nameDividerView = DividerView()
@@ -196,7 +196,7 @@ class CreateRecommendationViewController: FaveVC {
 
         noteTextViewPlaceholder = Label(text: "(Optional) Leave a note...", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
         noteTextViewPlaceholder.translatesAutoresizingMaskIntoConstraints = false
-        noteTextViewPlaceholder.isHidden = false
+        noteTextViewPlaceholder.isHidden = true
 
         noteTextView.addSubview(noteTextViewPlaceholder)
         noteTextView.bringSubviewToFront(noteTextViewPlaceholder)
@@ -243,54 +243,52 @@ class CreateRecommendationViewController: FaveVC {
 
 
         // Add list input view
-        let userInputView = UIView(frame: .zero)
+        let listInputView = UIView(frame: .zero)
 
-        let userInputIconImageView = UIImageView(frame: .zero)
-        userInputIconImageView.image = UIImage(named: "tab-icon-search")
-        userInputIconImageView.tintColor = FaveColors.Black50
-        userInputIconImageView.setContentHuggingPriority(.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
+        let listInputIconImageView = UIImageView(frame: .zero)
+        listInputIconImageView.image = UIImage(named: "icon-list")
+        listInputIconImageView.tintColor = FaveColors.Black50
+        listInputIconImageView.setContentHuggingPriority(.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
 
-        userLabel = Label(text: "Select a user", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 0)
-        userLabel.isUserInteractionEnabled = true
-        userLabel.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
+        listLabel = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        listLabel.isUserInteractionEnabled = true
+        listLabel.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
 
-        if let recipient = recipient {
-            userLabel.text = "\(recipient.firstName) \(recipient.lastName)"
-        } else {
-            _ = userLabel.tapped { recognizer in
-                self.userLabelTapped()
-            }
+        _ = listLabel.tapped { recognizer in
+            self.listLabelTapped()
         }
 
-        let userDividerView = DividerView()
+        let listDividerView = DividerView()
 
-        userInputView.addSubview(userInputIconImageView)
-        userInputView.addSubview(userLabel)
-        userInputView.addSubview(userDividerView)
+        listInputView.addSubview(listInputIconImageView)
+        listInputView.addSubview(listLabel)
+        listInputView.addSubview(listDividerView)
 
-        constrain(userInputIconImageView, userLabel, userInputView) { imageView, label, view in
+        constrain(listInputIconImageView, listLabel, listInputView) { imageView, label, view in
             imageView.centerY == label.centerY
             imageView.left == view.left + 16
         }
 
-        constrain(userLabel, userInputIconImageView, userInputView) { label, imageView, view in
+        constrain(listLabel, listInputIconImageView, listInputView) { label, imageView, view in
             label.top == view.top + 20
             label.right == view.right - 16
             label.left == imageView.right + 16
             label.bottom == view.bottom - 20
         }
 
-        constrain(userDividerView, userInputView) { divider, view in
+        constrain(listDividerView, listInputView) { divider, view in
             divider.right == view.right - 16
             divider.bottom == view.bottom
             divider.left == view.left + 16
         }
 
-        view.addSubview(userInputView)
+        view.addSubview(listInputView)
+
+
 
         // Wire everything together
 
-        constrain(nameInputView, noteInputView, userInputView, view) { nameView, commentView, listView, view in
+        constrain(nameInputView, noteInputView, listInputView, view) { nameView, commentView, listView, view in
             nameView.left == view.left
             nameView.top == view.top
             nameView.right == view.right
@@ -317,10 +315,9 @@ class CreateRecommendationViewController: FaveVC {
         }
     }
 
-    init(dependencyGraph: DependencyGraphType, recipient: User? = nil, list: List? = nil) {
-        self.creationType = .recommendation
-        self.recipient = recipient
-        self.list = list
+    init(dependencyGraph: DependencyGraphType, item: Item, creationType: ItemCreationType) {
+        self.item = item
+        self.creationType = creationType
 
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .createItemScreenShown)
     }
@@ -336,16 +333,16 @@ class CreateRecommendationViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(dismissView))
 
-        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.sendButton)
+        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.createButton)
 
 
         let titleViewLabel = Label.init(text: self.titleViewLabelText, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
-        sendButton.layer.cornerRadius = 32 / 2
+        createButton.layer.cornerRadius = 32 / 2
 
-        view.addSubview(progressHud)
         view.addSubview(scrollView)
+        view.addSubview(progressHud)
 
         constrainToSuperview(scrollView, exceptEdges: [.top])
 
@@ -357,10 +354,17 @@ class CreateRecommendationViewController: FaveVC {
             hud.centerX == view.centerX
             hud.centerY == view.centerY
         }
-        
-        if let recipient = recipient {
-            selectedUsers = [recipient]
-        }
+
+        view.bringSubviewToFront(progressHud)
+
+        noteTextView.text = item.note
+        listLabelText = item.listTitle
+
+        createListEnabled = true
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
     func nameLabelTapped() {
@@ -381,118 +385,60 @@ class CreateRecommendationViewController: FaveVC {
         present(autocompleteViewController, animated: true, completion: nil)
     }
 
-    func userLabelTapped() {
-        let selectUserViewController = SelectUserViewController(dependencyGraph: dependencyGraph, selectedUsers: selectedUsers)
-        let selectUserNavigationController = UINavigationController(rootViewController: selectUserViewController)
+    func listLabelTapped() {
+        let selectListViewController = SelectListViewController(dependencyGraph: dependencyGraph)
+        let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
 
-        selectUserViewController.delegate = self
+        selectListViewController.didSelectList = { list in
+            self.list = list
+        }
 
-        selectUserViewController.modalPresentationStyle = .overFullScreen
-
-        present(selectUserNavigationController, animated: true)
+        present(selectListNavigationController, animated: true)
     }
 
-    @objc func createRecommendationButtonTapped(sender: UIButton!) {
-        print("\nCreate List Button Tapped\n")
+    @objc func updateItemButtonTapped(sender: UIButton!) {
+        print("\nUpdate List Item Button Tapped\n")
 
+        sender.performImpact(style: .light)
 
-        guard let currentUser = dependencyGraph.storage.getUser() else {
-            return
-        }
-
-        var placeId = ""
-        if let place = self.place, let placeIdString = place.placeID {
-            placeId = placeIdString
-        }
-
-        guard !selectedUsers.isEmpty else {
-            let alertController = UIAlertController(title: "No user selected", message: "Select a user to send your recommendation.", preferredStyle: .alert)
-
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-                switch action.style {
-                case .default, .cancel, .destructive:
-                    alertController.dismiss(animated: true, completion: nil)
-                }}))
-
-            self.present(alertController, animated: true, completion: nil)
-
-            return
-        }
-
-        let type = listType.rawValue
-
+        let type = item.type
         let note = self.noteTextView.text ?? ""
-
-        guard !placeId.isEmpty else {
-            return
-        }
+        let listId = list?.id ?? item.listId
 
         isLoading = true
 
-        //////// ___________________________
+        dependencyGraph.faveService.updateListItem(itemId: item.id, listId: listId, type: type, note: note, isRecommendation: item.isRecommendation) { item, error in
+            self.isLoading = false
 
-        var completedRequests = 0
+            self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemUpdatedLocation.rawValue)
 
-        for selectedUser in selectedUsers {
-            self.dependencyGraph.faveService.getLists(userId: selectedUser.id) { lists, error in
-                guard let lists = lists else {
-                    return
-                }
-                
-                var recommendationList: List
+            guard let _ = item else {
+                let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
 
-                guard let recommendationsList = lists.filter({ list in
-                    return list.title.lowercased() == "recommendations"
-                }).first else {
-                    return
-                }
-                
-                if let list = self.list, let _ = self.recipient {
-                    recommendationList = list
-                } else {
-                    recommendationList = recommendationsList
-                }
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style {
+                    case .default, .cancel, .destructive:
+                        alertController.dismiss(animated: true, completion: nil)
+                    }}))
 
-                self.dependencyGraph.faveService.createListItem(userId: currentUser.id, listId: recommendationList.id, type: type, placeId: placeId, note: note) { item, error in
+                self.present(alertController, animated: true, completion: nil)
 
-                    self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.recommendationSent.rawValue)
-
-                    completedRequests += 1
-
-                    guard let _ = item else {
-                        let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
-
-                        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                            switch action.style {
-                            case .default, .cancel, .destructive:
-                                alertController.dismiss(animated: true, completion: nil)
-                            }}))
-
-                        self.present(alertController, animated: true, completion: nil)
-
-                        return
-                    }
-
-
-                    if completedRequests == self.selectedUsers.count {
-                        self.isLoading = false
-
-                        self.dismiss(animated: true, completion: {
-                            self.delegate?.didSendRecommendations(selectedUsers: self.selectedUsers)
-                        })
-                    }
-                }
+                return
             }
+
+//            self.noteTextView.resignFirstResponder()
+            self.delegate?.didUpdateItem(viewController: self)
         }
-        //// ________________________________________________
     }
 
     @objc func dismissView(sender: UIBarButtonItem!) {
+        noteTextView.resignFirstResponder()
+
         dismiss(animated: true, completion: nil)
     }
 }
 
-extension CreateRecommendationViewController: UITextViewDelegate {
+extension UpdateItemViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         noteTextViewPlaceholder.isHidden = !textView.text.isEmpty
         noteTextViewCharacterCountLabel.text = "\(textView.text.count)/280"
@@ -500,7 +446,7 @@ extension CreateRecommendationViewController: UITextViewDelegate {
     }
 }
 
-extension CreateRecommendationViewController: GMSAutocompleteViewControllerDelegate {
+extension UpdateItemViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         self.place = place
 
@@ -522,11 +468,5 @@ extension CreateRecommendationViewController: GMSAutocompleteViewControllerDeleg
 
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-}
-
-extension CreateRecommendationViewController: SelectUserViewControllerDelegate {
-    func selectUsersButtonTapped(selectedUsers: [User]) {
-        self.selectedUsers = selectedUsers
     }
 }

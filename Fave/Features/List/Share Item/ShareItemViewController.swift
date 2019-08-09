@@ -261,6 +261,8 @@ class ShareItemViewController: FaveVC {
             return
         }
 
+        sender.performImpact(style: .light)
+
         // Send recommendation request
         // Dismiss view when done
         sendRecommendationsHandler?(selectedUsers, item)

@@ -245,6 +245,9 @@ class ProfileTableHeaderView: UIView {
     }
 
     @objc func editProfile(sender: UIButton!) {
+
+        sender.performImpact(style: .light)
+
         delegate?.editProfileButtonTapped()
     }
 }

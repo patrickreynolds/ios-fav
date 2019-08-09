@@ -78,7 +78,7 @@ class MyListsViewController: FaveVC {
     }()
 
     private lazy var pickerTitleLabel: Label = {
-        let label = Label.init(text: "Choose a list", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let label = Label.init(text: "Select a list", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
 
         self.pickerView.addSubview(label)
 

@@ -297,6 +297,8 @@ class ListTableHeaderView: UIView {
     @objc func didTapRelationshipButton(sender: UIButton!) {
         print("\nFollow List Button Tapped\n")
 
+        sender.performImpact(style: .light)
+
         guard dependencyGraph.authenticator.isLoggedIn() else {
             delegate?.showLogin()
 

@@ -134,7 +134,9 @@ class DiscoverUserListTableViewCell: UITableViewCell {
         }
     }
 
-    @objc func didTapFollowButton() {
+    @objc func didTapFollowButton(sender: UIButton!) {
+
+        sender.performImpact(style: .light)
 
         guard let dependencyGraph = dependencyGraph, dependencyGraph.authenticator.isLoggedIn() else {
             delegate?.showLogin()

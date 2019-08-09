@@ -16,6 +16,9 @@ class ItemTableHeaderView: UIView {
     var item: Item {
         didSet {
             itemIsSavedByUser = item.isSaved ?? false
+
+            titleLabel.text = self.item.contextualItem.name
+            itemNoteLabel.text = self.item.note
         }
     }
 
@@ -236,5 +239,9 @@ class ItemTableHeaderView: UIView {
         itemIsSavedByUser = !itemIsSavedByUser
 
         updateSavedItemContext(item: item)
+    }
+
+    func updateContent(item: Item) {
+        self.item = item
     }
 }

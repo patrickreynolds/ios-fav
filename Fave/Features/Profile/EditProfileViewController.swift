@@ -30,7 +30,7 @@ class EditProfileViewController: FaveVC {
         constrainToSuperview(profileInfoStackView, exceptEdges: [.bottom])
 
         constrain(profileInfoStackView, view) { profileInfoStackView, view in
-            profileInfoStackView.bottom == view.bottom - 40
+            profileInfoStackView.bottom == view.bottomMargin - 40
         }
 
         constrain(savingUserInfoActivityIndicator, view) { savingUserInfoActivityIndicator, view in
@@ -43,6 +43,8 @@ class EditProfileViewController: FaveVC {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: .zero)
+
+        scrollView.backgroundColor = FaveColors.White
 
         scrollView.addSubview(contentView)
 
@@ -272,16 +274,19 @@ class EditProfileViewController: FaveVC {
         view.backgroundColor = FaveColors.White
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(dismissView))
+
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: self, action: #selector(saveInformation))
+        navigationController?.topViewController?.navigationItem.rightBarButtonItem?.tintColor = FaveColors.Accent
 
         let titleViewLabel = Label.init(text: "Edit Profile", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         view.addSubview(scrollView)
 
-        constrainToSuperview(scrollView, exceptEdges: [.bottom])
+        constrainToSuperview(scrollView, exceptEdges: [.top, .bottom])
 
         constrain(scrollView, view) { scrollView, view in
+            scrollView.top == view.topMargin
             scrollView.bottom == view.bottomMargin
         }
     }

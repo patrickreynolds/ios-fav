@@ -572,6 +572,8 @@ class EntryTableViewCell: UITableViewCell {
             return
         }
 
+        performImpact(style: .light)
+
         delegate?.faveItemButtonTapped(item: item, from: itemIsSavedByUser, to: !itemIsSavedByUser)
 
         itemIsSavedByUser = !itemIsSavedByUser
@@ -583,6 +585,8 @@ class EntryTableViewCell: UITableViewCell {
         guard let item = item else {
             return
         }
+
+        performImpact(style: .light)
 
         delegate?.shareItemButtonTapped(item: item)
     }

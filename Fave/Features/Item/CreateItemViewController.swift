@@ -46,12 +46,12 @@ class CreateItemViewController: FaveVC {
             } else {
                 createListEnabled = false
 
-                nameLabelText = "Name"
+                nameLabelText = "Place"
             }
         }
     }
 
-    var nameLabelText: String = "Name" {
+    var nameLabelText: String = "Place" {
         didSet {
             if !nameLabelText.isEmpty {
                 nameLabel.text = nameLabelText
@@ -150,10 +150,10 @@ class CreateItemViewController: FaveVC {
         let nameInputView = UIView(frame: .zero)
 
         let nameInputIconImageView = UIImageView(frame: .zero)
-        nameInputIconImageView.image = UIImage(named: "tab-icon-search")
+        nameInputIconImageView.image = UIImage(named: "icon-star")
         nameInputIconImageView.tintColor = FaveColors.Black50
 
-        nameLabel = Label.init(text: "Name", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        nameLabel = Label.init(text: "Place", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
         nameLabel.isUserInteractionEnabled = true
 
         _ = nameLabel.tapped { recognizer in
@@ -254,11 +254,11 @@ class CreateItemViewController: FaveVC {
         let listInputView = UIView(frame: .zero)
 
         let listInputIconImageView = UIImageView(frame: .zero)
-        listInputIconImageView.image = UIImage(named: "tab-icon-search")
+        listInputIconImageView.image = UIImage(named: "icon-list")
         listInputIconImageView.tintColor = FaveColors.Black50
         listInputIconImageView.setContentHuggingPriority(.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
 
-        listLabel = Label(text: "Choose a list", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        listLabel = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
         listLabel.isUserInteractionEnabled = true
         listLabel.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
 
@@ -408,6 +408,7 @@ class CreateItemViewController: FaveVC {
     @objc func createItemButtonTapped(sender: UIButton!) {
         print("\nCreate List Button Tapped\n")
 
+        sender.performImpact(style: .light)
 
         guard let user = dependencyGraph.storage.getUser() else {
             return
@@ -421,7 +422,7 @@ class CreateItemViewController: FaveVC {
         guard let list = self.list else {
             let alertController = UIAlertController(title: "No list selected", message: "Select or create a list below to create your entry.", preferredStyle: .alert)
 
-            alertController.addAction(UIAlertAction(title: "Cool", style: .default, handler: { action in
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                 switch action.style {
                 case .default, .cancel, .destructive:
                     alertController.dismiss(animated: true, completion: nil)
@@ -467,6 +468,8 @@ class CreateItemViewController: FaveVC {
     }
 
     @objc func dismissView(sender: UIBarButtonItem!) {
+        noteTextView.resignFirstResponder()
+
         dismiss(animated: true, completion: nil)
     }
 }

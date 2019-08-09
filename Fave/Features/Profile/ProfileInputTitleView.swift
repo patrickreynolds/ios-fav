@@ -20,6 +20,8 @@ class ProfileInputTitleView: UIView {
 
         super.init(frame: .zero)
 
+        backgroundColor = FaveColors.White
+
         addSubview(titleLabel)
 
         constrain(titleLabel, self) { titleLabel, view in

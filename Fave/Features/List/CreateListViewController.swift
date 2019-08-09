@@ -107,12 +107,12 @@ class CreateListViewController: FaveVC {
         let nameInputView = UIView(frame: .zero)
 
         let nameInputIconImageView = UIImageView(frame: .zero)
-        nameInputIconImageView.image = UIImage(named: "icon-star")
+        nameInputIconImageView.image = UIImage(named: "icon-list")
         nameInputIconImageView.tintColor = FaveColors.Black50
 
         nameTextField = UITextField(frame: .zero)
         nameTextField.font = FaveFont(style: .h5, weight: .regular).font
-        nameTextField.placeholder = "Name"
+        nameTextField.placeholder = "List name"
         nameTextField.textColor = FaveColors.Black90
         nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 
@@ -262,6 +262,9 @@ class CreateListViewController: FaveVC {
             publicView.bottom == view.bottom
         }
 
+        // TODO: Patrick to unhidee this when we're properly supporting public and private lists
+        publicInputView.isHidden = true
+
         return view
     }()
 
@@ -364,8 +367,14 @@ class CreateListViewController: FaveVC {
     func dismissViewController() {
         if let navigationController = navigationController {
             if navigationController.viewControllers.count > 1 {
+                nameTextField.resignFirstResponder()
+                commentTextView.resignFirstResponder()
+
                 navigationController.dismiss(animated: true, completion: nil)
             } else {
+                nameTextField.resignFirstResponder()
+                commentTextView.resignFirstResponder()
+
                 dismiss(animated: true, completion: nil)
             }
         }

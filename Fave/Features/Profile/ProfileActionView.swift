@@ -72,6 +72,8 @@ class ProfileActionView: UIView {
 
         super.init(frame: .zero)
 
+        self.backgroundColor = FaveColors.White
+
         addSubview(actionLabel)
         addSubview(dividerView)
 

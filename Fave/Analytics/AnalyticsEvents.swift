@@ -4,6 +4,7 @@ enum AnalyticsEvents: String {
     case installOpen = "Install Open"
     case itemFaved = "item_faved"
     case itemCreatedLocation = "item_created_location"
+    case itemUpdatedLocation = "item_updated_location"
     case recommendationSent = "recommendation_sent"
 }
 

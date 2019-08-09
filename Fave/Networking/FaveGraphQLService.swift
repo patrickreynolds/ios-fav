@@ -142,6 +142,23 @@ struct FaveGraphQLService {
         }
     }
 
+    func updateListItem(itemId: Int, listId: Int, type: String, note: String, isRecommendation: Bool, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
+
+        let updateGooglePlacesItemMutation = GraphQLQueryBuilder.updateItemMutation(itemId: itemId, listId: listId, note: note, isRecommendation: false)
+
+        networking.sendGraphqlRequest(query: updateGooglePlacesItemMutation) { (response, error) in
+            guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["updateItem"] as? [String: AnyObject] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let item = Item(data: itemData)
+
+            completion(item, error)
+        }
+    }
+
     func getListItems(userId: Int, listId: Int, completion: @escaping (_ items: [Item]?, _ error: Error?) -> ()) {
 
         let listQueryString = GraphQLQueryBuilder.listQuery(listId: listId)
@@ -174,9 +191,9 @@ struct FaveGraphQLService {
         }
     }
 
-    func deleteListItem(itemId: Int, completion: @escaping (_ itemId: Int?, _ error: Error?) -> ()) {
+    func removeListItem(itemId: Int, completion: @escaping (_ itemId: Int?, _ error: Error?) -> ()) {
 
-        let itemMutation = GraphQLQueryBuilder.deleteItem(itemId: itemId)
+        let itemMutation = GraphQLQueryBuilder.removeItem(itemId: itemId)
 
         networking.sendGraphqlRequest(query: itemMutation) { response, error in
             guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["deleteItem"] as? [String: AnyObject] else {
@@ -188,23 +205,6 @@ struct FaveGraphQLService {
             let itemId = itemData["id"] as? Int
 
             completion(itemId, nil)
-        }
-    }
-
-    func updateListItem(itemId: Int, listId: Int, isRecommendation: Bool, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
-
-        let updateListItemMutation = GraphQLQueryBuilder.updateItemMutation(itemId: itemId, listId: listId, isRecommendation: isRecommendation)
-
-        networking.sendGraphqlRequest(query: updateListItemMutation) { response, error in
-            guard let itemResponse = response as? [String: AnyObject], let itemData = itemResponse["deleteItem"] as? [String: AnyObject] else {
-                completion(nil, error)
-
-                return
-            }
-
-            let item = Item(data: itemData)
-
-            completion(item, nil)
         }
     }
 

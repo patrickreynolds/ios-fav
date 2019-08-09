@@ -167,6 +167,9 @@ class SelectListViewController: FaveVC {
     }
 
     @objc func createListButtonTapped(sender: UIButton!) {
+
+        sender.performImpact(style: .light)
+
         let createListViewController = CreateListViewController(dependencyGraph: dependencyGraph)
 
         createListViewController.delegate = self

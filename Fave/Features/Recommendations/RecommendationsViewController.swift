@@ -448,7 +448,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
     }
 
     func dismissButtonTapped(item: Item) {
-        dependencyGraph.faveService.deleteListItem(itemId: item.id) { itemId, error in
+        dependencyGraph.faveService.removeListItem(itemId: item.id) { itemId, error in
             guard let itemId = itemId else {
                 return
             }
@@ -467,7 +467,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
         let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
 
         selectListViewController.didSelectList = { (list: List) in
-            self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: list.id, isRecommendation: false) { item, error in
+            self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: list.id, type: item.type, note: item.note, isRecommendation: item.isRecommendation) { item, error in
                 guard let _ = item else {
                     return
                 }
@@ -493,6 +493,8 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
 
 extension RecommendationsViewController {
     @objc func createButtonTapped(sender: UIButton!) {
+
+        sender.performImpact(style: UIImpactFeedbackGenerator.FeedbackStyle.light)
 
         guard dependencyGraph.authenticator.isLoggedIn() else {
             login()

@@ -230,6 +230,8 @@ extension FeedViewController: UITableViewDelegate {}
 extension FeedViewController {
     @objc func createButtonTapped(sender: UIButton!) {
 
+        sender.performImpact(style: .light)
+
         guard dependencyGraph.authenticator.isLoggedIn() else {
             login()
 

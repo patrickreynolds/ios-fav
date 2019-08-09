@@ -9,17 +9,39 @@ enum ItemSectionType: Int {
     case suggestions = 3
 }
 
+ protocol ItemViewControllerDelegate {
+    func didRemoveItem(viewController: FaveVC)
+}
+
+extension ItemViewControllerDelegate {
+    func didRemoveItem(viewController: FaveVC) {
+
+    }
+}
+
 class ItemViewController: FaveVC {
+
+    var delegate: ItemViewControllerDelegate?
 
     var item: Item {
         didSet {
-
+            itemTableHeaderView.updateContent(item: item)
         }
     }
 
     var list: List {
         didSet {
 
+        }
+    }
+
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                progressHUD.show(animated: true)
+            } else {
+                progressHUD.hide(animated: true, afterDelay: 0.3)
+            }
         }
     }
 
@@ -48,6 +70,15 @@ class ItemViewController: FaveVC {
         view.delegate = self
 
         return view
+    }()
+
+    private lazy var progressHUD: MBProgressHUD = {
+        let hud = MBProgressHUD(frame: .zero)
+
+        hud.animationType = .fade
+        hud.contentColor = FaveColors.Accent
+
+        return hud
     }()
 
     private lazy var refreshControl: UIRefreshControl = {
@@ -90,6 +121,30 @@ class ItemViewController: FaveVC {
         return button
     }()
 
+    private lazy var tabBarMenuButton: UIButton = {
+        let image = UIImage.init(named: "icon-menu")
+        let imageView = UIImageView(image: image)
+
+        let button = UIButton.init(frame: .zero)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        button.tintColor = FaveColors.Black90
+        button.adjustsImageWhenHighlighted = false
+        button.contentHorizontalAlignment = .right
+
+        constrain(imageView) { imageView in
+            imageView.width == 24
+            imageView.height == 24
+        }
+
+        constrain(button) { button in
+            button.width == 40
+            button.height == 24
+        }
+
+        return button
+    }()
+
     private lazy var itemTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
 
@@ -111,16 +166,6 @@ class ItemViewController: FaveVC {
         return tableView
     }()
 
-    private lazy var tabBarMenuButton: UIButton = {
-        let button = UIButton.init(type: .custom)
-
-        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
-        button.setImage(UIImage(named: "icon-menu"), for: .normal)
-        button.adjustsImageWhenHighlighted = false
-
-        return button
-    }()
-
     init(dependencyGraph: DependencyGraphType, item: Item, list: List) {
         self.item = item
         self.list = list
@@ -138,15 +183,25 @@ class ItemViewController: FaveVC {
         view.backgroundColor = UIColor.white
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
-//        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+
+        if let user = dependencyGraph.storage.getUser(), user.id == item.addedBy.id {
+            navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+        }
+
         navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         view.addSubview(itemTableView)
+        view.addSubview(progressHUD)
 
         constrainToSuperview(itemTableView, exceptEdges: [.top])
 
         constrain(itemTableView, view) { tableView, view in
             tableView.top == view.topMargin
+        }
+
+        constrain(progressHUD, view) { progressHUD, view in
+            progressHUD.centerX == view.centerX
+            progressHUD.centerY == view.centerY
         }
 
         refreshData()
@@ -222,19 +277,25 @@ class ItemViewController: FaveVC {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Share \(item.contextualItem.name)", style: .default , handler: { alertAction in
-            self.shareItemButtonTapped()
+        if let user = dependencyGraph.storage.getUser(), user.id == item.addedBy.id {
+            alertController.addAction(UIAlertAction(title: "Remove", style: .destructive , handler: { alertAction in
+                self.deleteItemButtonTapped(item: self.item)
 
-            alertController.dismiss(animated: true, completion: nil)
-        }))
+                alertController.dismiss(animated: true, completion: nil)
+            }))
 
-//        if let user = dependencyGraph.storage.getUser(), user.id == item.owner.id {
-//            alertController.addAction(UIAlertAction(title: "Edit item info", style: .default , handler: { alertAction in
-//                self.editListButtonTapped()
-//
-//                alertController.dismiss(animated: true, completion: nil)
-//            }))
-//        }
+            alertController.addAction(UIAlertAction(title: "Edit", style: .default , handler: { alertAction in
+                self.editItemButtonTapped(item: self.item)
+
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+        }
+
+        //        alertController.addAction(UIAlertAction(title: "Share \(item.contextualItem.name)", style: .default , handler: { alertAction in
+        //            self.shareItemButtonTapped()
+        //
+        //            alertController.dismiss(animated: true, completion: nil)
+        //        }))
 
         alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { alertAction in
             alertController.dismiss(animated: true, completion: nil)
@@ -263,12 +324,79 @@ class ItemViewController: FaveVC {
         self.present(activityViewController, animated: true, completion: nil)
     }
 
+    func deleteItemButtonTapped(item: Item) {
+        print("\nDelete item\n")
+
+        // Show confirmation
+        // Put view in loading state
+        // Make a call to delete the item
+        // Upon success, call callback to refresh list
+        // pop view
+
+        let alertController = UIAlertController(title: "Remove item", message: "Are you user you want to remove this item from your list?", preferredStyle: .alert)
+
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { action in
+            switch action.style {
+            case .default, .cancel, .destructive:
+                alertController.dismiss(animated: true, completion: nil)
+            }}
+        ))
+
+        alertController.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { action in
+            switch action.style {
+            case .default, .cancel, .destructive:
+
+                self.removeItem(item: item)
+
+            }}
+        ))
+
+        self.present(alertController, animated: true, completion: nil)
+
+    }
+
+    func editItemButtonTapped(item: Item) {
+        print("\nEdit item\n")
+
+        // Show editing state
+        // Upon tapping "update", show loading spinner
+        // Make a call to update
+        // Upon success, call callback to refresh item
+        // Dismiss modal
+
+        let updateItemViewController = UpdateItemViewController.init(dependencyGraph: dependencyGraph, item: item, creationType: .addition)
+
+        let updateItemNavigationViewController = UINavigationController(rootViewController: updateItemViewController)
+
+        updateItemViewController.delegate = self
+
+        present(updateItemNavigationViewController, animated: true, completion: nil)
+    }
+
     func selectListToFaveTo(item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
 
         let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, item: item, canceledSelection: canceledSelection, didSelectList: didSelectList)
         myListsViewController.modalPresentationStyle = .overCurrentContext
 
         present(myListsViewController, animated: false, completion: nil)
+    }
+
+    private func removeItem(item: Item) {
+        // Put view in loading state
+        // Make a call to delete the item
+        // Upon success, call callback to refresh list
+        // pop view
+        isLoading = true
+
+        dependencyGraph.faveService.removeListItem(itemId: item.id) { (id, error) in
+            self.isLoading = false
+
+            guard let _ = id else {
+                return
+            }
+
+            self.delegate?.didRemoveItem(viewController: self)
+        }
     }
 }
 
@@ -363,7 +491,6 @@ extension ItemViewController: ItemListSuggestionsTableViewCellDelegate {
 
 extension ItemViewController: ItemTableHeaderViewDelegate {
     func saveItemButtonTapped(item: Item, from: Bool, to: Bool) {
-        print("\n Save Item Tapped \n")
 
         guard let user = dependencyGraph.storage.getUser() else {
 
@@ -452,6 +579,17 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
 extension ItemViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+
+extension ItemViewController: UpdateItemViewControllerDelegate {
+    func didUpdateItem(viewController: FaveVC) {
+        refreshData {
+            delay(0.3) {
+                viewController.view.endEditing(true)
+                viewController.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }
 

@@ -81,6 +81,8 @@ class ProfileInputView: UIView {
 
         super.init(frame: .zero)
 
+        self.backgroundColor = FaveColors.White
+
         addSubview(titleLabel)
         addSubview(valueTextField)
         addSubview(dividerView)

@@ -129,6 +129,9 @@ class ShareItemActionView: UIView {
         constrainToSuperview(actionViewContent)
 
         _ = tapped { _ in
+
+            self.performImpact(style: .light)
+
             switch self.type {
             case .addToList:
                 self.delegate?.addToListActionTapped()

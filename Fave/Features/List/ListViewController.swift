@@ -16,7 +16,11 @@ class ListViewController: FaveVC {
         }
     }
 
-    var listItems: [Item] = []
+    var listItems: [Item] = [] {
+        didSet {
+            listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
+        }
+    }
 
     var entries: [Item] = []
     var recommendations: [Item] = []
@@ -334,6 +338,8 @@ class ListViewController: FaveVC {
         let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
+        itemViewController.delegate = self
+
         navigationController?.pushViewController(itemViewController, animated: true)
     }
 }
@@ -371,6 +377,8 @@ extension ListViewController {
 
     @objc func recommendItemButtonTapped(sender: UIButton!) {
         print("\n\nAdd Item Button Tapped\n\n")
+
+        sender.performImpact(style: .light)
 
         guard self.dependencyGraph.authenticator.isLoggedIn() else {
             login()
@@ -433,7 +441,7 @@ extension ListViewController {
 
         let alertController = UIAlertController(title: "Not yet implemented", message: "Coming soon!", preferredStyle: .alert)
 
-        alertController.addAction(UIAlertAction(title: "Cool", style: .default, handler: { action in
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             switch action.style {
             case .default, .cancel, .destructive:
                 alertController.dismiss(animated: true, completion: nil)
@@ -575,7 +583,7 @@ extension ListViewController: EntryTableViewCellDelegate {
         // delete recommendation
         // reload entries
 
-        dependencyGraph.faveService.deleteListItem(itemId: item.id) { itemId, error in
+        dependencyGraph.faveService.removeListItem(itemId: item.id) { itemId, error in
             guard let itemId = itemId else {
                 return
             }
@@ -594,7 +602,7 @@ extension ListViewController: EntryTableViewCellDelegate {
         let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
 
         selectListViewController.didSelectList = { list in
-            self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: list.id, isRecommendation: false) { item, error in
+            self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: list.id, type: item.type, note: item.note, isRecommendation: item.isRecommendation) { item, error in
                 guard let _ = item else {
                     return
                 }
@@ -873,5 +881,13 @@ extension ListViewController: CreateRecommendationViewControllerDelegate {
         let titleString = selectedUsers.count == 1 ? "Recommendation sent!" : "Recommendations sent!"
 
         self.showToast(title: titleString)
+    }
+}
+
+extension ListViewController: ItemViewControllerDelegate {
+    func didRemoveItem(viewController: FaveVC) {
+        viewController.navigationController?.popViewController(animated: true)
+        
+        refreshData()
     }
 }

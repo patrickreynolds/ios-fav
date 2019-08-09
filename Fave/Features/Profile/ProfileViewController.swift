@@ -276,7 +276,7 @@ class ProfileViewController: FaveVC {
 
         let alertController = UIAlertController(title: "Not yet implemented", message: "Coming soon!", preferredStyle: .alert)
 
-        alertController.addAction(UIAlertAction(title: "Cool", style: .default, handler: { action in
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             switch action.style {
             case .default, .cancel, .destructive:
                 alertController.dismiss(animated: true, completion: nil)
@@ -295,6 +295,9 @@ class ProfileViewController: FaveVC {
     }
 
     @objc func createButtonTapped(sender: UIButton!) {
+
+        sender.performImpact(style: UIImpactFeedbackGenerator.FeedbackStyle.light)
+
         guard dependencyGraph.authenticator.isLoggedIn() else {
             login()
 

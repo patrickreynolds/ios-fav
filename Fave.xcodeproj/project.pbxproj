@@ -24,6 +24,8 @@
 		432B3EBB22F50221005F7EF5 /* FollowedByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EBA22F50221005F7EF5 /* FollowedByViewController.swift */; };
 		432B3EBD22F505D4005F7EF5 /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EBC22F505D4005F7EF5 /* UIRefreshControlExtension.swift */; };
 		432B3EBF22F50CD7005F7EF5 /* FollowingListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EBE22F50CD7005F7EF5 /* FollowingListsViewController.swift */; };
+		432B3EC122FE073F005F7EF5 /* UpdateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EC022FE073F005F7EF5 /* UpdateItemViewController.swift */; };
+		432B3EC322FE2F93005F7EF5 /* FaveImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EC222FE2F93005F7EF5 /* FaveImageCache.swift */; };
 		4334DB6D228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */; };
 		4334DB6F228F269800EE58BB /* TopListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */; };
 		433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */; };
@@ -151,6 +153,8 @@
 		432B3EBA22F50221005F7EF5 /* FollowedByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowedByViewController.swift; sourceTree = "<group>"; };
 		432B3EBC22F505D4005F7EF5 /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		432B3EBE22F50CD7005F7EF5 /* FollowingListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingListsViewController.swift; sourceTree = "<group>"; };
+		432B3EC022FE073F005F7EF5 /* UpdateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateItemViewController.swift; sourceTree = "<group>"; };
+		432B3EC222FE2F93005F7EF5 /* FaveImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveImageCache.swift; sourceTree = "<group>"; };
 		4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveLoggedOutWelcomeView.swift; sourceTree = "<group>"; };
 		4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListCollectionViewCell.swift; sourceTree = "<group>"; };
 		433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputTitleView.swift; sourceTree = "<group>"; };
@@ -307,6 +311,7 @@
 				43915CA82276854900562B5A /* ItemInfoRatingView.swift */,
 				43915CAC2276AF5900562B5A /* ItemGooglePhotoCollectionViewCell.swift */,
 				432B3EB822F4F370005F7EF5 /* SavedByViewController.swift */,
+				432B3EC022FE073F005F7EF5 /* UpdateItemViewController.swift */,
 			);
 			path = Item;
 			sourceTree = "<group>";
@@ -470,6 +475,7 @@
 				4385350A22333B8200B99EC7 /* FaveEndpoint.swift */,
 				434932882298F84D00F949D6 /* FaveGraphQLService.swift */,
 				43493290229ED37A00F949D6 /* GraphQLQueryBuilder.swift */,
+				432B3EC222FE2F93005F7EF5 /* FaveImageCache.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -863,10 +869,12 @@
 				4386BFE022334760006A3ED7 /* LoggedOutViewController.swift in Sources */,
 				4372896A22D1393100B72549 /* CreateRecommendationViewController.swift in Sources */,
 				43AFB44A223DD00500B243E1 /* Storage.swift in Sources */,
+				432B3EC122FE073F005F7EF5 /* UpdateItemViewController.swift in Sources */,
 				430D8D30224DF1730082FCF2 /* Friend.swift in Sources */,
 				439FDDE22245D2DE00ED9343 /* EntryTableViewCell.swift in Sources */,
 				431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */,
 				4385350022333A0700B99EC7 /* AppConfiguration.swift in Sources */,
+				432B3EC322FE2F93005F7EF5 /* FaveImageCache.swift in Sources */,
 				438534FC223339B200B99EC7 /* AnalyticsEvents.swift in Sources */,
 				439FDDE42245FACF00ED9343 /* ListTableHeaderView.swift in Sources */,
 				43B512D822A7932B0018E9D5 /* DateExtension.swift in Sources */,
@@ -1020,7 +1028,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA1DE3DC9DEAE3E5142BACE2 /* Pods-Fave.local.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://localhost:3000/";
+				API_BASE_URL_ENDPOINT = "http://10.0.0.239:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;

@@ -14,18 +14,22 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
                 return
             }
 
-            DispatchQueue.global().async {
-                do {
-                    let data = try Data(contentsOf: googlePhotoUrl)
-
-                    DispatchQueue.main.async {
-                        self.googlePhotoImageView.image = UIImage(data: data)
-                    }
-                    return
-                } catch {
-                    print(error)
-                }
+            FaveImageCache.downloadImage(url: googlePhotoUrl) { image in
+                self.googlePhotoImageView.image = image
             }
+
+//            DispatchQueue.global().async {
+//                do {
+//                    let data = try Data(contentsOf: googlePhotoUrl)
+//
+//                    DispatchQueue.main.async {
+//                        self.googlePhotoImageView.image = UIImage(data: data)
+//                    }
+//                    return
+//                } catch {
+//                    print(error)
+//                }
+//            }
         }
     }
 
