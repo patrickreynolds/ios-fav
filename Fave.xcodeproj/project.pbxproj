@@ -26,6 +26,7 @@
 		432B3EBF22F50CD7005F7EF5 /* FollowingListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EBE22F50CD7005F7EF5 /* FollowingListsViewController.swift */; };
 		432B3EC122FE073F005F7EF5 /* UpdateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EC022FE073F005F7EF5 /* UpdateItemViewController.swift */; };
 		432B3EC322FE2F93005F7EF5 /* FaveImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EC222FE2F93005F7EF5 /* FaveImageCache.swift */; };
+		432B3EC522FE94F2005F7EF5 /* UpdateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EC422FE94F2005F7EF5 /* UpdateListViewController.swift */; };
 		4334DB6D228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */; };
 		4334DB6F228F269800EE58BB /* TopListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */; };
 		433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */; };
@@ -155,6 +156,7 @@
 		432B3EBE22F50CD7005F7EF5 /* FollowingListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingListsViewController.swift; sourceTree = "<group>"; };
 		432B3EC022FE073F005F7EF5 /* UpdateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateItemViewController.swift; sourceTree = "<group>"; };
 		432B3EC222FE2F93005F7EF5 /* FaveImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveImageCache.swift; sourceTree = "<group>"; };
+		432B3EC422FE94F2005F7EF5 /* UpdateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateListViewController.swift; sourceTree = "<group>"; };
 		4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveLoggedOutWelcomeView.swift; sourceTree = "<group>"; };
 		4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListCollectionViewCell.swift; sourceTree = "<group>"; };
 		433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputTitleView.swift; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 				43BD568A224C91B0009D0AC8 /* SelectListTableViewCell.swift */,
 				43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */,
 				432B3EBA22F50221005F7EF5 /* FollowedByViewController.swift */,
+				432B3EC422FE94F2005F7EF5 /* UpdateListViewController.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -832,6 +835,7 @@
 				4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */,
 				43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */,
 				4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */,
+				432B3EC522FE94F2005F7EF5 /* UpdateListViewController.swift in Sources */,
 				431ED5EA2292268E008B9A9A /* TopListItemTableViewCell.swift in Sources */,
 				43824890227B50E800257D27 /* MyListsViewController.swift in Sources */,
 				438534EA2233386100B99EC7 /* CartographyExt.swift in Sources */,

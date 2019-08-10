@@ -352,6 +352,9 @@ class ListTableHeaderView: UIView {
         } else {
             followerRelationship = .notFollowing
         }
+
+        self.titleLabel.text = list.title
+        self.listDescriptionLabel.text = list.description
     }
 }
 

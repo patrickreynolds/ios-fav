@@ -375,6 +375,8 @@ extension ProfileViewController: UITableViewDelegate {
 
         let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
 
+        listViewController.delegate = self
+
         let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
@@ -448,5 +450,13 @@ extension ProfileViewController: CreateRecommendationViewControllerDelegate {
         let titleString = selectedUsers.count == 1 ? "Recommendation sent!" : "Recommendations sent!"
 
         self.showToast(title: titleString)
+    }
+}
+
+extension ProfileViewController: ListViewControllerDelegate {
+    func didRemoveList(viewController: FaveVC) {
+        viewController.navigationController?.popViewController(animated: true)
+
+        refreshData()
     }
 }

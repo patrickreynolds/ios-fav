@@ -162,6 +162,24 @@ struct GraphQLQueryBuilder {
         """
     }
 
+    static func removeListMutation(listId: Int) -> String {
+        return """
+            mutation {
+                deleteList(listId: \(listId)) { id }
+            }
+        """
+    }
+
+    static func updateListMutation(listId: Int, title: String, description: String, isPublic: Bool) -> String {
+        // TODO: Update the isPublic
+
+        return """
+            mutation {
+                updateList(listId: \(listId), input: { title: "\(title)", description: "\(description)", isPublic: \(isPublic) }) { \(listString()) }
+            }
+        """
+    }
+
     static func getItem(itemId: Int) -> String {
 
         return """

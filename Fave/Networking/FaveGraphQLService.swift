@@ -125,6 +125,40 @@ struct FaveGraphQLService {
         }
     }
 
+    func updateList(listId: Int, title: String, description: String, isPublic: Bool, completion: @escaping (_ list: List?, _ error: Error?) -> ()) {
+
+        let updateListMutation = GraphQLQueryBuilder.updateListMutation(listId: listId, title: title, description: description, isPublic: isPublic)
+
+        networking.sendGraphqlRequest(query: updateListMutation) { response, error in
+            guard let listResponse = response as? [String: AnyObject], let listData = listResponse["updateList"] as? [String: AnyObject] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let list = List(data: listData)
+
+            completion(list, error)
+        }
+    }
+
+    func removeList(listId: Int, completion: @escaping (_ listId: Int?, _ error: Error?) -> ()) {
+
+        let removeListMutation = GraphQLQueryBuilder.removeListMutation(listId: listId)
+
+        networking.sendGraphqlRequest(query: removeListMutation) { response, error in
+            guard let listResponse = response as? [String: AnyObject], let listData = listResponse["deleteList"] as? [String: AnyObject] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let listId = listData["id"] as? Int
+
+            completion(listId, nil)
+        }
+    }
+
     func createListItem(userId: Int, listId: Int, type: String, placeId: String, note: String, completion: @escaping (_ item: Item?, _ error: Error?) -> ()) {
 
         let createGooglePlacesItemMutation = GraphQLQueryBuilder.createGooglePlacesItemMutation(userId: userId, listId: listId, googlePlacesId: placeId, note: note)
@@ -429,7 +463,6 @@ struct FaveGraphQLService {
 
             completion(items, error)
         }
-
     }
 
     func submitFeedback(feedback: String, completion: @escaping (_ success: Bool?, _ error: Error?) -> ()) {

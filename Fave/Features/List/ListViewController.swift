@@ -7,8 +7,18 @@ enum ListFilterType {
     case recommendations
 }
 
+protocol ListViewControllerDelegate {
+    func didRemoveList(viewController: FaveVC)
+}
+
+extension ListViewControllerDelegate {
+    func didRemoveList(viewController: FaveVC) {}
+}
+
 class ListViewController: FaveVC {
     var list: List
+
+    var delegate: ListViewControllerDelegate?
 
     var filterType: ListFilterType = .entries {
         didSet {
@@ -19,6 +29,8 @@ class ListViewController: FaveVC {
     var listItems: [Item] = [] {
         didSet {
             listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
+
+            listTableView.layoutIfNeeded()
         }
     }
 
@@ -33,6 +45,8 @@ class ListViewController: FaveVC {
             }
 
             listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
+
+            listTableView.layoutIfNeeded()
         }
     }
 
@@ -180,11 +194,25 @@ class ListViewController: FaveVC {
     }()
 
     private lazy var tabBarMenuButton: UIButton = {
-        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: "icon-menu")
+        let imageView = UIImageView(image: image)
 
+        let button = UIButton.init(frame: .zero)
+        button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
-        button.setImage(UIImage(named: "icon-menu"), for: .normal)
+        button.tintColor = FaveColors.Black90
         button.adjustsImageWhenHighlighted = false
+        button.contentHorizontalAlignment = .right
+
+        constrain(imageView) { imageView in
+            imageView.width == 24
+            imageView.height == 24
+        }
+
+        constrain(button) { button in
+            button.width == 40
+            button.height == 24
+        }
 
         return button
     }()
@@ -205,7 +233,7 @@ class ListViewController: FaveVC {
         view.backgroundColor = UIColor.white
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
-//        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
+        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
         navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         view.addSubview(listTableView)
@@ -342,6 +370,50 @@ class ListViewController: FaveVC {
 
         navigationController?.pushViewController(itemViewController, animated: true)
     }
+
+    func deleteListButtonTapped(list: List) {
+        print("\nDelete List Button Tapped\n")
+
+        // Show confirmation
+        // Put view in loading state
+        // Make a call to delete the item
+        // Upon success, call callback to refresh list
+        // pop view
+
+        let alertController = UIAlertController(title: "Remove list", message: "Are you sure you want to remove this list?", preferredStyle: .alert)
+
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { action in
+            switch action.style {
+            case .default, .cancel, .destructive:
+                alertController.dismiss(animated: true, completion: nil)
+            }}
+        ))
+
+        alertController.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { action in
+            switch action.style {
+            case .default, .cancel, .destructive:
+
+                self.removeList(list: list)
+
+            }}
+        ))
+
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+    private func removeList(list: List) {
+        isLoading = true
+
+        dependencyGraph.faveService.removeList(listId: list.id) { id, error in
+            self.isLoading = false
+
+            guard let _ = id else {
+                return
+            }
+
+            self.delegate?.didRemoveList(viewController: self)
+        }
+    }
 }
 
 // Create button logic
@@ -397,17 +469,18 @@ extension ListViewController {
     }
 
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
+
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alertController.addAction(UIAlertAction(title: "Share list", style: .default , handler: { alertAction in
-            self.shareListButtonTapped()
-
-            alertController.dismiss(animated: true, completion: nil)
-        }))
-
         if let user = dependencyGraph.storage.getUser(), user.id == list.owner.id {
-            alertController.addAction(UIAlertAction(title: "Edit list", style: .default , handler: { alertAction in
-                self.editListButtonTapped()
+            alertController.addAction(UIAlertAction(title: "Remove", style: .destructive , handler: { alertAction in
+                self.deleteListButtonTapped(list: self.list)
+
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+
+            alertController.addAction(UIAlertAction(title: "Edit", style: .default , handler: { alertAction in
+                self.editListButtonTapped(list: self.list)
 
                 alertController.dismiss(animated: true, completion: nil)
             }))
@@ -436,18 +509,15 @@ extension ListViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
 
-    func editListButtonTapped() {
-        print("\n Edit list button tapped\n")
+    func editListButtonTapped(list: List) {
 
-        let alertController = UIAlertController(title: "Not yet implemented", message: "Coming soon!", preferredStyle: .alert)
+        let updateListViewController = UpdateListViewController.init(dependencyGraph: dependencyGraph, list: list)
 
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            switch action.style {
-            case .default, .cancel, .destructive:
-                alertController.dismiss(animated: true, completion: nil)
-            }}))
+        let updateListNavigationViewController = UINavigationController(rootViewController: updateListViewController)
 
-        self.present(alertController, animated: true, completion: nil)
+        updateListViewController.delegate = self
+
+        present(updateListNavigationViewController, animated: true, completion: nil)
     }
 }
 
@@ -460,6 +530,14 @@ extension ListViewController: CreateListViewControllerDelegate {
 extension ListViewController: CreateItemViewControllerDelegate {
     func didCreateItem(item: Item) {
         showToast(title: "Created \(item.contextualItem.name)")
+
+        refreshData()
+    }
+}
+
+extension ListViewController: UpdateListViewControllerDelegate {
+    func didUpdateList(list: List) {
+        self.list = list
 
         refreshData()
     }

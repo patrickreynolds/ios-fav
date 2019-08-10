@@ -9,14 +9,12 @@ enum ItemSectionType: Int {
     case suggestions = 3
 }
 
- protocol ItemViewControllerDelegate {
+protocol ItemViewControllerDelegate {
     func didRemoveItem(viewController: FaveVC)
 }
 
 extension ItemViewControllerDelegate {
-    func didRemoveItem(viewController: FaveVC) {
-
-    }
+    func didRemoveItem(viewController: FaveVC) {}
 }
 
 class ItemViewController: FaveVC {
@@ -274,7 +272,6 @@ class ItemViewController: FaveVC {
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
         print("\nOpen menu\n")
 
-
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         if let user = dependencyGraph.storage.getUser(), user.id == item.addedBy.id {
@@ -333,7 +330,7 @@ class ItemViewController: FaveVC {
         // Upon success, call callback to refresh list
         // pop view
 
-        let alertController = UIAlertController(title: "Remove item", message: "Are you user you want to remove this item from your list?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Remove item", message: "Are you sure you want to remove this item from your list?", preferredStyle: .alert)
 
         alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { action in
             switch action.style {

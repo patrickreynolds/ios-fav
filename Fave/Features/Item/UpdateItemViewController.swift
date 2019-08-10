@@ -426,7 +426,7 @@ class UpdateItemViewController: FaveVC {
                 return
             }
 
-//            self.noteTextView.resignFirstResponder()
+            self.noteTextView.resignFirstResponder()
             self.delegate?.didUpdateItem(viewController: self)
         }
     }

@@ -373,6 +373,8 @@ extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
     func didSelectList(list: List) {
         let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
 
+        listViewController.delegate = self
+
         let titleViewLabel = Label(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
@@ -386,5 +388,13 @@ extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
+    }
+}
+
+extension FeedViewController: ListViewControllerDelegate {
+    func didRemoveList(viewController: FaveVC) {
+        viewController.navigationController?.popViewController(animated: true)
+
+        refreshFeed()
     }
 }
