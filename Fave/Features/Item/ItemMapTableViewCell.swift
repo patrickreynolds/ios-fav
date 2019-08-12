@@ -23,7 +23,7 @@ class ItemMapTableViewCell: UITableViewCell {
     }()
 
     private lazy var titleLabelView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.addSubview(titleLabel)
 
@@ -58,7 +58,7 @@ class ItemMapTableViewCell: UITableViewCell {
     }()
 
     private lazy var mapView: MKMapView = {
-        let mapView = MKMapView.init(frame: .zero)
+        let mapView = MKMapView(frame: .zero)
 
         constrain(mapView) { mapView in
             mapView.height == 160
@@ -72,7 +72,7 @@ class ItemMapTableViewCell: UITableViewCell {
     }()
 
     private lazy var addressView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.addSubview(addressLabel)
 
@@ -87,7 +87,7 @@ class ItemMapTableViewCell: UITableViewCell {
     }()
 
     private lazy var directionsView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.addSubview(directionsLabel)
 
@@ -132,7 +132,7 @@ class ItemMapTableViewCell: UITableViewCell {
     }()
 
     private lazy var contentStackView: UIStackView = {
-        let stackView = UIStackView.init(frame: .zero)
+        let stackView = UIStackView(frame: .zero)
 
         stackView.addArrangedSubview(titleLabelView)
         stackView.addArrangedSubview(mapView)
@@ -228,7 +228,7 @@ class ItemMapTableViewCell: UITableViewCell {
 
         let coordinateRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
 
-        let annotation = MKPointAnnotation.init()
+        let annotation = MKPointAnnotation()
         annotation.title = item.name
         annotation.coordinate = initialLocation.coordinate
         mapView.addAnnotation(annotation)

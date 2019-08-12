@@ -29,7 +29,7 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
     }
 
     private lazy var googlePhotoImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         imageView.contentMode = .scaleAspectFill
 

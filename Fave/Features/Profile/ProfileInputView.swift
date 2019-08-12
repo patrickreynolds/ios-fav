@@ -41,7 +41,7 @@ class ProfileInputView: UIView {
     }()
 
     private lazy var valueTextField: UITextField = {
-        let textfield = UITextField.init(frame: .zero)
+        let textfield = UITextField(frame: .zero)
 
         textfield.text = _value
         textfield.placeholder = placeholder
@@ -61,7 +61,7 @@ class ProfileInputView: UIView {
     }()
 
     private lazy var dividerView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.Black20
 

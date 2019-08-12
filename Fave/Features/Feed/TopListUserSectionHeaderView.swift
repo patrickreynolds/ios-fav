@@ -13,7 +13,7 @@ class TopListUserSectionHeaderView: UIView {
     var owner: User?
 
     let profileImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         let imageViewDiameter: CGFloat = 48
 
@@ -41,7 +41,7 @@ class TopListUserSectionHeaderView: UIView {
     }()
 
     private lazy var ownerLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black60,
                                textAlignment: .left,

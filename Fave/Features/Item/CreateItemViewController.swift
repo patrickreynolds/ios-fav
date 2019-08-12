@@ -80,7 +80,7 @@ class CreateItemViewController: FaveVC {
     var noteTextView: UITextView = UITextView(frame: .zero)
     var noteTextViewCharacterCountLabel: Label = Label(font: FaveFont(style: .small, weight: .regular))
 
-    var noteTextViewPlaceholder: Label = Label(font: FaveFont.init(style: .h5, weight: .regular))
+    var noteTextViewPlaceholder: Label = Label(font: FaveFont(style: .h5, weight: .regular))
 
     var createListEnabled: Bool = false {
         didSet {
@@ -130,7 +130,7 @@ class CreateItemViewController: FaveVC {
     }()
 
     private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView.init(frame: .zero)
+        let scrollView = UIScrollView(frame: .zero)
 
         scrollView.addSubview(self.contentView)
 
@@ -144,7 +144,7 @@ class CreateItemViewController: FaveVC {
     }()
 
     private lazy var contentView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         // Add name input view
         let nameInputView = UIView(frame: .zero)
@@ -153,7 +153,7 @@ class CreateItemViewController: FaveVC {
         nameInputIconImageView.image = UIImage(named: "icon-star")
         nameInputIconImageView.tintColor = FaveColors.Black50
 
-        nameLabel = Label.init(text: "Place", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        nameLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
         nameLabel.isUserInteractionEnabled = true
 
         _ = nameLabel.tapped { recognizer in
@@ -344,7 +344,7 @@ class CreateItemViewController: FaveVC {
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.createButton)
 
 
-        let titleViewLabel = Label.init(text: self.titleViewLabelText, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: self.titleViewLabelText, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         createButton.layer.cornerRadius = 32 / 2

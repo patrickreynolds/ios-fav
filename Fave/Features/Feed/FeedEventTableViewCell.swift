@@ -21,7 +21,7 @@ class FeedEventTableViewCell: UITableViewCell {
     var feedEvent: FeedEvent?
 
     private lazy var userProfileImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         let size: CGFloat = 48
 
@@ -49,7 +49,7 @@ class FeedEventTableViewCell: UITableViewCell {
     }()
 
     private lazy var titleLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
@@ -178,15 +178,15 @@ class FeedEventTableViewCell: UITableViewCell {
         ]
 
         if event.list.owner.id != event.item.addedBy.id {
-            let handleText = NSAttributedString.init(string: "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)", attributes: primaryAttributes)
-            let recommendationText = NSAttributedString.init(string: " recommended an item for ", attributes: standardAttributes)
+            let handleText = NSAttributedString(string: "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)", attributes: primaryAttributes)
+            let recommendationText = NSAttributedString(string: " recommended an item for ", attributes: standardAttributes)
             
-            let lastOwnerCharacterString = String(event.list.owner.lastName.last ?? Character.init(""))
+            let lastOwnerCharacterString = String(event.list.owner.lastName.last ?? Character(""))
             let possessiveCharacter = lastOwnerCharacterString.lowercased() == "s" ? "'" : "'s"
             
-            let ownerText = NSAttributedString.init(string: "\(event.list.owner.firstName) \(event.list.owner.lastName)\(possessiveCharacter)", attributes: primaryAttributes)
-            let suffixText = NSAttributedString.init(string: " list. ", attributes: standardAttributes)
-            let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
+            let ownerText = NSAttributedString(string: "\(event.list.owner.firstName) \(event.list.owner.lastName)\(possessiveCharacter)", attributes: primaryAttributes)
+            let suffixText = NSAttributedString(string: " list. ", attributes: standardAttributes)
+            let timeText = NSAttributedString(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
 
             titleLabelAttributedText.append(handleText)
             titleLabelAttributedText.append(recommendationText)
@@ -194,9 +194,9 @@ class FeedEventTableViewCell: UITableViewCell {
             titleLabelAttributedText.append(suffixText)
             titleLabelAttributedText.append(timeText)
         } else {
-            let handleText = NSAttributedString.init(string: "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)", attributes: primaryAttributes)
-            let recommendationText = NSAttributedString.init(string: " added an item. ", attributes: standardAttributes)
-            let timeText = NSAttributedString.init(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
+            let handleText = NSAttributedString(string: "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)", attributes: primaryAttributes)
+            let recommendationText = NSAttributedString(string: " added an item. ", attributes: standardAttributes)
+            let timeText = NSAttributedString(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
 
             titleLabelAttributedText.append(handleText)
             titleLabelAttributedText.append(recommendationText)

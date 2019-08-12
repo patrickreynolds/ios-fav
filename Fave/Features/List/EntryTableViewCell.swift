@@ -35,8 +35,8 @@ class EntryTableViewCell: UITableViewCell {
     }
 
     var itemIsSavedByUser = false
-    let faveActionIcon = UIImageView.init(frame: .zero)
-    let faveActionLabel = Label.init(text: "Save", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
+    let faveActionIcon = UIImageView(frame: .zero)
+    let faveActionLabel = Label(text: "Save", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
 
     var faveScoreLabel = Label(text: "",
                                font: FaveFont(style: .h5, weight: .regular),
@@ -62,7 +62,7 @@ class EntryTableViewCell: UITableViewCell {
         textAlignment: .left,
         numberOfLines: 0)
     
-    let ownerImageView = UIImageView.init(frame: .zero)
+    let ownerImageView = UIImageView(frame: .zero)
 
     private lazy var titleLabel: Label = {
         let label = Label(text: "",
@@ -112,10 +112,10 @@ class EntryTableViewCell: UITableViewCell {
 
     private lazy var faveActionView: UIView = {
         let view = UIView(frame: CGRect.zero)
-        let actionContentView = UIView.init(frame: .zero)
+        let actionContentView = UIView(frame: .zero)
 
         let icon = faveActionIcon
-        icon.image = UIImage.init(named: "icon-fave-not-faved")
+        icon.image = UIImage(named: "icon-fave-not-faved")
         icon.tintColor = FaveColors.Black60
 
         let label = faveActionLabel
@@ -153,10 +153,10 @@ class EntryTableViewCell: UITableViewCell {
 
     private lazy var shareActionView: UIView = {
         let view = UIView(frame: CGRect.zero)
-        let actionContentView = UIView.init(frame: .zero)
+        let actionContentView = UIView(frame: .zero)
 
-        let shareIcon = UIImageView.init(frame: .zero)
-        shareIcon.image = UIImage.init(named: "icon-share")
+        let shareIcon = UIImageView(frame: .zero)
+        shareIcon.image = UIImage(named: "icon-share")
         shareIcon.tintColor = FaveColors.Black60
 
         let shareLabel = Label(text: "Share", font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .center, numberOfLines: 1)
@@ -193,7 +193,7 @@ class EntryTableViewCell: UITableViewCell {
     }()
 
     private lazy var addToListActionView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         let button = UIButton(frame: .zero)
 
@@ -220,7 +220,7 @@ class EntryTableViewCell: UITableViewCell {
     }()
 
     private lazy var dismissActionView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         let button = UIButton(frame: .zero)
 
@@ -256,7 +256,7 @@ class EntryTableViewCell: UITableViewCell {
     }()
 
     private lazy var actionStackView: UIStackView = {
-        let stackView = UIStackView.init(frame: .zero)
+        let stackView = UIStackView(frame: .zero)
 
         stackView.distribution = .fillEqually
         stackView.axis = .horizontal
@@ -295,7 +295,7 @@ class EntryTableViewCell: UITableViewCell {
     }()
 
     private lazy var cardView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.White
 
@@ -345,7 +345,7 @@ class EntryTableViewCell: UITableViewCell {
 
 
     private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout.init()
+        let layout = UICollectionViewFlowLayout()
 
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 80, height: 80)
@@ -354,14 +354,14 @@ class EntryTableViewCell: UITableViewCell {
     }()
 
     private lazy var photosCollectionView: UICollectionView = {
-        let collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 
         collectionView.allowsMultipleSelection = false
         collectionView.allowsSelection = false
         collectionView.register(ItemGooglePhotoCollectionViewCell.self)
         collectionView.backgroundColor = FaveColors.White
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets.init(top: 0, left: 16, bottom: 0, right: 16)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -563,7 +563,7 @@ class EntryTableViewCell: UITableViewCell {
         }
 
 
-        faveActionIcon.image = itemIsSavedByUser ? UIImage.init(named: "icon-fave-faved") : UIImage.init(named: "icon-fave-not-faved")
+        faveActionIcon.image = itemIsSavedByUser ? UIImage(named: "icon-fave-faved") : UIImage(named: "icon-fave-not-faved")
         faveActionLabel.text = itemIsSavedByUser ? "Saved" : "Save"
     }
 
@@ -638,6 +638,6 @@ extension EntryTableViewCell: UICollectionViewDataSource {
 
 extension EntryTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: 80, height: 80)
+        return CGSize(width: 80, height: 80)
     }
 }

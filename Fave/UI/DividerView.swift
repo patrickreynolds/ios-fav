@@ -5,7 +5,7 @@ class DividerView: UIView {
     init(backgroundColor: UIColor = FaveColors.Black20, height: CGFloat = 1.0) {
         super.init(frame: CGRect.zero)
 
-        let divider = UIView.init(frame: .zero)
+        let divider = UIView(frame: .zero)
         divider.backgroundColor = backgroundColor
 
         addSubview(divider)

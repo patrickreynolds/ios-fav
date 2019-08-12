@@ -94,7 +94,7 @@ class DiscoverViewController: FaveVC {
     }
     
     private lazy var noSuggestionsView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
         
         view.backgroundColor = FaveColors.White
         
@@ -171,7 +171,7 @@ class DiscoverViewController: FaveVC {
     }()
     
     private lazy var tableHeaderView: UIView = {
-        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 56.0))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 56.0))
         
         view.backgroundColor = FaveColors.White
         
@@ -258,7 +258,7 @@ class DiscoverViewController: FaveVC {
          */
         definesPresentationContext = true
 
-        let titleViewLabel = Label.init(text: "Browse", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Browse", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         /*
@@ -357,9 +357,9 @@ extension DiscoverViewController: UITableViewDelegate {
 
         let list = cachedSuggestionSections[indexPath.section].lists[indexPath.row]
 
-        let listViewController = ListViewController.init(dependencyGraph: dependencyGraph, list: list)
+        let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
 
-        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "List", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)
@@ -505,7 +505,7 @@ extension DiscoverViewController: DiscoverUserSectionHeaderViewDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: user.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)

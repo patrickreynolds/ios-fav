@@ -54,7 +54,7 @@ class EditProfileViewController: FaveVC {
     }()
 
     private lazy var profileInfoStackView: UIStackView = {
-        let stackView = UIStackView.init(frame: .zero)
+        let stackView = UIStackView(frame: .zero)
 
         stackView.addArrangedSubview(profilePictureContentView)
         stackView.addArrangedSubview(userInfoContentView)
@@ -76,8 +76,8 @@ class EditProfileViewController: FaveVC {
 
         let imageSize: CGFloat = 72
 
-        let imageView = UIImageView.init(frame: .zero)
-        imageView.image = UIImage.init(base64String: user.profilePicture)
+        let imageView = UIImageView(frame: .zero)
+        imageView.image = UIImage(base64String: user.profilePicture)
         imageView.layer.borderColor = FaveColors.Black30.cgColor
         imageView.layer.borderWidth = 0.5
         imageView.layer.cornerRadius = imageSize / 2
@@ -168,7 +168,7 @@ class EditProfileViewController: FaveVC {
     }()
 
     private lazy var privateInformationTitleView: ProfileInputTitleView = {
-        let inputTitleView = ProfileInputTitleView.init(title: "Private Information")
+        let inputTitleView = ProfileInputTitleView(title: "Private Information")
 
         return inputTitleView
     }()
@@ -195,13 +195,13 @@ class EditProfileViewController: FaveVC {
     }()
 
     private lazy var moreInformationTitleView: ProfileInputTitleView = {
-        let inputTitleView = ProfileInputTitleView.init(title: "More Information")
+        let inputTitleView = ProfileInputTitleView(title: "More Information")
 
         return inputTitleView
     }()
 
     private lazy var submitFeedbackProfileActionView: ProfileActionView = {
-        let actionView = ProfileActionView.init(title: "Submit feedback", color: FaveColors.Accent, action: {
+        let actionView = ProfileActionView(title: "Submit feedback", color: FaveColors.Accent, action: {
             self.didTapFeedback()
         })
 
@@ -212,7 +212,7 @@ class EditProfileViewController: FaveVC {
         let title = authenticationState == .loggedIn ? "Log out" : "Sign in"
         let color = authenticationState == .loggedIn ? UIColor.red : FaveColors.Accent
 
-        let actionView = ProfileActionView.init(title: title, color: color, action: {
+        let actionView = ProfileActionView(title: title, color: color, action: {
             self.didTapAuthentication()
         })
 
@@ -278,7 +278,7 @@ class EditProfileViewController: FaveVC {
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: self, action: #selector(saveInformation))
         navigationController?.topViewController?.navigationItem.rightBarButtonItem?.tintColor = FaveColors.Accent
 
-        let titleViewLabel = Label.init(text: "Edit Profile", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Edit Profile", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         view.addSubview(scrollView)

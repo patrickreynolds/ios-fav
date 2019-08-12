@@ -77,12 +77,12 @@ class SelectListViewController: FaveVC {
     }()
 
     private lazy var noListsView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
         view.backgroundColor = FaveColors.White
 
-        let titleLabel = Label.init(text: "No lists found", font: FaveFont.init(style: .h4, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
+        let titleLabel = Label(text: "No lists found", font: FaveFont(style: .h4, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
 
-        let subtitleLabel = Label.init(text: "Create a new list to add your entry.", font: FaveFont.init(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
+        let subtitleLabel = Label(text: "Create a new list to add your entry.", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
 
         view.addSubview(titleLabel)
         view.addSubview(subtitleLabel)
@@ -114,7 +114,7 @@ class SelectListViewController: FaveVC {
 
         view.backgroundColor = UIColor.white
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .cancel, target: self, action: #selector(canceledSelection))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(canceledSelection))
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: newButton)
 
@@ -158,7 +158,7 @@ class SelectListViewController: FaveVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let titleViewLabel = Label.init(text: "Select a list", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
     }
 

@@ -107,19 +107,19 @@ class ShareItemViewController: FaveVC {
     var sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item) -> ())?
 
     private lazy var addToListActionView: ShareItemActionView = {
-        let actionView = ShareItemActionView.init(shareItemActionType: .addToList)
+        let actionView = ShareItemActionView(shareItemActionType: .addToList)
 
         return actionView
     }()
 
     private lazy var copyLinkActionView: ShareItemActionView = {
-        let actionView = ShareItemActionView.init(shareItemActionType: .copyLink)
+        let actionView = ShareItemActionView(shareItemActionType: .copyLink)
 
         return actionView
     }()
 
     private lazy var shareToActionView: ShareItemActionView = {
-        let actionView = ShareItemActionView.init(shareItemActionType: .shareTo)
+        let actionView = ShareItemActionView(shareItemActionType: .shareTo)
 
         return actionView
     }()
@@ -139,7 +139,7 @@ class ShareItemViewController: FaveVC {
     }()
 
     private lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar.init(frame: .zero)
+        let searchBar = UISearchBar(frame: .zero)
 
         searchBar.searchBarStyle = UISearchBar.Style.minimal
         searchBar.placeholder = "Search all users"
@@ -154,8 +154,8 @@ class ShareItemViewController: FaveVC {
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.tableHeaderView = UIView(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 0.01))
-        tableView.tableFooterView = UIView(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 0.01))
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 0.01))
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 0.01))
 
         tableView.register(ShareItemUserSearchResultTableViewCell.self)
 
@@ -165,7 +165,7 @@ class ShareItemViewController: FaveVC {
     }()
 
     private lazy var sendButton: UIButton = {
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
 
         button.layer.cornerRadius = 6
         button.contentEdgeInsets = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
@@ -176,7 +176,7 @@ class ShareItemViewController: FaveVC {
     }()
 
     private lazy var sendButtonView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.White
 
@@ -208,7 +208,7 @@ class ShareItemViewController: FaveVC {
 
         view.backgroundColor = FaveColors.White
 
-        let titleViewLabel = Label.init(text: "Share \(item.title)", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Share \(item.title)", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(dismissView))

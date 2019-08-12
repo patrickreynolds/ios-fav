@@ -23,10 +23,10 @@ class FollowedByViewController: FaveVC {
     }
 
     private lazy var leftBarButton: UIButton = {
-        let image = UIImage.init(named: "icon-nav-chevron-left")
+        let image = UIImage(named: "icon-nav-chevron-left")
         let imageView = UIImageView(image: image)
 
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         button.tintColor = FaveColors.Black90
@@ -148,7 +148,7 @@ extension FollowedByViewController: UITableViewDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: user.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)

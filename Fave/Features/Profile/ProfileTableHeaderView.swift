@@ -31,7 +31,7 @@ class ProfileTableHeaderView: UIView {
 
         let titleString = "0 Lists"
 
-        let label = Label.init(text: titleString, font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 0)
+        let label = Label(text: titleString, font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 0)
 
         return label
     }()
@@ -62,7 +62,7 @@ class ProfileTableHeaderView: UIView {
 
     let aboutMeLabel = Label(
         text: "",
-        font: FaveFont.init(style: .h5, weight: .regular),
+        font: FaveFont(style: .h5, weight: .regular),
         textColor: FaveColors.Black70,
         textAlignment: .left,
         numberOfLines: 0)
@@ -70,7 +70,7 @@ class ProfileTableHeaderView: UIView {
     lazy var followingLabel: Label = {
         let label = Label(
             text: "Not following any lists",
-            font: FaveFont.init(style: .h5, weight: .regular),
+            font: FaveFont(style: .h5, weight: .regular),
             textColor: FaveColors.Black90,
             textAlignment: .left,
             numberOfLines: 0)
@@ -88,7 +88,7 @@ class ProfileTableHeaderView: UIView {
 
     let listCountLabel = Label(
         text: "No lists",
-        font: FaveFont.init(style: .small, weight: .semiBold),
+        font: FaveFont(style: .small, weight: .semiBold),
         textColor: FaveColors.Black60,
         textAlignment: .left,
         numberOfLines: 0)
@@ -140,7 +140,7 @@ class ProfileTableHeaderView: UIView {
     }()
 
     private lazy var dividerView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.Black20
 

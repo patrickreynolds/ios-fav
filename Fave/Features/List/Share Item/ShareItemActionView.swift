@@ -28,11 +28,11 @@ enum ShareItemActionType {
 
         switch self {
         case .addToList:
-            image = UIImage.init(named: "icon-add")?.withRenderingMode(.alwaysTemplate)
+            image = UIImage(named: "icon-add")?.withRenderingMode(.alwaysTemplate)
         case .copyLink:
-            image = UIImage.init(named: "icon-link")?.withRenderingMode(.alwaysTemplate)
+            image = UIImage(named: "icon-link")?.withRenderingMode(.alwaysTemplate)
         case .shareTo:
-            image = UIImage.init(named: "icon-share")?.withRenderingMode(.alwaysTemplate)
+            image = UIImage(named: "icon-share")?.withRenderingMode(.alwaysTemplate)
         }
 
         return image
@@ -46,7 +46,7 @@ class ShareItemActionView: UIView {
     var delegate: ShareItemActionViewDelegate?
 
     private lazy var iconImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         let size: CGFloat = 24
 
@@ -63,7 +63,7 @@ class ShareItemActionView: UIView {
     }()
 
     private lazy var iconView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         let size: CGFloat = 56
 
@@ -100,7 +100,7 @@ class ShareItemActionView: UIView {
     }()
 
     private lazy var actionViewContent: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.addSubview(iconView)
         view.addSubview(titleLabel)

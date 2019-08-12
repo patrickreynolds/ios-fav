@@ -138,7 +138,7 @@ class ListTableHeaderView: UIView {
     }()
 
     private lazy var ownerView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         let ownerImageViewDiameter: CGFloat = 24.0
 
@@ -148,11 +148,11 @@ class ListTableHeaderView: UIView {
                                    textAlignment: .left,
                                    numberOfLines: 0)
 
-        let ownerImageView = UIImageView.init(frame: .zero)
+        let ownerImageView = UIImageView(frame: .zero)
         ownerImageView.layer.cornerRadius = ownerImageViewDiameter / 2
         ownerImageView.clipsToBounds = true
         ownerImageView.layer.masksToBounds = true
-        ownerImageView.image = UIImage.init(base64String: self.list.owner.profilePicture)
+        ownerImageView.image = UIImage(base64String: self.list.owner.profilePicture)
 
         view.addSubview(ownerNameLabel)
         view.addSubview(ownerImageView)
@@ -190,7 +190,7 @@ class ListTableHeaderView: UIView {
     }()
 
     private lazy var relationshipStackView: UIStackView = {
-        let stackView = UIStackView.init(frame: .zero)
+        let stackView = UIStackView(frame: .zero)
 
         if let user = dependencyGraph.storage.getUser() {
             if list.owner.id != user.id {
@@ -212,7 +212,7 @@ class ListTableHeaderView: UIView {
     }()
 
     private lazy var borderView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.Black20
 

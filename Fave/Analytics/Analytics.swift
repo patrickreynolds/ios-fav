@@ -18,7 +18,7 @@ struct Analytics {
             userId = "\(userIdInt)"
         }
 
-        let event = AnalyticsEvent.init(deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "", eventName: title, userId: userId)
+        let event = AnalyticsEvent(deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "", eventName: title, userId: userId)
 
         dependencyGraph.analyticsService.logEvent(event: event) { success, error in
             guard let success = success else {

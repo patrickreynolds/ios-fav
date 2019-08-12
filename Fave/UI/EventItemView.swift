@@ -9,7 +9,7 @@ class EventItemView: UIView {
     var imageViewHeightConstraint: NSLayoutConstraint?
 
     private lazy var titleLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .h5, weight: .bold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
@@ -23,7 +23,7 @@ class EventItemView: UIView {
 
 
     private lazy var subtitleLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black70,
                                textAlignment: .left,
@@ -36,7 +36,7 @@ class EventItemView: UIView {
     }()
 
     private lazy var previewImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         imageView.backgroundColor = FaveColors.Black20
 

@@ -197,7 +197,7 @@ class LoggedOutViewController: FaveVC {
 
                             if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
                                 let tabBarItemImage = UIImage(base64String: authenticationInfo.user.profilePicture)?
-                                    .resize(targetSize: CGSize.init(width: 24, height: 24))?
+                                    .resize(targetSize: CGSize(width: 24, height: 24))?
                                     .roundedImage?
                                     .withRenderingMode(.alwaysOriginal)
                                 tabBarItem.image = tabBarItemImage

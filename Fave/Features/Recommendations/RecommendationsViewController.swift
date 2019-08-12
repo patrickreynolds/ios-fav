@@ -83,7 +83,7 @@ class RecommendationsViewController: FaveVC {
     }()
 
     private lazy var noRecommendationsView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         let titleLabel = Label(text: "No recommendations",
                           font: FaveFont(style: .h4, weight: .bold) ,
@@ -145,7 +145,7 @@ class RecommendationsViewController: FaveVC {
 
         view.backgroundColor = FaveColors.White
 
-        let titleViewLabel = Label.init(text: "Recommendations", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Recommendations", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         view.addSubview(recommendationsTableView)
@@ -248,7 +248,7 @@ extension RecommendationsViewController: UITableViewDelegate {
         if let list = listsForRecommendations[item.id] {
             let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item, list: list)
 
-            let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+            let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
             itemViewController.navigationItem.titleView = titleViewLabel
 
             navigationController?.pushViewController(itemViewController, animated: true)
@@ -300,7 +300,7 @@ extension RecommendationsViewController: UITableViewDataSource {
 
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
@@ -438,7 +438,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
         shareViewController.addToListHandler = addToListHandler
         shareViewController.sendRecommendationsHandler = sendRecommendationsHandler
 
-        let navigationController = UINavigationController.init(rootViewController: shareViewController)
+        let navigationController = UINavigationController(rootViewController: shareViewController)
 
         present(navigationController, animated: true, completion: nil)
     }
@@ -484,7 +484,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
 
         let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: owner)
 
-        let titleViewLabel = Label.init(text: owner.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: owner.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         profileViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(profileViewController, animated: true)
@@ -530,7 +530,7 @@ extension RecommendationsViewController {
     }
 
     func addListButtonTapped() {
-        let createListViewController = CreateListViewController.init(dependencyGraph: self.dependencyGraph)
+        let createListViewController = CreateListViewController(dependencyGraph: self.dependencyGraph)
         let createListNavigationViewController = UINavigationController(rootViewController: createListViewController)
 
         createListViewController.delegate = self

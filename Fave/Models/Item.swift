@@ -75,7 +75,7 @@ struct Item {
 
 
 //        let addedBy: User? = nil
-        guard let addedByData = data["recommendedBy"] as? [String: AnyObject], let addedBy = User.init(data: addedByData) else {
+        guard let addedByData = data["recommendedBy"] as? [String: AnyObject], let addedBy = User(data: addedByData) else {
             return nil
         }
 

@@ -97,10 +97,10 @@ class ItemViewController: FaveVC {
     }()
 
     private lazy var leftBarButton: UIButton = {
-        let image = UIImage.init(named: "icon-nav-chevron-left")
+        let image = UIImage(named: "icon-nav-chevron-left")
         let imageView = UIImageView(image: image)
 
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         button.tintColor = FaveColors.Black90
@@ -120,10 +120,10 @@ class ItemViewController: FaveVC {
     }()
 
     private lazy var tabBarMenuButton: UIButton = {
-        let image = UIImage.init(named: "icon-menu")
+        let image = UIImage(named: "icon-menu")
         let imageView = UIImageView(image: image)
 
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         button.tintColor = FaveColors.Black90
@@ -361,7 +361,7 @@ class ItemViewController: FaveVC {
         // Upon success, call callback to refresh item
         // Dismiss modal
 
-        let updateItemViewController = UpdateItemViewController.init(dependencyGraph: dependencyGraph, item: item, creationType: .addition)
+        let updateItemViewController = UpdateItemViewController(dependencyGraph: dependencyGraph, item: item, creationType: .addition)
 
         let updateItemNavigationViewController = UINavigationController(rootViewController: updateItemViewController)
 
@@ -441,7 +441,7 @@ extension ItemViewController: UITableViewDataSource {
 
                 return cell
             default:
-                return UITableViewCell.init(frame: .zero)
+                return UITableViewCell(frame: .zero)
         }
     }
 }
@@ -566,7 +566,7 @@ extension ItemViewController: ItemTableHeaderViewDelegate {
 
         let savedByViewController = SavedByViewController(dependencyGraph: dependencyGraph, item: item)
 
-        let titleViewLabel = Label(text: "Saved by", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Saved by", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         savedByViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(savedByViewController, animated: true)

@@ -102,7 +102,7 @@ struct GoogleItemType {
 
         var photos = [GooglePhoto]()
         if let photoData = data["photos"] as? [[String: AnyObject]] {
-            photos = photoData.map({GooglePhoto.init(data: $0)}).compactMap({ $0 })
+            photos = photoData.map({GooglePhoto(data: $0)}).compactMap({ $0 })
         }
 
         let potentialKeywords = data["types"] as? [String]

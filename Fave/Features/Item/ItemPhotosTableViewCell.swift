@@ -29,7 +29,7 @@ class ItemPhotosTableViewCell: UITableViewCell {
     }()
 
     private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout.init()
+        let layout = UICollectionViewFlowLayout()
 
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 120, height: 120)
@@ -38,7 +38,7 @@ class ItemPhotosTableViewCell: UITableViewCell {
     }()
 
     private lazy var photosCollectionView: UICollectionView = {
-        let collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 
         collectionView.allowsMultipleSelection = false
         collectionView.allowsSelection = false
@@ -132,6 +132,6 @@ extension ItemPhotosTableViewCell: UICollectionViewDataSource {
 
 extension ItemPhotosTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: 120, height: 120)
+        return CGSize(width: 120, height: 120)
     }
 }

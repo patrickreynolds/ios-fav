@@ -106,7 +106,7 @@ class ItemTableHeaderView: UIView {
     }()
 
     private lazy var dividerView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.Black20
 

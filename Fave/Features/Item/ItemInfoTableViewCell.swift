@@ -55,13 +55,13 @@ class ItemInfoTableViewCell: UITableViewCell {
             rating = googleItem.rating
         }
 
-        let ratingView = ItemInfoRatingView.init(ratingType: .google, rating: rating)
+        let ratingView = ItemInfoRatingView(ratingType: .google, rating: rating)
 
         return ratingView
     }()
 
     private lazy var ratingStackView: UIStackView = {
-        let ratingStackView = UIStackView.init(frame: .zero)
+        let ratingStackView = UIStackView(frame: .zero)
 
         ratingStackView.addArrangedSubview(googleItemInfoRatingView)
 //        ratingStackView.addArrangedSubview(ItemInfoRatingView.init(ratingType: .yelp, rating: 3.14))
@@ -164,7 +164,7 @@ class ItemInfoTableViewCell: UITableViewCell {
     }()
 
     private lazy var infoActionsStackView: UIStackView = {
-        let stackView = UIStackView.init(frame: .zero)
+        let stackView = UIStackView(frame: .zero)
 
         // Add website and phone number views
 

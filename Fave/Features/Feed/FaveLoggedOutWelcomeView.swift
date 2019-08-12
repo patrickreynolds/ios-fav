@@ -45,7 +45,7 @@ class FaveLoggedOutWelcomeView: UIView {
 
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 32
-        layout.sectionInset = UIEdgeInsets.init(top: 0, left: 16, bottom: 0, right: 16)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 
         let size = UIScreen.main.bounds.width - 32
         let height: CGFloat = 338.0
@@ -56,7 +56,7 @@ class FaveLoggedOutWelcomeView: UIView {
     }()
 
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 
         collectionView.allowsMultipleSelection = false
         collectionView.allowsSelection = false

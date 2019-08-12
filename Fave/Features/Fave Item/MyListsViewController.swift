@@ -18,13 +18,13 @@ class MyListsViewController: FaveVC {
     }
 
     private lazy var listsTableView: AutoSizingTableView = {
-        let tableView = AutoSizingTableView(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .plain)
+        let tableView = AutoSizingTableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .plain)
 
         tableView.delegate = self
         tableView.dataSource = self
 
         tableView.register(UITableViewCell.self)
-        tableView.tableFooterView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01))
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01))
 
         tableView.separatorColor = FaveColors.Black30
 
@@ -44,7 +44,7 @@ class MyListsViewController: FaveVC {
     }
 
     private lazy var loadingSpinnerView: UIActivityIndicatorView = {
-        let activityIndicatorView = UIActivityIndicatorView.init(style: UIActivityIndicatorView.Style.gray)
+        let activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
 
         activityIndicatorView.hidesWhenStopped = true
 
@@ -52,7 +52,7 @@ class MyListsViewController: FaveVC {
     }()
 
     private lazy var backgroundView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.Black100
         view.alpha = 0
@@ -61,7 +61,7 @@ class MyListsViewController: FaveVC {
     }()
 
     private lazy var pickerView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.White
 
@@ -78,7 +78,7 @@ class MyListsViewController: FaveVC {
     }()
 
     private lazy var pickerTitleLabel: Label = {
-        let label = Label.init(text: "Select a list", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let label = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
 
         self.pickerView.addSubview(label)
 
@@ -91,7 +91,7 @@ class MyListsViewController: FaveVC {
     }()
 
     private lazy var cancelLabel: Label = {
-        let label = Label.init(text: "Cancel", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .left, numberOfLines: 1)
+        let label = Label(text: "Cancel", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .left, numberOfLines: 1)
 
         label.isUserInteractionEnabled = true
 
@@ -241,7 +241,7 @@ extension MyListsViewController: UITableViewDataSource {
         let list = lists[indexPath.row]
 
         cell.textLabel?.text = list.title
-        cell.textLabel?.font = FaveFont.init(style: .h5, weight: .regular).font
+        cell.textLabel?.font = FaveFont(style: .h5, weight: .regular).font
 
         return cell
     }

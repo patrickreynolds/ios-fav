@@ -14,7 +14,7 @@ class CreateListViewController: FaveVC {
     var commentTextView: UITextView = UITextView(frame: .zero)
     var publicSettingsSwitch: UISwitch = UISwitch(frame: .zero)
 
-    var commentTextViewPlaceholder: Label = Label.init(font: FaveFont.init(style: .h5, weight: .regular))
+    var commentTextViewPlaceholder: Label = Label(font: FaveFont(style: .h5, weight: .regular))
 
     var createListEnabled: Bool = false {
         didSet {
@@ -64,10 +64,10 @@ class CreateListViewController: FaveVC {
     }()
 
     private lazy var leftBarButton: UIButton = {
-        let image = UIImage.init(named: "icon-nav-chevron-left")
+        let image = UIImage(named: "icon-nav-chevron-left")
         let imageView = UIImageView(image: image)
 
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         button.tintColor = FaveColors.Black90
@@ -87,7 +87,7 @@ class CreateListViewController: FaveVC {
     }()
 
     private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView.init(frame: .zero)
+        let scrollView = UIScrollView(frame: .zero)
 
         scrollView.addSubview(self.contentView)
 
@@ -101,7 +101,7 @@ class CreateListViewController: FaveVC {
     }()
 
     private lazy var contentView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         // Add name input view
         let nameInputView = UIView(frame: .zero)
@@ -199,7 +199,7 @@ class CreateListViewController: FaveVC {
 
 
         // Add public vs private view
-        let publicInputView = UIView.init(frame: .zero)
+        let publicInputView = UIView(frame: .zero)
 
         let privacyInputIconImageView = UIImageView(frame: .zero)
         privacyInputIconImageView.image = UIImage(named: "icon-privacy")
@@ -209,7 +209,7 @@ class CreateListViewController: FaveVC {
         let publicSettingsLabel = Label(text: "Public", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 1)
         publicSettingsLabel.setContentHuggingPriority(.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
 
-        publicSettingsSwitch = UISwitch.init(frame: .zero)
+        publicSettingsSwitch = UISwitch(frame: .zero)
         publicSettingsSwitch.onTintColor = FaveColors.Accent
         publicSettingsSwitch.isOn = true
 
@@ -309,7 +309,7 @@ class CreateListViewController: FaveVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let titleViewLabel = Label.init(text: "New list", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "New list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
     }
 

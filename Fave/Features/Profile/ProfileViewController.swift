@@ -13,7 +13,7 @@ class ProfileViewController: FaveVC {
 
             profileTableHeaderView.updateUserInfo(user: user, followingCount: listsUserFollows.count)
 
-            let titleViewLabel = Label.init(text: user.handle, font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+            let titleViewLabel = Label(text: user.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
             navigationItem.titleView = titleViewLabel
 
             view.setNeedsLayout()
@@ -97,7 +97,7 @@ class ProfileViewController: FaveVC {
     }()
 
     private lazy var tabBarMenuButton: UIButton = {
-        let button = UIButton.init(type: .custom)
+        let button = UIButton(type: .custom)
 
         button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         button.setImage(UIImage(named: "icon-menu"), for: .normal)
@@ -107,10 +107,10 @@ class ProfileViewController: FaveVC {
     }()
 
     private lazy var leftBarButton: UIButton = {
-        let image = UIImage.init(named: "icon-nav-chevron-left")
+        let image = UIImage(named: "icon-nav-chevron-left")
         let imageView = UIImageView(image: image)
 
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         button.tintColor = FaveColors.Black90
@@ -162,7 +162,7 @@ class ProfileViewController: FaveVC {
             button.height == 56
         }
 
-        let titleViewLabel = Label.init(text: user?.handle ?? "", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black80, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: user?.handle ?? "", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
 //        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
@@ -225,7 +225,7 @@ class ProfileViewController: FaveVC {
 
             if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
                 let tabBarItemImage = UIImage(base64String: user.profilePicture)?
-                    .resize(targetSize: CGSize.init(width: 24, height: 24))?
+                    .resize(targetSize: CGSize(width: 24, height: 24))?
                     .roundedImage?
                     .withRenderingMode(.alwaysOriginal)
                 tabBarItem.image = tabBarItemImage
@@ -334,7 +334,7 @@ class ProfileViewController: FaveVC {
     func addListButtonTapped() {
         print("\n\nAdd List Button Tapped\n\n")
 
-        let createListViewController = CreateListViewController.init(dependencyGraph: self.dependencyGraph)
+        let createListViewController = CreateListViewController(dependencyGraph: self.dependencyGraph)
         let createListNavigationViewController = UINavigationController(rootViewController: createListViewController)
 
         createListViewController.delegate = self
@@ -377,7 +377,7 @@ extension ProfileViewController: UITableViewDelegate {
 
         listViewController.delegate = self
 
-        let titleViewLabel = Label.init(text: "List", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "List", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)
@@ -419,7 +419,7 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
         }
 
         let editProfileViewController = EditProfileViewController(dependencyGraph: dependencyGraph, user: user)
-        let editProfileNavigationViewController = UINavigationController.init(rootViewController: editProfileViewController)
+        let editProfileNavigationViewController = UINavigationController(rootViewController: editProfileViewController)
 
         editProfileViewController.delegate = self
 
@@ -429,7 +429,7 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
     func didTapFollowingListsLabel(user: User) {
         let followingListsViewController = FollowingListViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label(text: "Following", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Following", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         followingListsViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(followingListsViewController, animated: true)

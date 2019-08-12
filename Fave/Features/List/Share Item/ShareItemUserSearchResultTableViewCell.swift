@@ -24,7 +24,7 @@ class ShareItemUserSearchResultTableViewCell: UITableViewCell {
     var delegate: ShareItemUserSearchResultTableViewCellDelegate?
 
     private lazy var profilePictureImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         let size: CGFloat = 44
 
@@ -60,7 +60,7 @@ class ShareItemUserSearchResultTableViewCell: UITableViewCell {
     }()
 
     private lazy var labelView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.addSubview(titleLabel)
         view.addSubview(subtitleLabel)
@@ -80,7 +80,7 @@ class ShareItemUserSearchResultTableViewCell: UITableViewCell {
     }()
 
     private lazy var accessoryImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         let size: CGFloat = 24
 
@@ -95,7 +95,7 @@ class ShareItemUserSearchResultTableViewCell: UITableViewCell {
     }()
 
     private lazy var selectedBackgroundColorView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.White
 
@@ -139,7 +139,7 @@ class ShareItemUserSearchResultTableViewCell: UITableViewCell {
 
         titleLabel.text = user.handle
         subtitleLabel.text = "\(user.firstName) \(user.lastName)"
-        profilePictureImageView.image = UIImage.init(base64String: user.profilePicture)
+        profilePictureImageView.image = UIImage(base64String: user.profilePicture)
 
 
         UIView.transition(with: self.accessoryImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {

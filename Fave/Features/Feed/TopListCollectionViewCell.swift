@@ -43,7 +43,7 @@ class TopListCollectionViewCell: UICollectionViewCell {
 
         tableView.register(TopListItemTableViewCell.self)
 
-        tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: -24, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -24, right: 0)
 
         tableView.isScrollEnabled = false
         tableView.separatorColor = UIColor.clear
@@ -53,7 +53,7 @@ class TopListCollectionViewCell: UICollectionViewCell {
     }()
 
     private lazy var seeAllItemsButton: UIButton = {
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
 
         button.setTitleColor(FaveColors.Accent, for: .normal)
         button.backgroundColor = FaveColors.White

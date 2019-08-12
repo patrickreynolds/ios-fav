@@ -4,7 +4,7 @@ import Cartography
 class UserTableViewCell: UITableViewCell {
 
     private lazy var profilePictureImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         constrain(imageView) { imageView in
             imageView.height == 48
@@ -22,7 +22,7 @@ class UserTableViewCell: UITableViewCell {
     }()
 
     private lazy var labelView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.addSubview(titleLabel)
         view.addSubview(subtitleLabel)
@@ -38,7 +38,7 @@ class UserTableViewCell: UITableViewCell {
     }()
 
     private lazy var titleLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .small, weight: .bold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
@@ -48,7 +48,7 @@ class UserTableViewCell: UITableViewCell {
     }()
 
     private lazy var subtitleLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .small, weight: .regular),
                                textColor: FaveColors.Black70,
                                textAlignment: .left,

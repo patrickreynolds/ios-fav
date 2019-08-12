@@ -13,7 +13,7 @@ class DiscoverUserSectionHeaderView: UIView {
     var delegate: DiscoverUserSectionHeaderViewDelegate?
 
     let profileImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
         let imageViewDiameter: CGFloat = 48
 

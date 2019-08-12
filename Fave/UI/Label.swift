@@ -138,7 +138,7 @@ class Label: UIView, Shimmerable {
             }
 
             if let attributedText = attributedText {
-                attributedText.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSRange.init(location: 0, length: attributedText.string.count))
+                attributedText.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSRange(location: 0, length: attributedText.string.count))
                 label.attributedText = attributedText
             }
         } else {

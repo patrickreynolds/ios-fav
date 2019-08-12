@@ -127,10 +127,10 @@ class ListViewController: FaveVC {
     }()
 
     private lazy var leftBarButton: UIButton = {
-        let image = UIImage.init(named: "icon-nav-chevron-left")
+        let image = UIImage(named: "icon-nav-chevron-left")
         let imageView = UIImageView(image: image)
 
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         button.tintColor = FaveColors.Black90
@@ -162,7 +162,7 @@ class ListViewController: FaveVC {
 
         tableView.addSubview(self.refreshControl)
 
-        tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 16, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
 
         tableView.separatorColor = UIColor.clear
         tableView.backgroundColor = FaveColors.White
@@ -194,10 +194,10 @@ class ListViewController: FaveVC {
     }()
 
     private lazy var tabBarMenuButton: UIButton = {
-        let image = UIImage.init(named: "icon-menu")
+        let image = UIImage(named: "icon-menu")
         let imageView = UIImageView(image: image)
 
-        let button = UIButton.init(frame: .zero)
+        let button = UIButton(frame: .zero)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         button.tintColor = FaveColors.Black90
@@ -363,7 +363,7 @@ class ListViewController: FaveVC {
     private func handleItemTapped(item: Item) {
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
-        let titleViewLabel = Label.init(text: "Place", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
 
         itemViewController.delegate = self
@@ -422,7 +422,7 @@ extension ListViewController {
     func addListButtonTapped() {
         print("\n\nAdd List Button Tapped\n\n")
 
-        let createListViewController = CreateListViewController.init(dependencyGraph: self.dependencyGraph)
+        let createListViewController = CreateListViewController(dependencyGraph: self.dependencyGraph)
         let createListNavigationViewController = UINavigationController(rootViewController: createListViewController)
 
         createListViewController.delegate = self
@@ -511,7 +511,7 @@ extension ListViewController {
 
     func editListButtonTapped(list: List) {
 
-        let updateListViewController = UpdateListViewController.init(dependencyGraph: dependencyGraph, list: list)
+        let updateListViewController = UpdateListViewController(dependencyGraph: dependencyGraph, list: list)
 
         let updateListNavigationViewController = UINavigationController(rootViewController: updateListViewController)
 
@@ -648,7 +648,7 @@ extension ListViewController: ListTableHeaderViewDelegate {
     func didTapFollowedByLabel(list: List) {
         let followedByViewController = FollowedByViewController(dependencyGraph: dependencyGraph, list: list)
 
-        let titleViewLabel = Label(text: "Followed by", font: FaveFont.init(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Followed by", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         followedByViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(followedByViewController, animated: true)
@@ -930,7 +930,7 @@ extension ListViewController: EntryTableViewCellDelegate {
         shareViewController.addToListHandler = addToListHandler
         shareViewController.sendRecommendationsHandler = sendRecommendationsHandler
 
-        let navigationController = UINavigationController.init(rootViewController: shareViewController)
+        let navigationController = UINavigationController(rootViewController: shareViewController)
 
         present(navigationController, animated: true, completion: nil)
     }

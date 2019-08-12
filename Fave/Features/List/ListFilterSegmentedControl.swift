@@ -27,7 +27,7 @@ class ListSegmentedControlTabView: UIView {
     }
 
     private lazy var title: Label = {
-        let label = Label.init(text: tab.title, font: FaveFont.init(style: .h5, weight: .semiBold), textColor: tab.selected ? FaveColors.Accent : FaveColors.Black70, textAlignment: .center
+        let label = Label(text: tab.title, font: FaveFont(style: .h5, weight: .semiBold), textColor: tab.selected ? FaveColors.Accent : FaveColors.Black70, textAlignment: .center
             , numberOfLines: 1)
 
         return label
@@ -82,7 +82,7 @@ class ListSegmentedControl: UIView {
     let tabViews: [ListSegmentedControlTabView]
 
     lazy private var topDividerView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.Black20
 
@@ -94,7 +94,7 @@ class ListSegmentedControl: UIView {
     }()
 
     lazy private var bottomDividerView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.Black20
 
@@ -106,7 +106,7 @@ class ListSegmentedControl: UIView {
     }()
 
     private lazy var selectedBorderView: UIView = {
-        let view = UIView.init(frame: .zero)
+        let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.Accent
 
@@ -119,11 +119,11 @@ class ListSegmentedControl: UIView {
 
     init(tabs: [String]) {
         self.tabModels = tabs.enumerated().map { index, tab in
-            return ListSegmentedControlTab.init(title: tab, index: index, selected: index == 0)
+            return ListSegmentedControlTab(title: tab, index: index, selected: index == 0)
         }
 
         self.tabViews = tabModels.enumerated().map { index, tab in
-            return ListSegmentedControlTabView.init(tab: tab)
+            return ListSegmentedControlTabView(tab: tab)
         }
 
         super.init(frame: CGRect.zero)
@@ -134,7 +134,7 @@ class ListSegmentedControl: UIView {
             tabView.delegate = self
         }
 
-        let tabsStackView = UIStackView.init(frame: .zero)
+        let tabsStackView = UIStackView(frame: .zero)
 
         self.tabViews.forEach { view in
             tabsStackView.addArrangedSubview(view)
@@ -182,7 +182,7 @@ class ListSegmentedControl: UIView {
         delegate?.didSelectItemAtIndex(index: tab.index)
 
         tabModels = tabModels.enumerated().map { tabIndex, tabModel in
-            return ListSegmentedControlTab.init(title: tabModel.title, index: tabIndex, selected: tabIndex == tab.index)
+            return ListSegmentedControlTab(title: tabModel.title, index: tabIndex, selected: tabIndex == tab.index)
         }
 
         let selectedOffset = CGFloat(tab.index) * (UIScreen.main.bounds.width / CGFloat(tabViews.count))

@@ -26,9 +26,9 @@ struct Friend {
                 return nil
         }
 
-        guard let user = User.init(data: userData),
-            let list = List.init(data: listData),
-            let item = Item.init(data: itemData) else {
+        guard let user = User(data: userData),
+            let list = List(data: listData),
+            let item = Item(data: itemData) else {
                 return nil
         }
 

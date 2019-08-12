@@ -3,7 +3,7 @@ import Cartography
 
 class ListTableViewCell: UITableViewCell {
     private lazy var titleLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .h5, weight: .semiBold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
@@ -16,7 +16,7 @@ class ListTableViewCell: UITableViewCell {
     }()
 
     private lazy var followerLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black60,
                                textAlignment: .left,
@@ -26,7 +26,7 @@ class ListTableViewCell: UITableViewCell {
     }()
 
     private lazy var entryLabel: Label = {
-        let label = Label.init(text: "",
+        let label = Label(text: "",
                                font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black60,
                                textAlignment: .left,

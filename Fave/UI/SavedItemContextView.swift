@@ -10,9 +10,9 @@ class SavedItemContextView: UIView {
     }
 
     private lazy var savedItemImageView: UIImageView = {
-        let imageView = UIImageView.init(frame: .zero)
+        let imageView = UIImageView(frame: .zero)
 
-        imageView.image = UIImage.init(named: "icon-fave-faved")?.withRenderingMode(.alwaysOriginal)
+        imageView.image = UIImage(named: "icon-fave-faved")?.withRenderingMode(.alwaysOriginal)
 
         constrain(imageView) { imageView in
             imageView.height == 12
@@ -23,7 +23,7 @@ class SavedItemContextView: UIView {
     }()
 
     private lazy var titleLabel: Label = {
-        let label = Label(text: "", font: FaveFont.init(style: .small, weight: .regular), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 0)
+        let label = Label(text: "", font: FaveFont(style: .small, weight: .regular), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 0)
 
         return label
     }()
