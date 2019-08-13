@@ -97,6 +97,18 @@
 		439FDDE42245FACF00ED9343 /* ListTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE32245FACF00ED9343 /* ListTableHeaderView.swift */; };
 		439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE52245FB1600ED9343 /* ListTableSectionHeaderView.swift */; };
 		43A69B2E2254FDC100DA2BA1 /* ContextualItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */; };
+		43ABB3CB230228C200329F7B /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3CA230228C200329F7B /* AlertVC.swift */; };
+		43ABB3CE230229E600329F7B /* AlertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3CD230229E600329F7B /* AlertCollectionViewCell.swift */; };
+		43ABB3D023022A0F00329F7B /* DialogAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3CF23022A0F00329F7B /* DialogAnimator.swift */; };
+		43ABB3D223022B5900329F7B /* ActionSheetAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3D123022B5900329F7B /* ActionSheetAnimator.swift */; };
+		43ABB3D423022BCD00329F7B /* DialogSheetAlertCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3D323022BCD00329F7B /* DialogSheetAlertCollectionViewLayout.swift */; };
+		43ABB3D623022C0000329F7B /* DialogAlertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3D523022C0000329F7B /* DialogAlertCollectionViewCell.swift */; };
+		43ABB3D823022F7900329F7B /* AlertVCExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3D723022F7900329F7B /* AlertVCExt.swift */; };
+		43ABB3DA2302302300329F7B /* DefaultDialogContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3D92302302300329F7B /* DefaultDialogContentView.swift */; };
+		43ABB3DC2302319D00329F7B /* AlertAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3DB2302319D00329F7B /* AlertAnimator.swift */; };
+		43ABB3DE2302324900329F7B /* AlertPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3DD2302324900329F7B /* AlertPresentationController.swift */; };
+		43ABB3E0230233A000329F7B /* FaveDeviceSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3DF230233A000329F7B /* FaveDeviceSize.swift */; };
+		43ABB3E32302397B00329F7B /* PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3E22302397B00329F7B /* PushNotifications.swift */; };
 		43AFB448223DC3E000B243E1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB447223DC3E000B243E1 /* User.swift */; };
 		43AFB44A223DD00500B243E1 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB449223DD00500B243E1 /* Storage.swift */; };
 		43AFB44D223DE8F500B243E1 /* ProfileTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFB44C223DE8F500B243E1 /* ProfileTableHeaderView.swift */; };
@@ -232,6 +244,19 @@
 		439FDDE32245FACF00ED9343 /* ListTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableHeaderView.swift; sourceTree = "<group>"; };
 		439FDDE52245FB1600ED9343 /* ListTableSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableSectionHeaderView.swift; sourceTree = "<group>"; };
 		43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualItems.swift; sourceTree = "<group>"; };
+		43ABB3C9230211EF00329F7B /* Fave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fave.entitlements; sourceTree = "<group>"; };
+		43ABB3CA230228C200329F7B /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
+		43ABB3CD230229E600329F7B /* AlertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertCollectionViewCell.swift; sourceTree = "<group>"; };
+		43ABB3CF23022A0F00329F7B /* DialogAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogAnimator.swift; sourceTree = "<group>"; };
+		43ABB3D123022B5900329F7B /* ActionSheetAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetAnimator.swift; sourceTree = "<group>"; };
+		43ABB3D323022BCD00329F7B /* DialogSheetAlertCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogSheetAlertCollectionViewLayout.swift; sourceTree = "<group>"; };
+		43ABB3D523022C0000329F7B /* DialogAlertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogAlertCollectionViewCell.swift; sourceTree = "<group>"; };
+		43ABB3D723022F7900329F7B /* AlertVCExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVCExt.swift; sourceTree = "<group>"; };
+		43ABB3D92302302300329F7B /* DefaultDialogContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDialogContentView.swift; sourceTree = "<group>"; };
+		43ABB3DB2302319D00329F7B /* AlertAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAnimator.swift; sourceTree = "<group>"; };
+		43ABB3DD2302324900329F7B /* AlertPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentationController.swift; sourceTree = "<group>"; };
+		43ABB3DF230233A000329F7B /* FaveDeviceSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveDeviceSize.swift; sourceTree = "<group>"; };
+		43ABB3E22302397B00329F7B /* PushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotifications.swift; sourceTree = "<group>"; };
 		43AFB445223D9E3B00B243E1 /* Rswift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Rswift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43AFB447223DC3E000B243E1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		43AFB449223DD00500B243E1 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -361,6 +386,7 @@
 		438534B9223336BA00B99EC7 /* Fave */ = {
 			isa = PBXGroup;
 			children = (
+				43ABB3C9230211EF00329F7B /* Fave.entitlements */,
 				4386BFE1223350EA006A3ED7 /* Utility */,
 				4386BFDD223340C3006A3ED7 /* Features */,
 				4385350322333A9C00B99EC7 /* Networking */,
@@ -417,6 +443,7 @@
 				43D63C1622D116BD006486FE /* UIStackViewExtension.swift */,
 				43D63C1822D11D54006486FE /* CollectionExt.swift */,
 				432B3EBC22F505D4005F7EF5 /* UIRefreshControlExtension.swift */,
+				43ABB3D723022F7900329F7B /* AlertVCExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -433,6 +460,7 @@
 				431A0DDB228DCC7300F2E6BD /* EventItemView.swift */,
 				4378624822AA0F350011420D /* SavedItemContextView.swift */,
 				433E4F9022B0351000B0A531 /* ToastView.swift */,
+				43ABB3CC230229CA00329F7B /* Alert */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -485,6 +513,7 @@
 		4386BFDD223340C3006A3ED7 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				43ABB3E12302396D00329F7B /* Push Notifications */,
 				43D63C1322D02742006486FE /* Recommendations */,
 				4382488E227B50DA00257D27 /* Fave Item */,
 				431DF8A02249EFFC00717312 /* Item */,
@@ -514,6 +543,7 @@
 				4386BFF322335FA8006A3ED7 /* Shimmer.swift */,
 				4317656F223B644700C1963E /* Authenticator.swift */,
 				4369CF4422583E7300FCA156 /* Haptic.swift */,
+				43ABB3DF230233A000329F7B /* FaveDeviceSize.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -546,6 +576,30 @@
 				432B3EC422FE94F2005F7EF5 /* UpdateListViewController.swift */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		43ABB3CC230229CA00329F7B /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				43ABB3CA230228C200329F7B /* AlertVC.swift */,
+				43ABB3DD2302324900329F7B /* AlertPresentationController.swift */,
+				43ABB3DB2302319D00329F7B /* AlertAnimator.swift */,
+				43ABB3D92302302300329F7B /* DefaultDialogContentView.swift */,
+				43ABB3D523022C0000329F7B /* DialogAlertCollectionViewCell.swift */,
+				43ABB3D323022BCD00329F7B /* DialogSheetAlertCollectionViewLayout.swift */,
+				43ABB3CF23022A0F00329F7B /* DialogAnimator.swift */,
+				43ABB3CD230229E600329F7B /* AlertCollectionViewCell.swift */,
+				43ABB3D123022B5900329F7B /* ActionSheetAnimator.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		43ABB3E12302396D00329F7B /* Push Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				43ABB3E22302397B00329F7B /* PushNotifications.swift */,
+			);
+			path = "Push Notifications";
 			sourceTree = "<group>";
 		};
 		43AFB44B223DE8E100B243E1 /* Profile */ = {
@@ -679,6 +733,14 @@
 				TargetAttributes = {
 					438534B6223336BA00B99EC7 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					438534CA223336BB00B99EC7 = {
 						CreatedOnToolsVersion = 10.1;
@@ -835,6 +897,7 @@
 				4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */,
 				43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */,
 				4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */,
+				43ABB3D623022C0000329F7B /* DialogAlertCollectionViewCell.swift in Sources */,
 				432B3EC522FE94F2005F7EF5 /* UpdateListViewController.swift in Sources */,
 				431ED5EA2292268E008B9A9A /* TopListItemTableViewCell.swift in Sources */,
 				43824890227B50E800257D27 /* MyListsViewController.swift in Sources */,
@@ -842,17 +905,22 @@
 				438534FA2233397E00B99EC7 /* FaveVC.swift in Sources */,
 				431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */,
 				43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */,
+				43ABB3DC2302319D00329F7B /* AlertAnimator.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
+				43ABB3D423022BCD00329F7B /* DialogSheetAlertCollectionViewLayout.swift in Sources */,
 				43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */,
 				438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */,
 				431A0DDA228DCBCA00F2E6BD /* FeedEventTableViewCell.swift in Sources */,
 				438534FE223339D500B99EC7 /* Analytics.swift in Sources */,
 				4376A9EB225A509400741F92 /* ItemMapTableViewCell.swift in Sources */,
 				4386BFF222335F43006A3ED7 /* Label.swift in Sources */,
+				43ABB3E32302397B00329F7B /* PushNotifications.swift in Sources */,
 				4342708F226EE00F0079AB22 /* UserSearchTableViewCell.swift in Sources */,
 				43824892227C069900257D27 /* AutosizingTableView.swift in Sources */,
 				4369CF432257C11300FCA156 /* FaveTests.swift in Sources */,
 				43915CA72272C7D400562B5A /* DiscoverUserSectionHeaderView.swift in Sources */,
+				43ABB3CE230229E600329F7B /* AlertCollectionViewCell.swift in Sources */,
+				43ABB3CB230228C200329F7B /* AlertVC.swift in Sources */,
 				4334DB6F228F269800EE58BB /* TopListCollectionViewCell.swift in Sources */,
 				4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */,
 				4369CF4522583E7300FCA156 /* Haptic.swift in Sources */,
@@ -877,11 +945,13 @@
 				430D8D30224DF1730082FCF2 /* Friend.swift in Sources */,
 				439FDDE22245D2DE00ED9343 /* EntryTableViewCell.swift in Sources */,
 				431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */,
+				43ABB3D023022A0F00329F7B /* DialogAnimator.swift in Sources */,
 				4385350022333A0700B99EC7 /* AppConfiguration.swift in Sources */,
 				432B3EC322FE2F93005F7EF5 /* FaveImageCache.swift in Sources */,
 				438534FC223339B200B99EC7 /* AnalyticsEvents.swift in Sources */,
 				439FDDE42245FACF00ED9343 /* ListTableHeaderView.swift in Sources */,
 				43B512D822A7932B0018E9D5 /* DateExtension.swift in Sources */,
+				43ABB3D823022F7900329F7B /* AlertVCExt.swift in Sources */,
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
@@ -893,6 +963,7 @@
 				4334DB6D228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift in Sources */,
 				438534F0223338C600B99EC7 /* IntExtensions.swift in Sources */,
 				43915CAB2276A02B00562B5A /* UICollectionViewExt.swift in Sources */,
+				43ABB3DE2302324900329F7B /* AlertPresentationController.swift in Sources */,
 				43D63C1722D116BD006486FE /* UIStackViewExtension.swift in Sources */,
 				43BEA2FD226B84DA001F930E /* DiscoverUserListTableViewCell.swift in Sources */,
 				4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */,
@@ -910,11 +981,14 @@
 				434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,
+				43ABB3DA2302302300329F7B /* DefaultDialogContentView.swift in Sources */,
 				4378624922AA0F350011420D /* SavedItemContextView.swift in Sources */,
 				43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */,
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
 				4385350522333AA700B99EC7 /* Networking.swift in Sources */,
 				432B3EB922F4F370005F7EF5 /* SavedByViewController.swift in Sources */,
+				43ABB3E0230233A000329F7B /* FaveDeviceSize.swift in Sources */,
+				43ABB3D223022B5900329F7B /* ActionSheetAnimator.swift in Sources */,
 				4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */,
 				432B3EBF22F50CD7005F7EF5 /* FollowingListsViewController.swift in Sources */,
 				430D8D2E224DEBA20082FCF2 /* FeedEvent.swift in Sources */,
@@ -1034,6 +1108,7 @@
 			buildSettings = {
 				API_BASE_URL_ENDPOINT = "http://10.0.0.239:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
@@ -1155,6 +1230,7 @@
 			buildSettings = {
 				API_BASE_URL_ENDPOINT = "http://ec2-3-17-159-82.us-east-2.compute.amazonaws.com:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
@@ -1337,6 +1413,7 @@
 			buildSettings = {
 				API_BASE_URL_ENDPOINT = "http://localhost:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
@@ -1359,6 +1436,7 @@
 			buildSettings = {
 				API_BASE_URL_ENDPOINT = "http://localhost:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";

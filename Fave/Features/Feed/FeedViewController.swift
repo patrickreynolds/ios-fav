@@ -19,6 +19,42 @@ class FeedViewController: FaveVC {
         }
     }
 
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                loadingIndicatorView.startAnimating()
+
+            } else {
+                loadingIndicatorView.stopAnimating()
+            }
+        }
+    }
+
+    var loggedIn: Bool = false {
+        didSet {
+            if loggedIn {
+                feedTableView.isHidden = false
+
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.feedTableView.alpha = 1
+                    self.welcomeView.alpha = 0
+                }, completion: { _ in
+                    self.welcomeView.isHidden = true
+                })
+
+            } else {
+                welcomeView.isHidden = false
+
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.feedTableView.alpha = 0
+                    self.welcomeView.alpha = 1
+                }, completion: { _ in
+                    self.feedTableView.isHidden = true
+                })
+            }
+        }
+    }
+
     private lazy var createButton: UIButton = {
         let button = UIButton(frame: .zero)
 
@@ -123,29 +159,53 @@ class FeedViewController: FaveVC {
 
         view.bringSubviewToFront(loadingIndicatorView)
         view.bringSubviewToFront(createButton)
+
+        welcomeView.alpha = 0
+        welcomeView.isHidden = true
+        feedTableView.alpha = 0
+        feedTableView.isHidden = true
+
+        isLoading = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        refreshFeed()
+        let PushNotificationsEnabled = false
+
+        refreshFeed {
+            if self.dependencyGraph.authenticator.isLoggedIn() && PushNotificationsEnabled {
+                PushNotifications.shouldPromptToRegisterForNotifications(dependencyGraph: self.dependencyGraph) { shouldPrompt in
+
+                    guard shouldPrompt else {
+                        return
+                    }
+
+                    DispatchQueue.main.async {
+                        PushNotifications.promptForPushNotifications(dependencyGraph: self.dependencyGraph, fromViewController: self) {}
+                    }
+                }
+            }
+        }
     }
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        loadingIndicatorView.isHidden = true
-
         refreshFeed()
     }
 
-    func refreshFeed() {
-        loadingIndicatorView.startAnimating()
+    func refreshFeed(completion: @escaping () -> () = {}) {
 
         if dependencyGraph.authenticator.isLoggedIn() {
-            loadingIndicatorView.isHidden = true
-            
+            isLoading = events.isEmpty
+
+            loggedIn = true
+
             dependencyGraph.faveService.getFeed(from: 0, to: 100) { response, error in
-                self.loadingIndicatorView.stopAnimating()
                 self.refreshControl.endRefreshing()
+
+                self.isLoading = false
+
+                completion()
 
                 guard let events = response else {
                     return
@@ -155,6 +215,7 @@ class FeedViewController: FaveVC {
             }
 
             dependencyGraph.faveService.getCurrentUser { user, error in
+
                 guard let user = user else {
                     if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
                         tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
@@ -165,12 +226,14 @@ class FeedViewController: FaveVC {
                         print("Logged out")
                     }
 
+                    self.loggedIn = false
+
                     return
                 }
 
                 self.dependencyGraph.storage.saveUser(user: user)
 
-                self.updateUI()
+                self.loggedIn = true
 
                 if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
                     let tabBarItemImage = UIImage(base64String: user.profilePicture)?
@@ -182,27 +245,19 @@ class FeedViewController: FaveVC {
                 }
             }
         } else {
-            updateUI()
+            if !topLists.isEmpty {
+                isLoading = false
+            }
+
+            loggedIn = false
 
             dependencyGraph.faveService.topLists { topLists, error in
+                self.isLoading = false
+
                 self.topLists = topLists ?? []
 
-                self.loadingIndicatorView.stopAnimating()
+                completion()
             }
-        }
-    }
-
-    func updateUI() {
-        if dependencyGraph.authenticator.isLoggedIn() {
-            feedTableView.alpha = 1
-            feedTableView.isHidden = false
-            welcomeView.alpha = 0
-            welcomeView.isHidden = true
-        } else {
-            feedTableView.alpha = 0
-            feedTableView.isHidden = true
-            welcomeView.alpha = 1
-            welcomeView.isHidden = false
         }
     }
 }

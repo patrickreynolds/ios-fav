@@ -1,14 +1,13 @@
 import Foundation
 import Cartography
+import MBProgressHUD
 
-enum RecommendationState {
-    case loading
-    case presenting
-}
+//enum RecommendationState {
+//    case loading
+//    case presenting
+//}
 
 class RecommendationsViewController: FaveVC {
-
-    var state: RecommendationState = .presenting
 
     var listsForRecommendations: [Int: List] = [:]
 
@@ -52,6 +51,35 @@ class RecommendationsViewController: FaveVC {
         }
     }
 
+    private var isLoadingInitialState: Bool = false {
+        didSet {
+            if isLoadingInitialState {
+                loadingIndicator.startAnimating()
+            } else {
+                loadingIndicator.stopAnimating()
+            }
+        }
+    }
+
+    private var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                progressHUD.show(animated: true)
+            } else {
+                progressHUD.hide(animated: true)
+            }
+        }
+    }
+
+    private lazy var progressHUD: MBProgressHUD = {
+        let hud = MBProgressHUD(frame: .zero)
+
+        hud.animationType = .fade
+        hud.contentColor = FaveColors.Accent
+
+        return hud
+    }()
+
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
 
@@ -65,6 +93,7 @@ class RecommendationsViewController: FaveVC {
 
         indicator = UIActivityIndicatorView(frame: CGRect.zero)
         indicator.style = UIActivityIndicatorView.Style.gray
+        indicator.hidesWhenStopped = true
 
         return indicator
     }()
@@ -151,6 +180,8 @@ class RecommendationsViewController: FaveVC {
         view.addSubview(recommendationsTableView)
         view.addSubview(noRecommendationsView)
         view.addSubview(createButton)
+        view.addSubview(progressHUD)
+        view.addSubview(loadingIndicator)
 
         constrainToSuperview(recommendationsTableView)
 
@@ -167,7 +198,22 @@ class RecommendationsViewController: FaveVC {
             button.height == 56
         }
 
+        constrain(progressHUD, view) { progressHUD, view in
+            progressHUD.centerX == view.centerX
+            progressHUD.centerY == view.centerY
+        }
+
+        constrain(loadingIndicator, view) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
+        }
+
         view.bringSubviewToFront(createButton)
+        view.bringSubviewToFront(loadingIndicator)
+        view.bringSubviewToFront(progressHUD)
+
+        noRecommendationsView.alpha = 0
+        isLoadingInitialState = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -183,12 +229,11 @@ class RecommendationsViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        state = .loading
 
         dependencyGraph.faveService.myItems() { response, error in
-            completion()
+            self.isLoadingInitialState = false
 
-            self.state = .presenting
+            completion()
 
             guard let items = response else {
                 return
@@ -448,7 +493,13 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
     }
 
     func dismissButtonTapped(item: Item) {
+
+        isLoading = true
+
         dependencyGraph.faveService.removeListItem(itemId: item.id) { itemId, error in
+
+            self.isLoading = false
+
             guard let itemId = itemId else {
                 return
             }

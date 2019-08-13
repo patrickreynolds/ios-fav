@@ -46,7 +46,11 @@ struct Networking {
         // Show the actificy indicator during the network call
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
+        print("\n \(endpoint) \n")
+
         Alamofire.request(endpoint, method: .post, parameters: data, headers: headers).responseJSON { response in
+
+            print("\n Response received \n")
 
             // Hide the actificy indicator during the network call
             UIApplication.shared.isNetworkActivityIndicatorVisible = false

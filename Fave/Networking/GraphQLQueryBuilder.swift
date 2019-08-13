@@ -347,4 +347,12 @@ struct GraphQLQueryBuilder {
             }
         """
     }
+
+    static func addDeviceTokenMutation(deviceToken: String) -> String {
+        return """
+            mutation {
+                success: addDeviceToken(deviceToken: "\(deviceToken)")
+            }
+        """
+    }
 }

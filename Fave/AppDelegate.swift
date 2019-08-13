@@ -155,4 +155,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return ApplicationDelegate.shared.application(app, open: url, options: options)
     }
+
+    // MARK: Push notifications
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+
+        let deviceTokenString = deviceToken.reduce("", { $0 + String(format: "%02X", $1) })
+        print("APNs device token: \(deviceTokenString)")
+
+        // POST device token
+        dependencyGraph.faveService.addDeviceToken(deviceToken: deviceTokenString) { success, error in
+            guard let success = success else {
+                return
+            }
+
+            if success {
+                print("\n\nAPNS device token saved: true\n\n")
+            } else {
+                print("\n\nAPNS device token saved: false\n\n")
+            }
+        }
+    }
 }

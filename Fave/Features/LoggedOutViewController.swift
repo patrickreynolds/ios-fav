@@ -91,10 +91,14 @@ class LoggedOutViewController: FaveVC {
 
         view.backgroundColor = UIColor.white
 
+        let faveLogoSize: CGFloat = 64
         let faveLogo = UIImageView(image: UIImage(named: "fave-logo"))
 
+        faveLogo.layer.cornerRadius = 12
+        faveLogo.clipsToBounds = true
+
         let title = Label(
-            text: "Welcome!",
+            text: "Welcome to Fave!",
             font: FaveFont(style: .h2, weight: .bold),
             textColor: FaveColors.Black90,
             textAlignment: .center,
@@ -141,8 +145,8 @@ class LoggedOutViewController: FaveVC {
         constrain(faveLogo, title) { faveLogo, title in
             faveLogo.bottom == title.top - 32
             faveLogo.centerX == title.centerX
-            faveLogo.width == 100
-            faveLogo.height == 60
+            faveLogo.width == faveLogoSize
+            faveLogo.height == faveLogoSize
         }
 
         constrain(skipButton, logInWithFacebookButton) { button, facebookButton in

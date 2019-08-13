@@ -6,6 +6,12 @@ enum AnalyticsEvents: String {
     case itemCreatedLocation = "item_created_location"
     case itemUpdatedLocation = "item_updated_location"
     case recommendationSent = "recommendation_sent"
+    case pushPermissionDialogNo = "fave_push_permission_dialog_no_selected"
+    case pushPermissionDialogYes = "fave_push_permission_dialog_yes_selected"
+    case systemPushPermissionDialogShown = "system_push_permission_dialog_shown"
+    case systemPushPermissionDialogYes = "system_push_permission_dialog_yes"
+    case systemPushPermissionDialogNo = "system_push_permission_dialog_no"
+    case favePushPermissionDialogShown = "fave_push_permission_dialog_shown"
 }
 
 enum AnalyticsImpressionEvent: String {
@@ -25,4 +31,5 @@ enum AnalyticsImpressionEvent: String {
     case savedByScreenShown = "screen_shown_saved-by"
     case followedByScreenShown = "screen_shown_followed-by"
     case followingListsScreenShown = "screen_shown-following-lists"
+    case alertShown = "alert_shown"
 }

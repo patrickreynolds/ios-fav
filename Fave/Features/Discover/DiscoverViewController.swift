@@ -92,6 +92,26 @@ class DiscoverViewController: FaveVC {
             discoverTableView.reloadData()
         }
     }
+
+    private var isLoadingInitialState: Bool = false {
+        didSet {
+            if isLoadingInitialState {
+                loadingIndicator.startAnimating()
+            } else {
+                loadingIndicator.stopAnimating()
+            }
+        }
+    }
+
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        var indicator = UIActivityIndicatorView()
+
+        indicator = UIActivityIndicatorView(frame: CGRect.zero)
+        indicator.style = UIActivityIndicatorView.Style.gray
+        indicator.hidesWhenStopped = true
+
+        return indicator
+    }()
     
     private lazy var noSuggestionsView: UIView = {
         let view = UIView(frame: .zero)
@@ -269,6 +289,7 @@ class DiscoverViewController: FaveVC {
         view.addSubview(discoverTableView)
         view.addSubview(noSuggestionsView)
         view.addSubview(createButton)
+        view.addSubview(loadingIndicator)
 
         constrain(createButton, view) { button, view in
             button.right == view.right - 12
@@ -289,14 +310,19 @@ class DiscoverViewController: FaveVC {
             tableView.top == view.topMargin
         }
 
-        view.bringSubviewToFront(createButton)
+        constrain(loadingIndicator, view) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
+        }
 
-//        refreshData()
+        view.bringSubviewToFront(createButton)
+        view.bringSubviewToFront(loadingIndicator)
+
+        noSuggestionsView.alpha = 0
+        isLoadingInitialState = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
-//        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-
         super.viewWillAppear(animated)
 
         refreshData()
@@ -310,15 +336,15 @@ class DiscoverViewController: FaveVC {
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
-            delay(1.0) {
-                self.refreshControl.endRefreshing()
-            }
+            self.refreshControl.endRefreshing()
         }
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-
         dependencyGraph.faveService.suggestions { response, error in
+
+            self.isLoadingInitialState = false
+
             guard let suggestions = response else {
                 // handle error
 

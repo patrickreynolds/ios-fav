@@ -25,6 +25,9 @@ class FaveColors: NSObject {
     static let Blue = UIColor(hexString: "0F72E5")
     static let Purple = UIColor(hexString: "5846E4")
     static let SuccessGreen = UIColor(hexString: "4BB543")
+    static let Clear = UIColor.clear
+    static let Red = UIColor(hexString: "E0245E")
+    static let RedDark = UIColor(hexString: "A31B45")
 
     // MARK: Secondary Palette
 
