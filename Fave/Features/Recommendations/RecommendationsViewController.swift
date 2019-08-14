@@ -9,8 +9,6 @@ import MBProgressHUD
 
 class RecommendationsViewController: FaveVC {
 
-    var listsForRecommendations: [Int: List] = [:]
-
     var recommendations: [Item] = [] {
         didSet {
             // reload table view
@@ -21,9 +19,8 @@ class RecommendationsViewController: FaveVC {
                 self.noRecommendationsView.alpha = noRecommendationsViewAlpha
             }, completion: nil)
 
-            fetchLists {
-                self.recommendationsTableView.reloadData()
-            }
+
+            self.recommendationsTableView.reloadData()
         }
     }
 
@@ -229,7 +226,6 @@ class RecommendationsViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-
         dependencyGraph.faveService.myItems() { response, error in
             self.isLoadingInitialState = false
 
@@ -240,35 +236,6 @@ class RecommendationsViewController: FaveVC {
             }
 
             self.listOfCurrentItems = items
-        }
-    }
-
-    private func fetchLists(completion: @escaping () -> ()) {
-        var responses = 0
-
-        let recommendationIds = recommendations.map { $0.id }
-        let listIds = recommendations.map { $0.listId }
-
-        guard !recommendationIds.isEmpty else {
-            completion()
-
-            return
-        }
-
-        listIds.enumerated().forEach { (index: Int, id: Int) in
-            dependencyGraph.faveService.getList(listId: id, completion: { list, error in
-                responses += 1
-
-                guard let list = list else {
-                    return
-                }
-
-                self.listsForRecommendations[recommendationIds[index]] = list
-
-                if responses == recommendationIds.count {
-                    completion()
-                }
-            })
         }
     }
 
@@ -290,14 +257,12 @@ extension RecommendationsViewController: UITableViewDelegate {
 
         let item = recommendations[indexPath.row]
 
-        if let list = listsForRecommendations[item.id] {
-            let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item, list: list)
+        let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item)
 
-            let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
-            itemViewController.navigationItem.titleView = titleViewLabel
+        let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        itemViewController.navigationItem.titleView = titleViewLabel
 
-            navigationController?.pushViewController(itemViewController, animated: true)
-        }
+        navigationController?.pushViewController(itemViewController, animated: true)
     }
 }
 
@@ -312,17 +277,17 @@ extension RecommendationsViewController: UITableViewDataSource {
         cell.delegate = self
 
         let item = recommendations[indexPath.row]
-        let list = listsForRecommendations[item.id]
 
         var mySavedItem: Item? = nil
         if item.isSaved ?? false {
-            mySavedItem = listOfCurrentItems.filter({$0.dataId == item.dataId}).first
+            let combinedSavedItems = listOfCurrentItems.filter({$0.dataId == item.dataId}).filter({ !$0.isRecommendation })
+
+            mySavedItem = combinedSavedItems.first
         }
 
         cell.populate(dependencyGraph: dependencyGraph,
                       item: item,
-                      currentUser: dependencyGraph.storage.getUser(),
-                      list: list,
+                      list: nil,
                       mySavedItem: mySavedItem)
 
         return cell
@@ -338,11 +303,7 @@ extension RecommendationsViewController: UITableViewDataSource {
         }
     }
 
-    private func handleItemTapped(item: Item) {
-        guard let list = listsForRecommendations[item.id] else {
-            return
-        }
-
+    private func handleItemTapped(item: Item, list: List?) {
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
         let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
@@ -415,7 +376,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
             return
         }
 
-        guard let list = listsForRecommendations[item.id], let contextualItem = item.contextualItem as? GoogleItemType, let url = NSURL(string: "https://www.fave.com/lists/\(list.id)/item/\(item.id)") else {
+        guard let contextualItem = item.contextualItem as? GoogleItemType, let url = NSURL(string: "https://www.fave.com/lists/\(item.listId)/item/\(item.id)") else {
             return
         }
 
@@ -488,8 +449,8 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
         present(navigationController, animated: true, completion: nil)
     }
 
-    func googlePhotoTapped(item: Item) {
-        handleItemTapped(item: item)
+    func googlePhotoTapped(item: Item, list: List?) {
+        handleItemTapped(item: item, list: list)
     }
 
     func dismissButtonTapped(item: Item) {

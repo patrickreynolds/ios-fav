@@ -360,7 +360,7 @@ class ListViewController: FaveVC {
         showToast(title: title)
     }
 
-    private func handleItemTapped(item: Item) {
+    private func handleItemTapped(item: Item, list: List?) {
         let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
 
         let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
@@ -556,7 +556,7 @@ extension ListViewController: UITableViewDelegate {
             item = recommendations[indexPath.row]
         }
 
-        handleItemTapped(item: item)
+        handleItemTapped(item: item, list: list)
     }
 }
 
@@ -586,10 +586,16 @@ extension ListViewController: UITableViewDataSource {
 
         var mySavedItem: Item? = nil
         if item.isSaved ?? false {
-            mySavedItem = listOfCurrentItems.filter({$0.dataId == item.dataId}).first
+            let combinedSavedItems = listOfCurrentItems.filter({$0.dataId == item.dataId})
+
+            if combinedSavedItems.count > 1 {
+                mySavedItem = combinedSavedItems.filter({ !$0.isRecommendation }).first
+            } else {
+                mySavedItem = combinedSavedItems.first
+            }
         }
 
-        cell.populate(dependencyGraph: dependencyGraph, item: item, currentUser: dependencyGraph.storage.getUser(), list: list, mySavedItem: mySavedItem)
+        cell.populate(dependencyGraph: dependencyGraph, item: item, list: list, mySavedItem: mySavedItem)
 
         return cell
     }
@@ -692,8 +698,8 @@ extension ListViewController: EntryTableViewCellDelegate {
         present(selectListNavigationController, animated: true)
     }
 
-    func googlePhotoTapped(item: Item) {
-        handleItemTapped(item: item)
+    func googlePhotoTapped(item: Item, list: List?) {
+        handleItemTapped(item: item, list: list)
     }
 
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool) {

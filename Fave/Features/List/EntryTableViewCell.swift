@@ -5,7 +5,7 @@ import Cartography
 protocol EntryTableViewCellDelegate {
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool)
     func shareItemButtonTapped(item: Item)
-    func googlePhotoTapped(item: Item)
+    func googlePhotoTapped(item: Item, list: List?)
     func dismissButtonTapped(item: Item)
     func addToListButtonTapped(item: Item)
     func didTapOwnerView(owner: User)
@@ -451,12 +451,12 @@ class EntryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(dependencyGraph: DependencyGraphType, item: Item, currentUser: User?, list: List?, mySavedItem: Item?) {
+    func populate(dependencyGraph: DependencyGraphType, item: Item, list: List?, mySavedItem: Item?) {
         self.dependencyGraph = dependencyGraph
         self.item = item
         self.list = list
         self.mySavedItem = mySavedItem
-        self.currentUser = currentUser
+        self.currentUser = dependencyGraph.storage.getUser()
 
         itemIsSavedByUser = item.isSaved ?? false
 
@@ -487,7 +487,7 @@ class EntryTableViewCell: UITableViewCell {
 
         if let currentUser = dependencyGraph.storage.getUser(), item.isRecommendation {
             
-            if let list = list, list.owner.id == currentUser.id {
+            if item.owner.id == currentUser.id {
                 actionStackView.addArrangedSubview(addToListActionView)
                 actionStackView.addArrangedSubview(dismissActionView)
             } else {
@@ -540,15 +540,15 @@ class EntryTableViewCell: UITableViewCell {
             return
         }
 
-        var notMyList = true
+//        let myItem = item.owner.id == user.id
+////        let viewingRecommendation = item.isRecommendation && item.owner.id == user.id
+//        let isSameItem = item.dataId == mySavedItem.dataId
+        //        let myItem = item.owner.id == user.id
 
-        if let list = list {
-            notMyList = list.owner.id != user.id
-        }
-
+        let notPresentList = (list?.id != mySavedItem.listId)
         let isSameItem = item.dataId == mySavedItem.dataId
 
-        if itemIsSavedByUser && isSameItem && notMyList {
+        if (itemIsSavedByUser && isSameItem && notPresentList) {
             UIView.animate(withDuration: 0.15) {
                 self.savedItemContextView.alpha = 1
             }
@@ -614,7 +614,7 @@ extension EntryTableViewCell: UICollectionViewDelegate {
             return
         }
 
-        delegate?.googlePhotoTapped(item: item)
+        delegate?.googlePhotoTapped(item: item, list: list)
     }
 }
 

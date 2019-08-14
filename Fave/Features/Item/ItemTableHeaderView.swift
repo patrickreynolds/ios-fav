@@ -9,9 +9,10 @@ protocol ItemTableHeaderViewDelegate {
 
 class ItemTableHeaderView: UIView {
 
-    var list: List?
     var currentUser: User?
     var mySavedItem: Item?
+
+    var list: List?
 
     var item: Item {
         didSet {
@@ -123,7 +124,7 @@ class ItemTableHeaderView: UIView {
         return view
     }()
 
-    init(item: Item, list: List) {
+    init(item: Item, list: List?) {
         self.item = item
         self.list = list
 
@@ -190,17 +191,16 @@ class ItemTableHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateHeader(item: Item, list: List, user: User?, mySavedItem: Item?) {
+    func updateHeader(item: Item, user: User?, mySavedItem: Item?) {
         self.currentUser = user
         self.item = item
-        self.list = list
         self.mySavedItem = mySavedItem
 
         updateSavedItemContext(item: item)
     }
 
     private func updateSavedItemContext(item: Item) {
-        guard let user = currentUser, let list = list, let mySavedItem = mySavedItem else {
+        guard let user = currentUser, let mySavedItem = mySavedItem else {
             savedItemContextView.alpha = 0
             userHasNotSavedThisItemConstraint?.isActive = true
             userHasSavedThisItemConstraint?.isActive = false
@@ -209,10 +209,12 @@ class ItemTableHeaderView: UIView {
             return
         }
 
-        let isSameItem = item.dataId == mySavedItem.dataId
-        let notMyList = list.owner.id != user.id
+        //        let myItem = item.owner.id == user.id
 
-        if itemIsSavedByUser && isSameItem && notMyList {
+        let notPresentList = (list?.id != mySavedItem.listId)
+        let isSameItem = item.dataId == mySavedItem.dataId
+
+        if (itemIsSavedByUser && isSameItem && notPresentList) {
             savedItemContextView.setListTitle(title: mySavedItem.listTitle)
 
             self.userHasSavedThisItemConstraint?.isActive = true

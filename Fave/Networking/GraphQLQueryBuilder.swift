@@ -33,6 +33,9 @@ struct GraphQLQueryBuilder {
             recommendedBy {
                 \(userString())
             }
+            owner {
+                \(userString())
+            }
             numberOfFaves
             friendsWhoLikeItem {
                 \(userString())

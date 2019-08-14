@@ -27,11 +27,7 @@ class ItemViewController: FaveVC {
         }
     }
 
-    var list: List {
-        didSet {
-
-        }
-    }
+    var list: List?
 
     var isLoading: Bool = false {
         didSet {
@@ -52,11 +48,17 @@ class ItemViewController: FaveVC {
 
             item.isSaved = allListDataIds.contains(item.dataId)
 
-            let mySavedItem = listOfCurrentItems.first { currentItem in
-                return currentItem.dataId == item.dataId
+            let combinedSavedItems = listOfCurrentItems.filter({$0.dataId == item.dataId})
+
+            let mySavedItem: Item?
+
+            if combinedSavedItems.count > 1 {
+                mySavedItem = combinedSavedItems.filter({ !$0.isRecommendation }).first
+            } else {
+                mySavedItem = combinedSavedItems.first
             }
 
-            itemTableHeaderView.updateHeader(item: item, list: list, user: self.dependencyGraph.storage.getUser(), mySavedItem: mySavedItem)
+            itemTableHeaderView.updateHeader(item: item, user: self.dependencyGraph.storage.getUser(), mySavedItem: mySavedItem)
             view.setNeedsLayout()
             itemTableView.reloadData()
         }
@@ -164,7 +166,7 @@ class ItemViewController: FaveVC {
         return tableView
     }()
 
-    init(dependencyGraph: DependencyGraphType, item: Item, list: List) {
+    init(dependencyGraph: DependencyGraphType, item: Item, list: List? = nil) {
         self.item = item
         self.list = list
 
@@ -245,7 +247,7 @@ class ItemViewController: FaveVC {
             return
         }
 
-        dependencyGraph.faveService.getListItem(userId: user.id, listId: list.id, itemId: item.id) { item, error in
+        dependencyGraph.faveService.getListItem(userId: user.id, listId: item.listId, itemId: item.id) { item, error in
 
             completion()
 

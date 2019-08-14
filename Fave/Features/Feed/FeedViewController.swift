@@ -398,7 +398,7 @@ extension FeedViewController: FeedEventTableViewCellDelegate {
 
         print("item selected for \(item.id)")
 
-        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item, list: list)
+        let itemViewController = ItemViewController(dependencyGraph: self.dependencyGraph, item: item)
 
         let titleViewLabel = Label(text: "Entry", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel
@@ -437,7 +437,7 @@ extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
     }
 
     func didSelectItem(item: Item, list: List) {
-        let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item, list: list)
+        let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item)
 
         let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         itemViewController.navigationItem.titleView = titleViewLabel

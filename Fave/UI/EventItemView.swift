@@ -114,12 +114,15 @@ class EventItemView: UIView {
                 UIView.transition(with: self.previewImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {
 
                     guard let image = image else {
-                        self.previewImageView.backgroundColor = FaveColors.Black20
+                        DispatchQueue.main.async {
+                            self.previewImageView.backgroundColor = FaveColors.Black20
+                        }
 
                         return
                     }
-
-                    self.previewImageView.image = image
+                    DispatchQueue.main.async {
+                        self.previewImageView.image = image
+                    }
 
                 }, completion: nil)
             }

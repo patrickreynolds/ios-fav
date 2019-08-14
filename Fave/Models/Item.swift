@@ -17,6 +17,7 @@ struct Item {
     let listId: Int
     let listTitle: String
     var addedBy: User
+    var owner: User
     var isSaved: Bool? = nil
     let friendsWhoLikeItem: [User]
 
@@ -79,6 +80,10 @@ struct Item {
             return nil
         }
 
+        guard let ownerData = data["owner"] as? [String: AnyObject], let owner = User(data: ownerData) else {
+            return nil
+        }
+
         let dateFormatter = DateFormatter()
 //        "2019-04-03T13:57:03.000Z"
         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSSZ"
@@ -128,6 +133,7 @@ struct Item {
         self.listId = listId
         self.listTitle = listTitle
         self.addedBy = addedBy
+        self.owner = owner
         self.friendsWhoLikeItem = friendsWhoLikeItem
     }
 }

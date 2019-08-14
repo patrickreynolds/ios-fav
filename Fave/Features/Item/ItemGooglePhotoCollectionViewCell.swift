@@ -16,14 +16,18 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
 
             FaveImageCache.downloadImage(url: googlePhotoUrl) { image in
 
+
                 guard let image = image else {
-                    self.googlePhotoImageView.backgroundColor = FaveColors.Black20
+                    DispatchQueue.main.async {
+                        self.googlePhotoImageView.backgroundColor = FaveColors.Black20
+                    }
 
                     return
                 }
 
-                self.googlePhotoImageView.image = image
-
+                DispatchQueue.main.async {
+                    self.googlePhotoImageView.image = image
+                }
             }
         }
     }
