@@ -1,4 +1,5 @@
 import UIKit
+import UserNotifications
 
 import FacebookCore
 import FacebookLogin
@@ -10,6 +11,30 @@ import GooglePlaces
 
 import Fabric
 import Crashlytics
+
+enum FaveUITabBarTabs: Int {
+    case FeedTab
+    case DiscoverTab
+    case RecommendationsTab
+    case ProfileTab
+}
+
+enum FaveNotificationType: String {
+    case RecommendationGeneral = "recommendation-general"
+    case ListNewRecommendation = "list-new-recommendation"
+    case ListNewFollower = "list-new-follower"
+    case NotificationsClear = "notifications-clear"
+
+    init?(type: String) {
+        switch type {
+        case FaveNotificationType.RecommendationGeneral.rawValue: self = FaveNotificationType.RecommendationGeneral
+        case FaveNotificationType.ListNewRecommendation.rawValue: self = FaveNotificationType.ListNewRecommendation
+        case FaveNotificationType.ListNewFollower.rawValue: self = FaveNotificationType.ListNewFollower
+        case FaveNotificationType.NotificationsClear.rawValue: self = FaveNotificationType.NotificationsClear
+        default: return nil
+        }
+    }
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -97,20 +122,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Assign and set root
         let rootViewController = tabBarController
         window?.rootViewController = rootViewController
+        window?.backgroundColor = FaveColors.Accent
 
         window?.makeKeyAndVisible()
 
-        dependencyGraph.faveService.getCurrentUser { user, error in
-            guard let user = user else {
-                self.dependencyGraph.authenticator.logout { success in
-                    print("Logged out")
-                }
-
-                return
-            }
-
-            self.dependencyGraph.storage.saveUser(user: user)
-        }
+        let splashScreenViewController = SplashScreenViewController(dependencyGraph: dependencyGraph)
+        splashScreenViewController.modalPresentationStyle = .overFullScreen
+        tabBarController.present(splashScreenViewController, animated: false, completion: nil)
 
         return true
     }
@@ -160,7 +178,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 
         let deviceTokenString = deviceToken.reduce("", { $0 + String(format: "%02X", $1) })
-        print("APNs device token: \(deviceTokenString)")
+//        print("APNs device token: \(deviceTokenString)")
 
         // POST device token
         dependencyGraph.faveService.addDeviceToken(deviceToken: deviceTokenString) { success, error in
@@ -173,6 +191,112 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 print("\n\nAPNS device token saved: false\n\n")
             }
+        }
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        // 1
+        let userInfo = response.notification.request.content.userInfo
+
+        // 2
+        if let userInfo = userInfo as? [String: AnyObject] {
+            print("\(userInfo)")
+        }
+
+        // 4
+        completionHandler()
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if application.applicationState == UIApplication.State.active {
+
+            if let userInfo = userInfo as? [String: AnyObject] {
+                print("\(userInfo)")
+            }
+
+        } else if application.applicationState == UIApplication.State.background {
+
+            if let userInfo = userInfo as? [String: AnyObject] {
+
+                print("\(userInfo)")
+            }
+
+        } else if application.applicationState == UIApplication.State.inactive {
+
+            if let userInfo = userInfo as? [String: AnyObject] {
+
+                handleNotification(userInfo: userInfo)
+
+                print("\(userInfo)")
+            }
+        }
+    }
+
+    func handleNotification(userInfo: [String: AnyObject]) {
+        guard let notificationTypeString = userInfo["notification-type"] as? String, let notificationType = FaveNotificationType.init(rawValue: notificationTypeString) else {
+            return
+        }
+
+        guard let tabBarController = window?.rootViewController as? UITabBarController else {
+            return
+        }
+
+        switch notificationType {
+        case .RecommendationGeneral:
+            tabBarController.selectedIndex = FaveUITabBarTabs.RecommendationsTab.rawValue
+
+            return
+        case .ListNewRecommendation:
+
+            return
+
+            guard let profileViewController = tabBarController.viewControllers?[FaveUITabBarTabs.ProfileTab.rawValue] as? ProfileViewController else {
+                return
+            }
+
+            guard let listId = userInfo["listId"] as? Int else {
+                return
+            }
+
+            handleNavigateToList(profileViewController: profileViewController, listId: listId)
+
+        case .ListNewFollower:
+
+            return
+
+            guard let profileViewController = tabBarController.viewControllers?[FaveUITabBarTabs.ProfileTab.rawValue] as? ProfileViewController else {
+                return
+            }
+
+            guard let listId = userInfo["listId"] as? Int else {
+                return
+            }
+
+            handleNavigateToList(profileViewController: profileViewController, listId: listId)
+
+            return
+        case .NotificationsClear:
+
+            return
+        }
+    }
+
+    func handleNavigateToList(profileViewController: ProfileViewController, listId: Int) {
+        dependencyGraph.faveService.getList(listId: listId) { list, error in
+            guard let list = list else {
+                return
+            }
+
+            let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
+
+            listViewController.delegate = profileViewController
+
+            let titleViewLabel = Label(text: "List", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+            listViewController.navigationItem.titleView = titleViewLabel
+
+            profileViewController.navigationController?.pushViewController(listViewController, animated: true)
         }
     }
 }

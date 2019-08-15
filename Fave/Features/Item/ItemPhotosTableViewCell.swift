@@ -104,7 +104,7 @@ class ItemPhotosTableViewCell: UITableViewCell {
             return
         }
 
-        self.googlePhotos = googleItem.photos
+        self.googlePhotos = Array(googleItem.photos.prefix(5))
     }
 }
 

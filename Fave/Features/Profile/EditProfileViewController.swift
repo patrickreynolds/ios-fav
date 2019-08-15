@@ -333,6 +333,15 @@ class EditProfileViewController: FaveVC {
 
             self.dependencyGraph.storage.saveUser(user: user)
 
+            if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
+                let tabBarItemImage = UIImage(base64String: user.profilePicture)?
+                    .resize(targetSize: CGSize(width: 24, height: 24))?
+                    .roundedImage?
+                    .withRenderingMode(.alwaysOriginal)
+                tabBarItem.image = tabBarItemImage
+                tabBarItem.selectedImage = tabBarItemImage
+            }
+
             self.dismiss(animated: true, completion: nil)
         }
     }

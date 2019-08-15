@@ -31,7 +31,7 @@ class EntryTableViewCell: UITableViewCell {
             return []
         }
 
-        return googleItem.photos
+        return Array(googleItem.photos.prefix(5))
     }
 
     var itemIsSavedByUser = false
@@ -532,7 +532,7 @@ class EntryTableViewCell: UITableViewCell {
     }
 
     private func updateSavedItemContext(item: Item) {
-        guard let user = currentUser, let mySavedItem = mySavedItem else {
+        guard let mySavedItem = mySavedItem else {
             savedItemContextView.alpha = 0
             itemIsNotAlreadySavedConstraint?.isActive = true
             itemIsAlreadySavedConstraint?.isActive = false

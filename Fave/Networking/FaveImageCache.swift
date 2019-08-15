@@ -9,8 +9,24 @@ struct FaveImageCache {
     private init() {}
 
     static func downloadImage(url: URL, completion: @escaping (_ image: UIImage?) -> Void) {
+
+        // TODO: (8/14/2019) Temporary hack to make sure we're not making too many requests to google
+        // while we figure out rate limit issues
+        let shouldLoadGooglePhotosValue = Bundle.main.infoDictionary!["SHOULD_LOAD_GOOGLE_PHOTOS"] as! String
+
+        let shouldLoadGooglePhotos = shouldLoadGooglePhotosValue == "YES" ? true : false
+
+        if !shouldLoadGooglePhotos {
+            completion(nil)
+
+            return
+        }
+        // TODO: End
+
         if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
             completion(cachedImage)
+
+            return
         } else {
 
             DispatchQueue.global().async {
