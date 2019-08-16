@@ -22,8 +22,7 @@ class ProfileTableHeaderView: UIView {
                 return
             }
 
-            let followingString = followingCount == 1 ? "list" : "lists"
-            followingLabel.text = "Following \(followingCount) \(followingString)"
+            updateFollowingCountLabel(followingCount: followingCount)
         }
     }
 
@@ -245,9 +244,32 @@ class ProfileTableHeaderView: UIView {
     }
 
     @objc func editProfile(sender: UIButton!) {
-
-        sender.performImpact(style: .light)
-
         delegate?.editProfileButtonTapped()
+    }
+
+    func updateFollowingCountLabel(followingCount: Int) {
+        let followingAttributedText: NSMutableAttributedString = NSMutableAttributedString()
+
+        let primaryAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .semiBold).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black90
+        ]
+
+        let standardAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .regular).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black90
+        ]
+
+        let followingText = NSAttributedString(string: "Following ", attributes: standardAttributes)
+
+        let followingCountText = NSAttributedString(string: "\(followingCount)", attributes: followingCount == 0 ? standardAttributes : primaryAttributes )
+
+        let listText = NSAttributedString(string: " list", attributes: standardAttributes)
+
+        followingAttributedText.append(followingText)
+        followingAttributedText.append(followingCountText)
+        followingAttributedText.append(listText)
+
+        followingLabel.attributedText = followingAttributedText
     }
 }

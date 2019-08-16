@@ -49,18 +49,7 @@ class ListTableHeaderView: UIView {
                 return
             }
 
-            followerCountLabelText = numberOfFollowers == 1 ? "\(numberOfFollowers) Follower" : "\(numberOfFollowers) Followers"
-        }
-    }
-
-    var followerCountLabelText = "0 Followers" {
-        didSet {
-
-            guard followerCountLabelText != oldValue else {
-                return
-            }
-
-            followerCountLabel.text = followerCountLabelText
+            updateFollowerCountLabel(numberOfFollowers: numberOfFollowers)
         }
     }
 
@@ -174,7 +163,7 @@ class ListTableHeaderView: UIView {
     }()
 
     private lazy var followerCountLabel: Label = {
-        let label = Label(text: self.followerCountLabelText,
+        let label = Label(text: "Following 0 lists",
                           font: FaveFont(style: .h5, weight: .regular),
                           textColor: FaveColors.Black90,
                           textAlignment: .left,
@@ -355,6 +344,29 @@ class ListTableHeaderView: UIView {
 
         self.titleLabel.text = list.title
         self.listDescriptionLabel.text = list.description
+    }
+
+    private func updateFollowerCountLabel(numberOfFollowers: Int) {
+        let followerAttributedText: NSMutableAttributedString = NSMutableAttributedString()
+
+        let primaryAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .semiBold).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black90
+        ]
+
+        let standardAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .regular).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black90
+        ]
+
+        let numberOfFollowersText = NSAttributedString(string: "\(numberOfFollowers)", attributes: numberOfFollowers == 0 ? standardAttributes : primaryAttributes)
+        let followerString = numberOfFollowers == 1 ? " Follower" : " Followers"
+        let followerText = NSAttributedString(string: "\(followerString)", attributes: standardAttributes)
+
+        followerAttributedText.append(numberOfFollowersText)
+        followerAttributedText.append(followerText)
+
+        followerCountLabel.attributedText = followerAttributedText
     }
 }
 

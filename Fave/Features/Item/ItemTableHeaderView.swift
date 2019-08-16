@@ -20,6 +20,36 @@ class ItemTableHeaderView: UIView {
 
             titleLabel.text = self.item.contextualItem.name
             itemNoteLabel.text = self.item.note
+            savedByOthersCount = self.item.numberOfFaves
+        }
+    }
+
+    var savedByOthersCount: Int = 0 {
+        didSet {
+            let savedByAttributedText: NSMutableAttributedString = NSMutableAttributedString()
+
+            let primaryAttributes: [NSAttributedString.Key : Any]? = [
+                NSAttributedString.Key.font: FaveFont(style: .h5, weight: .semiBold).font,
+                NSAttributedString.Key.foregroundColor: FaveColors.Black90
+            ]
+
+            let standardAttributes: [NSAttributedString.Key : Any]? = [
+                NSAttributedString.Key.font: FaveFont(style: .h5, weight: .regular).font,
+                NSAttributedString.Key.foregroundColor: FaveColors.Black90
+            ]
+
+            let savedByText = NSAttributedString(string: "Saved by ", attributes: standardAttributes)
+
+            let savedByOthersCountText = NSAttributedString(string: "\(savedByOthersCount)", attributes: savedByOthersCount == 0 ? standardAttributes : primaryAttributes)
+
+            let othersString = savedByOthersCount == 1 ? " other" : " others"
+            let othersText = NSAttributedString(string: "\(othersString)", attributes: standardAttributes)
+
+            savedByAttributedText.append(savedByText)
+            savedByAttributedText.append(savedByOthersCountText)
+            savedByAttributedText.append(othersText)
+
+            savedByOthersLabel.attributedText = savedByAttributedText
         }
     }
 

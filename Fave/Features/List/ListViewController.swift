@@ -864,8 +864,11 @@ extension ListViewController: EntryTableViewCellDelegate {
             })
         }
 
-        let sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item) -> ()) = { selectedUsers, item in
+
+        let sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item, _ completion: (() -> ())?) -> ())? = { selectedUsers, item, completion in
             guard let currentUser = self.dependencyGraph.storage.getUser() else {
+                completion?()
+
                 return
             }
 
@@ -877,6 +880,8 @@ extension ListViewController: EntryTableViewCellDelegate {
 
                 self.dependencyGraph.faveService.getLists(userId: selectedUser.id) { lists, error in
                     guard let lists = lists else {
+                        completion?()
+
                         return
                     }
 
@@ -887,6 +892,8 @@ extension ListViewController: EntryTableViewCellDelegate {
                     }
 
                     guard let googleItem = item.contextualItem as? GoogleItemType else {
+                        completion?()
+
                         return
                     }
 
@@ -907,15 +914,16 @@ extension ListViewController: EntryTableViewCellDelegate {
 
                             self.present(alertController, animated: true, completion: nil)
 
+
+                            completion?()
                             return
                         }
 
                         if completedRequests == selectedUsers.count {
                             self.isLoading = false
 
-//                            self.dismiss(animated: true, completion: {
-//                                self.delegate?.didSendRecommendations(selectedUsers: self.selectedUsers)
-//                            })
+                            completion?()
+
                             self.dismiss(animated: true, completion: {
                                 // show sent recommendation toast
 

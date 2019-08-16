@@ -429,11 +429,11 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
             })
         }
 
-        let sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item) -> ()) = { selectedUser, item in
+        let sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item, _ completion: (() -> ())?) -> ())? = nil
             // TODO: Patrick
 
             // Not needed for the recommendations view controller, but should refactor at some point
-        }
+//        }
 
         let shareViewController = ShareItemViewController(dependencyGraph: dependencyGraph, user: user, item: item)
 

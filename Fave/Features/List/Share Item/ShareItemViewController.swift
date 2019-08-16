@@ -1,5 +1,7 @@
 import UIKit
+
 import Cartography
+import MBProgressHUD
 
 protocol ShareItemViewControllerDelegate {}
 
@@ -48,6 +50,16 @@ class ShareItemViewController: FaveVC {
     var isSearching: Bool = false {
         didSet {
             searchExperienceExpanded = isSearching
+        }
+    }
+
+    private var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                progressHUD.show(animated: true)
+            } else {
+                progressHUD.show(animated: false)
+            }
         }
     }
 
@@ -104,7 +116,7 @@ class ShareItemViewController: FaveVC {
     var shareActionHandler: (() -> ())?
     var copyLinkActionHandler: (() -> ())?
     var addToListHandler: (() -> ())?
-    var sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item) -> ())?
+    var sendRecommendationsHandler: ((_ selectedUsers: [User], _ item: Item, _ completion: (() -> ())?) -> ())?
 
     private lazy var addToListActionView: ShareItemActionView = {
         let actionView = ShareItemActionView(shareItemActionType: .addToList)
@@ -122,6 +134,15 @@ class ShareItemViewController: FaveVC {
         let actionView = ShareItemActionView(shareItemActionType: .shareTo)
 
         return actionView
+    }()
+
+    private lazy var progressHUD: MBProgressHUD = {
+        let hud = MBProgressHUD(frame: .zero)
+
+        hud.animationType = .fade
+        hud.contentColor = FaveColors.Accent
+
+        return hud
     }()
 
     private lazy var customShareSheet: UIStackView = {
@@ -217,6 +238,7 @@ class ShareItemViewController: FaveVC {
         view.addSubview(searchBar)
         view.addSubview(usersTableView)
         view.addSubview(sendButtonView)
+        view.addSubview(progressHUD)
 
         constrain(customShareSheet, view) { customShareSheet, view in
             customShareSheet.top == view.topMargin
@@ -245,9 +267,16 @@ class ShareItemViewController: FaveVC {
             sendButtonView.left == view.left
         }
 
+        constrain(progressHUD, view) { progressHUD, view in
+            progressHUD.centerX == view.centerX
+            progressHUD.centerY == view.centerY
+        }
+
         searchExperienceExpandedConstraint?.isActive = false
 
         refreshUsers()
+
+        view.bringSubviewToFront(progressHUD)
     }
 
     @objc func dismissView(sender: UIButton!) {
@@ -263,9 +292,13 @@ class ShareItemViewController: FaveVC {
 
         sender.performImpact(style: .light)
 
+        isLoading = true
+
         // Send recommendation request
         // Dismiss view when done
-        sendRecommendationsHandler?(selectedUsers, item)
+        sendRecommendationsHandler?(selectedUsers, item) {
+            self.isLoading = true
+        }
     }
 
     func refreshUsers() {
