@@ -15,6 +15,7 @@
 		43176570223B644700C1963E /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317656F223B644700C1963E /* Authenticator.swift */; };
 		431A0DDA228DCBCA00F2E6BD /* FeedEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431A0DD9228DCBCA00F2E6BD /* FeedEventTableViewCell.swift */; };
 		431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431A0DDB228DCC7300F2E6BD /* EventItemView.swift */; };
+		431B3A00230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431B39FF230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift */; };
 		431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */; };
 		431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF89E2249EDA500717312 /* CreateItemViewController.swift */; };
 		431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */; };
@@ -159,6 +160,7 @@
 		4317656F223B644700C1963E /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		431A0DD9228DCBCA00F2E6BD /* FeedEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedEventTableViewCell.swift; sourceTree = "<group>"; };
 		431A0DDB228DCC7300F2E6BD /* EventItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemView.swift; sourceTree = "<group>"; };
+		431B39FF230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledVisibleCellsCollectionView.swift; sourceTree = "<group>"; };
 		431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringExt.swift; sourceTree = "<group>"; };
 		431DF89E2249EDA500717312 /* CreateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemViewController.swift; sourceTree = "<group>"; };
 		431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExt.swift; sourceTree = "<group>"; };
@@ -329,6 +331,14 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		431B39FE230B1771009517E5 /* ScaledVisibleCellsCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				431B39FF230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift */,
+			);
+			path = ScaledVisibleCellsCollectionView;
+			sourceTree = "<group>";
+		};
 		431DF8A02249EFFC00717312 /* Item */ = {
 			isa = PBXGroup;
 			children = (
@@ -430,6 +440,7 @@
 		438534E82233384C00B99EC7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				431B39FE230B1771009517E5 /* ScaledVisibleCellsCollectionView */,
 				438534E92233386100B99EC7 /* CartographyExt.swift */,
 				438534EB2233388900B99EC7 /* SaveCollections.swift */,
 				438534ED223338AD00B99EC7 /* UITableViewExtensions.swift */,
@@ -998,6 +1009,7 @@
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,
 				43ABB3DA2302302300329F7B /* DefaultDialogContentView.swift in Sources */,
+				431B3A00230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift in Sources */,
 				4378624922AA0F350011420D /* SavedItemContextView.swift in Sources */,
 				43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */,
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
@@ -1134,9 +1146,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCTION = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SHOULD_LOAD_GOOGLE_PHOTOS = NO;
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -1258,9 +1270,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SHOULD_LOAD_GOOGLE_PHOTOS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1443,9 +1455,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCTION = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SHOULD_LOAD_GOOGLE_PHOTOS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1468,9 +1480,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SHOULD_LOAD_GOOGLE_PHOTOS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;

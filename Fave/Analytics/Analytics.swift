@@ -9,7 +9,7 @@ enum AnalyticsLogLevel: String {
 }
 
 struct Analytics {
-    func logEvent(dependencyGraph: DependencyGraphType = UIApplication.shared.appDelegate.dependencyGraph, title: String, info: [String: AnyObject]? = nil, level: AnalyticsLogLevel = .Debug) {
+    func logEvent(dependencyGraph: DependencyGraphType = DependencyGraph(), title: String, info: [String: AnyObject]? = nil, level: AnalyticsLogLevel = .Debug) {
         print("\(title) – \(info?.description ?? "no info") – \(level.rawValue)")
 
         var userId = ""

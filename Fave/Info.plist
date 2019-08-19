@@ -87,8 +87,8 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>SHOULD_LOAD_GOOGLE_PHOTOS</key>
-	<string>$(SHOULD_LOAD_GOOGLE_PHOTOS)</string>
+	<key>PRODUCTION</key>
+	<string>$(PRODUCTION)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>ProximaNova-Bold.otf</string>

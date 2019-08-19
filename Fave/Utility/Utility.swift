@@ -10,6 +10,7 @@ extension UIApplication {
         guard let d = delegate as? AppDelegate else {
             fatalError("App delegate not found. Did you change the name of the class?")
         }
+
         return d
     }
 }

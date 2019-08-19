@@ -43,8 +43,11 @@ struct Networking {
 
         // "Content-Type": "application/json"
 
-        // Show the actificy indicator during the network call
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+
+        DispatchQueue.main.async {
+            // Show the actificy indicator during the network call
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
 
         print("\n \(endpoint) \n")
 
@@ -52,8 +55,10 @@ struct Networking {
 
             print("\n Response received \n")
 
-            // Hide the actificy indicator during the network call
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            DispatchQueue.main.async {
+                // Hide the actificy indicator during the network call
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
 
             guard let result = response.result.value else {
                 completion(nil, response.error)

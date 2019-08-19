@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 import Fabric
 import Crashlytics
@@ -31,7 +31,9 @@ struct TemporaryStorage {
 
         userDefaults.synchronize()
 
-        Crashlytics.sharedInstance().setUserIdentifier("\(user.id)")
+        if UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.production {
+            Crashlytics.sharedInstance().setUserIdentifier("\(user.id)")
+        }
 
         print("\n\nUser saved!\n\n")
     }
@@ -81,7 +83,9 @@ struct TemporaryStorage {
         userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).updatedAt)")
         userDefaults.removeObject(forKey: "\(StorageKey.currentUser.rawValue).bio)")
 
-        Crashlytics.sharedInstance().setUserIdentifier("")
+        if UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.production {
+            Crashlytics.sharedInstance().setUserIdentifier("")
+        }
     }
 }
 

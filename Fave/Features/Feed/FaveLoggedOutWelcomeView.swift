@@ -6,6 +6,7 @@ protocol FaveLoggedOutWelcomeViewDelegate {
     func didSelectUser(user: User)
     func didSelectList(list: List)
     func didSelectItem(item: Item, list: List)
+    func didSelectSignUp()
 }
 
 class FaveLoggedOutWelcomeView: UIView {
@@ -22,7 +23,7 @@ class FaveLoggedOutWelcomeView: UIView {
 
     private lazy var titleLabel: Label = {
         let label = Label(text: "Welcome to Fave!",
-                               font: FaveFont(style: .h4, weight: .bold),
+                               font: FaveFont(style: .h4, weight: .extraBold),
                                textColor: FaveColors.Black90,
                                textAlignment: .center,
                                numberOfLines: 0)
@@ -31,7 +32,7 @@ class FaveLoggedOutWelcomeView: UIView {
     }()
 
     private lazy var subtitleLabel: Label = {
-        let label = Label(text: "Create, discover, and share your favorite places with friends.",
+        let label = Label(text: "Create lists, share recommendations, and discover places with friends.",
                                   font: FaveFont(style: .h5, weight: .regular),
                                   textColor: FaveColors.Black70,
                                   textAlignment: .center,
@@ -40,17 +41,34 @@ class FaveLoggedOutWelcomeView: UIView {
         return label
     }()
 
+    private lazy var signUpWithFacebookLabel: Label = {
+        let label = Label(text: "Sign up with Facebook",
+                          font: FaveFont(style: .h5, weight: .bold),
+                          textColor: FaveColors.FacebookBlue,
+                          textAlignment: .center,
+                          numberOfLines: 0)
+
+        _ = label.tapped { recognizer in
+            self.delegate?.didSelectSignUp()
+        }
+
+        label.isUserInteractionEnabled = true
+
+        return label
+    }()
+
     private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
 
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 32
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 
-        let size = UIScreen.main.bounds.width - 32
-        let height: CGFloat = 338.0
-//        layout.estimatedItemSize = CGSize(width: size, height: size)
-        layout.itemSize = CGSize(width: size, height: height)
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 16
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+
+        let size = UIScreen.main.bounds.width - 64
+//        let height: CGFloat = 338.0
+        layout.estimatedItemSize = CGSize(width: size, height: size)
+//        layout.itemSize = CGSize(width: size, height: height)
 
         return layout
     }()
@@ -80,6 +98,7 @@ class FaveLoggedOutWelcomeView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(collectionView)
+        addSubview(signUpWithFacebookLabel)
 
         constrain(titleLabel, self) { titleLabel, view in
             titleLabel.top == view.top + 32
@@ -101,6 +120,11 @@ class FaveLoggedOutWelcomeView: UIView {
             let height = UIScreen.main.bounds.width
 
             collectionView.height == height
+        }
+
+        constrain(signUpWithFacebookLabel, collectionView, self) { signUpWithFacebookLabel, collectionView, view in
+            signUpWithFacebookLabel.centerX == view.centerX
+            signUpWithFacebookLabel.top == collectionView.bottom + 24
         }
     }
 

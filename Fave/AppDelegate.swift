@@ -20,10 +20,10 @@ enum FaveUITabBarTabs: Int {
 }
 
 enum FaveNotificationType: String {
-    case RecommendationGeneral = "recommendation-general"
-    case ListNewRecommendation = "list-new-recommendation"
-    case ListNewFollower = "list-new-follower"
-    case NotificationsClear = "notifications-clear"
+    case RecommendationGeneral = "RECOMMENDATION_GENERAL"
+    case ListNewRecommendation = "LIST_NEW_RECOMMENDATION"
+    case ListNewFollower = "LIST_NEW_FOLLOWER"
+    case NotificationsClear = "NOTIFICATIONS_CLEAR"
 
     init?(type: String) {
         switch type {
@@ -52,7 +52,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Crashlytics & Fabric.io
             https://fabric.io/kits/ios/crashlytics/install
          */
-        Fabric.with([Crashlytics.self])
+
+        if UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.production {
+            Fabric.with([Crashlytics.self])
+        }
 
 
         /*
@@ -176,6 +179,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Push notifications
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let date = Date()
+        let calendar = Calendar.current
+        let second = calendar.component(.second, from: date)
+        print("\n\nHere – 4: \(second)\n\n")
 
         let deviceTokenString = deviceToken.reduce("", { $0 + String(format: "%02X", $1) })
 //        print("APNs device token: \(deviceTokenString)")
@@ -185,6 +192,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let success = success else {
                 return
             }
+
+            let date = Date()
+            let calendar = Calendar.current
+            let second = calendar.component(.second, from: date)
+            print("\n\nHere – 5: \(second)\n\n")
 
             if success {
                 print("\n\nAPNS device token saved: true\n\n")

@@ -12,11 +12,7 @@ struct FaveImageCache {
 
         // TODO: (8/14/2019) Temporary hack to make sure we're not making too many requests to google
         // while we figure out rate limit issues
-        let shouldLoadGooglePhotosValue = Bundle.main.infoDictionary!["SHOULD_LOAD_GOOGLE_PHOTOS"] as! String
-
-        let shouldLoadGooglePhotos = shouldLoadGooglePhotosValue == "YES" ? true : false
-
-        if !shouldLoadGooglePhotos {
+        if !UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.production {
             completion(nil)
 
             return

@@ -107,6 +107,8 @@ class FeedViewController: FaveVC {
 
         tableView.separatorColor = UIColor.clear
 
+        tableView.estimatedRowHeight = 2.0
+
         return tableView
     }()
 
@@ -171,7 +173,7 @@ class FeedViewController: FaveVC {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let PushNotificationsEnabled = false
+        let PushNotificationsEnabled = true
 
         refreshFeed {
             if self.dependencyGraph.authenticator.isLoggedIn() && PushNotificationsEnabled {
@@ -181,9 +183,7 @@ class FeedViewController: FaveVC {
                         return
                     }
 
-                    DispatchQueue.main.async {
-                        PushNotifications.promptForPushNotifications(dependencyGraph: self.dependencyGraph, fromViewController: self) {}
-                    }
+                    PushNotifications.promptForPushNotifications(dependencyGraph: self.dependencyGraph, fromViewController: self) {}
                 }
             }
         }
@@ -443,6 +443,10 @@ extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
         itemViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(itemViewController, animated: true)
+    }
+
+    func didSelectSignUp() {
+        login()
     }
 }
 

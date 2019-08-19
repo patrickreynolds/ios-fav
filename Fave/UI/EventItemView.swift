@@ -126,20 +126,6 @@ class EventItemView: UIView {
 
                 }, completion: nil)
             }
-//                DispatchQueue.global().async {
-//                    do {
-//                        let data = try Data(contentsOf: googlePhotoUrl)
-//
-//                        DispatchQueue.main.async {
-//                            UIView.transition(with: self.previewImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {
-//                                self.previewImageView.image = UIImage(data: data)
-//                            }, completion: nil)
-//                        }
-//                        return
-//                    } catch {
-//                        print(error)
-//                    }
-//                }
         }
     }
 }
