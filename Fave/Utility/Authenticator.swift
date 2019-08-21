@@ -28,6 +28,10 @@ struct Authenticator {
             return false
         }
 
+        return hasJWTToken()
+    }
+
+    func hasJWTToken() -> Bool {
         if let _ = KeychainWrapper.standard.string(forKey: JWT_AUTHENTICATION_TOKEN_IDENTIFIER) {
             return true
         } else {

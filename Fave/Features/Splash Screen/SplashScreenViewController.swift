@@ -74,7 +74,7 @@ class SplashScreenViewController: FaveVC {
         // TODO: Also make a call to switchgate here
         dependencyGraph.faveService.getCurrentUser { user, error in
 
-            guard let user = user else {
+            guard let user = user, self.dependencyGraph.authenticator.hasJWTToken() else {
                 self.dependencyGraph.authenticator.logout { success in
                     print("Logged out")
                 }
