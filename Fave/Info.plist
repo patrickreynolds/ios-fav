@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.6</string>
+	<string>1.1.7</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20</string>
+	<string>21</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -71,6 +71,13 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>10.0.0.239</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>ec2-3-17-159-82.us-east-2.compute.amazonaws.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
@@ -85,13 +92,6 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
-            <key>10.0.0.239</key>
-            <dict>
-                <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-            </dict>
 		</dict>
 	</dict>
 	<key>PRODUCTION</key>
