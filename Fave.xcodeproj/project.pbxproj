@@ -15,7 +15,6 @@
 		43176570223B644700C1963E /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317656F223B644700C1963E /* Authenticator.swift */; };
 		431A0DDA228DCBCA00F2E6BD /* FeedEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431A0DD9228DCBCA00F2E6BD /* FeedEventTableViewCell.swift */; };
 		431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431A0DDB228DCC7300F2E6BD /* EventItemView.swift */; };
-		431B3A00230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431B39FF230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift */; };
 		431CAF3E2240A08700F50FC8 /* NSAttributedStringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */; };
 		431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF89E2249EDA500717312 /* CreateItemViewController.swift */; };
 		431DF8A22249FF7600717312 /* UIGestureRecognizerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */; };
@@ -29,7 +28,7 @@
 		432B3EC322FE2F93005F7EF5 /* FaveImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EC222FE2F93005F7EF5 /* FaveImageCache.swift */; };
 		432B3EC522FE94F2005F7EF5 /* UpdateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EC422FE94F2005F7EF5 /* UpdateListViewController.swift */; };
 		4334DB6D228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */; };
-		4334DB6F228F269800EE58BB /* TopListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */; };
+		4334DB6F228F269800EE58BB /* TopListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6E228F269800EE58BB /* TopListView.swift */; };
 		433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */; };
 		433E4F8622AC40DD00B0A531 /* ProfileInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */; };
 		433E4F8822AC47AB00B0A531 /* ProfileActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */; };
@@ -160,7 +159,6 @@
 		4317656F223B644700C1963E /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		431A0DD9228DCBCA00F2E6BD /* FeedEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedEventTableViewCell.swift; sourceTree = "<group>"; };
 		431A0DDB228DCC7300F2E6BD /* EventItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemView.swift; sourceTree = "<group>"; };
-		431B39FF230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledVisibleCellsCollectionView.swift; sourceTree = "<group>"; };
 		431CAF3D2240A08700F50FC8 /* NSAttributedStringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringExt.swift; sourceTree = "<group>"; };
 		431DF89E2249EDA500717312 /* CreateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemViewController.swift; sourceTree = "<group>"; };
 		431DF8A12249FF7600717312 /* UIGestureRecognizerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExt.swift; sourceTree = "<group>"; };
@@ -174,7 +172,7 @@
 		432B3EC222FE2F93005F7EF5 /* FaveImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveImageCache.swift; sourceTree = "<group>"; };
 		432B3EC422FE94F2005F7EF5 /* UpdateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateListViewController.swift; sourceTree = "<group>"; };
 		4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveLoggedOutWelcomeView.swift; sourceTree = "<group>"; };
-		4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListCollectionViewCell.swift; sourceTree = "<group>"; };
+		4334DB6E228F269800EE58BB /* TopListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListView.swift; sourceTree = "<group>"; };
 		433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputTitleView.swift; sourceTree = "<group>"; };
 		433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputView.swift; sourceTree = "<group>"; };
 		433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionView.swift; sourceTree = "<group>"; };
@@ -324,19 +322,11 @@
 				438534BC223336BA00B99EC7 /* FeedViewController.swift */,
 				431A0DD9228DCBCA00F2E6BD /* FeedEventTableViewCell.swift */,
 				4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */,
-				4334DB6E228F269800EE58BB /* TopListCollectionViewCell.swift */,
+				4334DB6E228F269800EE58BB /* TopListView.swift */,
 				431ED5E92292268E008B9A9A /* TopListItemTableViewCell.swift */,
 				431ED5EB22922CD1008B9A9A /* TopListUserSectionHeaderView.swift */,
 			);
 			path = Feed;
-			sourceTree = "<group>";
-		};
-		431B39FE230B1771009517E5 /* ScaledVisibleCellsCollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				431B39FF230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift */,
-			);
-			path = ScaledVisibleCellsCollectionView;
 			sourceTree = "<group>";
 		};
 		431DF8A02249EFFC00717312 /* Item */ = {
@@ -440,7 +430,6 @@
 		438534E82233384C00B99EC7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				431B39FE230B1771009517E5 /* ScaledVisibleCellsCollectionView */,
 				438534E92233386100B99EC7 /* CartographyExt.swift */,
 				438534EB2233388900B99EC7 /* SaveCollections.swift */,
 				438534ED223338AD00B99EC7 /* UITableViewExtensions.swift */,
@@ -948,7 +937,7 @@
 				43915CA72272C7D400562B5A /* DiscoverUserSectionHeaderView.swift in Sources */,
 				43ABB3CE230229E600329F7B /* AlertCollectionViewCell.swift in Sources */,
 				43ABB3CB230228C200329F7B /* AlertVC.swift in Sources */,
-				4334DB6F228F269800EE58BB /* TopListCollectionViewCell.swift in Sources */,
+				4334DB6F228F269800EE58BB /* TopListView.swift in Sources */,
 				4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */,
 				4369CF4522583E7300FCA156 /* Haptic.swift in Sources */,
 				43A69B2E2254FDC100DA2BA1 /* ContextualItems.swift in Sources */,
@@ -1009,7 +998,6 @@
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,
 				43ABB3DA2302302300329F7B /* DefaultDialogContentView.swift in Sources */,
-				431B3A00230B1796009517E5 /* ScaledVisibleCellsCollectionView.swift in Sources */,
 				4378624922AA0F350011420D /* SavedItemContextView.swift in Sources */,
 				43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */,
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
@@ -1134,7 +1122,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA1DE3DC9DEAE3E5142BACE2 /* Pods-Fave.local.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://10.0.0.239:3000/";
+				API_BASE_URL_ENDPOINT = "http://10.1.10.231:3000/";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;

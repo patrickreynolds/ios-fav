@@ -480,8 +480,8 @@ struct FaveGraphQLService {
         }
     }
 
-    func addDeviceToken(deviceToken: String, completion: @escaping (_ success: Bool?, _ error: Error?) -> ()) {
-        let addDeviceTokenMutation = GraphQLQueryBuilder.addDeviceTokenMutation(deviceToken: deviceToken)
+    func addDeviceToken(deviceToken: String, uuid: String, completion: @escaping (_ success: Bool?, _ error: Error?) -> ()) {
+        let addDeviceTokenMutation = GraphQLQueryBuilder.addDeviceTokenMutation(deviceToken: deviceToken, uuid: uuid)
 
         networking.sendGraphqlRequest(query: addDeviceTokenMutation) { response, error in
             guard let unwrappedResponse = response, let success = unwrappedResponse["success"] as? Bool else {

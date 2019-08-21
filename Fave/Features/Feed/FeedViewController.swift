@@ -23,8 +23,9 @@ class FeedViewController: FaveVC {
         didSet {
             if isLoading {
                 loadingIndicatorView.startAnimating()
-
             } else {
+                showCreateButton()
+
                 loadingIndicatorView.stopAnimating()
             }
         }
@@ -34,6 +35,7 @@ class FeedViewController: FaveVC {
         didSet {
             if loggedIn {
                 feedTableView.isHidden = false
+                createButton.alpha = 1
 
                 UIView.animate(withDuration: 0.2, animations: {
                     self.feedTableView.alpha = 1
@@ -42,8 +44,13 @@ class FeedViewController: FaveVC {
                     self.welcomeView.isHidden = true
                 })
 
+                if !isLoading {
+                    showCreateButton()
+                }
             } else {
                 welcomeView.isHidden = false
+                createButton.alpha = 0
+                createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
 
                 UIView.animate(withDuration: 0.2, animations: {
                     self.feedTableView.alpha = 0
@@ -64,6 +71,8 @@ class FeedViewController: FaveVC {
         button.layer.cornerRadius = 56 / 2
         button.setImage(UIImage(named: "icon-add"), for: .normal)
         button.tintColor = FaveColors.White
+
+        button.alpha = 0
 
         return button
     }()
@@ -166,6 +175,8 @@ class FeedViewController: FaveVC {
         welcomeView.isHidden = true
         feedTableView.alpha = 0
         feedTableView.isHidden = true
+        createButton.alpha = 0
+        createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
 
         isLoading = true
     }
@@ -258,6 +269,16 @@ class FeedViewController: FaveVC {
 
                 completion()
             }
+        }
+    }
+
+    private func showCreateButton() {
+        if !isLoading && loggedIn {
+            self.createButton.alpha = 1
+
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1.2, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.createButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }, completion: nil)
         }
     }
 }

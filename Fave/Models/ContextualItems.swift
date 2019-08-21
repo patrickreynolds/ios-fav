@@ -69,6 +69,7 @@ struct GoogleItemType {
     let keywords: [String]?
     let rating: Double
     let photos: [GooglePhoto]
+    let savedPhotos: [String]
 
     init?(data: [String: AnyObject]) {
         guard let name = data["name"] as? String else {
@@ -105,6 +106,11 @@ struct GoogleItemType {
             photos = photoData.map({GooglePhoto(data: $0)}).compactMap({ $0 })
         }
 
+        var savedPhotos = [String]()
+        if let savedPhotoData = data["savedPhotos"] as? [String] {
+            savedPhotos = savedPhotoData
+        }
+
         let potentialKeywords = data["types"] as? [String]
 
         self.name = name
@@ -118,6 +124,7 @@ struct GoogleItemType {
         self.rating = rating
         self.keywords = potentialKeywords
         self.photos = photos
+        self.savedPhotos = savedPhotos
     }
 }
 

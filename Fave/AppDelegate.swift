@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             https://fabric.io/kits/ios/crashlytics/install
          */
 
-        if UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.production {
+        if dependencyGraph.appConfiguration.production {
             Fabric.with([Crashlytics.self])
         }
 
@@ -187,8 +187,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let deviceTokenString = deviceToken.reduce("", { $0 + String(format: "%02X", $1) })
 //        print("APNs device token: \(deviceTokenString)")
 
+        let uuid = UIDevice.current.identifierForVendor?.uuidString ?? ""
+
         // POST device token
-        dependencyGraph.faveService.addDeviceToken(deviceToken: deviceTokenString) { success, error in
+        dependencyGraph.faveService.addDeviceToken(deviceToken: deviceTokenString, uuid: uuid) { success, error in
             guard let success = success else {
                 return
             }

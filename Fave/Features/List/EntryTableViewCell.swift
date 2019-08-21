@@ -314,12 +314,12 @@ class EntryTableViewCell: UITableViewCell {
 
         return view
     }()
-    
+
     private lazy var ownerView: UIView = {
         let view = UIView(frame: .zero)
-        
+
         let ownerImageViewDiameter: CGFloat = 24.0
-        
+
         ownerImageView.layer.cornerRadius = ownerImageViewDiameter / 2
         ownerImageView.clipsToBounds = true
         ownerImageView.layer.masksToBounds = true

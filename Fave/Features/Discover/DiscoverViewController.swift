@@ -363,6 +363,8 @@ class DiscoverViewController: FaveVC {
 
                     self.listsUserFollows = listsUserFollows
                 }
+            } else {
+                self.listsUserFollows = []
             }
         }
 

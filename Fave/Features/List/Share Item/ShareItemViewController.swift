@@ -297,7 +297,7 @@ class ShareItemViewController: FaveVC {
         // Send recommendation request
         // Dismiss view when done
         sendRecommendationsHandler?(selectedUsers, item) {
-            self.isLoading = true
+            self.isLoading = false
         }
     }
 
