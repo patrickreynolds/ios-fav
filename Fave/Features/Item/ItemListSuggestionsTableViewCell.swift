@@ -59,7 +59,7 @@ class ItemListSuggestionsTableViewCell: UITableViewCell {
     func populate(item: Item) {
         self.item = item
 
-        guard let googleItem = item.contextualItem as? GoogleItemType else {
+        guard let _ = item.contextualItem as? GoogleItemType else {
             return
         }
     }

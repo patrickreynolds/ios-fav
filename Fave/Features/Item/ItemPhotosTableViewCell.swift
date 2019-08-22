@@ -15,7 +15,7 @@ class ItemPhotosTableViewCell: UITableViewCell {
 
     var item: Item?
     var delegate: ItemPhotosTableViewCellDelegate?
-    var googlePhotos = [GooglePhoto]()
+    var photos = [FavePhotoType]()
     var dependencyGraph: DependencyGraphType?
 
     private lazy var titleLabel: Label = {
@@ -104,7 +104,13 @@ class ItemPhotosTableViewCell: UITableViewCell {
             return
         }
 
-        self.googlePhotos = Array(googleItem.photos.prefix(5))
+        let savedPhotos = googleItem.savedPhotos
+
+        if !savedPhotos.isEmpty {
+            self.photos = savedPhotos
+        } else {
+            self.photos = Array(googleItem.photos.prefix(5))
+        }
     }
 }
 
@@ -114,17 +120,15 @@ extension ItemPhotosTableViewCell: UICollectionViewDelegate {
 
 extension ItemPhotosTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return googlePhotos.count
+        return photos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(ItemGooglePhotoCollectionViewCell.self, indexPath: indexPath)
 
-        let photo = googlePhotos[indexPath.row]
+        let photo = photos[indexPath.row]
 
-        if let dependencyGraph = dependencyGraph {
-            cell.populate(photo: photo, dependencyGraph: dependencyGraph)
-        }
+        cell.populate(photo: photo)
 
         return cell
     }

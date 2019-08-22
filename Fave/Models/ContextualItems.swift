@@ -29,34 +29,6 @@ protocol ItemType {
     var name: String { get }
 }
 
-struct GooglePhoto {
-    let width: Double
-    let height: Double
-    let googlePhotoReference: String
-
-    init?(data: [String: AnyObject]) {
-        guard let width = data["width"] as? Double else {
-            return nil
-        }
-
-        guard let height = data["height"] as? Double else {
-            return nil
-        }
-
-        guard let googlePhotoReference = data["photoReference"] as? String else {
-            return nil
-        }
-
-        self.width = width
-        self.height = height
-        self.googlePhotoReference = googlePhotoReference
-    }
-
-    func photoUrl(googleApiKey key: String, googlePhotoReference reference: String, maxHeight: Int, maxWidth: Int) -> URL? {
-        return URL(string: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=\(maxWidth)&maxheight=\(maxHeight)&photoreference=\(reference)&key=\(key)")
-    }
-}
-
 struct GoogleItemType {
     let name: String
     let vicinity: String
@@ -69,7 +41,7 @@ struct GoogleItemType {
     let keywords: [String]?
     let rating: Double
     let photos: [GooglePhoto]
-    let savedPhotos: [String]
+    let savedPhotos: [SavedPhoto]
 
     init?(data: [String: AnyObject]) {
         guard let name = data["name"] as? String else {
@@ -106,9 +78,9 @@ struct GoogleItemType {
             photos = photoData.map({GooglePhoto(data: $0)}).compactMap({ $0 })
         }
 
-        var savedPhotos = [String]()
+        var savedPhotos = [SavedPhoto]()
         if let savedPhotoData = data["savedPhotos"] as? [String] {
-            savedPhotos = savedPhotoData
+            savedPhotos = savedPhotoData.map({SavedPhoto(urlString: $0)}).compactMap({ $0 })
         }
 
         let potentialKeywords = data["types"] as? [String]

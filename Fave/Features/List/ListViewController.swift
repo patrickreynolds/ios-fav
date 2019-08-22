@@ -698,7 +698,7 @@ extension ListViewController: EntryTableViewCellDelegate {
         present(selectListNavigationController, animated: true)
     }
 
-    func googlePhotoTapped(item: Item, list: List?) {
+    func photoTapped(item: Item, list: List?) {
         handleItemTapped(item: item, list: list)
     }
 

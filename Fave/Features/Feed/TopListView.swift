@@ -66,11 +66,14 @@ class TopListView: UIView {
         stackView.backgroundColor = FaveColors.White
         stackView.removeAllArrangedSubviews()
 
-        var photos: [GooglePhoto] = []
+        var photos: [FavePhotoType] = []
 
         self.list?.items.forEach { item in
             if let contextualItem = item.contextualItem as? GoogleItemType {
-                contextualItem.photos.forEach { photo in
+
+                let itemPhotos: [FavePhotoType] = !contextualItem.savedPhotos.isEmpty ? contextualItem.savedPhotos : Array(contextualItem.photos.prefix(5))
+
+                if let photo = itemPhotos.first {
                     photos.append(photo)
                 }
             }
@@ -84,19 +87,17 @@ class TopListView: UIView {
             imageView.clipsToBounds = true
             imageView.contentMode = UIImageView.ContentMode.scaleAspectFill
 
-            if let googlePhotoUrl = photo.photoUrl(googleApiKey: UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.googleAPIKey, googlePhotoReference: photo.googlePhotoReference, maxHeight: 400, maxWidth: 400) {
-                FaveImageCache.downloadImage(url: googlePhotoUrl) { image in
-                    guard let image = image else {
-                        DispatchQueue.main.async {
-                            imageView.backgroundColor = FaveColors.Black20
-                        }
-
-                        return
-                    }
-
+            FaveImageCache.downloadImage(url: photo.url) { image in
+                guard let image = image else {
                     DispatchQueue.main.async {
-                        imageView.image = image
+                        imageView.backgroundColor = FaveColors.Black20
                     }
+
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    imageView.image = image
                 }
             }
 

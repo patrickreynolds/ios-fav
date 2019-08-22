@@ -4,17 +4,13 @@ import Cartography
 
 class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
 
-    var dependencyGarph: DependencyGraphType?
-
-    var photo: GooglePhoto? {
+    var photo: FavePhotoType? {
         didSet {
-            guard let photo = photo,
-                let dependencyGraph = self.dependencyGarph,
-                let googlePhotoUrl = photo.photoUrl(googleApiKey: dependencyGraph.appConfiguration.googleAPIKey, googlePhotoReference: photo.googlePhotoReference, maxHeight: 400, maxWidth: 400) else {
+            guard let photo = photo else {
                 return
             }
 
-            FaveImageCache.downloadImage(url: googlePhotoUrl) { image in
+            FaveImageCache.downloadImage(url: photo.url) { image in
                 guard let image = image else {
                     DispatchQueue.main.async {
                         self.googlePhotoImageView.backgroundColor = FaveColors.Black20
@@ -55,8 +51,7 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(photo: GooglePhoto, dependencyGraph: DependencyGraphType) {
-        self.dependencyGarph = dependencyGraph
+    func populate(photo: FavePhotoType) {
         self.photo = photo
     }
 }

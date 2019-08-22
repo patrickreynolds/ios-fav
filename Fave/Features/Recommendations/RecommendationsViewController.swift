@@ -449,7 +449,7 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
         present(navigationController, animated: true, completion: nil)
     }
 
-    func googlePhotoTapped(item: Item, list: List?) {
+    func photoTapped(item: Item, list: List?) {
         handleItemTapped(item: item, list: list)
     }
 

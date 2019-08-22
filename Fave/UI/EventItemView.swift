@@ -105,12 +105,8 @@ class EventItemView: UIView {
 //            }
 //        }
 
-        if let googleItem = event.item.contextualItem as? GoogleItemType,
-            let photo = googleItem.photos.first,
-            let dependencyGraph = self.dependencyGraph,
-            let googlePhotoUrl = photo.photoUrl(googleApiKey: dependencyGraph.appConfiguration.googleAPIKey, googlePhotoReference: photo.googlePhotoReference, maxHeight: 400, maxWidth: 400) {
-
-            FaveImageCache.downloadImage(url: googlePhotoUrl) { image in
+        if let googleItem = event.item.contextualItem as? GoogleItemType, let photo: FavePhotoType = googleItem.savedPhotos.first ?? googleItem.photos.first {
+            FaveImageCache.downloadImage(url: photo.url) { image in
                 DispatchQueue.main.async {
                     UIView.transition(with: self.previewImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {
 

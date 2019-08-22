@@ -5,7 +5,7 @@ import Cartography
 protocol EntryTableViewCellDelegate {
     func faveItemButtonTapped(item: Item, from: Bool, to: Bool)
     func shareItemButtonTapped(item: Item)
-    func googlePhotoTapped(item: Item, list: List?)
+    func photoTapped(item: Item, list: List?)
     func dismissButtonTapped(item: Item)
     func addToListButtonTapped(item: Item)
     func didTapOwnerView(owner: User)
@@ -26,12 +26,18 @@ class EntryTableViewCell: UITableViewCell {
     var isRecommendationConstraint: NSLayoutConstraint?
     var isNotRecommendationConstraint: NSLayoutConstraint?
 
-    var googlePhotos: [GooglePhoto] {
+    var photos: [FavePhotoType] {
         guard let item = item, let googleItem = item.contextualItem as? GoogleItemType else {
             return []
         }
 
-        return Array(googleItem.photos.prefix(5))
+        let savedPhotos = googleItem.savedPhotos
+
+        if !savedPhotos.isEmpty {
+            return savedPhotos
+        } else {
+            return Array(googleItem.photos.prefix(5))
+        }
     }
 
     var itemIsSavedByUser = false
@@ -614,23 +620,21 @@ extension EntryTableViewCell: UICollectionViewDelegate {
             return
         }
 
-        delegate?.googlePhotoTapped(item: item, list: list)
+        delegate?.photoTapped(item: item, list: list)
     }
 }
 
 extension EntryTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return googlePhotos.count
+        return photos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(ItemGooglePhotoCollectionViewCell.self, indexPath: indexPath)
 
-        let photo = googlePhotos[indexPath.row]
+        let photo = photos[indexPath.row]
 
-        if let dependencyGraph = dependencyGraph {
-            cell.populate(photo: photo, dependencyGraph: dependencyGraph)
-        }
+        cell.populate(photo: photo)
 
         return cell
     }
