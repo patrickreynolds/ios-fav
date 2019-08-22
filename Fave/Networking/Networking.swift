@@ -24,8 +24,6 @@ struct Networking {
     func sendGraphqlRequest(query: String, completion: @escaping FaveAPICallResultCompletionBlock) {
         let endpoint = "\(baseUrl)\(FaveEndpoint.graphql.path)"
 
-        print("\(endpoint)")
-
         var authToken: String = ""
 
         if let token = authenticator.token() {
@@ -41,15 +39,10 @@ struct Networking {
             "query": query
         ]
 
-        // "Content-Type": "application/json"
-
-
         DispatchQueue.main.async {
             // Show the actificy indicator during the network call
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
-
-        print("\n \(endpoint) \n")
 
         Alamofire.request(endpoint, method: .post, parameters: data, headers: headers).responseJSON { response in
 

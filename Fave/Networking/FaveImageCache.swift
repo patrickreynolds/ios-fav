@@ -29,16 +29,16 @@ struct FaveImageCache {
                 do {
                     let data = try Data(contentsOf: url)
 
-                    DispatchQueue.main.async {
-                        guard let image = UIImage(data: data) else {
-                            completion(nil)
+//                    DispatchQueue.main.async {
+                    guard let image = UIImage(data: data) else {
+                        completion(nil)
 
-                            return
-                        }
-
-                        imageCache.setObject(image, forKey: url.absoluteString as NSString)
-                        completion(image)
+                        return
                     }
+
+                    imageCache.setObject(image, forKey: url.absoluteString as NSString)
+                    completion(image)
+
                     return
                 } catch {
                     completion(nil)

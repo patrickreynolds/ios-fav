@@ -86,7 +86,7 @@ class ProfileTableHeaderView: UIView {
     }()
 
     let listCountLabel = Label(
-        text: "No lists",
+        text: "No lists".uppercased(),
         font: FaveFont(style: .small, weight: .semiBold),
         textColor: FaveColors.Black60,
         textAlignment: .left,

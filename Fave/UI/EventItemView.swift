@@ -111,20 +111,19 @@ class EventItemView: UIView {
             let googlePhotoUrl = photo.photoUrl(googleApiKey: dependencyGraph.appConfiguration.googleAPIKey, googlePhotoReference: photo.googlePhotoReference, maxHeight: 400, maxWidth: 400) {
 
             FaveImageCache.downloadImage(url: googlePhotoUrl) { image in
-                UIView.transition(with: self.previewImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {
+                DispatchQueue.main.async {
+                    UIView.transition(with: self.previewImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {
 
-                    guard let image = image else {
-                        DispatchQueue.main.async {
+                        guard let image = image else {
                             self.previewImageView.backgroundColor = FaveColors.Black20
+
+                            return
                         }
 
-                        return
-                    }
-                    DispatchQueue.main.async {
                         self.previewImageView.image = image
-                    }
 
-                }, completion: nil)
+                    }, completion: nil)
+                }
             }
         }
     }

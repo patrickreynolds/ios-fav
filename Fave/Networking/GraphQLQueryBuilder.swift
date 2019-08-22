@@ -65,6 +65,7 @@ struct GraphQLQueryBuilder {
                             height
                             photoReference
                         }
+                        savedPhotos
                     }
                 }
             }
