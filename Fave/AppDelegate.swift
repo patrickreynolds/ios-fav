@@ -13,16 +13,17 @@ import Fabric
 import Crashlytics
 
 enum FaveUITabBarTabs: Int {
-    case FeedTab
-    case DiscoverTab
-    case RecommendationsTab
-    case ProfileTab
+    case FeedTab = 0
+    case DiscoverTab = 1
+    case RecommendationsTab = 2
+    case ProfileTab = 3
 }
 
 enum FaveNotificationType: String {
     case RecommendationGeneral = "RECOMMENDATION_GENERAL"
     case ListNewRecommendation = "LIST_NEW_RECOMMENDATION"
     case ListNewFollower = "LIST_NEW_FOLLOWER"
+    case ListNewEntry = "LIST_NEW_ENTRY"
     case NotificationsClear = "NOTIFICATIONS_CLEAR"
 
     init?(type: String) {
@@ -234,6 +235,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
             if let userInfo = userInfo as? [String: AnyObject] {
 
+                handleNotification(userInfo: userInfo)
+
                 print("\(userInfo)")
             }
 
@@ -249,7 +252,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     func handleNotification(userInfo: [String: AnyObject]) {
-        guard let notificationTypeString = userInfo["notification-type"] as? String, let notificationType = FaveNotificationType.init(rawValue: notificationTypeString) else {
+        guard let notificationTypeString = userInfo["notificationType"] as? String, let notificationType = FaveNotificationType.init(rawValue: notificationTypeString) else {
             return
         }
 
@@ -262,11 +265,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             tabBarController.selectedIndex = FaveUITabBarTabs.RecommendationsTab.rawValue
 
             return
-        case .ListNewRecommendation:
-
-            return
-
-            guard let profileViewController = tabBarController.viewControllers?[FaveUITabBarTabs.ProfileTab.rawValue] as? ProfileViewController else {
+        case .ListNewEntry:
+            guard let navigationController = tabBarController.viewControllers?[FaveUITabBarTabs.FeedTab.rawValue] as? UINavigationController, let feedViewController = navigationController.topViewController as? FeedViewController else {
                 return
             }
 
@@ -274,13 +274,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 return
             }
 
-            handleNavigateToList(profileViewController: profileViewController, listId: listId)
+            tabBarController.selectedIndex = FaveUITabBarTabs.FeedTab.rawValue
 
-        case .ListNewFollower:
+            handleNavigateToNewListEntry(feedViewController: feedViewController, listId: listId)
 
             return
-
-            guard let profileViewController = tabBarController.viewControllers?[FaveUITabBarTabs.ProfileTab.rawValue] as? ProfileViewController else {
+        case .ListNewRecommendation, .ListNewFollower:
+            guard let navigationController = tabBarController.viewControllers?[FaveUITabBarTabs.ProfileTab.rawValue] as? UINavigationController, let profileViewController = navigationController.topViewController as? ProfileViewController else {
                 return
             }
 
@@ -288,7 +288,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 return
             }
 
-            handleNavigateToList(profileViewController: profileViewController, listId: listId)
+            tabBarController.selectedIndex = FaveUITabBarTabs.ProfileTab.rawValue
+
+            handleNavigateToListNewRecommendation(profileViewController: profileViewController, listId: listId)
 
             return
         case .NotificationsClear:
@@ -297,9 +299,28 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
     }
 
-    func handleNavigateToList(profileViewController: ProfileViewController, listId: Int) {
+    func handleNavigateToNewListEntry(feedViewController: FeedViewController, listId: Int) {
         dependencyGraph.faveService.getList(listId: listId) { list, error in
             guard let list = list else {
+
+                return
+            }
+
+            let listViewController = ListViewController(dependencyGraph: self.dependencyGraph, list: list)
+
+            listViewController.delegate = feedViewController
+
+            let titleViewLabel = Label(text: "List", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+            listViewController.navigationItem.titleView = titleViewLabel
+
+            feedViewController.navigationController?.pushViewController(listViewController, animated: true)
+        }
+    }
+
+    func handleNavigateToListNewRecommendation(profileViewController: ProfileViewController, listId: Int) {
+        dependencyGraph.faveService.getList(listId: listId) { list, error in
+            guard let list = list else {
+
                 return
             }
 
