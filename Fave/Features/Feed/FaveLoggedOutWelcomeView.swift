@@ -38,9 +38,9 @@ class FaveLoggedOutWelcomeView: UIView {
                 lists.append(view)
             }
 
-            setOffsets(count: topLists.count)
+            setOffsets(count: lists.count)
 
-            let scrollViewContentWidth = CGFloat(Float(UIScreen.main.bounds.width) * Float(lists.count) + Float(64) + Float(lists.count * 16))
+            let scrollViewContentWidth = CGFloat(Float(UIScreen.main.bounds.width) * Float(lists.count) + Float(64))
 
             scrollView.contentSize = CGSize(width: scrollViewContentWidth, height: 300)
             scrollView.isPagingEnabled = false

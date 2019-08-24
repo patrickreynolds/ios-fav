@@ -1,4 +1,5 @@
 import UIKit
+import Nantes
 
 import Cartography
 
@@ -48,12 +49,30 @@ class FeedEventTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private lazy var titleLabel: Label = {
-        let label = Label(text: "",
-                               font: FaveFont(style: .h5, weight: .regular),
-                               textColor: FaveColors.Black90,
-                               textAlignment: .left,
-                               numberOfLines: 0)
+    private lazy var titleLabel: NantesLabel = {
+
+        let label: NantesLabel = NantesLabel.init(frame: .zero)
+
+        label.delegate = self
+        label.numberOfLines = 0
+
+        label.text = ""
+        label.textAlignment = .left
+        label.textColor = FaveColors.Black90
+        label.font = FaveFont(style: .h5, weight: .regular).font
+
+        let primaryLinkAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .semiBold).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black90
+        ]
+
+        let activeLinkAttributes: [NSAttributedString.Key : Any]? = [
+            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .semiBold).font,
+            NSAttributedString.Key.foregroundColor: FaveColors.Black70
+        ]
+
+        label.linkAttributes = primaryLinkAttributes
+        label.activeLinkAttributes = activeLinkAttributes
 
         return label
     }()
@@ -144,7 +163,7 @@ class FeedEventTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        titleLabel.attributedText = NSMutableAttributedString(string: "")
+        titleLabel.text = ""
         noteLabel.text = ""
         userProfileImageView.image = nil
 
@@ -160,50 +179,42 @@ class FeedEventTableViewCell: UITableViewCell {
         self.feedEvent = event
         self.dependencyGraph = dependencyGraph
 
-        let titleLabelAttributedText: NSMutableAttributedString = NSMutableAttributedString()
-
-        let primaryAttributes: [NSAttributedString.Key : Any]? = [
-            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .semiBold).font,
-            NSAttributedString.Key.foregroundColor: FaveColors.Black90
-        ]
-
-        let standardAttributes: [NSAttributedString.Key : Any]? = [
-            NSAttributedString.Key.font: FaveFont(style: .h5, weight: .regular).font,
-            NSAttributedString.Key.foregroundColor: FaveColors.Black90
-        ]
-
-        let subtleAttributes: [NSAttributedString.Key : Any]? = [
-            NSAttributedString.Key.font: FaveFont(style: .small, weight: .regular).font,
-            NSAttributedString.Key.foregroundColor: FaveColors.Black70
-        ]
+        let titleLabelText: NSMutableString = NSMutableString()
 
         if event.list.owner.id != event.item.addedBy.id {
-            let handleText = NSAttributedString(string: "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)", attributes: primaryAttributes)
-            let recommendationText = NSAttributedString(string: " recommended an item for ", attributes: standardAttributes)
+            let handleText = "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)"
+            let recommendationText = " recommended an item for "
             
             let lastOwnerCharacterString = String(event.list.owner.lastName.last ?? Character(""))
             let possessiveCharacter = lastOwnerCharacterString.lowercased() == "s" ? "'" : "'s"
             
-            let ownerText = NSAttributedString(string: "\(event.list.owner.firstName) \(event.list.owner.lastName)\(possessiveCharacter)", attributes: primaryAttributes)
-            let suffixText = NSAttributedString(string: " list. ", attributes: standardAttributes)
-            let timeText = NSAttributedString(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
+            let ownerText = "\(event.list.owner.firstName) \(event.list.owner.lastName)\(possessiveCharacter)"
+            let suffixText = " list. "
+            let timeText = "\(event.item.createdAt.condensedTimeSinceString())"
 
-            titleLabelAttributedText.append(handleText)
-            titleLabelAttributedText.append(recommendationText)
-            titleLabelAttributedText.append(ownerText)
-            titleLabelAttributedText.append(suffixText)
-            titleLabelAttributedText.append(timeText)
+            titleLabelText.append(handleText)
+            titleLabelText.append(recommendationText)
+            titleLabelText.append(ownerText)
+            titleLabelText.append(suffixText)
+            titleLabelText.append(timeText)
+
+            titleLabel.text = titleLabelText as String
+
+            titleLabel.addLink(to: URL(string: "item-added-by")!, withRange: (titleLabelText as NSString).range(of: handleText))
+            titleLabel.addLink(to: URL(string: "item-owner")!, withRange: (titleLabelText as NSString).range(of: ownerText))
         } else {
-            let handleText = NSAttributedString(string: "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)", attributes: primaryAttributes)
-            let recommendationText = NSAttributedString(string: " added an item. ", attributes: standardAttributes)
-            let timeText = NSAttributedString(string: "\(event.item.createdAt.condensedTimeSinceString())", attributes: subtleAttributes)
+            let handleText = "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)"
+            let recommendationText = " added an item. "
+            let timeText = "\(event.item.createdAt.condensedTimeSinceString())"
 
-            titleLabelAttributedText.append(handleText)
-            titleLabelAttributedText.append(recommendationText)
-            titleLabelAttributedText.append(timeText)
+            titleLabelText.append(handleText)
+            titleLabelText.append(recommendationText)
+            titleLabelText.append(timeText)
+
+            titleLabel.text = titleLabelText as String
+
+            titleLabel.addLink(to: URL(string: "item-added-by")!, withRange: (titleLabelText as NSString).range(of: handleText))
         }
-
-        titleLabel.attributedText = titleLabelAttributedText
 
         noteLabel.text = event.item.note
 
@@ -227,5 +238,25 @@ class FeedEventTableViewCell: UITableViewCell {
         userProfileImageView.image = UIImage(base64String: event.item.addedBy.profilePicture)
 
         eventItemView.update(dependencyGraph: dependencyGraph, withEvent: event)
+    }
+}
+
+extension FeedEventTableViewCell: NantesLabelDelegate {
+    func attributedLabel(_ label: NantesLabel, didSelectLink link: URL) {
+        guard let event = feedEvent else { return }
+
+        if link.absoluteString == "item-added-by" {
+            print("\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)")
+
+            delegate?.userProfileSelected(user: event.item.addedBy)
+
+        } else if link.absoluteString == "item-owner" {
+            let lastOwnerCharacterString = String(event.list.owner.lastName.last ?? Character(""))
+            let possessiveCharacter = lastOwnerCharacterString.lowercased() == "s" ? "'" : "'s"
+
+            print("\(event.list.owner.firstName) \(event.list.owner.lastName)\(possessiveCharacter)")
+
+            delegate?.userProfileSelected(user: event.list.owner)
+        }
     }
 }

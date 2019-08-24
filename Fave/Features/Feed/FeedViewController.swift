@@ -225,35 +225,40 @@ class FeedViewController: FaveVC {
                 self.events = events
             }
 
-            dependencyGraph.faveService.getCurrentUser { user, error in
+            guard let user = dependencyGraph.storage.getUser() else {
 
-                guard let user = user else {
-                    if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
-                        tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
-                        tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                dependencyGraph.faveService.getCurrentUser { user, error in
+
+                    guard let user = user else {
+                        if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
+                            tabBarItem.image = UIImage(named: "tab-icon-profile")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                            tabBarItem.selectedImage = UIImage(named: "tab-icon-profile-selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                        }
+
+                        self.dependencyGraph.authenticator.logout { success in
+                            print("Logged out")
+                        }
+
+                        self.loggedIn = false
+
+                        return
                     }
 
-                    self.dependencyGraph.authenticator.logout { success in
-                        print("Logged out")
-                    }
+                    self.dependencyGraph.storage.saveUser(user: user)
 
-                    self.loggedIn = false
-
-                    return
+                    self.loggedIn = true
                 }
 
-                self.dependencyGraph.storage.saveUser(user: user)
+                return
+            }
 
-                self.loggedIn = true
-
-                if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
-                    let tabBarItemImage = UIImage(base64String: user.profilePicture)?
-                        .resize(targetSize: CGSize(width: 24, height: 24))?
-                        .roundedImage?
-                        .withRenderingMode(.alwaysOriginal)
-                    tabBarItem.image = tabBarItemImage
-                    tabBarItem.selectedImage = tabBarItemImage
-                }
+            if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
+                let tabBarItemImage = UIImage(base64String: user.profilePicture)?
+                    .resize(targetSize: CGSize(width: 24, height: 24))?
+                    .roundedImage?
+                    .withRenderingMode(.alwaysOriginal)
+                tabBarItem.image = tabBarItemImage
+                tabBarItem.selectedImage = tabBarItemImage
             }
         } else {
             if !topLists.isEmpty {
