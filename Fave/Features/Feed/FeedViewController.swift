@@ -179,24 +179,29 @@ class FeedViewController: FaveVC {
         createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
 
         isLoading = true
+
+        refreshFeed()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let PushNotificationsEnabled = true
+        if self.dependencyGraph.authenticator.isLoggedIn() {
 
-        refreshFeed {
-            if self.dependencyGraph.authenticator.isLoggedIn() && PushNotificationsEnabled {
-                PushNotifications.shouldPromptToRegisterForNotifications(dependencyGraph: self.dependencyGraph) { shouldPrompt in
-
-                    guard shouldPrompt else {
-                        return
-                    }
-
-                    PushNotifications.promptForPushNotifications(dependencyGraph: self.dependencyGraph, fromViewController: self) {}
-                }
+            if !loggedIn {
+                refreshFeed()
             }
+
+            PushNotifications.shouldPromptToRegisterForNotifications(dependencyGraph: self.dependencyGraph) { shouldPrompt in
+
+                guard shouldPrompt else {
+                    return
+                }
+
+                PushNotifications.promptForPushNotifications(dependencyGraph: self.dependencyGraph, fromViewController: self) {}
+            }
+        } else {
+            refreshFeed()
         }
     }
 
