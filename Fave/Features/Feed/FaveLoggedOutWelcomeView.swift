@@ -29,18 +29,26 @@ class FaveLoggedOutWelcomeView: UIView {
             }
 
             lists = []
+            var existingAuthors: [Int:Int] = [:]
 
             for index in 0..<topLists.count {
-                let view = TopListView(list: topLists[index])
+                let list = topLists[index]
+
+                let view = TopListView(list: list)
 
                 view.delegate = self
 
-                lists.append(view)
+                if let _ = existingAuthors[list.owner.id] {
+
+                } else {
+                    existingAuthors[list.owner.id] = 1
+                    lists.append(view)
+                }
             }
 
             setOffsets(count: lists.count)
 
-            let scrollViewContentWidth = CGFloat(Float(UIScreen.main.bounds.width) * Float(lists.count) + Float(64))
+            let scrollViewContentWidth = CGFloat(Float(UIScreen.main.bounds.width - 64) * Float(lists.count) + (Float(lists.count) * 16) + 48)
 
             scrollView.contentSize = CGSize(width: scrollViewContentWidth, height: 300)
             scrollView.isPagingEnabled = false

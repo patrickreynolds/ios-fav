@@ -86,6 +86,7 @@ class TopListView: UIView {
             imageView.layer.masksToBounds = true
             imageView.clipsToBounds = true
             imageView.contentMode = UIImageView.ContentMode.scaleAspectFill
+            imageView.backgroundColor = FaveColors.Black20
 
             FaveImageCache.downloadImage(url: photo.url) { image in
                 guard let image = image else {
