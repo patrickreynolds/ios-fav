@@ -277,6 +277,8 @@ class ShareItemViewController: FaveVC {
         refreshUsers()
 
         view.bringSubviewToFront(progressHUD)
+
+        sendButtonEnabled = false
     }
 
     @objc func dismissView(sender: UIButton!) {
