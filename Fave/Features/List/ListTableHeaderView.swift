@@ -163,7 +163,7 @@ class ListTableHeaderView: UIView {
     }()
 
     private lazy var followerCountLabel: Label = {
-        let label = Label(text: "Following 0 lists",
+        let label = Label(text: "0 Followers",
                           font: FaveFont(style: .h5, weight: .regular),
                           textColor: FaveColors.Black90,
                           textAlignment: .left,
