@@ -83,7 +83,7 @@ class EntryTableViewCell: UITableViewCell {
     private lazy var subtitleLabel: Label = {
         let label = Label(text: "",
                           font: FaveFont(style: .h5, weight: .regular),
-                          textColor: FaveColors.Black60,
+                          textColor: FaveColors.Black70,
                           textAlignment: .left,
                           numberOfLines: 0)
 
