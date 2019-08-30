@@ -62,7 +62,7 @@ class SelectListViewController: FaveVC {
     }()
 
     private lazy var listTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
 
         tableView.delegate = self
         tableView.dataSource = self

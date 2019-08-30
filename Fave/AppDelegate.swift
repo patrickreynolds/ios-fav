@@ -131,8 +131,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 
         let splashScreenViewController = SplashScreenViewController(dependencyGraph: dependencyGraph)
+        let spashScreenNavigationController = UINavigationController(rootViewController: splashScreenViewController)
+        splashScreenViewController.navigationController?.navigationBar.isHidden = true
+
         splashScreenViewController.modalPresentationStyle = .overFullScreen
-        tabBarController.present(splashScreenViewController, animated: false, completion: nil)
+        spashScreenNavigationController.modalPresentationStyle = .overFullScreen
+
+        tabBarController.present(spashScreenNavigationController, animated: false, completion: nil)
 
         return true
     }

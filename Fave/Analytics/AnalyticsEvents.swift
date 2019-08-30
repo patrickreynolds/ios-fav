@@ -32,5 +32,6 @@ enum AnalyticsImpressionEvent: String {
     case followedByScreenShown = "screen_shown_followed-by"
     case followingListsScreenShown = "screen_shown-following-lists"
     case splashScreenShown = "screen_shown-splash-screen"
+    case onboardingScreenShown = "screen_shown-onboarding"
     case alertShown = "alert_shown"
 }

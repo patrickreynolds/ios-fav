@@ -214,7 +214,7 @@ class DiscoverViewController: FaveVC {
     }()
 
     private lazy var discoverTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .grouped)
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: .grouped)
         
         tableView.backgroundColor = FaveColors.White
 

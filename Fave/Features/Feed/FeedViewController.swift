@@ -103,7 +103,7 @@ class FeedViewController: FaveVC {
     }()
 
     private lazy var feedTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -311,7 +311,17 @@ extension FeedViewController: UITableViewDataSource {
     }
 }
 
-extension FeedViewController: UITableViewDelegate {}
+extension FeedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+
+        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
+
+        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
+            cell.alpha = 1
+        })
+    }
+}
 
 extension FeedViewController {
     @objc func createButtonTapped(sender: UIButton!) {

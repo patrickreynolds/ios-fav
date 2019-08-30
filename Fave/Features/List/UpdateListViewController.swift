@@ -107,6 +107,7 @@ class UpdateListViewController: FaveVC {
 
         // Add name input view
         let nameInputView = UIView(frame: .zero)
+        nameInputView.isUserInteractionEnabled = true
 
         let nameInputIconImageView = UIImageView(frame: .zero)
         nameInputIconImageView.image = UIImage(named: "icon-list")
@@ -118,6 +119,10 @@ class UpdateListViewController: FaveVC {
         nameTextField.textColor = FaveColors.Black90
         nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         nameTextField.text = list.title
+
+        _ = nameInputView.tapped { tapped in
+            self.nameTextField.becomeFirstResponder()
+        }
 
         let nameDividerView = DividerView()
 

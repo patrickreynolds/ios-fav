@@ -35,4 +35,12 @@ class FaveColors: NSObject {
     static let IndigoDark = UIColor(hexString: "0083C7")
     static let BlueDark = UIColor(hexString: "005DCA")
     static let PurpleDark = UIColor(hexString: "3D2DBA")
+
+    // MARK: Experimental Brand
+
+    static let HJTorchRed = UIColor(hexString: "FA1E44")
+    static let HJLightningYellow = UIColor(hexString: "FEC925")
+    static let HJEdgewater = UIColor(hexString: "C9E3DB")
+    static let HJSilverTree = UIColor(hexString: "5AB190")
+    static let HJCerulean = UIColor(hexString: "00B4EB")
 }

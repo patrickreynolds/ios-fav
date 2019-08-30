@@ -42,6 +42,10 @@
 		43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43493290229ED37A00F949D6 /* GraphQLQueryBuilder.swift */; };
 		43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */; };
 		43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */; };
+		4356FD1023189D0E00C060B7 /* OnboardingWelcomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD0F23189D0E00C060B7 /* OnboardingWelcomePage.swift */; };
+		4356FD122318D2DF00C060B7 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD112318D2DF00C060B7 /* OnboardingViewController.swift */; };
+		4356FD142318E08300C060B7 /* OnboardingContextualHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD132318E08300C060B7 /* OnboardingContextualHeaderView.swift */; };
+		4356FD162318E28A00C060B7 /* LinearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD152318E28A00C060B7 /* LinearProgressView.swift */; };
 		4369CF432257C11300FCA156 /* FaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534CF223336BB00B99EC7 /* FaveTests.swift */; };
 		4369CF4522583E7300FCA156 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4422583E7300FCA156 /* Haptic.swift */; };
 		4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF462258409D00FCA156 /* UIViewExt.swift */; };
@@ -187,6 +191,10 @@
 		43493290229ED37A00F949D6 /* GraphQLQueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQueryBuilder.swift; sourceTree = "<group>"; };
 		43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterSegmentedControl.swift; sourceTree = "<group>"; };
 		43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveAttributedLabel.swift; sourceTree = "<group>"; };
+		4356FD0F23189D0E00C060B7 /* OnboardingWelcomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomePage.swift; sourceTree = "<group>"; };
+		4356FD112318D2DF00C060B7 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		4356FD132318E08300C060B7 /* OnboardingContextualHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContextualHeaderView.swift; sourceTree = "<group>"; };
+		4356FD152318E28A00C060B7 /* LinearProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearProgressView.swift; sourceTree = "<group>"; };
 		4369CF4422583E7300FCA156 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		4369CF462258409D00FCA156 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		4369CF48225982F900FCA156 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -467,6 +475,7 @@
 				4378624822AA0F350011420D /* SavedItemContextView.swift */,
 				433E4F9022B0351000B0A531 /* ToastView.swift */,
 				43ABB3CC230229CA00329F7B /* Alert */,
+				4356FD152318E28A00C060B7 /* LinearProgressView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -520,7 +529,7 @@
 		4386BFDD223340C3006A3ED7 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				43ABB3E423050DC800329F7B /* Splash Screen */,
+				43ABB3E423050DC800329F7B /* Onboarding */,
 				43ABB3E12302396D00329F7B /* Push Notifications */,
 				43D63C1322D02742006486FE /* Recommendations */,
 				4382488E227B50DA00257D27 /* Fave Item */,
@@ -611,12 +620,15 @@
 			path = "Push Notifications";
 			sourceTree = "<group>";
 		};
-		43ABB3E423050DC800329F7B /* Splash Screen */ = {
+		43ABB3E423050DC800329F7B /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
 				43ABB3E523050DE900329F7B /* SplashScreenViewController.swift */,
+				4356FD0F23189D0E00C060B7 /* OnboardingWelcomePage.swift */,
+				4356FD112318D2DF00C060B7 /* OnboardingViewController.swift */,
+				4356FD132318E08300C060B7 /* OnboardingContextualHeaderView.swift */,
 			);
-			path = "Splash Screen";
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		43AFB44B223DE8E100B243E1 /* Profile */ = {
@@ -918,11 +930,13 @@
 				4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */,
 				43ABB3D623022C0000329F7B /* DialogAlertCollectionViewCell.swift in Sources */,
 				432B3EC522FE94F2005F7EF5 /* UpdateListViewController.swift in Sources */,
+				4356FD162318E28A00C060B7 /* LinearProgressView.swift in Sources */,
 				431ED5EA2292268E008B9A9A /* TopListItemTableViewCell.swift in Sources */,
 				43824890227B50E800257D27 /* MyListsViewController.swift in Sources */,
 				438534EA2233386100B99EC7 /* CartographyExt.swift in Sources */,
 				438534FA2233397E00B99EC7 /* FaveVC.swift in Sources */,
 				431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */,
+				4356FD1023189D0E00C060B7 /* OnboardingWelcomePage.swift in Sources */,
 				43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */,
 				43ABB3DC2302319D00329F7B /* AlertAnimator.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
@@ -974,6 +988,8 @@
 				43ABB3D823022F7900329F7B /* AlertVCExt.swift in Sources */,
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
+				4356FD142318E08300C060B7 /* OnboardingContextualHeaderView.swift in Sources */,
+				4356FD122318D2DF00C060B7 /* OnboardingViewController.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
 				43D63C1922D11D54006486FE /* CollectionExt.swift in Sources */,
 				433E4F8F22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift in Sources */,

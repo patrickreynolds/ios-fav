@@ -5,12 +5,15 @@ import Crashlytics
 
 enum StorageKey: String {
     case currentUser
+    case hasSeenOnboarding
 }
 
 protocol StorageType {
     func saveUser(user: User)
     func getUser() -> User?
     func deleteUser()
+    func hasSeenOnboarding() -> Bool
+    func setHasSeenOnboarding(seen: Bool)
 }
 
 struct TemporaryStorage {
@@ -91,6 +94,20 @@ struct TemporaryStorage {
         if appConfiguration.production {
             Crashlytics.sharedInstance().setUserIdentifier("")
         }
+    }
+
+    func hasSeenOnboarding() -> Bool {
+        guard let hasSeenOnboarding = userDefaults.object(forKey: "\(StorageKey.hasSeenOnboarding.rawValue)") as? Bool else {
+            return false
+        }
+
+        return hasSeenOnboarding
+    }
+
+    func setHasSeenOnboarding(seen: Bool) {
+        userDefaults.set(seen, forKey: "\(StorageKey.hasSeenOnboarding.rawValue)")
+
+        userDefaults.synchronize()
     }
 }
 

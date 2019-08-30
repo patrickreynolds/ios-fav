@@ -7,7 +7,7 @@ protocol EntryTableViewCellDelegate {
     func shareItemButtonTapped(item: Item)
     func photoTapped(item: Item, list: List?)
     func dismissButtonTapped(item: Item)
-    func addToListButtonTapped(item: Item)
+    func addToListButtonTapped(item: Item, autoMerge: Bool)
     func didTapOwnerView(owner: User)
 }
 
@@ -225,6 +225,33 @@ class EntryTableViewCell: UITableViewCell {
         return view
     }()
 
+    private lazy var addToSpecificListActionView: UIView = {
+        let view = UIView(frame: .zero)
+
+        let button = UIButton(frame: .zero)
+
+        button.backgroundColor = FaveColors.Accent
+        button.layer.cornerRadius = 6
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
+        button.addTarget(self, action: #selector(addToSpecifcListButtonTapped), for: .touchUpInside)
+
+        let attributedTitle = NSAttributedString(string: "Add to list",
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 textColor: FaveColors.White)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        view.addSubview(button)
+
+        constrain(button, view) { button, view in
+            button.top == view.top + 8
+            button.bottom == view.bottom - 8
+            button.left == view.left
+            button.right == view.right
+        }
+
+        return view
+    }()
+
     private lazy var dismissActionView: UIView = {
         let view = UIView(frame: .zero)
 
@@ -267,6 +294,9 @@ class EntryTableViewCell: UITableViewCell {
         stackView.distribution = .fillEqually
         stackView.axis = .horizontal
         stackView.spacing = 16.0
+
+        stackView.addArrangedSubview(faveActionView)
+        stackView.addArrangedSubview(shareActionView)
 
         return stackView
     }()
@@ -457,6 +487,15 @@ class EntryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
+
+        photosCollectionView.reloadData()
+    }
+
     func populate(dependencyGraph: DependencyGraphType, item: Item, list: List?, mySavedItem: Item?) {
         self.dependencyGraph = dependencyGraph
         self.item = item
@@ -492,7 +531,9 @@ class EntryTableViewCell: UITableViewCell {
         }
 
         if let currentUser = dependencyGraph.storage.getUser(), item.isRecommendation {
-            
+
+            actionStackView.removeAllArrangedSubviews()
+
             if item.owner.id == currentUser.id {
                 actionStackView.addArrangedSubview(addToListActionView)
                 actionStackView.addArrangedSubview(dismissActionView)
@@ -500,10 +541,10 @@ class EntryTableViewCell: UITableViewCell {
                 actionStackView.addArrangedSubview(faveActionView)
                 actionStackView.addArrangedSubview(shareActionView)
             }
-            
+
             isRecommendationConstraint?.isActive = true
             isNotRecommendationConstraint?.isActive = false
-            
+
             UIView.animate(withDuration: 0.15, animations: {
                 self.layoutIfNeeded()
             }) { success in
@@ -511,7 +552,7 @@ class EntryTableViewCell: UITableViewCell {
                     self.ownerView.alpha = 1
                 }
             }
-            
+
             ownerNameLabel.text = "Recommended by \(item.addedBy.firstName) \(item.addedBy.lastName)"
             ownerImageView.image = UIImage(base64String: item.addedBy.profilePicture)
 
@@ -521,7 +562,7 @@ class EntryTableViewCell: UITableViewCell {
         } else {
             isRecommendationConstraint?.isActive = false
             isNotRecommendationConstraint?.isActive = true
-            
+
             UIView.animate(withDuration: 0.15, animations: {
                 self.ownerView.alpha = 0
             }) { success in
@@ -529,10 +570,15 @@ class EntryTableViewCell: UITableViewCell {
                     self.layoutIfNeeded()
                 }
             }
-            
+
+            actionStackView.removeAllArrangedSubviews()
+
             actionStackView.addArrangedSubview(faveActionView)
             actionStackView.addArrangedSubview(shareActionView)
         }
+
+        contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
 
         photosCollectionView.reloadData()
     }
@@ -602,7 +648,15 @@ class EntryTableViewCell: UITableViewCell {
             return
         }
 
-        delegate?.addToListButtonTapped(item: item)
+        delegate?.addToListButtonTapped(item: item, autoMerge: false)
+    }
+
+    @objc func addToSpecifcListButtonTapped(sender: UIButton!) {
+        guard let item = item else {
+            return
+        }
+
+        delegate?.addToListButtonTapped(item: item, autoMerge: true)
     }
 
     @objc func dismissButtonTapped(sender: UIButton!) {

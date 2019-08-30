@@ -17,13 +17,13 @@ class ProfileViewController: FaveVC {
             navigationItem.titleView = titleViewLabel
 
             view.setNeedsLayout()
+            view.layoutIfNeeded()
         }
     }
 
     var lists: [List] = [] {
         didSet {
             profileTableHeaderView.updateListInfo(lists: lists)
-            view.setNeedsLayout()
 
             self.profileTableView.reloadData()
         }
@@ -36,7 +36,9 @@ class ProfileViewController: FaveVC {
             }
 
             profileTableHeaderView.updateUserInfo(user: user, followingCount: listsUserFollows.count)
+
             view.setNeedsLayout()
+            view.layoutIfNeeded()
         }
     }
 
@@ -62,7 +64,7 @@ class ProfileViewController: FaveVC {
     }()
 
     private lazy var profileTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width))
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -381,6 +383,16 @@ extension ProfileViewController: UITableViewDelegate {
         listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+
+        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
+
+        UIView.animate(withDuration: 0.3, delay: minTime, animations: {
+            cell.alpha = 1
+        })
     }
 }
 

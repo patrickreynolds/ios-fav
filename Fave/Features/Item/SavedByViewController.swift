@@ -35,7 +35,7 @@ class SavedByViewController: FaveVC {
     }()
 
     private lazy var savedByTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .plain)
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: .plain)
 
         tableView.delegate = self
         tableView.dataSource = self

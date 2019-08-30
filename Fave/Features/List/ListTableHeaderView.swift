@@ -223,6 +223,9 @@ class ListTableHeaderView: UIView {
 
         backgroundColor = FaveColors.White
 
+        titleLabel.contentCompressionResistancePriority = .defaultHigh
+        listDescriptionLabel.contentCompressionResistancePriority = .defaultHigh
+
         addSubview(titleLabel)
         addSubview(ownerView)
         addSubview(listDescriptionLabel)

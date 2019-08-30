@@ -170,9 +170,7 @@ class LoggedOutViewController: FaveVC {
 
         let loginManager = LoginManager()
 
-//        if let currentAccessToken = FBSDKAccessToken.current(), currentAccessToken.appID != FBSDKSettings.appID() {
-            loginManager.logOut()
-//        }
+        loginManager.logOut()
 
         loginManager.logIn(permissions: [Permission.publicProfile, Permission.email, Permission.userFriends], viewController: self) { loginResult in
             switch loginResult {

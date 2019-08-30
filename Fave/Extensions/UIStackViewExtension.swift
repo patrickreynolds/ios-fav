@@ -10,7 +10,7 @@ extension UIStackView {
         }
 
         // Deactivate all constraints
-        NSLayoutConstraint.deactivate(removedSubviews.flatMap({ $0.constraints }))
+//        NSLayoutConstraint.deactivate(removedSubviews.flatMap({ $0.constraints }))
 
         // Remove the views from self
         removedSubviews.forEach({ $0.removeFromSuperview() })

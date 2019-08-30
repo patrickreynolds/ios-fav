@@ -20,12 +20,16 @@ struct Analytics {
 
         let event = AnalyticsEvent(deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "", eventName: title, userId: userId)
 
-        dependencyGraph.analyticsService.logEvent(event: event) { success, error in
-            guard let success = success else {
-                return
-            }
+        if UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.production {
+            dependencyGraph.analyticsService.logEvent(event: event) { success, error in
+                guard let success = success else {
+                    return
+                }
 
-            print(success ? "\nEvent logged: \(event.eventName)\n" : "\nEvent log failed: \(event.eventName)\n")
+                print(success ? "\nEvent logged: \(event.eventName)\n" : "\nEvent log failed: \(event.eventName)\n")
+            }
+        } else {
+            print("\nEvent logged: \(event.eventName)\n")
         }
     }
 }

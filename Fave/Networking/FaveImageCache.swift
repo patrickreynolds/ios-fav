@@ -29,7 +29,6 @@ struct FaveImageCache {
                 do {
                     let data = try Data(contentsOf: url)
 
-//                    DispatchQueue.main.async {
                     guard let image = UIImage(data: data) else {
                         completion(nil)
 
@@ -44,21 +43,6 @@ struct FaveImageCache {
                     completion(nil)
                 }
             }
-
-
-            // ---------------------------
-
-//            MTAPIClient.downloadData(url: url) { data, response, error in
-//                if let error = error {
-//                    completion(nil, error)
-//
-//                } else if let data = data, let image = UIImage(data: data) {
-//                    imageCache.setObject(image, forKey: url.absoluteString as NSString)
-//                    completion(image, nil)
-//                } else {
-//                    completion(nil, NSError.generalParsingError(domain: url.absoluteString))
-//                }
-//            }
         }
     }
 }

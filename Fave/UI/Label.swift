@@ -68,6 +68,8 @@ class Label: UIView, Shimmerable {
 
         addSubview(label)
 
+        setContentHuggingPriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.vertical)
+
         constrain(label, self) { label, view in
             topLabelConstraint = (label.top == view.topMargin)
             bottomLabelConstraint = (label.bottom == view.bottomMargin)

@@ -30,7 +30,8 @@ class ListViewController: FaveVC {
         didSet {
             listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
 
-            listTableView.layoutIfNeeded()
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
         }
     }
 
@@ -46,7 +47,8 @@ class ListViewController: FaveVC {
 
             listTableHeaderView.updateHeaderInfo(list: list, listItems: listItems)
 
-            listTableView.layoutIfNeeded()
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
         }
     }
 
@@ -150,7 +152,7 @@ class ListViewController: FaveVC {
     }()
 
     private lazy var listTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01), style: .plain)
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: .plain)
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -286,7 +288,7 @@ class ListViewController: FaveVC {
 
             tableHeaderView.addConstraint(constraint)
 
-            let compressedHeaderSize = tableHeaderView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+            let compressedHeaderSize = tableHeaderView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
 
             tableHeaderView.removeConstraint(constraint)
 
@@ -558,6 +560,16 @@ extension ListViewController: UITableViewDelegate {
 
         handleItemTapped(item: item, list: list)
     }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+
+        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
+
+        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
+                cell.alpha = 1
+        })
+    }
 }
 
 extension ListViewController: UITableViewDataSource {
@@ -678,24 +690,46 @@ extension ListViewController: EntryTableViewCellDelegate {
         }
     }
 
-    func addToListButtonTapped(item: Item) {
-        // prompt lists
-        // upon selection, post update to isRecommendation = false
+    func addToListButtonTapped(item: Item, autoMerge: Bool = false) {
 
         let selectListViewController = SelectListViewController(dependencyGraph: dependencyGraph)
         let selectListNavigationController = UINavigationController(rootViewController: selectListViewController)
 
-        selectListViewController.didSelectList = { list in
-            self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: list.id, type: item.type, note: item.note, isRecommendation: item.isRecommendation) { item, error in
-                guard let _ = item else {
-                    return
-                }
+        // If autoMerge, skip this and add straight to list
+        guard autoMerge else {
+            selectListViewController.didSelectList = { list in
 
-                self.refreshData()
+                self.isLoading = true
+
+                self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: list.id, type: item.type, note: item.note, isRecommendation: item.isRecommendation) { item, error in
+
+                    self.isLoading = false
+
+                    guard let _ = item else {
+                        return
+                    }
+
+                    self.refreshData()
+                }
             }
+
+            present(selectListNavigationController, animated: true)
+
+            return
         }
 
-        present(selectListNavigationController, animated: true)
+        isLoading = true
+        self.dependencyGraph.faveService.updateListItem(itemId: item.id, listId: item.listId, type: item.type, note: item.note, isRecommendation: false) { item, error in
+
+            self.isLoading = false
+
+            guard let _ = item else {
+                return
+            }
+
+            self.refreshData()
+        }
+
     }
 
     func photoTapped(item: Item, list: List?) {
