@@ -383,7 +383,7 @@ class CreateItemViewController: FaveVC {
         autocompleteViewController.placeFields = fields
 
         let filter = GMSAutocompleteFilter()
-        filter.country = "US"
+//        filter.country = "US"
         filter.type = .establishment
         autocompleteViewController.autocompleteFilter = filter
 

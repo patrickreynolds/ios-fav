@@ -42,10 +42,12 @@
 		43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43493290229ED37A00F949D6 /* GraphQLQueryBuilder.swift */; };
 		43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */; };
 		43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */; };
-		4356FD1023189D0E00C060B7 /* OnboardingWelcomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD0F23189D0E00C060B7 /* OnboardingWelcomePage.swift */; };
+		4356FD1023189D0E00C060B7 /* OnboardingWelcomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD0F23189D0E00C060B7 /* OnboardingWelcomePageView.swift */; };
 		4356FD122318D2DF00C060B7 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD112318D2DF00C060B7 /* OnboardingViewController.swift */; };
 		4356FD142318E08300C060B7 /* OnboardingContextualHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD132318E08300C060B7 /* OnboardingContextualHeaderView.swift */; };
 		4356FD162318E28A00C060B7 /* LinearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD152318E28A00C060B7 /* LinearProgressView.swift */; };
+		4356FD182319D15800C060B7 /* CreateListOnboardingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD172319D15800C060B7 /* CreateListOnboardingStepView.swift */; };
+		4356FD1A2319D8C800C060B7 /* OnboardingCreationStackViewOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD192319D8C800C060B7 /* OnboardingCreationStackViewOptionView.swift */; };
 		4369CF432257C11300FCA156 /* FaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534CF223336BB00B99EC7 /* FaveTests.swift */; };
 		4369CF4522583E7300FCA156 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4422583E7300FCA156 /* Haptic.swift */; };
 		4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF462258409D00FCA156 /* UIViewExt.swift */; };
@@ -60,6 +62,10 @@
 		4378624922AA0F350011420D /* SavedItemContextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4378624822AA0F350011420D /* SavedItemContextView.swift */; };
 		43824890227B50E800257D27 /* MyListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382488F227B50E800257D27 /* MyListsViewController.swift */; };
 		43824892227C069900257D27 /* AutosizingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43824891227C069900257D27 /* AutosizingTableView.swift */; };
+		43831158233567170066222F /* AddEntryOnboardingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43831157233567170066222F /* AddEntryOnboardingStepView.swift */; };
+		4383115A233588280066222F /* OnboardingGoogleSearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43831159233588280066222F /* OnboardingGoogleSearchViewCell.swift */; };
+		4383115C2335CEA20066222F /* ArrayExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4383115B2335CEA20066222F /* ArrayExt.swift */; };
+		4383115E2335D0650066222F /* GetUpdatesOnboardingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4383115D2335D0650066222F /* GetUpdatesOnboardingStepView.swift */; };
 		438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BA223336BA00B99EC7 /* AppDelegate.swift */; };
 		438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534BC223336BA00B99EC7 /* FeedViewController.swift */; };
 		438534C2223336BB00B99EC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 438534C1223336BB00B99EC7 /* Assets.xcassets */; };
@@ -191,10 +197,12 @@
 		43493290229ED37A00F949D6 /* GraphQLQueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQueryBuilder.swift; sourceTree = "<group>"; };
 		43503BD7226BE449001BE92E /* ListFilterSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterSegmentedControl.swift; sourceTree = "<group>"; };
 		43503BD9226D2262001BE92E /* FaveAttributedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveAttributedLabel.swift; sourceTree = "<group>"; };
-		4356FD0F23189D0E00C060B7 /* OnboardingWelcomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomePage.swift; sourceTree = "<group>"; };
+		4356FD0F23189D0E00C060B7 /* OnboardingWelcomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomePageView.swift; sourceTree = "<group>"; };
 		4356FD112318D2DF00C060B7 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		4356FD132318E08300C060B7 /* OnboardingContextualHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContextualHeaderView.swift; sourceTree = "<group>"; };
 		4356FD152318E28A00C060B7 /* LinearProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearProgressView.swift; sourceTree = "<group>"; };
+		4356FD172319D15800C060B7 /* CreateListOnboardingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListOnboardingStepView.swift; sourceTree = "<group>"; };
+		4356FD192319D8C800C060B7 /* OnboardingCreationStackViewOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCreationStackViewOptionView.swift; sourceTree = "<group>"; };
 		4369CF4422583E7300FCA156 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		4369CF462258409D00FCA156 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		4369CF48225982F900FCA156 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +216,10 @@
 		4378624822AA0F350011420D /* SavedItemContextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedItemContextView.swift; sourceTree = "<group>"; };
 		4382488F227B50E800257D27 /* MyListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsViewController.swift; sourceTree = "<group>"; };
 		43824891227C069900257D27 /* AutosizingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizingTableView.swift; sourceTree = "<group>"; };
+		43831157233567170066222F /* AddEntryOnboardingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEntryOnboardingStepView.swift; sourceTree = "<group>"; };
+		43831159233588280066222F /* OnboardingGoogleSearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingGoogleSearchViewCell.swift; sourceTree = "<group>"; };
+		4383115B2335CEA20066222F /* ArrayExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExt.swift; sourceTree = "<group>"; };
+		4383115D2335D0650066222F /* GetUpdatesOnboardingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUpdatesOnboardingStepView.swift; sourceTree = "<group>"; };
 		438534B7223336BA00B99EC7 /* Fave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		438534BA223336BA00B99EC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		438534BC223336BA00B99EC7 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -458,6 +470,7 @@
 				43D63C1822D11D54006486FE /* CollectionExt.swift */,
 				432B3EBC22F505D4005F7EF5 /* UIRefreshControlExtension.swift */,
 				43ABB3D723022F7900329F7B /* AlertVCExt.swift */,
+				4383115B2335CEA20066222F /* ArrayExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -624,9 +637,14 @@
 			isa = PBXGroup;
 			children = (
 				43ABB3E523050DE900329F7B /* SplashScreenViewController.swift */,
-				4356FD0F23189D0E00C060B7 /* OnboardingWelcomePage.swift */,
+				4356FD0F23189D0E00C060B7 /* OnboardingWelcomePageView.swift */,
 				4356FD112318D2DF00C060B7 /* OnboardingViewController.swift */,
 				4356FD132318E08300C060B7 /* OnboardingContextualHeaderView.swift */,
+				4356FD172319D15800C060B7 /* CreateListOnboardingStepView.swift */,
+				4356FD192319D8C800C060B7 /* OnboardingCreationStackViewOptionView.swift */,
+				43831157233567170066222F /* AddEntryOnboardingStepView.swift */,
+				43831159233588280066222F /* OnboardingGoogleSearchViewCell.swift */,
+				4383115D2335D0650066222F /* GetUpdatesOnboardingStepView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -925,6 +943,7 @@
 				43ABB3E623050DE900329F7B /* SplashScreenViewController.swift in Sources */,
 				43AFEFCF22641F850022A854 /* UIImageExt.swift in Sources */,
 				433E4F8B22AF3EEC00B0A531 /* ShareItemViewController.swift in Sources */,
+				4356FD182319D15800C060B7 /* CreateListOnboardingStepView.swift in Sources */,
 				4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */,
 				43AFB44F223EE47100B243E1 /* CGRectExt.swift in Sources */,
 				4369CF4B2259884C00FCA156 /* ItemTableHeaderView.swift in Sources */,
@@ -936,7 +955,8 @@
 				438534EA2233386100B99EC7 /* CartographyExt.swift in Sources */,
 				438534FA2233397E00B99EC7 /* FaveVC.swift in Sources */,
 				431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */,
-				4356FD1023189D0E00C060B7 /* OnboardingWelcomePage.swift in Sources */,
+				4383115E2335D0650066222F /* GetUpdatesOnboardingStepView.swift in Sources */,
+				4356FD1023189D0E00C060B7 /* OnboardingWelcomePageView.swift in Sources */,
 				43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */,
 				43ABB3DC2302319D00329F7B /* AlertAnimator.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
@@ -982,6 +1002,7 @@
 				43ABB3D023022A0F00329F7B /* DialogAnimator.swift in Sources */,
 				4385350022333A0700B99EC7 /* AppConfiguration.swift in Sources */,
 				432B3EC322FE2F93005F7EF5 /* FaveImageCache.swift in Sources */,
+				4356FD1A2319D8C800C060B7 /* OnboardingCreationStackViewOptionView.swift in Sources */,
 				438534FC223339B200B99EC7 /* AnalyticsEvents.swift in Sources */,
 				439FDDE42245FACF00ED9343 /* ListTableHeaderView.swift in Sources */,
 				43B512D822A7932B0018E9D5 /* DateExtension.swift in Sources */,
@@ -992,6 +1013,7 @@
 				4356FD122318D2DF00C060B7 /* OnboardingViewController.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
 				43D63C1922D11D54006486FE /* CollectionExt.swift in Sources */,
+				4383115A233588280066222F /* OnboardingGoogleSearchViewCell.swift in Sources */,
 				433E4F8F22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift in Sources */,
 				4342708D226ECAA00079AB22 /* ResultsTableViewController.swift in Sources */,
 				431DF89F2249EDA500717312 /* CreateItemViewController.swift in Sources */,
@@ -1014,12 +1036,14 @@
 				438534EC2233388900B99EC7 /* SaveCollections.swift in Sources */,
 				43BD568B224C91B0009D0AC8 /* SelectListTableViewCell.swift in Sources */,
 				433E4F9122B0351000B0A531 /* ToastView.swift in Sources */,
+				4383115C2335CEA20066222F /* ArrayExt.swift in Sources */,
 				434932892298F84D00F949D6 /* FaveGraphQLService.swift in Sources */,
 				438534BB223336BA00B99EC7 /* AppDelegate.swift in Sources */,
 				439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */,
 				43ABB3DA2302302300329F7B /* DefaultDialogContentView.swift in Sources */,
 				4378624922AA0F350011420D /* SavedItemContextView.swift in Sources */,
 				43503BDA226D2262001BE92E /* FaveAttributedLabel.swift in Sources */,
+				43831158233567170066222F /* AddEntryOnboardingStepView.swift in Sources */,
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
 				4385350522333AA700B99EC7 /* Networking.swift in Sources */,
 				432B3EB922F4F370005F7EF5 /* SavedByViewController.swift in Sources */,

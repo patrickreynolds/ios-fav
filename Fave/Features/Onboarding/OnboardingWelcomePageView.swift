@@ -63,7 +63,7 @@ enum OnboardingWelcomePageContentType {
     }
 }
 
-class OnboardingWelcomePage: UIView {
+class OnboardingWelcomePageView: UIView {
 
     let type: OnboardingWelcomePageContentType
 

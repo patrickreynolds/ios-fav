@@ -115,13 +115,15 @@ class SplashScreenViewController: FaveVC {
 
                     UIView.animate(withDuration: 1, delay: 0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
 
-                        self.faveIconImageView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                        self.faveIconImageView.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
 
                     }, completion: nil)
 
                 }
 
             } else {
+
+                // To trigger onboarding
                 let testing = true
 
                 if dependencyGraph.authenticator.isLoggedIn() && self.dependencyGraph.authenticator.hasJWTToken() && !testing {
@@ -213,12 +215,14 @@ class SplashScreenViewController: FaveVC {
 
     private lazy var faveIconImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
-        imageView.image = UIImage(named: "icon-fave-faved")
+        let image = UIImage(named: "icon-fave-faved")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        imageView.image = image
+        imageView.tintColor = FaveColors.FaveStarGold
         imageView.contentMode = UIImageView.ContentMode.scaleToFill
 
         constrain(imageView) { imageView in
-            self.heightConstraint = imageView.height == (UIScreen.main.bounds.width * 0.25)
-            self.widthConstraint = imageView.width == (UIScreen.main.bounds.width * 0.25)
+            self.heightConstraint = imageView.height == (UIScreen.main.bounds.width * 0.30)
+            self.widthConstraint = imageView.width == (UIScreen.main.bounds.width * 0.30)
         }
 
         return imageView
@@ -256,7 +260,7 @@ class SplashScreenViewController: FaveVC {
         let stackView = UIStackView.init(frame: .zero)
 
         let onboardingPages = onboardingPageContent.map { type in
-            return OnboardingWelcomePage(type: type)
+            return OnboardingWelcomePageView(type: type)
         }
 
         for page in onboardingPages {
@@ -396,7 +400,24 @@ class SplashScreenViewController: FaveVC {
     // MARK - Facebook Authentication
     @objc func authenticateWithFacebook(sender: UIButton!) {
 
+        sender.performImpact(style: UIImpactFeedbackGenerator.FeedbackStyle.light)
+
         self.authenticationState = .loggingIn
+
+        // To not have to go through FB auth
+        let isTesting = true
+
+        if let user = dependencyGraph.storage.getUser() {
+            guard !isTesting else {
+                let onboardingViewController = OnboardingViewController(dependencyGraph: self.dependencyGraph, user: user, suggestions: [])
+
+                self.navigationController?.pushViewController(onboardingViewController, animated: true)
+
+                self.authenticating = false
+
+                return
+            }
+        }
 
         let loginManager = LoginManager()
         loginManager.logOut()

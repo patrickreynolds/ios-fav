@@ -5,6 +5,8 @@ import UIKit
 import Cartography
 
 protocol OnboardingViewControllerDelegate {
+    var keyboardHeight: CGFloat { get set }
+
     func didAdvanceOnboarding()
 }
 
@@ -23,7 +25,7 @@ enum OnboardingStepType {
         case .createList(_, let step):
             return "Step \(step): Create a list"
         case .addEntry(_, let step):
-            return "Step \(step): Add en entry"
+            return "Step \(step): Add an entry"
         case .askForReccomendations(_, let step):
             return "Step \(step): Ask for recommendations"
         case .setupNotifications(_, let step):
@@ -35,8 +37,8 @@ enum OnboardingStepType {
         switch self {
         case .createList:
             return "Welcome! Let’s get started by creating a list."
-        case .addEntry:
-            return "Now let’s add an entry to your San Francisco Parks list."
+        case .addEntry(_, _):
+            return ""
         case .askForReccomendations:
             return "Here’s where it get fun. Ask your friends for a few recs!"
         case .setupNotifications(let user, _):
@@ -65,7 +67,10 @@ class OnboardingViewController: FaveVC {
     let user: User
     let suggestions: [User]
     let steps: [OnboardingStepType]
+    var stepViews: [UIView] = []
     var currentStep: OnboardingStepType
+    var list: List?
+    var keyboardHeight: CGFloat = 0
 
 
     // MARK: - UI Properties
@@ -85,9 +90,9 @@ class OnboardingViewController: FaveVC {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isScrollEnabled = false
 
-        _ = scrollView.tapped { recognizer in
-            self.didAdvanceOnboarding()
-        }
+//        _ = scrollView.tapped { recognizer in
+//            self.didAdvanceOnboarding()
+//        }
 
         return scrollView
     }()
@@ -95,29 +100,48 @@ class OnboardingViewController: FaveVC {
     private lazy var onboardingStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
 
-        let onboardingScreens: [UIView] = steps.enumerated().map { index, type in
+        let onboardingScreens: [UIView] = steps.enumerated().map { index, step in
 
-            let view = UIView()
+            if index == 0 {
+                let view = CreateListOnboardingStepView(step: step)
 
-            let label = Label(
-                text: "Page \(index + 1)",
-                font: FaveFont(style: .h4, weight: .light),
-                textColor: FaveColors.Black80,
-                textAlignment: .center,
-                numberOfLines: 1)
+                view.delegate = self
+                view.createListDelegate = self
 
-            view.addSubview(label)
+                stepViews.append(view)
 
-            view.backgroundColor = index.isMultiple(of: 2) ? FaveColors.Black20 : FaveColors.Black30
+                return view
+            } else if index == 1 {
+                let view: AddEntryOnboardingStepView = AddEntryOnboardingStepView(step: step)
 
-            constrain(view, label) { view, label in
-                view.width == UIScreen.main.bounds.width
+                view.list = list
+                view.delegate = self
 
-                label.centerX == view.centerX
-                label.centerY == view.centerY
+                view.delegate = self
+                view.addEntryDelegate = self
+
+                stepViews.append(view)
+
+                return view
+            } else {
+                if suggestions.isEmpty {
+                    let view = GetUpdatesOnboardingStepView(step: step)
+                    view.delegate = self
+
+                    return view
+                } else {
+                    if index == 2 {
+                        // Return recommendations
+
+                        return UIView()
+                    } else {
+                        let view = GetUpdatesOnboardingStepView(step: step)
+                        view.delegate = self
+
+                        return view
+                    }
+                }
             }
-
-            return view
         }
 
         for page in onboardingScreens {
@@ -173,7 +197,7 @@ class OnboardingViewController: FaveVC {
         onboardingScrollView.addSubview(onboardingStackView)
 
         constrain(onboardingHeaderView, view) { onboardingHeaderView, view in
-            onboardingHeaderView.topMargin == view.topMargin + 52
+            onboardingHeaderView.topMargin == view.topMargin + 40
             onboardingHeaderView.right == view.right
             onboardingHeaderView.left == view.left
         }
@@ -195,10 +219,6 @@ class OnboardingViewController: FaveVC {
         }
 
         view.backgroundColor = FaveColors.White
-
-        _ = view.tapped { gesture in
-            self.navigationController?.popViewController(animated: true)
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -234,7 +254,13 @@ extension OnboardingViewController: OnboardingViewControllerDelegate {
 
         let nextStep = steps[nextStepIndex]
 
-        let offset = CGPoint.init(x: offsetForStepIndex(index: nextStepIndex), y: 0)
+        if let view = stepViews[safeIndex: nextStepIndex] as? AddEntryOnboardingStepView {
+            view.makeAddEntryFirstResponder()
+        } else if let view = stepViews[safeIndex: nextStepIndex] as? GetUpdatesOnboardingStepView {
+            view.showPushNotificationsPrompt(dependencyGraph: dependencyGraph, viewController: self)
+        }
+
+        let offset = CGPoint(x: offsetForStepIndex(index: nextStepIndex), y: 0)
         onboardingScrollView.setContentOffset(offset, animated: true)
         onboardingHeaderView.advanceToStep(step: nextStep)
 
@@ -243,13 +269,31 @@ extension OnboardingViewController: OnboardingViewControllerDelegate {
 }
 
 
+extension OnboardingViewController: CreateListOnboardingStepViewDelegate {
+    func createList(title: String, completion: @escaping (_ listId: Int) -> ()) {
+        delay(0.5) {
+            completion(1)
+        }
+    }
+}
+
+extension OnboardingViewController: AddEntryOnboardingStepViewDelegate {
+    func didSelectItem(placeId: String, completion: @escaping () -> ()) {
+        delay(0.5) {
+            completion()
+        }
+    }
+}
+
+
 // MARK: - OnboardingViewControllerDelegate
 
 extension OnboardingViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("\(scrollView.contentOffset)")
+//        print("\(scrollView.contentOffset)")
     }
 }
+
 
 // MARK: - OnboardingStepType Equatable
 
