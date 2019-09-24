@@ -361,4 +361,23 @@ struct GraphQLQueryBuilder {
             }
         """
     }
+
+    static func followUserMutation(userId: Int) -> String {
+
+        return """
+            mutation {
+                success: followUser(userId: \(userId))
+            }
+        """
+    }
+
+    static func unfollowUserMutation(userId: Int) -> String {
+
+        return """
+            mutation {
+                success: unfollowUser(userId: \(userId))
+            }
+        """
+    }
+
 }

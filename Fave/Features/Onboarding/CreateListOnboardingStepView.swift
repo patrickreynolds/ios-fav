@@ -3,7 +3,7 @@ import UIKit
 import Cartography
 
 protocol CreateListOnboardingStepViewDelegate {
-    func createList(title: String, completion: @escaping (_ listId: Int) -> ())
+    func createList(title: String, completion: @escaping (_ success: Bool) -> ())
 }
 
 class CreateListOnboardingStepView: UIView {
@@ -277,8 +277,18 @@ class CreateListOnboardingStepView: UIView {
             })
 
             sender.performImpact(style: UIImpactFeedbackGenerator.FeedbackStyle.light)
-            createListDelegate?.createList(title: listName) { listId in
-                self.delegate?.didAdvanceOnboarding()
+            createListDelegate?.createList(title: listName) { success in
+
+                if success {
+                    UIView.animate(withDuration: 0.15, animations: {
+                        self.createButton.alpha = 0
+                        self.createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
+                    })
+
+                    self.delegate?.didAdvanceOnboarding()
+                } else {
+                    print("")
+                }
             }
 
         } else if hasSeenTextView {
@@ -403,6 +413,8 @@ class CreateListOnboardingStepView: UIView {
     }
 
     @objc func textFieldDidChange(textField: UITextField!) {
-        listName = textField.text ?? ""
+        if let text = textField.text {
+            listName = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
     }
 }

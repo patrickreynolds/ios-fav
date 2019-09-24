@@ -16,6 +16,26 @@ class FeedViewController: FaveVC {
     var events: [FeedEvent] = [] {
         didSet {
             feedTableView.reloadData()
+
+            let hasEvents = !events.isEmpty
+
+            if hasEvents {
+                UIView.animate(withDuration: 0.15, animations: {
+                    self.noEventsView.alpha = 0
+                    self.feedTableView.alpha = 1
+                }, completion: { _ in
+                    self.noEventsView.isHidden = hasEvents
+                })
+            } else {
+
+                self.noEventsView.isHidden = hasEvents
+
+                UIView.animate(withDuration: 0.15, animations: {
+                    self.noEventsView.alpha = 1
+                    self.feedTableView.alpha = 0
+                }, completion: { _ in
+                })
+            }
         }
     }
 
@@ -33,7 +53,7 @@ class FeedViewController: FaveVC {
 
     var loggedIn: Bool = false {
         didSet {
-            if loggedIn {
+//            if loggedIn {
                 feedTableView.isHidden = false
                 createButton.alpha = 1
 
@@ -47,18 +67,21 @@ class FeedViewController: FaveVC {
                 if !isLoading {
                     showCreateButton()
                 }
-            } else {
-                welcomeView.isHidden = false
-                createButton.alpha = 0
-                createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
+//            } else {
 
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.feedTableView.alpha = 0
-                    self.welcomeView.alpha = 1
-                }, completion: { _ in
-                    self.feedTableView.isHidden = true
-                })
-            }
+                // After splash screen, this shouldn't happen
+
+//                welcomeView.isHidden = false
+//                createButton.alpha = 0
+//                createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
+//
+//                UIView.animate(withDuration: 0.2, animations: {
+//                    self.feedTableView.alpha = 0
+//                    self.welcomeView.alpha = 1
+//                }, completion: { _ in
+//                    self.feedTableView.isHidden = true
+//                })
+//            }
         }
     }
 
@@ -121,6 +144,43 @@ class FeedViewController: FaveVC {
         return tableView
     }()
 
+    private lazy var noEventsView: UIView = {
+        let view = UIView(frame: .zero)
+
+        view.backgroundColor = FaveColors.White
+
+        let titleLabel = Label(text: "Events on Fave",
+                               font: FaveFont(style: .h4, weight: .bold) ,
+                               textColor: FaveColors.Black90,
+                               textAlignment: .center,
+                               numberOfLines: 1)
+
+        let subtitleLabel = Label(text: "New updates will show here when you follow your first list, or your friends join Fave.",
+                                  font: FaveFont(style: .h5, weight: .regular) ,
+                                  textColor: FaveColors.Black70,
+                                  textAlignment: .center,
+                                  numberOfLines: 0)
+
+        view.addSubview(titleLabel)
+        view.addSubview(subtitleLabel)
+
+        constrain(titleLabel, subtitleLabel, view) { titleLabel, subtitleLabel, view in
+            titleLabel.top == view.top
+            titleLabel.right == view.right - 16
+            titleLabel.left == view.left + 16
+
+            subtitleLabel.top == titleLabel.bottom + 8
+            subtitleLabel.right == view.right - 16
+            subtitleLabel.left == view.left + 16
+            subtitleLabel.bottom == view.bottom
+        }
+
+        return view
+    }()
+
+
+    // MARK: - Initializers
+
     init(dependencyGraph: DependencyGraphType) {
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .homescreenFeedScreenShown)
     }
@@ -128,6 +188,9 @@ class FeedViewController: FaveVC {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+
+    // MARK: - UIViewController Lifecycle Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,6 +205,7 @@ class FeedViewController: FaveVC {
         view.addSubview(loadingIndicatorView)
         view.addSubview(welcomeView)
         view.addSubview(feedTableView)
+        view.addSubview(noEventsView)
         view.addSubview(createButton)
 
         constrainToSuperview(welcomeView, exceptEdges: [.top, .bottom])
@@ -168,8 +232,15 @@ class FeedViewController: FaveVC {
             loadingIndicatorView.centerX == view.centerX
         }
 
+        constrain(noEventsView, view) { suggestionsView, view in
+            suggestionsView.top == view.top + 120
+            suggestionsView.right == view.right - 16
+            suggestionsView.left == view.left + 16
+        }
+
         view.bringSubviewToFront(loadingIndicatorView)
         view.bringSubviewToFront(createButton)
+        view.bringSubviewToFront(noEventsView)
 
         welcomeView.alpha = 0
         welcomeView.isHidden = true
@@ -177,30 +248,20 @@ class FeedViewController: FaveVC {
         feedTableView.isHidden = true
         createButton.alpha = 0
         createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
+        noEventsView.alpha = 0
+        noEventsView.isHidden = true
 
         isLoading = true
 
         refreshFeed()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshFeedFromOnboarding), name: .shouldRefreshHomeFeed, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if self.dependencyGraph.authenticator.isLoggedIn() {
-
-            if !loggedIn {
-                refreshFeed()
-            }
-
-            PushNotifications.shouldPromptToRegisterForNotifications(dependencyGraph: self.dependencyGraph) { shouldPrompt in
-
-                guard shouldPrompt else {
-                    return
-                }
-
-                PushNotifications.promptForPushNotifications(dependencyGraph: self.dependencyGraph, fromViewController: self) {}
-            }
-        } else {
+        if events.isEmpty {
             refreshFeed()
         }
     }
@@ -209,7 +270,13 @@ class FeedViewController: FaveVC {
         refreshFeed()
     }
 
-    func refreshFeed(completion: @escaping () -> () = {}) {
+    @objc func refreshFeedFromOnboarding() {
+        events = []
+
+        refreshFeed()
+    }
+
+    @objc func refreshFeed(completion: @escaping () -> () = {}) {
 
         if dependencyGraph.authenticator.isLoggedIn() {
             isLoading = events.isEmpty
@@ -250,21 +317,16 @@ class FeedViewController: FaveVC {
                     }
 
                     self.dependencyGraph.storage.saveUser(user: user)
-
+                    self.user = user
                     self.loggedIn = true
                 }
 
                 return
             }
 
-            if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
-                let tabBarItemImage = UIImage(base64String: user.profilePicture)?
-                    .resize(targetSize: CGSize(width: 24, height: 24))?
-                    .roundedImage?
-                    .withRenderingMode(.alwaysOriginal)
-                tabBarItem.image = tabBarItemImage
-                tabBarItem.selectedImage = tabBarItemImage
-            }
+            self.user = user
+
+            updateProfileTabPhoto()
         } else {
             if !topLists.isEmpty {
                 isLoading = false
@@ -289,6 +351,21 @@ class FeedViewController: FaveVC {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1.2, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 self.createButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             }, completion: nil)
+        }
+    }
+
+    private func updateProfileTabPhoto() {
+        guard let user = self.user else {
+            return
+        }
+
+        if let tabBarItem = self.tabBarController?.tabBar.items?[3] {
+            let tabBarItemImage = UIImage(base64String: user.profilePicture)?
+                .resize(targetSize: CGSize(width: 24, height: 24))?
+                .roundedImage?
+                .withRenderingMode(.alwaysOriginal)
+            tabBarItem.image = tabBarItemImage
+            tabBarItem.selectedImage = tabBarItemImage
         }
     }
 }
@@ -317,7 +394,7 @@ extension FeedViewController: UITableViewDelegate {
 
         let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
 
-        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
+        UIView.animate(withDuration: 0.1, delay: minTime, animations: {
             cell.alpha = 1
         })
     }

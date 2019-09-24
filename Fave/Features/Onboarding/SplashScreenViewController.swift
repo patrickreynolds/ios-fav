@@ -32,14 +32,13 @@ class SplashScreenViewController: FaveVC {
                 return
             case .loggedIn(let user):
 
-                if dependencyGraph.storage.hasSeenOnboarding() || false {
-
-//                    TODO: Uncomment before shipping
-//                    dependencyGraph.storage.setHasSeenOnboarding(seen: true)
+                if dependencyGraph.storage.hasSeenOnboarding() {
 
                     UIView.animate(withDuration: 0.3, delay: 1, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
                         self.view.alpha = 0
                     }, completion: { (completed) in
+                        NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
+
                         self.navigationController?.dismiss(animated: false, completion: nil)
                         self.authenticating = false
                     })
@@ -96,9 +95,7 @@ class SplashScreenViewController: FaveVC {
                     self.welcomeScrollViewPageControl.alpha = 1
                     self.logInWithFacebookButton.alpha = 1
                     self.logInWithFacebookButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-                }) { completed in
-                    // Upon completion
-                }
+                }) { completed in }
             } else {
                 // animate out UI
             }
@@ -124,30 +121,27 @@ class SplashScreenViewController: FaveVC {
             } else {
 
                 // To trigger onboarding
-                let testing = true
+                let testing = false
 
                 if dependencyGraph.authenticator.isLoggedIn() && self.dependencyGraph.authenticator.hasJWTToken() && !testing {
 
-                    delay(1.0) {
-                        UIView.animate(withDuration: 0.3, delay: 1, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
+                    delay(0.3) {
+                        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
                             self.view.backgroundColor = FaveColors.White
                             self.faveIconImageView.alpha = 0
                         }, completion: { (completed) in
                             self.dismiss(animated: false, completion: nil)
                         })
                     }
-
                 } else {
-
-                    delay(1.0) {
-                        UIView.animate(withDuration: 0.3, delay: 1, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
+                    delay(0.5) {
+                        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
                             self.view.backgroundColor = FaveColors.White
                             self.faveIconImageView.alpha = 0
                         }, completion: { (completed) in
                             self.showWelcomeScreen = true
                         })
                     }
-
                 }
             }
         }
@@ -244,7 +238,7 @@ class SplashScreenViewController: FaveVC {
     }()
 
     private lazy var welcomeScrollViewPageControl: UIPageControl = {
-        let control = UIPageControl.init(frame: .zero)
+        let control = UIPageControl(frame: .zero)
 
         control.currentPageIndicatorTintColor = self.onboardingPageContent[0].color
         control.pageIndicatorTintColor = FaveColors.Black30
@@ -318,10 +312,10 @@ class SplashScreenViewController: FaveVC {
 
             let controlTopMargin: CGFloat
 
-            if FaveDeviceSize.isIPhone5sOrLess() {
-                controlTopMargin = 16
+            if FaveDeviceSize.isIPhone5sOrLess() || FaveDeviceSize.isIPhone6() {
+                controlTopMargin = 8
             } else {
-                controlTopMargin = 32
+                controlTopMargin = 16
             }
 
             scrollView.bottom == control.top - controlTopMargin
@@ -332,10 +326,10 @@ class SplashScreenViewController: FaveVC {
 
             let controlBottomMargin: CGFloat
 
-            if FaveDeviceSize.isIPhone5sOrLess() {
-                controlBottomMargin = 16
+            if FaveDeviceSize.isIPhone5sOrLess() || FaveDeviceSize.isIPhone6() {
+                controlBottomMargin = 8
             } else {
-                controlBottomMargin = 32
+                controlBottomMargin = 24
             }
 
             control.bottom == button.top - controlBottomMargin
@@ -348,9 +342,12 @@ class SplashScreenViewController: FaveVC {
             if FaveDeviceSize.isIPhone5sOrLess() {
                 buttonBottomMargin = 16
                 buttonHorizontalPadding = 16
+            } else if FaveDeviceSize.isIPhone6() {
+                buttonBottomMargin = 24
+                buttonHorizontalPadding = 16
             } else {
-                buttonBottomMargin = 64
-                buttonHorizontalPadding = 32
+                buttonBottomMargin = 48
+                buttonHorizontalPadding = 24
             }
 
             button.left == view.left + buttonHorizontalPadding
@@ -389,6 +386,8 @@ class SplashScreenViewController: FaveVC {
 
             self.isSplashScreenLoading = false
         }
+
+        dependencyGraph.analytics.logEvent(title: AnalyticsEvents.splashScreenCreateListsShown.rawValue)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -486,5 +485,17 @@ extension SplashScreenViewController: UIScrollViewDelegate {
         self.welcomeScrollViewPageControl.currentPageIndicatorTintColor = self.onboardingPageContent[pageIndex].color
 
         welcomeScrollViewPageControl.currentPage = pageIndex
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageIndex = Int(round(scrollView.contentOffset.x / view.frame.width))
+
+        if pageIndex == 0 {
+            dependencyGraph.analytics.logEvent(title: AnalyticsEvents.splashScreenCreateListsShown.rawValue)
+        } else if pageIndex == 1 {
+            dependencyGraph.analytics.logEvent(title: AnalyticsEvents.splashScreenShareRecommendationsShown.rawValue)
+        } else if pageIndex == 2 {
+            dependencyGraph.analytics.logEvent(title: AnalyticsEvents.splashScreenDiscoverShown.rawValue)
+        }
     }
 }

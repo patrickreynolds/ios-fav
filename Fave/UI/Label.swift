@@ -53,7 +53,7 @@ class Label: UIView, Shimmerable {
          textColor: UIColor = FaveColors.Black90,
          textAlignment: NSTextAlignment = .natural,
          numberOfLines: Int = 1) {
-        self.label = UILabel() // swiftlint:disable:this affirm_label
+        self.label = UILabel()
         self.label.numberOfLines = numberOfLines
 
         self.text = text

@@ -194,6 +194,8 @@ class ProfileTableHeaderView: UIView {
             constrain(primaryContentView, dividerView, self) { primaryContentView, dividerView, view in
                 dividerView.top == primaryContentView.bottom
             }
+
+            editProfileButton.isHidden = true
         }
 
         constrain(primaryContentView, dividerView, self) { primaryContentView, dividerView, view in

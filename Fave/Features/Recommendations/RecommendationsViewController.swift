@@ -182,9 +182,9 @@ class RecommendationsViewController: FaveVC {
         constrainToSuperview(recommendationsTableView)
 
         constrain(noRecommendationsView, view) { noRecommendationsView, view in
+            noRecommendationsView.top == view.top + 120
             noRecommendationsView.left == view.left
             noRecommendationsView.right == view.right
-            noRecommendationsView.centerY == view.centerY
         }
 
         constrain(createButton, view) { button, view in
@@ -269,7 +269,7 @@ extension RecommendationsViewController: UITableViewDelegate {
 
         let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
 
-        UIView.animate(withDuration: 0.3, delay: minTime, animations: {
+        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
             cell.alpha = 1
         })
     }

@@ -107,6 +107,7 @@
 		439FDDE22245D2DE00ED9343 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE12245D2DE00ED9343 /* EntryTableViewCell.swift */; };
 		439FDDE42245FACF00ED9343 /* ListTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE32245FACF00ED9343 /* ListTableHeaderView.swift */; };
 		439FDDE62245FB1600ED9343 /* ListTableSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439FDDE52245FB1600ED9343 /* ListTableSectionHeaderView.swift */; };
+		43A11CE6233ABB9C00BB9741 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A11CE5233ABB9C00BB9741 /* NotificationName.swift */; };
 		43A69B2E2254FDC100DA2BA1 /* ContextualItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */; };
 		43ABB3CB230228C200329F7B /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3CA230228C200329F7B /* AlertVC.swift */; };
 		43ABB3CE230229E600329F7B /* AlertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABB3CD230229E600329F7B /* AlertCollectionViewCell.swift */; };
@@ -267,6 +268,7 @@
 		439FDDE12245D2DE00ED9343 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		439FDDE32245FACF00ED9343 /* ListTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableHeaderView.swift; sourceTree = "<group>"; };
 		439FDDE52245FB1600ED9343 /* ListTableSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableSectionHeaderView.swift; sourceTree = "<group>"; };
+		43A11CE5233ABB9C00BB9741 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualItems.swift; sourceTree = "<group>"; };
 		43ABB3C9230211EF00329F7B /* Fave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fave.entitlements; sourceTree = "<group>"; };
 		43ABB3CA230228C200329F7B /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 				432B3EBC22F505D4005F7EF5 /* UIRefreshControlExtension.swift */,
 				43ABB3D723022F7900329F7B /* AlertVCExt.swift */,
 				4383115B2335CEA20066222F /* ArrayExt.swift */,
+				43A11CE5233ABB9C00BB9741 /* NotificationName.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -982,6 +985,7 @@
 				43AFB451223EE6D100B243E1 /* EditProfileViewController.swift in Sources */,
 				4372896C22D13CDF00B72549 /* SelectUserViewController.swift in Sources */,
 				43B26BB9223A085900CA2549 /* ProfileViewController.swift in Sources */,
+				43A11CE6233ABB9C00BB9741 /* NotificationName.swift in Sources */,
 				43B26BB7223A065600CA2549 /* DiscoverViewController.swift in Sources */,
 				432B3EBD22F505D4005F7EF5 /* UIRefreshControlExtension.swift in Sources */,
 				4305F37722400A3500F6DE77 /* ListTableViewCell.swift in Sources */,

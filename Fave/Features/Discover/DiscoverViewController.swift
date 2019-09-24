@@ -301,7 +301,7 @@ class DiscoverViewController: FaveVC {
         constrainToSuperview(discoverTableView, exceptEdges: [.top])
         
         constrain(noSuggestionsView, view) { suggestionsView, view in
-            suggestionsView.centerY == view.centerY
+            suggestionsView.top == view.top + 168
             suggestionsView.right == view.right - 16
             suggestionsView.left == view.left + 16
         }

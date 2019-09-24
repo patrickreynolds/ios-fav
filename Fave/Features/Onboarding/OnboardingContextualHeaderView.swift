@@ -2,11 +2,16 @@ import UIKit
 
 import Cartography
 
+protocol OnboardingContextualHeaderViewDelegate {
+    func didTapSkipButton()
+}
+
 class OnboardingContextualHeaderView: UIView {
 
     // MARK: - Properties
 
     let steps: [OnboardingStepType]
+    var delegate: OnboardingContextualHeaderViewDelegate?
 
     // MARK: - UI Properties
 
@@ -41,6 +46,22 @@ class OnboardingContextualHeaderView: UIView {
         return label
     }()
 
+    private lazy var skipButton: UIButton = {
+        let button = UIButton.init(frame: .zero)
+
+        button.backgroundColor = FaveColors.White
+        button.addTarget(self, action: #selector(skipOnboardingTapped), for: .touchUpInside)
+        button.contentHorizontalAlignment = .right
+
+        let attributedTitle = NSAttributedString(string: "Skip",
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 textColor: FaveColors.Black60)
+
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        return button
+    }()
+
 
     // MARK: - Initializers
 
@@ -52,6 +73,7 @@ class OnboardingContextualHeaderView: UIView {
         addSubview(progressView)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
+        addSubview(skipButton)
 
         constrain(progressView, self) { progressView, view in
             progressView.top == view.top + 8
@@ -70,6 +92,11 @@ class OnboardingContextualHeaderView: UIView {
             subtitleLabel.right == view.right - 16
             subtitleLabel.left == view.left + 16
             subtitleLabel.bottom == view.bottom - 8
+        }
+
+        constrain(skipButton, progressView, self) { button, progressView, view in
+            button.top == progressView.bottom + 8
+            button.right == view.right - 16
         }
     }
 
@@ -91,10 +118,14 @@ class OnboardingContextualHeaderView: UIView {
 
         progressView.updateProgress(progress: stepIndex / Double(steps.count))
 
-        delay(0.1) {
+        delay(0.15) {
             UIView.transition(with: self.titleLabel, duration: labelAnimation ? 0.4 : 0.0, options: .transitionCrossDissolve, animations: {
                 self.subtitleLabel.text = step.headerSubtitle
             }, completion: nil)
         }
+    }
+
+    @objc func skipOnboardingTapped(button: UIButton!) {
+        delegate?.didTapSkipButton()
     }
 }

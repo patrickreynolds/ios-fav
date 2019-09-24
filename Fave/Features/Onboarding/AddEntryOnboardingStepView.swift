@@ -44,11 +44,6 @@ class AddEntryOnboardingStepView: UIView {
                 resultsLoadingIndicator.startAnimating()
             }
 
-            // Make google query search for item
-//            delay(1) {
-//                self.results = []
-//            }
-
             updateSearchResultsWithQuery(query: searchInput)
         }
     }
@@ -56,7 +51,7 @@ class AddEntryOnboardingStepView: UIView {
 
     // MARK: - UI Properties
 
-    private lazy var listNameTextFieldView: UIView = {
+    private lazy var entryNameTextFieldView: UIView = {
         let view = UIView(frame: .zero)
 
         view.backgroundColor = FaveColors.White
@@ -65,10 +60,10 @@ class AddEntryOnboardingStepView: UIView {
         view.layer.cornerRadius = 4
         view.layer.masksToBounds = true
 
-        view.addSubview(listNameTextField)
-        view.addSubview(listNameSearchIconImageView)
+        view.addSubview(entryNameTextField)
+        view.addSubview(entryNameSearchIconImageView)
 
-        constrain(listNameTextField, listNameSearchIconImageView, view) { textField, imageView, view in
+        constrain(entryNameTextField, entryNameSearchIconImageView, view) { textField, imageView, view in
             imageView.top == view.top + 16
             imageView.bottom == view.bottom - 16
             imageView.left == view.left + 16
@@ -81,7 +76,7 @@ class AddEntryOnboardingStepView: UIView {
         return view
     }()
 
-    private lazy var listNameTextField: UITextField = {
+    private lazy var entryNameTextField: UITextField = {
         let textField = UITextField.init(frame: .zero)
 
         textField.placeholder = "Search"
@@ -92,7 +87,7 @@ class AddEntryOnboardingStepView: UIView {
         return textField
     }()
 
-    private lazy var listNameSearchIconImageView: UIImageView = {
+    private lazy var entryNameSearchIconImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
 
         imageView.image = UIImage(named: "tab-icon-search")
@@ -152,7 +147,7 @@ class AddEntryOnboardingStepView: UIView {
 
         super.init(frame: .zero)
 
-        addSubview(listNameTextFieldView)
+        addSubview(entryNameTextFieldView)
         addSubview(tableTitleLabel)
         addSubview(resultsLoadingIndicator)
         addSubview(resultsTableView)
@@ -161,13 +156,13 @@ class AddEntryOnboardingStepView: UIView {
             view.width == UIScreen.main.bounds.width
         }
 
-        constrain(listNameTextFieldView, self) { textField, view in
+        constrain(entryNameTextFieldView, self) { textField, view in
             textField.top == view.top + 8
             textField.right == view.right - 16
             textField.left == view.left + 16
         }
 
-        constrain(tableTitleLabel, listNameTextFieldView, self) { label, textField, view in
+        constrain(tableTitleLabel, entryNameTextFieldView, self) { label, textField, view in
             label.top == textField.bottom + 16
             label.left == view.left + 16
         }
@@ -205,7 +200,7 @@ class AddEntryOnboardingStepView: UIView {
     }
 
     func makeAddEntryFirstResponder() {
-        listNameTextField.becomeFirstResponder()
+        entryNameTextField.becomeFirstResponder()
     }
 
     private func updateSearchResultsWithQuery(query: String) {
@@ -240,7 +235,7 @@ extension AddEntryOnboardingStepView: UITableViewDelegate {
 
         addEntryDelegate?.didSelectItem(placeId: result.placeID) {
             self.delegate?.didAdvanceOnboarding()
-            self.listNameTextField.resignFirstResponder()
+            self.entryNameTextField.resignFirstResponder()
         }
     }
 }
@@ -258,8 +253,6 @@ extension AddEntryOnboardingStepView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(OnboardingGoogleSearchViewCell.self, indexPath: indexPath)
 
-        cell.delegate = self
-
         let prediction = results[indexPath.row]
 
         cell.populate(prediction: prediction)
@@ -268,17 +261,8 @@ extension AddEntryOnboardingStepView: UITableViewDataSource {
     }
 }
 
-extension AddEntryOnboardingStepView: OnboardingGoogleSearchViewCellDelegate {
-    func didTapAddButton(place: GoogleItemType) {
-        // add item to list, and then advance upon success
-        delay(0.5) {
-            self.delegate?.didAdvanceOnboarding()
-        }
-    }
-}
-
 extension AddEntryOnboardingStepView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        listNameTextField.resignFirstResponder()
+        entryNameTextField.resignFirstResponder()
     }
 }

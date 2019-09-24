@@ -70,6 +70,7 @@ class OnboardingViewController: FaveVC {
     var stepViews: [UIView] = []
     var currentStep: OnboardingStepType
     var list: List?
+    var item: Item?
     var keyboardHeight: CGFloat = 0
 
 
@@ -77,6 +78,8 @@ class OnboardingViewController: FaveVC {
 
     private lazy var onboardingHeaderView: OnboardingContextualHeaderView = {
         let onboardingView = OnboardingContextualHeaderView(steps: steps)
+
+        onboardingView.delegate = self
 
         return onboardingView
     }()
@@ -89,10 +92,6 @@ class OnboardingViewController: FaveVC {
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isScrollEnabled = false
-
-//        _ = scrollView.tapped { recognizer in
-//            self.didAdvanceOnboarding()
-//        }
 
         return scrollView
     }()
@@ -128,6 +127,8 @@ class OnboardingViewController: FaveVC {
                     let view = GetUpdatesOnboardingStepView(step: step)
                     view.delegate = self
 
+                    stepViews.append(view)
+
                     return view
                 } else {
                     if index == 2 {
@@ -137,6 +138,8 @@ class OnboardingViewController: FaveVC {
                     } else {
                         let view = GetUpdatesOnboardingStepView(step: step)
                         view.delegate = self
+
+                        stepViews.append(view)
 
                         return view
                     }
@@ -160,9 +163,11 @@ class OnboardingViewController: FaveVC {
 
     init(dependencyGraph: DependencyGraphType, user: User, suggestions: [User]) {
         self.user = user
-        self.suggestions = suggestions
 
-        if suggestions.isEmpty {
+        // TODO: Uncommend when recs in finished
+        self.suggestions = []
+
+        if self.suggestions.isEmpty {
             self.steps = [
                 .createList(user: user, step: 1),
                 .addEntry(user: user, step: 2),
@@ -219,6 +224,8 @@ class OnboardingViewController: FaveVC {
         }
 
         view.backgroundColor = FaveColors.White
+
+        dependencyGraph.analytics.logEvent(title: AnalyticsEvents.onboardingScreenCreateListShown.rawValue)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -227,8 +234,21 @@ class OnboardingViewController: FaveVC {
         onboardingHeaderView.advanceToStep(step: currentStep, withLabelAnimation: false)
     }
 
-    fileprivate func offsetForStepIndex(index: Int) -> CGFloat {
+    private func offsetForStepIndex(index: Int) -> CGFloat {
         return CGFloat(CGFloat(index) * UIScreen.main.bounds.width)
+    }
+}
+
+// MARK: - OnboardingContextualHeaderViewDelegate
+
+extension OnboardingViewController: OnboardingContextualHeaderViewDelegate {
+    func didTapSkipButton() {
+        dependencyGraph.storage.setHasSeenOnboarding(seen: true)
+
+        dependencyGraph.analytics.logEvent(title: AnalyticsEvents.onboardingScreenSkipped.rawValue)
+        dependencyGraph.analytics.logEvent(dependencyGraph: dependencyGraph, title: AnalyticsEvents.onboardingScreenSkipped.rawValue, info: ["step": currentStep.headerSubtitle as AnyObject])
+
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -239,6 +259,10 @@ extension OnboardingViewController: OnboardingViewControllerDelegate {
 
         guard let lastStep = steps.last, lastStep != currentStep else {
             // Make sure feed is loaded
+
+            NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
+
+            dependencyGraph.storage.setHasSeenOnboarding(seen: true)
             navigationController?.dismiss(animated: true, completion: nil)
 
             return
@@ -265,21 +289,80 @@ extension OnboardingViewController: OnboardingViewControllerDelegate {
         onboardingHeaderView.advanceToStep(step: nextStep)
 
         currentStep = nextStep
+
+        if nextStepIndex == 1 {
+            dependencyGraph.analytics.logEvent(title: AnalyticsEvents.onboardingScreenAddEntryShown.rawValue)
+        } else if nextStepIndex == 2 {
+            if self.suggestions.isEmpty {
+                dependencyGraph.analytics.logEvent(title: AnalyticsEvents.onboardingScreenGetUpdatesShown.rawValue)
+            } else {
+                dependencyGraph.analytics.logEvent(title: AnalyticsEvents.onboardingScreenAskForRecsShown.rawValue)
+            }
+        } else if nextStepIndex == 3 {
+            dependencyGraph.analytics.logEvent(title: AnalyticsEvents.onboardingScreenGetUpdatesShown.rawValue)
+        }
     }
 }
 
 
 extension OnboardingViewController: CreateListOnboardingStepViewDelegate {
-    func createList(title: String, completion: @escaping (_ listId: Int) -> ()) {
-        delay(0.5) {
-            completion(1)
+    func createList(title: String, completion: @escaping (_ success: Bool) -> ()) {
+
+        dependencyGraph.analytics.logEvent(dependencyGraph: dependencyGraph, title: AnalyticsEvents.onboardingScreenListCreatedTitle.rawValue, info: ["title": title as AnyObject])
+
+        dependencyGraph.faveService.createList(userId: user.id, name: title, description: "", isPublic: true) { list, error in
+
+            guard let unwrappedList = list else {
+
+                completion(false)
+
+                let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating a list again.", preferredStyle: .alert)
+
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style {
+                    case .default, .cancel, .destructive:
+                        alertController.dismiss(animated: true, completion: nil)
+                    }}))
+
+                self.present(alertController, animated: true, completion: nil)
+
+                return
+            }
+
+            self.list = unwrappedList
+
+            completion(true)
         }
     }
 }
 
 extension OnboardingViewController: AddEntryOnboardingStepViewDelegate {
     func didSelectItem(placeId: String, completion: @escaping () -> ()) {
-        delay(0.5) {
+
+        guard let unwrappedList = list else {
+            return
+        }
+
+        dependencyGraph.faveService.createListItem(userId: user.id, listId: unwrappedList.id, type: ListType.google.rawValue, placeId: placeId, note: "") { item, error in
+
+            self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemCreatedLocation.rawValue)
+
+            guard let item = item else {
+                let alertController = UIAlertController(title: "Error", message: "Oops, something went wrong. Try creating an entry again.", preferredStyle: .alert)
+
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style {
+                    case .default, .cancel, .destructive:
+                        alertController.dismiss(animated: true, completion: nil)
+                    }}))
+
+                self.present(alertController, animated: true, completion: nil)
+
+                return
+            }
+
+            self.item = item
+
             completion()
         }
     }

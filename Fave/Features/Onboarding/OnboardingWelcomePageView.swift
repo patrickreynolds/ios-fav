@@ -32,22 +32,22 @@ enum OnboardingWelcomePageContentType {
     var image: UIImage? {
         switch self {
         case .createList:
-            return UIImage.init()
+            return UIImage(named: self.imageName)
         case .shareRecommendation:
-            return UIImage.init()
+            return UIImage(named: self.imageName)
         case .discoverNewPlace:
-            return UIImage.init()
+            return UIImage(named: self.imageName)
         }
     }
 
     private var imageName: String {
         switch self {
         case .createList:
-            return "create-list"
+            return "Welcome Illustration - Create Lists"
         case .shareRecommendation:
-            return "share-recommendations"
+            return "Welcome Illustration - Share Recommendations"
         case .discoverNewPlace:
-            return "discover-new-places"
+            return "Welcome Illustration - Discover"
         }
     }
 
@@ -90,8 +90,11 @@ class OnboardingWelcomePageView: UIView {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView.init(frame: .zero)
 
-        imageView.backgroundColor = FaveColors.Black20
-        imageView.layer.cornerRadius = 6
+        imageView.backgroundColor = FaveColors.White
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = type.image
+        imageView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+
 
         return imageView
     }()
@@ -117,7 +120,7 @@ class OnboardingWelcomePageView: UIView {
             if FaveDeviceSize.isIPhone5sOrLess() {
                 titleTopMargin = 24
             } else {
-                titleTopMargin = 48
+                titleTopMargin = 24
             }
 
             title.top == view.top + titleTopMargin
@@ -128,10 +131,10 @@ class OnboardingWelcomePageView: UIView {
         constrain(subtitle, title, self) { subtitle, title, view in
             let subtitleTopMargin: CGFloat
 
-            if FaveDeviceSize.isIPhone5sOrLess() {
+            if FaveDeviceSize.isIPhone5sOrLess() || FaveDeviceSize.isIPhone6() {
                 subtitleTopMargin = 8
             } else {
-                subtitleTopMargin = 16
+                subtitleTopMargin = 12
             }
 
             subtitle.top == title.bottom + subtitleTopMargin
@@ -142,15 +145,15 @@ class OnboardingWelcomePageView: UIView {
         constrain(imageView, subtitle, self) { imageView, subtitle, view in
             let imageViewTopMargin: CGFloat
 
-            if FaveDeviceSize.isIPhone5sOrLess() {
-                imageViewTopMargin = 24
+            if FaveDeviceSize.isIPhone5sOrLess() || FaveDeviceSize.isIPhone6() {
+                imageViewTopMargin = 16
             } else {
                 imageViewTopMargin = 32
             }
 
             imageView.top == subtitle.bottom + imageViewTopMargin
-            imageView.right == view.right - 16
-            imageView.left == view.left + 16
+            imageView.right == view.right
+            imageView.left == view.left
             imageView.height == view.width
 
             imageView.bottom == view.bottom ~ UILayoutPriority(100)

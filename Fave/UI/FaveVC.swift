@@ -81,10 +81,15 @@ class FaveVC: UIViewController {
 
 extension FaveVC: Authenticateable {
     func login() {
-        let authenticationViewController = LoggedOutViewController(dependencyGraph: dependencyGraph)
-        authenticationViewController.delegate = self
 
-        present(authenticationViewController, animated: true, completion: nil)
+        let splashScreenViewController = SplashScreenViewController(dependencyGraph: dependencyGraph)
+        let spashScreenNavigationController = UINavigationController(rootViewController: splashScreenViewController)
+        splashScreenViewController.navigationController?.navigationBar.isHidden = true
+
+        splashScreenViewController.modalPresentationStyle = .overFullScreen
+        spashScreenNavigationController.modalPresentationStyle = .overFullScreen
+
+        UIApplication.shared.appDelegate.tabBarController.present(spashScreenNavigationController, animated: false, completion: nil)
     }
 }
 

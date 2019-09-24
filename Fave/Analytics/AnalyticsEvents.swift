@@ -12,6 +12,15 @@ enum AnalyticsEvents: String {
     case systemPushPermissionDialogYes = "system_push_permission_dialog_yes"
     case systemPushPermissionDialogNo = "system_push_permission_dialog_no"
     case favePushPermissionDialogShown = "fave_push_permission_dialog_shown"
+    case onboardingScreenCreateListShown = "onboarding_screen_create_list_shown"
+    case onboardingScreenListCreatedTitle = "onboarding_screen_list_created_title"
+    case onboardingScreenAddEntryShown = "onboarding_screen_add_entry_shown"
+    case onboardingScreenAskForRecsShown = "onboarding_screen_ask_for_recs_shown"
+    case onboardingScreenGetUpdatesShown = "onboarding_screen_get_updates_shown"
+    case onboardingScreenSkipped = "onboarding_screen_skipped"
+    case splashScreenCreateListsShown = "splash_screen_create_lists_shown"
+    case splashScreenShareRecommendationsShown = "splash_screen_share_recommendations_shown"
+    case splashScreenDiscoverShown = "splash_screen_discover_shown"
 }
 
 enum AnalyticsImpressionEvent: String {

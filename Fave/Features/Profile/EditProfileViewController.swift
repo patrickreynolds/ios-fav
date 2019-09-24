@@ -400,7 +400,9 @@ class EditProfileViewController: FaveVC {
 
                     self.delegate?.didLogout()
 
-                    self.dismiss(animated: true) {}
+                    self.dismiss(animated: true) {
+                        self.login()
+                    }
                 }
             }
         } else {

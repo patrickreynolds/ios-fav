@@ -20,7 +20,7 @@ class PushNotifications {
     }
 
     static func promptForPushNotifications(dependencyGraph: DependencyGraphType, fromViewController: FaveVC, completion: (() -> Void)?) {
-        let disableAffirmNotifications = {
+        let disableNotifications = {
             dependencyGraph.analytics.logEvent(title: AnalyticsEvents.pushPermissionDialogNo.rawValue)
 
             DispatchQueue.main.async {
@@ -74,7 +74,7 @@ class PushNotifications {
 
                     let notNowAction = AlertVC.Action(title: "Not now",
                                                       type: .neutral,
-                                                      didDismiss: disableAffirmNotifications)
+                                                      didDismiss: disableNotifications)
 
                     let enableOSNotificationsAction = AlertVC.Action(title: "Yes, enable",
                                                                      type: .positive,

@@ -24,6 +24,7 @@ class ProfileViewController: FaveVC {
     var lists: [List] = [] {
         didSet {
             profileTableHeaderView.updateListInfo(lists: lists)
+            view.setNeedsLayout()
 
             self.profileTableView.reloadData()
         }
@@ -179,6 +180,14 @@ class ProfileViewController: FaveVC {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        guard let storedUser = dependencyGraph.storage.getUser() else {
+            return
+        }
+
+        if let navigationController = navigationController, navigationController.viewControllers.count == 1 {
+            self.user = storedUser
+        }
+
         refreshData()
     }
 
@@ -198,7 +207,7 @@ class ProfileViewController: FaveVC {
 
             tableHeaderView.addConstraint(constraint)
 
-            let compressedHeaderSize = tableHeaderView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+            let compressedHeaderSize = tableHeaderView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
 
             tableHeaderView.removeConstraint(constraint)
 
@@ -390,7 +399,7 @@ extension ProfileViewController: UITableViewDelegate {
 
         let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
 
-        UIView.animate(withDuration: 0.3, delay: minTime, animations: {
+        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
             cell.alpha = 1
         })
     }

@@ -3,14 +3,9 @@ import UIKit
 import Cartography
 import GooglePlaces
 
-protocol OnboardingGoogleSearchViewCellDelegate {
-    func didTapAddButton(place: GoogleItemType)
-}
-
 class OnboardingGoogleSearchViewCell: UITableViewCell {
 
     var prediction: GMSAutocompletePrediction?
-    var delegate: OnboardingGoogleSearchViewCellDelegate?
 
     private lazy var titleLabel: Label = {
         let label = Label(text: prediction?.attributedFullText.string ?? "",
@@ -48,7 +43,6 @@ class OnboardingGoogleSearchViewCell: UITableViewCell {
         button.layer.cornerRadius = 6
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         button.contentHorizontalAlignment = .center
-//        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
 
         let attributedTitle = NSAttributedString(string: "Add",
                                                  font: FaveFont(style: .h5, weight: .semiBold).font,

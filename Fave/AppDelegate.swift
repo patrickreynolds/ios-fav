@@ -173,6 +173,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Facebook Delegate Methods
 
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+      return ApplicationDelegate.shared.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         /*
          Facebook authentication call from these docs:
@@ -188,7 +192,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let date = Date()
         let calendar = Calendar.current
         let second = calendar.component(.second, from: date)
-        print("\n\nHere – 4: \(second)\n\n")
 
         let deviceTokenString = deviceToken.reduce("", { $0 + String(format: "%02X", $1) })
 //        print("APNs device token: \(deviceTokenString)")
@@ -204,7 +207,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let date = Date()
             let calendar = Calendar.current
             let second = calendar.component(.second, from: date)
-            print("\n\nHere – 5: \(second)\n\n")
 
             if success {
                 print("\n\nAPNS device token saved: true\n\n")
