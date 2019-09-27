@@ -168,8 +168,6 @@ class ProfileViewController: FaveVC {
         let titleViewLabel = Label(text: user?.handle ?? "", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
-//        navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
-
         if let navigationController = navigationController, navigationController.viewControllers.count > 1 {
             navigationController.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
         }
@@ -280,6 +278,35 @@ class ProfileViewController: FaveVC {
 
             self.listsUserFollows = listsUserFollows
         }
+
+        if let loggedInUser = self.dependencyGraph.storage.getUser() {
+
+            dependencyGraph.faveService.usersUserFollows(userId: loggedInUser.id) { userIds, error in
+                guard let userIds = userIds else {
+                    return
+                }
+
+                let relationship: UserRelationship
+
+                guard let loggedInUser = self.dependencyGraph.storage.getUser() else {
+                    return
+                }
+
+                if loggedInUser.id == currentUser.id {
+                    return
+                }
+
+                if userIds.contains(currentUser.id) {
+                    relationship = .following
+                } else {
+                    relationship = .notFollowing
+                }
+
+                self.profileTableHeaderView.updateRelationship(relationship: relationship)
+            }
+
+        }
+
     }
 
     @objc func menuButtonTapped(sender: UIBarButtonItem) {
@@ -454,6 +481,50 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
         followingListsViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(followingListsViewController, animated: true)
+    }
+
+    func relationshipButtonTapped(relationship: UserRelationship, userId: Int) {
+        switch relationship {
+         case .loading:
+            return
+        case .following:
+            // unfollow
+
+            profileTableHeaderView.updateRelationship(relationship: .notFollowing)
+
+            dependencyGraph.faveService.unfollowUser(userId: userId) { success, error in
+                guard let _ = success else {
+
+                    // Show toast that something went wrong
+                    self.profileTableHeaderView.updateRelationship(relationship: .following)
+
+                    return
+                }
+
+                // successfully unfollowed
+                let _ = success
+            }
+
+            return
+        case .notFollowing:
+            // follow
+            profileTableHeaderView.updateRelationship(relationship: .following)
+
+            dependencyGraph.faveService.followUser(userId: userId) { success, error in
+                guard let _ = success else {
+
+                    // Show toast that something went wrong
+                    self.profileTableHeaderView.updateRelationship(relationship: .notFollowing)
+
+                    return
+                }
+
+                // successfully followed
+                let _ = success
+            }
+
+            return
+        }
     }
 }
 

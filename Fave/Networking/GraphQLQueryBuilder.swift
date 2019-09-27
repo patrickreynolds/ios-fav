@@ -380,4 +380,14 @@ struct GraphQLQueryBuilder {
         """
     }
 
+    static func usersUserFollows(userId: Int) -> String {
+        return """
+            query {
+                following: usersUserFollows(userId: \(userId)) {
+                    id
+                }
+            }
+        """
+    }
+
 }

@@ -5,6 +5,13 @@ import Cartography
 protocol ProfileTableHeaderViewDelegate {
     func editProfileButtonTapped()
     func didTapFollowingListsLabel(user: User)
+    func relationshipButtonTapped(relationship: UserRelationship, userId: Int)
+}
+
+enum UserRelationship {
+    case loading
+    case following
+    case notFollowing
 }
 
 class ProfileTableHeaderView: UIView {
@@ -23,6 +30,51 @@ class ProfileTableHeaderView: UIView {
             }
 
             updateFollowingCountLabel(followingCount: followingCount)
+        }
+    }
+
+    private var relationshipStatus: UserRelationship = .loading {
+        didSet {
+
+            let title: String
+            let textColor: UIColor
+            let backgroundColor: UIColor
+            let borderColor: UIColor
+
+
+            switch relationshipStatus {
+            case .loading:
+
+                title = "Loading"
+                textColor = FaveColors.Black70
+                backgroundColor = FaveColors.Black20
+                borderColor = FaveColors.Black30
+
+            case .following:
+
+                title = "Following"
+                textColor = FaveColors.Black80
+                backgroundColor = FaveColors.White
+                borderColor = FaveColors.Black30
+
+            case .notFollowing:
+
+                title = "Follow"
+                textColor = FaveColors.White
+                backgroundColor = FaveColors.Accent
+                borderColor = FaveColors.Accent
+
+            }
+
+            let attributedTitle = NSAttributedString(string: title,
+                                                     font: FaveFont(style: .h5, weight: .semiBold).font,
+                                                     textColor: textColor)
+
+            UIView.animate(withDuration: 0.15) {
+                self.relationshipButton.backgroundColor = backgroundColor
+                self.relationshipButton.layer.borderColor = borderColor.cgColor
+                self.relationshipButton.setAttributedTitle(attributedTitle, for: .normal)
+            }
         }
     }
 
@@ -48,6 +100,24 @@ class ProfileTableHeaderView: UIView {
         let attributedTitle = NSAttributedString(string: "Edit profile",
                                                  font: FaveFont(style: .h5, weight: .semiBold).font,
                                                  textColor: FaveColors.Black90)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        return button
+    }()
+
+    private lazy var relationshipButton: UIButton = {
+        let button = UIButton(frame: CGRect.zero)
+
+        button.backgroundColor = FaveColors.Black20
+        button.addTarget(self, action: #selector(relationshipButtonTapped), for: .touchUpInside)
+        button.layer.cornerRadius = 6
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = FaveColors.Black30.cgColor
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+
+        let attributedTitle = NSAttributedString(string: "Loading",
+                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
+                                                 textColor: FaveColors.Black70)
         button.setAttributedTitle(attributedTitle, for: .normal)
 
         return button
@@ -138,6 +208,17 @@ class ProfileTableHeaderView: UIView {
         return view
     }()
 
+    private lazy var actionsStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillEqually
+        stackView.spacing = 16
+
+        return stackView
+    }()
+
     private lazy var dividerView: UIView = {
         let view = UIView(frame: .zero)
 
@@ -160,7 +241,7 @@ class ProfileTableHeaderView: UIView {
         backgroundColor = FaveColors.White
 
         addSubview(primaryContentView)
-        addSubview(editProfileButton)
+        addSubview(actionsStackView)
         addSubview(listCountLabel)
         addSubview(dividerView)
 
@@ -170,6 +251,13 @@ class ProfileTableHeaderView: UIView {
         }
 
         constrainToSuperview(primaryContentView, exceptEdges: [.bottom])
+
+        constrain(actionsStackView, primaryContentView, dividerView, self) { editProfileButton, primaryContentView, dividerView, view in
+            editProfileButton.top == primaryContentView.bottom + 16
+            editProfileButton.right == view.right - 16
+            editProfileButton.left == view.left + 16
+            editProfileButton.bottom == dividerView.top - 16
+        }
 
         var isUserProfile = false
 
@@ -184,18 +272,9 @@ class ProfileTableHeaderView: UIView {
         }
 
         if isUserProfile {
-            constrain(editProfileButton, primaryContentView, dividerView, self) { editProfileButton, primaryContentView, dividerView, view in
-                editProfileButton.top == primaryContentView.bottom
-                editProfileButton.right == view.right - 16
-                editProfileButton.left == view.left + 16
-                editProfileButton.bottom == dividerView.top - 16
-            }
+            actionsStackView.addArrangedSubview(editProfileButton)
         } else {
-            constrain(primaryContentView, dividerView, self) { primaryContentView, dividerView, view in
-                dividerView.top == primaryContentView.bottom
-            }
-
-            editProfileButton.isHidden = true
+            actionsStackView.addArrangedSubview(relationshipButton)
         }
 
         constrain(primaryContentView, dividerView, self) { primaryContentView, dividerView, view in
@@ -245,8 +324,20 @@ class ProfileTableHeaderView: UIView {
         listCountLabel.text = "\(lists.count) \(listString)"
     }
 
+    func updateRelationship(relationship: UserRelationship) {
+        self.relationshipStatus = relationship
+    }
+
     @objc func editProfile(sender: UIButton!) {
         delegate?.editProfileButtonTapped()
+    }
+
+    @objc func relationshipButtonTapped(button: UIButton!) {
+        guard let user = user else {
+            return
+        }
+
+        delegate?.relationshipButtonTapped(relationship: relationshipStatus, userId: user.id)
     }
 
     func updateFollowingCountLabel(followingCount: Int) {

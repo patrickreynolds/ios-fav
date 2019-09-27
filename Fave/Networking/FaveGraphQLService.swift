@@ -503,6 +503,26 @@ struct FaveGraphQLService {
         }
 
     }
+
+    func usersUserFollows(userId: Int, completion: @escaping (_ success: [Int]?, _ error: Error?) -> ()) {
+
+        let usersUserFollowsQuery = GraphQLQueryBuilder.usersUserFollows(userId: userId)
+
+        networking.sendGraphqlRequest(query: usersUserFollowsQuery) { response, error in
+            guard let unwrappedResponse = response, let following = unwrappedResponse["following"] as? [AnyObject] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let ids = following.map { result in
+                return result["id"] as? Int
+            }.compactMap({ $0 })
+
+            completion(ids, error)
+        }
+
+    }
 }
 
 extension FaveGraphQLService: FaveServiceType {}

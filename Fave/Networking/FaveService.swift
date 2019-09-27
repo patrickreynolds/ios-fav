@@ -36,6 +36,7 @@ protocol FaveServiceType {
     func addDeviceToken(deviceToken: String, uuid: String, completion: @escaping (_ success: Bool?, _ error: Error?) -> ())
     func followUser(userId: Int, completion: @escaping (_ success: Bool?, _ error: Error?) -> ())
     func unfollowUser(userId: Int, completion: @escaping (_ success: Bool?, _ error: Error?) -> ())
+    func usersUserFollows(userId: Int, completion: @escaping (_ success: [Int]?, _ error: Error?) -> ())
 }
 
 //struct FaveService {
