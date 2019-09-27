@@ -6,7 +6,6 @@ protocol ListTableHeaderViewDelegate {
     func showLogin()
     func entriesButtonTapped()
     func suggestionsButtonTapped()
-    func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List)
     func didTapFollowedByLabel(list: List)
 }
 
@@ -53,51 +52,6 @@ class ListTableHeaderView: UIView {
         }
     }
 
-    private var followerRelationship: FaveRelationshipType = .notFollowing {
-        didSet {
-            guard followerRelationship != oldValue else {
-                return
-            }
-
-            if followerRelationship == .following {
-                let attributedTitle = NSAttributedString(string: "Following",
-                                                         font: FaveFont(style: .small, weight: .semiBold).font,
-                                                         textColor: FaveColors.Black90)
-                relationshipButton.setAttributedTitle(attributedTitle, for: .normal)
-
-                relationshipButton.backgroundColor = FaveColors.White
-
-                relationshipButton.layer.borderColor = FaveColors.Black30.cgColor
-                relationshipButton.layer.borderWidth = 1
-            } else {
-                let attributedTitle = NSAttributedString(string: "Follow",
-                                                         font: FaveFont(style: .small, weight: .semiBold).font,
-                                                         textColor: FaveColors.White)
-                relationshipButton.setAttributedTitle(attributedTitle, for: .normal)
-
-                relationshipButton.backgroundColor = FaveColors.Accent
-                relationshipButton.layer.borderWidth = 0
-            }
-        }
-    }
-
-    private lazy var relationshipButton: UIButton = {
-        let button = UIButton(frame: CGRect.zero)
-
-        button.setTitleColor(FaveColors.White, for: .normal)
-        button.backgroundColor = FaveColors.Accent
-        button.addTarget(self, action: #selector(didTapRelationshipButton), for: .touchUpInside)
-        button.layer.cornerRadius = 6
-        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
-
-        let attributedTitle = NSAttributedString(string: "Follow",
-                                                 font: FaveFont(style: .small, weight: .semiBold).font,
-                                                 textColor: FaveColors.White)
-        button.setAttributedTitle(attributedTitle, for: .normal)
-
-        return button
-    }()
-
     private lazy var listSegmentedControl: ListSegmentedControl = {
         let listSegmentedControlView = ListSegmentedControl(tabs: [entryTitleString, recommendationTitleString])
 
@@ -119,7 +73,7 @@ class ListTableHeaderView: UIView {
     private lazy var listDescriptionLabel: Label = {
         let label = Label(text: self.list.description,
                           font: FaveFont(style: .h5, weight: .regular),
-                          textColor: FaveColors.Black70,
+                          textColor: FaveColors.Black80,
                           textAlignment: .left,
                           numberOfLines: 0)
 
@@ -181,16 +135,7 @@ class ListTableHeaderView: UIView {
     private lazy var relationshipStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
 
-        if let user = dependencyGraph.storage.getUser() {
-            if list.owner.id != user.id {
-                stackView.addArrangedSubview(relationshipButton)
-            }
-
-            stackView.addArrangedSubview(followerCountLabel)
-        } else {
-            stackView.addArrangedSubview(relationshipButton)
-            stackView.addArrangedSubview(followerCountLabel)
-        }
+        stackView.addArrangedSubview(followerCountLabel)
 
         stackView.axis = .horizontal
         stackView.alignment = .fill
@@ -286,32 +231,6 @@ class ListTableHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func didTapRelationshipButton(sender: UIButton!) {
-        print("\nFollow List Button Tapped\n")
-
-        sender.performImpact(style: .light)
-
-        guard dependencyGraph.authenticator.isLoggedIn() else {
-            delegate?.showLogin()
-
-            return
-        }
-
-        let newRelationship: FaveRelationshipType = followerRelationship == .notFollowing ? .following : .notFollowing
-
-        followerRelationship = newRelationship
-
-        let followers = numberOfFollowers
-
-        if newRelationship == .following {
-            numberOfFollowers = followers + 1
-        } else {
-            numberOfFollowers = followers - 1
-        }
-
-        delegate?.didUpdateRelationship(to: newRelationship, forList: list)
-    }
-
     @objc func shareList(sender: UIButton!) {
         print("\nShare List Button Tapped\n")
     }
@@ -338,12 +257,6 @@ class ListTableHeaderView: UIView {
         listSegmentedControl.updateTitleAtIndex(title: recommendationTitleString, index: 1)
 
         numberOfFollowers = list.numberOfFollowers
-
-        if let relationship = list.isUserFollowing {
-            followerRelationship = relationship ? .following : .notFollowing
-        } else {
-            followerRelationship = .notFollowing
-        }
 
         self.titleLabel.text = list.title
         self.listDescriptionLabel.text = list.description

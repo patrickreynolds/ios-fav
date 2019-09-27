@@ -638,31 +638,6 @@ extension ListViewController: ListTableHeaderViewDelegate {
         filterType = .recommendations
     }
 
-    func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List) {
-
-        if relationship == .notFollowing {
-            // make call to follow list
-
-            dependencyGraph.faveService.unfollowList(listId: list.id) { success, error in
-                if success {
-                    self.refreshData()
-                } else {
-                    // throw error
-                }
-            }
-        } else {
-            // make call to unfollow list
-
-            dependencyGraph.faveService.followList(listId: list.id) { success, error in
-                if success {
-                    self.refreshData()
-                } else {
-                    // throw error
-                }
-            }
-        }
-    }
-
     func didTapFollowedByLabel(list: List) {
         let followedByViewController = FollowedByViewController(dependencyGraph: dependencyGraph, list: list)
 
