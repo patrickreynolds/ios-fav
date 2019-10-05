@@ -491,7 +491,7 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
             profileTableHeaderView.updateRelationship(relationship: .notFollowing)
 
             dependencyGraph.faveService.unfollowUser(userId: userId) { success, error in
-                if success {
+                if !success {
 
                     // Show toast that something went wrong
                     self.profileTableHeaderView.updateRelationship(relationship: .following)
@@ -502,7 +502,7 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
             profileTableHeaderView.updateRelationship(relationship: .following)
 
             dependencyGraph.faveService.followUser(userId: userId) { success, error in
-                if success {
+                if !success {
                     // Show toast that something went wrong
                     self.profileTableHeaderView.updateRelationship(relationship: .notFollowing)
                 }

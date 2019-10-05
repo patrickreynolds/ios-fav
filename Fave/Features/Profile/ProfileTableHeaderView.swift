@@ -47,7 +47,7 @@ class ProfileTableHeaderView: UIView {
 
                 title = "Loading..."
                 textColor = FaveColors.Black70
-                backgroundColor = FaveColors.Black20
+                backgroundColor = FaveColors.White
                 borderColor = FaveColors.Black30
 
             case .following:
@@ -108,14 +108,14 @@ class ProfileTableHeaderView: UIView {
     private lazy var relationshipButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
-        button.backgroundColor = FaveColors.Black20
+        button.backgroundColor = FaveColors.White
         button.addTarget(self, action: #selector(relationshipButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 6
         button.layer.borderWidth = 1.0
         button.layer.borderColor = FaveColors.Black30.cgColor
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
 
-        let attributedTitle = NSAttributedString(string: "Loading",
+        let attributedTitle = NSAttributedString(string: "Loading...",
                                                  font: FaveFont(style: .h5, weight: .semiBold).font,
                                                  textColor: FaveColors.Black70)
         button.setAttributedTitle(attributedTitle, for: .normal)
