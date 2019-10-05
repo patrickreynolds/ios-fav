@@ -171,8 +171,6 @@ class ProfileViewController: FaveVC {
         if let navigationController = navigationController, navigationController.viewControllers.count > 1 {
             navigationController.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
         }
-
-        refreshData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -422,13 +420,13 @@ extension ProfileViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-
-        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
-
-        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
-            cell.alpha = 1
-        })
+//        cell.alpha = 0
+//
+//        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
+//
+//        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
+//            cell.alpha = 1
+//        })
     }
 }
 
@@ -493,37 +491,22 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
             profileTableHeaderView.updateRelationship(relationship: .notFollowing)
 
             dependencyGraph.faveService.unfollowUser(userId: userId) { success, error in
-                guard let _ = success else {
+                if success {
 
                     // Show toast that something went wrong
                     self.profileTableHeaderView.updateRelationship(relationship: .following)
-
-                    return
                 }
-
-                // successfully unfollowed
-                let _ = success
             }
-
-            return
         case .notFollowing:
             // follow
             profileTableHeaderView.updateRelationship(relationship: .following)
 
             dependencyGraph.faveService.followUser(userId: userId) { success, error in
-                guard let _ = success else {
-
+                if success {
                     // Show toast that something went wrong
                     self.profileTableHeaderView.updateRelationship(relationship: .notFollowing)
-
-                    return
                 }
-
-                // successfully followed
-                let _ = success
             }
-
-            return
         }
     }
 }

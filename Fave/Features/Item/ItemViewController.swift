@@ -405,13 +405,13 @@ extension ItemViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-
-        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
-
-        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
-            cell.alpha = 1
-        })
+//        cell.alpha = 0
+//
+//        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
+//
+//        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
+//            cell.alpha = 1
+//        })
     }
 }
 

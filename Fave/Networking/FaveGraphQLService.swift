@@ -472,7 +472,7 @@ struct FaveGraphQLService {
         }
     }
 
-    func followUser(userId: Int, completion: @escaping (_ success: Bool?, _ error: Error?) -> ()) {
+    func followUser(userId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
 
         let followUserMutation = GraphQLQueryBuilder.followUserMutation(userId: userId)
 
@@ -488,7 +488,7 @@ struct FaveGraphQLService {
 
     }
 
-    func unfollowUser(userId: Int, completion: @escaping (_ success: Bool?, _ error: Error?) -> ()) {
+    func unfollowUser(userId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
 
         let unfollowUserMutation = GraphQLQueryBuilder.unfollowUserMutation(userId: userId)
 

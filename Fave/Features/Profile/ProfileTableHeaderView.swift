@@ -45,7 +45,7 @@ class ProfileTableHeaderView: UIView {
             switch relationshipStatus {
             case .loading:
 
-                title = "Loading"
+                title = "Loading..."
                 textColor = FaveColors.Black70
                 backgroundColor = FaveColors.Black20
                 borderColor = FaveColors.Black30
@@ -53,7 +53,7 @@ class ProfileTableHeaderView: UIView {
             case .following:
 
                 title = "Following"
-                textColor = FaveColors.Black80
+                textColor = FaveColors.Black90
                 backgroundColor = FaveColors.White
                 borderColor = FaveColors.Black30
 

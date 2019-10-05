@@ -10,85 +10,19 @@ struct SuggestionSection {
 
 class DiscoverViewController: FaveVC {
 
-    var suggestions: [List] = [] {
-        didSet {
-            cachedSuggestionSections = suggestionSections()
-            
-            let noRecommendationsViewAlpha: CGFloat = cachedSuggestionSections.isEmpty ? 1.0 : 0
-            let discoverTableViewAlpha: CGFloat = cachedSuggestionSections.isEmpty ? 0 : 1.0
-            
-            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-                self.noSuggestionsView.alpha = noRecommendationsViewAlpha
-                self.discoverTableView.alpha = discoverTableViewAlpha
-            }, completion: nil)
-        }
-    }
-
-    var cachedSuggestionSections: [SuggestionSection] = [] {
-        didSet {
-
-        }
-    }
-
-    func suggestionSections() -> [SuggestionSection] {
-        var uniqueUsers: [Int: User] = [:]
-
-        suggestions.forEach { list in
-            if let _ = uniqueUsers[list.owner.id] {
-                return
-            } else {
-                uniqueUsers[list.owner.id] = list.owner
-            }
-        }
-
-        let sections: [SuggestionSection] = uniqueUsers.keys.map({ key in
-
-            let recommendationsTitle = "Recommendations".lowercased()
-            let savedForLaterTitle = "Saved For Later".lowercased()
-
-            if let user = uniqueUsers[key] {
-                let lists = suggestions.filter({ list -> Bool in
-                    return list.owner.id == user.id
-                })
-                    .filter({ list in
-                        let listTitle = list.title.lowercased()
-                        return listTitle != recommendationsTitle && listTitle != savedForLaterTitle
-                    })
-
-                return SuggestionSection(user: user, lists: lists)
-            } else {
-                return nil
-            }
-        })
-        .compactMap { $0 }
-        .sorted { $0.user.firstName < $1.user.firstName }
-
-        return sections
-    }
+    private let hintArrowImageViewWidth: CGFloat = 48
 
     var users: [User] = [] {
         didSet {
             print("\nUsers: \(users.count)\n")
+            discoverTableView.reloadData()
         }
     }
 
-    var filteredUsers: [User] = [] {
+    var filteredUsers: [User] = []
+
+    var usersUserFollows: [Int] = [] {
         didSet {
-
-        }
-    }
-
-    var listsUserFollows: [List] = [] {
-        didSet {
-            self.suggestions = self.suggestions.map { suggestion in
-
-                suggestion.isUserFollowing = listsUserFollows.contains { list in
-                    return list.id == suggestion.id
-                }
-
-                return suggestion
-            }
-
             discoverTableView.reloadData()
         }
     }
@@ -162,7 +96,6 @@ class DiscoverViewController: FaveVC {
         searchController.searchBar.autocapitalizationType = .none
 
         searchController.delegate = self
-        searchController.dimsBackgroundDuringPresentation = false // The default is true.
         searchController.searchBar.delegate = self // Monitor when the search button is tapped.
         searchController.searchBar.placeholder = "Search all users"
 
@@ -224,15 +157,11 @@ class DiscoverViewController: FaveVC {
         tableView.estimatedSectionHeaderHeight = 64
         tableView.sectionHeaderHeight = UITableView.automaticDimension
 
-        tableView.register(DiscoverUserListTableViewCell.self)
+        tableView.register(DiscoverUserTableViewCell.self)
         tableView.register(UserTableViewCell.self)
-        
-        tableView.tableHeaderView = tableHeaderView
 
         tableView.addSubview(self.refreshControl)
-        tableView.separatorColor = UIColor.clear
-        
-        tableView.alpha = 0
+        tableView.separatorColor = FaveColors.Black20
 
         return tableView
     }()
@@ -328,12 +257,6 @@ class DiscoverViewController: FaveVC {
         refreshData()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-
-        super.viewWillDisappear(animated)
-    }
-
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
             self.refreshControl.endRefreshing()
@@ -341,31 +264,27 @@ class DiscoverViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        dependencyGraph.faveService.suggestions { response, error in
 
-            self.isLoadingInitialState = false
+        if let user = self.dependencyGraph.storage.getUser() {
+            self.dependencyGraph.faveService.usersUserFollows(userId: user.id) { response, error in
 
-            guard let suggestions = response else {
-                // handle error
+                self.isLoadingInitialState = false
 
-                return
+                guard let usersUserFollows = response else {
+
+                    completion()
+
+                    return
+                }
+
+                self.usersUserFollows = usersUserFollows
+
+                completion()
             }
-
-            self.suggestions = suggestions
+        } else {
+            self.usersUserFollows = []
 
             completion()
-
-            if let user = self.dependencyGraph.storage.getUser() {
-                self.dependencyGraph.faveService.listsUserFollows(userId: user.id) { response, error in
-                    guard let listsUserFollows = response else {
-                        return
-                    }
-
-                    self.listsUserFollows = listsUserFollows
-                }
-            } else {
-                self.listsUserFollows = []
-            }
         }
 
         dependencyGraph.faveService.getUsers { response, error in
@@ -383,45 +302,37 @@ extension DiscoverViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         discoverTableView.deselectRow(at: indexPath, animated: true)
 
-        let list = cachedSuggestionSections[indexPath.section].lists[indexPath.row]
+        let user = users[indexPath.row]
 
-        let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
+        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
 
-        let titleViewLabel = Label(text: "List", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
-        listViewController.navigationItem.titleView = titleViewLabel
+        let titleViewLabel = Label(text: user.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        profileViewController.navigationItem.titleView = titleViewLabel
 
-        navigationController?.pushViewController(listViewController, animated: true)
+        navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
 
 extension DiscoverViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let maxNumberOfRows = 5
-
-        if cachedSuggestionSections[section].lists.count > maxNumberOfRows {
-            return maxNumberOfRows
-        } else {
-            return cachedSuggestionSections[section].lists.count
-        }
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return cachedSuggestionSections.count
+        return users.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(DiscoverUserListTableViewCell.self, indexPath: indexPath)
+        let cell = tableView.dequeue(DiscoverUserTableViewCell.self, indexPath: indexPath)
 
         cell.delegate = self
 
-        let list = cachedSuggestionSections[indexPath.section].lists[indexPath.row]
-        cell.populate(dependencyGraph: dependencyGraph, list: list)
+        let user = users[indexPath.row]
+        let isFollowingUser = usersUserFollows.contains(user.id)
+
+        cell.populate(dependencyGraph: dependencyGraph, user: user, isUserFollowing: isFollowingUser)
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 72
+        return 0.1
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -429,12 +340,14 @@ extension DiscoverViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let user = cachedSuggestionSections[section].user
-        let header = DiscoverUserSectionHeaderView(user: user)
 
-        header.delegate = self
+        return UIView()
 
-        return header
+//        let header = DiscoverUserSectionHeaderView(user: user)
+//
+//        header.delegate = self
+//
+//        return header
     }
 }
 
@@ -652,14 +565,14 @@ extension DiscoverViewController: UISearchControllerDelegate {
     }
 }
 
-extension DiscoverViewController: DiscoverUserListTableViewCellDelegate {
+extension DiscoverViewController: DiscoverUserTableViewCellDelegate {
 
-    func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List) {
+    func didUpdateRelationship(to relationship: FaveRelationshipType, forUser user: User) {
 
         if relationship == .notFollowing {
             // make call to follow list
 
-            dependencyGraph.faveService.unfollowList(listId: list.id) { success, error in
+            dependencyGraph.faveService.unfollowUser(userId: user.id) { success, error in
                 if success {
                     self.refreshData()
                 } else {
@@ -669,7 +582,7 @@ extension DiscoverViewController: DiscoverUserListTableViewCellDelegate {
         } else {
             // make call to unfollow list
 
-            dependencyGraph.faveService.followList(listId: list.id) { success, error in
+            dependencyGraph.faveService.followUser(userId: user.id) { success, error in
                 if success {
                     self.refreshData()
                 } else {

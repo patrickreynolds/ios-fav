@@ -79,7 +79,7 @@ class OnboardingWelcomePageView: UIView {
 
     private lazy var subtitle: Label = {
         let label = Label(text: type.subtitle,
-                          font: FaveFont(style: FaveDeviceSize.isIPhone5sOrLess() ? .h5 : .h4, weight: .regular) ,
+                          font: FaveFont(style: FaveDeviceSize.isIPhone5sOrLess() ? .h5 : .h5, weight: .regular) ,
                           textColor: type.color,
                           textAlignment: .center,
                           numberOfLines: 0)

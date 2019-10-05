@@ -116,7 +116,7 @@ class RecommendationsViewController: FaveVC {
                           textAlignment: .center,
                           numberOfLines: 1)
 
-        let subtitleLabel = Label(text: "You don't have any recommendations at the moment. We'll make sure you see them here when you do.",
+        let subtitleLabel = Label(text: "Let your friends know to send you recs on Fave. We'll make sure you see them here when they do.",
                           font: FaveFont(style: .h5, weight: .regular) ,
                           textColor: FaveColors.Black70,
                           textAlignment: .center,

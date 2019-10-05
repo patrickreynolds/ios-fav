@@ -248,6 +248,8 @@ extension OnboardingViewController: OnboardingContextualHeaderViewDelegate {
         dependencyGraph.analytics.logEvent(title: AnalyticsEvents.onboardingScreenSkipped.rawValue)
         dependencyGraph.analytics.logEvent(dependencyGraph: dependencyGraph, title: AnalyticsEvents.onboardingScreenSkipped.rawValue, info: ["step": currentStep.headerSubtitle as AnyObject])
 
+        NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
+
         navigationController?.dismiss(animated: true, completion: nil)
     }
 }

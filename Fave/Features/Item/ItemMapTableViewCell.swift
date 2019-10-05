@@ -125,7 +125,7 @@ class ItemMapTableViewCell: UITableViewCell {
         view.backgroundColor = FaveColors.Black20
 
         constrain(view) { view in
-            view.height == 4
+            view.height == 8
         }
 
         return view

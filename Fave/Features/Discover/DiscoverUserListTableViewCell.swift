@@ -2,19 +2,19 @@ import UIKit
 
 import Cartography
 
-protocol DiscoverUserListTableViewCellDelegate {
+protocol DiscoverUserTableViewCellDelegate {
 //    func faveItemButtonTapped(item: Item)
 //    func shareItemButtonTapped(item: Item)
 //    func didTapFollowButtonForList(list: List?)
     func showLogin()
-    func didUpdateRelationship(to relationship: FaveRelationshipType, forList list: List)
+    func didUpdateRelationship(to relationship: FaveRelationshipType, forUser user: User)
 }
 
-class DiscoverUserListTableViewCell: UITableViewCell {
+class DiscoverUserTableViewCell: UITableViewCell {
 
-    var list: List?
+    var user: User?
     var dependencyGraph: DependencyGraphType?
-    var delegate: DiscoverUserListTableViewCellDelegate?
+    var delegate: DiscoverUserTableViewCellDelegate?
 
     private var relationship: FaveRelationshipType = .notFollowing {
         didSet {
@@ -60,6 +60,22 @@ class DiscoverUserListTableViewCell: UITableViewCell {
         return label
     }()
 
+    let profileImageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+
+        let imageViewDiameter: CGFloat = 40
+
+        imageView.layer.cornerRadius = imageViewDiameter / 2
+        imageView.layer.masksToBounds = true
+
+        constrain(imageView) { imageView in
+            imageView.height == imageViewDiameter
+            imageView.width == imageViewDiameter
+        }
+
+        return imageView
+    }()
+
     private lazy var followButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
 
@@ -90,11 +106,17 @@ class DiscoverUserListTableViewCell: UITableViewCell {
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
+        contentView.addSubview(profileImageView)
         contentView.addSubview(followButton)
 
-        constrain(titleLabel, contentView) { titleLabel, view in
+        constrain(profileImageView, contentView) { profileImageView, view in
+            profileImageView.centerY == view.centerY
+            profileImageView.left == view.left + 16
+        }
+
+        constrain(titleLabel, profileImageView, contentView) { titleLabel, profileImageView, view in
             titleLabel.top == view.top + 12
-            titleLabel.left == view.left + 16
+            titleLabel.left == profileImageView.right + 16
         }
 
         constrain(subtitleLabel, titleLabel, contentView) { subtitleLabel, titleLabel, view in
@@ -115,22 +137,22 @@ class DiscoverUserListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func populate(dependencyGraph: DependencyGraphType, list: List) {
-        self.list = list
+    func populate(dependencyGraph: DependencyGraphType, user: User, isUserFollowing: Bool) {
+        self.user = user
         self.dependencyGraph = dependencyGraph
 
-        titleLabel.text = list.title
+        titleLabel.text = "\(user.firstName) \(user.lastName)"
+        subtitleLabel.text = "\(user.handle)"
+        profileImageView.image = UIImage(base64String: user.profilePicture)
 
-        let listSubtitleString = list.numberOfFollowers == 1 ? "\(list.numberOfFollowers) follower" : "\(list.numberOfFollowers) followers"
-
-        subtitleLabel.text = listSubtitleString
-
-        let userFollowing = list.isUserFollowing ?? false
-
-        if userFollowing {
+        if isUserFollowing {
             relationship = .following
         } else {
             relationship = .notFollowing
+        }
+
+        if let authenticatedUser = dependencyGraph.storage.getUser(), authenticatedUser.id == user.id {
+            followButton.isHidden = true
         }
     }
 
@@ -144,7 +166,7 @@ class DiscoverUserListTableViewCell: UITableViewCell {
             return
         }
 
-        guard let list = list else {
+        guard let user = user else {
             return
         }
 
@@ -152,6 +174,6 @@ class DiscoverUserListTableViewCell: UITableViewCell {
 
         relationship = newRelationship
 
-        delegate?.didUpdateRelationship(to: newRelationship, forList: list)
+        delegate?.didUpdateRelationship(to: newRelationship, forUser: user)
     }
 }

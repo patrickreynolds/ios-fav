@@ -6,6 +6,7 @@ class FeedViewController: FaveVC {
 
     var user: User?
     var lastPage: Int = 1
+    let hintArrowImageViewWidth: CGFloat = 32
 
     var topLists: [List] = [] {
         didSet {
@@ -22,6 +23,7 @@ class FeedViewController: FaveVC {
             if hasEvents {
                 UIView.animate(withDuration: 0.15, animations: {
                     self.noEventsView.alpha = 0
+                    self.hintArrowImageView.alpha = 0
                     self.feedTableView.alpha = 1
                 }, completion: { _ in
                     self.noEventsView.isHidden = hasEvents
@@ -32,6 +34,7 @@ class FeedViewController: FaveVC {
 
                 UIView.animate(withDuration: 0.15, animations: {
                     self.noEventsView.alpha = 1
+                    self.hintArrowImageView.alpha = 1
                     self.feedTableView.alpha = 0
                 }, completion: { _ in
                 })
@@ -149,13 +152,13 @@ class FeedViewController: FaveVC {
 
         view.backgroundColor = FaveColors.White
 
-        let titleLabel = Label(text: "Events on Fave",
+        let titleLabel = Label(text: "Updates from friends",
                                font: FaveFont(style: .h4, weight: .bold) ,
                                textColor: FaveColors.Black90,
                                textAlignment: .center,
                                numberOfLines: 1)
 
-        let subtitleLabel = Label(text: "New updates will show here when you follow your first list, or your friends join Fave.",
+        let subtitleLabel = Label(text: "Follow your friends on Fave and you'll see their updates right here.",
                                   font: FaveFont(style: .h5, weight: .regular) ,
                                   textColor: FaveColors.Black70,
                                   textAlignment: .center,
@@ -176,6 +179,20 @@ class FeedViewController: FaveVC {
         }
 
         return view
+    }()
+
+    private lazy var hintArrowImageView: UIImageView = {
+        let imageView = UIImageView.init(frame: .zero)
+
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "illustration-search-users-hint")
+        imageView.tintColor = FaveColors.HJLightningYellow
+
+        constrain(imageView) { imageView in
+            imageView.width == hintArrowImageViewWidth
+        }
+
+        return imageView
     }()
 
 
@@ -207,6 +224,7 @@ class FeedViewController: FaveVC {
         view.addSubview(feedTableView)
         view.addSubview(noEventsView)
         view.addSubview(createButton)
+        view.addSubview(hintArrowImageView)
 
         constrainToSuperview(welcomeView, exceptEdges: [.top, .bottom])
         constrainToSuperview(feedTableView, exceptEdges: [.top])
@@ -233,9 +251,27 @@ class FeedViewController: FaveVC {
         }
 
         constrain(noEventsView, view) { suggestionsView, view in
-            suggestionsView.top == view.top + 120
             suggestionsView.right == view.right - 16
             suggestionsView.left == view.left + 16
+
+            let noEventsViewTopMargin: CGFloat
+
+            if FaveDeviceSize.isIPhone5sOrLess() || FaveDeviceSize.isIPhone6() {
+                noEventsViewTopMargin = 96
+            } else {
+                noEventsViewTopMargin = 120
+            }
+
+            suggestionsView.top == view.top + noEventsViewTopMargin
+        }
+
+        constrain(hintArrowImageView, view) { hintArrowImageView, view in
+
+            let width = UIScreen.main.bounds.width
+            let offset = (width / 8 * 3) - (hintArrowImageViewWidth / 2)
+
+            hintArrowImageView.bottom == view.bottomMargin - 12
+            hintArrowImageView.left == view.left + offset
         }
 
         view.bringSubviewToFront(loadingIndicatorView)
@@ -250,6 +286,7 @@ class FeedViewController: FaveVC {
         createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
         noEventsView.alpha = 0
         noEventsView.isHidden = true
+        hintArrowImageView.alpha = 0
 
         isLoading = true
 
