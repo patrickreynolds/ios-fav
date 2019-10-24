@@ -4,31 +4,30 @@ import Cartography
 
 class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
 
-    var showPhoto: Bool = false
-
     var photo: FavePhotoType? {
         didSet {
             resetImage()
-
-            if !showPhoto {
-                return
-            }
 
             guard let photo = photo else {
                 return
             }
 
-            FaveImageCache.downloadImage(url: photo.url) { image in
+            FaveImageCache.downloadImage(url: photo.url) { lastestURL, image in
                 guard let image = image else {
-
                     return
                 }
 
+                print("Image URL: \(photo.url.absoluteString)\n")
+
                 DispatchQueue.main.async {
-                    self.googlePhotoImageView.setNeedsDisplay()
-                    self.googlePhotoImageView.setNeedsLayout()
-                    self.googlePhotoImageView.layoutIfNeeded()
-                    self.googlePhotoImageView.image = image
+                    if photo.url.absoluteString == lastestURL {
+                        self.googlePhotoImageView.setNeedsDisplay()
+                        self.googlePhotoImageView.setNeedsLayout()
+                        self.googlePhotoImageView.layoutIfNeeded()
+                        self.googlePhotoImageView.image = image
+                    } else {
+                        print("\n\nSkipping outdated image call\n\n")
+                    }
                 }
             }
         }
@@ -63,8 +62,7 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
         resetImage()
     }
 
-    func populate(photo: FavePhotoType, showPhoto: Bool) {
-        self.showPhoto = showPhoto
+    func populate(photo: FavePhotoType) {
         self.photo = photo
     }
 

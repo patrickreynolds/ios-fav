@@ -88,7 +88,7 @@ class TopListView: UIView {
             imageView.contentMode = UIImageView.ContentMode.scaleAspectFill
             imageView.backgroundColor = FaveColors.Black20
 
-            FaveImageCache.downloadImage(url: photo.url) { image in
+            FaveImageCache.downloadImage(url: photo.url) { downloadedImageURL, image in
                 guard let image = image else {
                     DispatchQueue.main.async {
                         imageView.backgroundColor = FaveColors.Black20
@@ -98,7 +98,13 @@ class TopListView: UIView {
                 }
 
                 DispatchQueue.main.async {
-                    imageView.image = image
+                    if downloadedImageURL == photo.url.absoluteString {
+                        DispatchQueue.main.async {
+                            imageView.image = image
+                        }
+                    } else {
+                        print("")
+                    }
                 }
             }
 

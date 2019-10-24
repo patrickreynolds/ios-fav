@@ -14,7 +14,23 @@ protocol EntryTableViewCellDelegate {
 class EntryTableViewCell: UITableViewCell {
 
     var dependencyGraph: DependencyGraphType?
-    var item: Item?
+    var item: Item? {
+        didSet {
+            guard let unwrappedItem = item, let googleItem = unwrappedItem.contextualItem as? GoogleItemType else {
+                photos = []
+
+                return
+            }
+
+            let savedPhotos = googleItem.savedPhotos
+
+            if !savedPhotos.isEmpty {
+                photos = savedPhotos
+            } else {
+                photos = Array(googleItem.photos.prefix(5))
+            }
+        }
+    }
     var list: List?
     var currentUser: User?
     var mySavedItem: Item?
@@ -26,19 +42,13 @@ class EntryTableViewCell: UITableViewCell {
     var isRecommendationConstraint: NSLayoutConstraint?
     var isNotRecommendationConstraint: NSLayoutConstraint?
 
-    var returnPhotos: Bool = false
+    var photos: [FavePhotoType] = [] {
+        didSet {
+            print("\nItem ID: \(item?.id)")
 
-    var photos: [FavePhotoType] {
-        guard let item = item, let googleItem = item.contextualItem as? GoogleItemType else {
-            return []
-        }
-
-        let savedPhotos = googleItem.savedPhotos
-
-        if !savedPhotos.isEmpty {
-            return savedPhotos
-        } else {
-            return Array(googleItem.photos.prefix(5))
+            for photo in photos {
+                print("\(photo.url.absoluteString)")
+            }
         }
     }
 
@@ -492,10 +502,9 @@ class EntryTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        contentView.setNeedsLayout()
-        contentView.layoutIfNeeded()
+//        contentView.setNeedsLayout()
+//        contentView.layoutIfNeeded()
 
-        returnPhotos = false
 //        photosCollectionView.reloadData()
     }
 
@@ -513,8 +522,6 @@ class EntryTableViewCell: UITableViewCell {
         titleLabel.text = item.contextualItem.name
         subtitleLabel.text = item.note
         faveScoreLabel.text = "\(item.numberOfFaves)"
-
-        returnPhotos = true
 
         guard let googleItem = item.contextualItem as? GoogleItemType else {
             return
@@ -685,11 +692,8 @@ extension EntryTableViewCell: UICollectionViewDelegate {
 
 extension EntryTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if returnPhotos {
-            return photos.count
-        } else {
-            return 10
-        }
+
+        return photos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -697,7 +701,8 @@ extension EntryTableViewCell: UICollectionViewDataSource {
 
         let photo = photos[indexPath.row]
 
-        cell.populate(photo: photo, showPhoto: returnPhotos)
+        cell.photo = nil
+        cell.populate(photo: photo)
 
         return cell
     }

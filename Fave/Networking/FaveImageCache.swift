@@ -8,39 +8,39 @@ struct FaveImageCache {
 
     private init() {}
 
-    static func downloadImage(url: URL, completion: @escaping (_ image: UIImage?) -> Void) {
+    static func downloadImage(url: URL, completion: @escaping (_ url: String, _ image: UIImage?) -> Void) {
 
         // TODO: (8/14/2019) Temporary hack to make sure we're not making too many requests to google
         // while we figure out rate limit issues
         if !UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.production {
-            completion(nil)
+            completion(url.absoluteString, nil)
 
             return
         }
         // TODO: End
 
         if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
-            completion(cachedImage)
+            completion(url.absoluteString, cachedImage)
 
             return
         } else {
-
             DispatchQueue.global().async {
                 do {
-                    let data = try Data(contentsOf: url)
+                    let data = try Data(contentsOf: url, options: [.mappedIfSafe, .uncached])
 
                     guard let image = UIImage(data: data) else {
-                        completion(nil)
+                        completion("", nil)
 
                         return
                     }
 
                     imageCache.setObject(image, forKey: url.absoluteString as NSString)
-                    completion(image)
+                    completion(url.absoluteString, image)
 
                     return
                 } catch {
-                    completion(nil)
+                    print(error)
+                    completion("", nil)
                 }
             }
         }

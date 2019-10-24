@@ -114,7 +114,7 @@ class EventItemView: UIView {
 //        }
 
         if let googleItem = event.item.contextualItem as? GoogleItemType, let photo: FavePhotoType = googleItem.savedPhotos.first ?? googleItem.photos.first {
-            FaveImageCache.downloadImage(url: photo.url) { image in
+            FaveImageCache.downloadImage(url: photo.url) { downloadedImageURL, image in
                 DispatchQueue.main.async {
                     UIView.transition(with: self.previewImageView, duration: 0.15, options: .transitionCrossDissolve, animations: {
 
@@ -124,7 +124,13 @@ class EventItemView: UIView {
                             return
                         }
 
-                        self.previewImageView.image = image
+                        if downloadedImageURL == photo.url.absoluteString {
+                            DispatchQueue.main.async {
+                                self.previewImageView.image = image
+                            }
+                        } else {
+                            print("")
+                        }
 
                     }, completion: nil)
                 }
