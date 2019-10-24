@@ -27,6 +27,7 @@ class ProfileViewController: FaveVC {
             view.setNeedsLayout()
 
             self.profileTableView.reloadData()
+            TimeIntervalEventTracker.trackEnd(event: .userPrecievedListResponseTime)
         }
     }
 
@@ -223,6 +224,8 @@ class ProfileViewController: FaveVC {
 
     private func refreshData(completion: @escaping () -> () = {}) {
 
+        TimeIntervalEventTracker.trackStart(event: .userPrecievedListResponseTime)
+
         let currentUser: User
 
         if let passedUser = user {
@@ -281,16 +284,22 @@ class ProfileViewController: FaveVC {
 
             dependencyGraph.faveService.usersUserFollows(userId: loggedInUser.id) { userIds, error in
                 guard let userIds = userIds else {
+                    self.profileTableHeaderView.updateRelationship(relationship: .notFollowing)
+
                     return
                 }
 
                 let relationship: UserRelationship
 
                 guard let loggedInUser = self.dependencyGraph.storage.getUser() else {
+                    self.profileTableHeaderView.updateRelationship(relationship: .notFollowing)
+
                     return
                 }
 
                 if loggedInUser.id == currentUser.id {
+                    self.profileTableHeaderView.updateRelationship(relationship: .notFollowing)
+
                     return
                 }
 

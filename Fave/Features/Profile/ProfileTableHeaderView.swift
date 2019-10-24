@@ -293,6 +293,8 @@ class ProfileTableHeaderView: UIView {
         } else {
             // put into loading state
         }
+
+        listCountLabel.alpha = 0
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -322,6 +324,12 @@ class ProfileTableHeaderView: UIView {
     func updateListInfo(lists: [List]) {
         let listString = lists.count == 1 ? "List".uppercased() : "Lists".uppercased()
         listCountLabel.text = "\(lists.count) \(listString)"
+
+        if lists.count > 0 {
+            UIView.animate(withDuration: 0.15) {
+                self.listCountLabel.alpha = 1
+            }
+        }
     }
 
     func updateRelationship(relationship: UserRelationship) {

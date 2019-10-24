@@ -44,7 +44,15 @@ struct Networking {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
 
+        if let query = data["query"], query.contains("lists(userId:") {
+            TimeIntervalEventTracker.trackStart(event: .rawNetworkListResponseTime)
+        }
+
         Alamofire.request(endpoint, method: .post, parameters: data, headers: headers).responseJSON { response in
+
+            if let query = data["query"], query.contains("lists(userId:") {
+                TimeIntervalEventTracker.trackEnd(event: .rawNetworkListResponseTime)
+            }
 
             print("\n Response received \n")
 

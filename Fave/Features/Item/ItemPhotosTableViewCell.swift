@@ -128,7 +128,7 @@ extension ItemPhotosTableViewCell: UICollectionViewDataSource {
 
         let photo = photos[indexPath.row]
 
-        cell.populate(photo: photo)
+        cell.populate(photo: photo, showPhoto: true)
 
         return cell
     }

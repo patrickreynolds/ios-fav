@@ -60,6 +60,7 @@
 		4376A9ED225A509C00741F92 /* ItemPhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */; };
 		4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */; };
 		4378624922AA0F350011420D /* SavedItemContextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4378624822AA0F350011420D /* SavedItemContextView.swift */; };
+		437AEC3C235EBC8A00EA60EF /* TimeIntervalEventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437AEC3B235EBC8A00EA60EF /* TimeIntervalEventTracker.swift */; };
 		43824890227B50E800257D27 /* MyListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382488F227B50E800257D27 /* MyListsViewController.swift */; };
 		43824892227C069900257D27 /* AutosizingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43824891227C069900257D27 /* AutosizingTableView.swift */; };
 		43831158233567170066222F /* AddEntryOnboardingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43831157233567170066222F /* AddEntryOnboardingStepView.swift */; };
@@ -215,6 +216,7 @@
 		4376A9EC225A509C00741F92 /* ItemPhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPhotosTableViewCell.swift; sourceTree = "<group>"; };
 		4376A9EE225A517900741F92 /* ItemListSuggestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSuggestionsTableViewCell.swift; sourceTree = "<group>"; };
 		4378624822AA0F350011420D /* SavedItemContextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedItemContextView.swift; sourceTree = "<group>"; };
+		437AEC3B235EBC8A00EA60EF /* TimeIntervalEventTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalEventTracker.swift; sourceTree = "<group>"; };
 		4382488F227B50E800257D27 /* MyListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsViewController.swift; sourceTree = "<group>"; };
 		43824891227C069900257D27 /* AutosizingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizingTableView.swift; sourceTree = "<group>"; };
 		43831157233567170066222F /* AddEntryOnboardingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEntryOnboardingStepView.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				4317656F223B644700C1963E /* Authenticator.swift */,
 				4369CF4422583E7300FCA156 /* Haptic.swift */,
 				43ABB3DF230233A000329F7B /* FaveDeviceSize.swift */,
+				437AEC3B235EBC8A00EA60EF /* TimeIntervalEventTracker.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1051,6 +1054,7 @@
 				4385350722333AFF00B99EC7 /* FaveService.swift in Sources */,
 				4385350522333AA700B99EC7 /* Networking.swift in Sources */,
 				432B3EB922F4F370005F7EF5 /* SavedByViewController.swift in Sources */,
+				437AEC3C235EBC8A00EA60EF /* TimeIntervalEventTracker.swift in Sources */,
 				43ABB3E0230233A000329F7B /* FaveDeviceSize.swift in Sources */,
 				43ABB3D223022B5900329F7B /* ActionSheetAnimator.swift in Sources */,
 				4376A9EF225A517900741F92 /* ItemListSuggestionsTableViewCell.swift in Sources */,

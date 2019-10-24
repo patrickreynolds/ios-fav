@@ -19,7 +19,13 @@ class FeedEventTableViewCell: UITableViewCell {
     private var hasNoteTopLabelConstraint: NSLayoutConstraint?
     private var noNoteTopLabelConstraint: NSLayoutConstraint?
 
-    var feedEvent: FeedEvent?
+    var feedEvent: FeedEvent? {
+        didSet {
+            if let event = feedEvent, let dependencyGraph = self.dependencyGraph {
+                eventItemView.update(dependencyGraph: dependencyGraph, withEvent: event)
+            }
+        }
+    }
 
     private lazy var userProfileImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
@@ -166,10 +172,7 @@ class FeedEventTableViewCell: UITableViewCell {
         titleLabel.text = ""
         noteLabel.text = ""
         userProfileImageView.image = nil
-
-        if let event = feedEvent, let dependencyGraph = self.dependencyGraph {
-            eventItemView.update(dependencyGraph: dependencyGraph, withEvent: event)
-        }
+        eventItemView.clearImage()
 
         setNeedsLayout()
         layoutIfNeeded()

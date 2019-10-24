@@ -26,6 +26,8 @@ class EntryTableViewCell: UITableViewCell {
     var isRecommendationConstraint: NSLayoutConstraint?
     var isNotRecommendationConstraint: NSLayoutConstraint?
 
+    var returnPhotos: Bool = false
+
     var photos: [FavePhotoType] {
         guard let item = item, let googleItem = item.contextualItem as? GoogleItemType else {
             return []
@@ -493,7 +495,8 @@ class EntryTableViewCell: UITableViewCell {
         contentView.setNeedsLayout()
         contentView.layoutIfNeeded()
 
-        photosCollectionView.reloadData()
+        returnPhotos = false
+//        photosCollectionView.reloadData()
     }
 
     func populate(dependencyGraph: DependencyGraphType, item: Item, list: List?, mySavedItem: Item?) {
@@ -510,6 +513,8 @@ class EntryTableViewCell: UITableViewCell {
         titleLabel.text = item.contextualItem.name
         subtitleLabel.text = item.note
         faveScoreLabel.text = "\(item.numberOfFaves)"
+
+        returnPhotos = true
 
         guard let googleItem = item.contextualItem as? GoogleItemType else {
             return
@@ -680,7 +685,11 @@ extension EntryTableViewCell: UICollectionViewDelegate {
 
 extension EntryTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        if returnPhotos {
+            return photos.count
+        } else {
+            return 10
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -688,7 +697,7 @@ extension EntryTableViewCell: UICollectionViewDataSource {
 
         let photo = photos[indexPath.row]
 
-        cell.populate(photo: photo)
+        cell.populate(photo: photo, showPhoto: returnPhotos)
 
         return cell
     }

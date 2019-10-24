@@ -153,6 +153,8 @@ class DiscoverUserTableViewCell: UITableViewCell {
 
         if let authenticatedUser = dependencyGraph.storage.getUser(), authenticatedUser.id == user.id {
             followButton.isHidden = true
+        } else {
+            followButton.isHidden = false
         }
     }
 

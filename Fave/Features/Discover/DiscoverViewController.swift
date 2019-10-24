@@ -24,6 +24,7 @@ class DiscoverViewController: FaveVC {
     var usersUserFollows: [Int] = [] {
         didSet {
             discoverTableView.reloadData()
+            isLoadingInitialState = false
         }
     }
 
@@ -268,9 +269,8 @@ class DiscoverViewController: FaveVC {
         if let user = self.dependencyGraph.storage.getUser() {
             self.dependencyGraph.faveService.usersUserFollows(userId: user.id) { response, error in
 
-                self.isLoadingInitialState = false
-
                 guard let usersUserFollows = response else {
+                    self.usersUserFollows = []
 
                     completion()
 

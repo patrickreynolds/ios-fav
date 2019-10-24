@@ -294,6 +294,8 @@ extension RecommendationsViewController: UITableViewDataSource {
             mySavedItem = combinedSavedItems.first
         }
 
+        print("\nItem id: \(item.id)")
+
         cell.populate(dependencyGraph: dependencyGraph,
                       item: item,
                       list: nil,

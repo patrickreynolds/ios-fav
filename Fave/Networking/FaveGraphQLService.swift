@@ -79,7 +79,10 @@ struct FaveGraphQLService {
 
         let listsQueryString = GraphQLQueryBuilder.listsQuery(userId: userId)
 
+        TimeIntervalEventTracker.trackStart(event: .networkListResponseTime)
         networking.sendGraphqlRequest(query: listsQueryString) { response, error in
+            TimeIntervalEventTracker.trackEnd(event: .networkListResponseTime)
+
             guard let unwrappedResponse = response, let listData = unwrappedResponse["lists"] as? [[String: AnyObject]] else {
                 completion(nil, error)
 

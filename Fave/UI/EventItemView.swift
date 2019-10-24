@@ -88,6 +88,14 @@ class EventItemView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func clearImage() {
+        previewImageView.image = nil
+        previewImageView.setNeedsDisplay()
+        previewImageView.setNeedsLayout()
+        previewImageView.layoutIfNeeded()
+        previewImageView.backgroundColor = FaveColors.Black20
+    }
+
     func update(dependencyGraph: DependencyGraphType, withEvent event: FeedEvent) {
         self.dependencyGraph = dependencyGraph
 
