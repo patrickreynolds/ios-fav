@@ -85,11 +85,8 @@ class RecommendationsViewController: FaveVC {
         return refreshControl
     }()
 
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(frame: CGRect.zero)
-
-        indicator.style = UIActivityIndicatorView.Style.gray
-        indicator.hidesWhenStopped = true
+    private lazy var loadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
 
         return indicator
     }()
@@ -618,13 +615,20 @@ extension RecommendationsViewController: CreateRecommendationViewControllerDeleg
 
 extension RecommendationsViewController: CreateListViewControllerDelegate {
     func didCreateList(list: List) {
+        showToast(title: "Created \(list.title)")
 
+        let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
+
+        let titleViewLabel = Label(text: "\(list.title)", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        listViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(listViewController, animated: true)
     }
 }
 
 extension RecommendationsViewController: CreateItemViewControllerDelegate {
     func didCreateItem(item: Item) {
-        self.showToast(title: "Created \(item.contextualItem.name)")
+        showToast(title: "Created \(item.contextualItem.name)")
     }
 }
 

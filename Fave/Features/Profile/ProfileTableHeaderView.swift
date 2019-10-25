@@ -322,13 +322,16 @@ class ProfileTableHeaderView: UIView {
     }
 
     func updateListInfo(lists: [List]) {
-        let listString = lists.count == 1 ? "List".uppercased() : "Lists".uppercased()
-        listCountLabel.text = "\(lists.count) \(listString)"
 
         if lists.count > 0 {
-            UIView.animate(withDuration: 0.15) {
-                self.listCountLabel.alpha = 1
-            }
+            let listString = lists.count == 1 ? "List".uppercased() : "Lists".uppercased()
+            listCountLabel.text = "\(lists.count) \(listString)"
+        } else {
+            listCountLabel.text = "No lists".uppercased()
+        }
+
+        UIView.animate(withDuration: 0.15) {
+            self.listCountLabel.alpha = 1
         }
     }
 

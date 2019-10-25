@@ -8,40 +8,6 @@ class FeedViewController: FaveVC {
     var lastPage: Int = 1
     let hintArrowImageViewWidth: CGFloat = 32
 
-    var topLists: [List] = [] {
-        didSet {
-            welcomeView.update(withTopLists: topLists, dependencyGraph: self.dependencyGraph)
-        }
-    }
-
-    var events: [FeedEvent] = [] {
-        didSet {
-            feedTableView.reloadData()
-
-            let hasEvents = !events.isEmpty
-
-            if hasEvents {
-                UIView.animate(withDuration: 0.15, animations: {
-                    self.noEventsView.alpha = 0
-                    self.hintArrowImageView.alpha = 0
-                    self.feedTableView.alpha = 1
-                }, completion: { _ in
-                    self.noEventsView.isHidden = hasEvents
-                })
-            } else {
-
-                self.noEventsView.isHidden = hasEvents
-
-                UIView.animate(withDuration: 0.15, animations: {
-                    self.noEventsView.alpha = 1
-                    self.hintArrowImageView.alpha = 1
-                    self.feedTableView.alpha = 0
-                }, completion: { _ in
-                })
-            }
-        }
-    }
-
     var isLoading: Bool = false {
         didSet {
             if isLoading {
@@ -56,37 +22,27 @@ class FeedViewController: FaveVC {
 
     var loggedIn: Bool = false {
         didSet {
-//            if loggedIn {
-                feedTableView.isHidden = false
-                createButton.alpha = 1
+            feedTableView.isHidden = false
+            createButton.alpha = 1
 
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.feedTableView.alpha = 1
-                    self.welcomeView.alpha = 0
-                }, completion: { _ in
-                    self.welcomeView.isHidden = true
-                })
+            UIView.animate(withDuration: 0.2, animations: {
+                self.feedTableView.alpha = 1
 
-                if !isLoading {
-                    showCreateButton()
-                }
-//            } else {
+            }, completion: { _ in
 
-                // After splash screen, this shouldn't happen
+            })
 
-//                welcomeView.isHidden = false
-//                createButton.alpha = 0
-//                createButton.transform = CGAffineTransform(scaleX: 0, y: 0)
-//
-//                UIView.animate(withDuration: 0.2, animations: {
-//                    self.feedTableView.alpha = 0
-//                    self.welcomeView.alpha = 1
-//                }, completion: { _ in
-//                    self.feedTableView.isHidden = true
-//                })
-//            }
+            if !isLoading {
+                showCreateButton()
+            }
         }
     }
+
+    private lazy var feedViewModel: FeedViewModel = {
+        let feedViewModel = FeedViewModel(delegate: self)
+
+        return feedViewModel
+    }()
 
     private lazy var createButton: UIButton = {
         let button = UIButton(frame: .zero)
@@ -103,13 +59,10 @@ class FeedViewController: FaveVC {
         return button
     }()
 
-    private lazy var loadingIndicatorView: UIActivityIndicatorView = {
-        let loadingIndicatorView = UIActivityIndicatorView(frame: .zero)
+    private lazy var loadingIndicatorView: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
 
-        loadingIndicatorView.hidesWhenStopped = true
-        loadingIndicatorView.style = .gray
-
-        return loadingIndicatorView
+        return indicator
     }()
 
     private lazy var refreshControl: UIRefreshControl = {
@@ -118,14 +71,6 @@ class FeedViewController: FaveVC {
         refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
 
         return refreshControl
-    }()
-
-    private lazy var welcomeView: FaveLoggedOutWelcomeView = {
-        let view = FaveLoggedOutWelcomeView()
-
-        view.delegate = self
-
-        return view
     }()
 
     private lazy var feedTableView: UITableView = {
@@ -143,6 +88,7 @@ class FeedViewController: FaveVC {
         tableView.separatorColor = UIColor.clear
 
         tableView.estimatedRowHeight = 2.0
+        tableView.prefetchDataSource = self
 
         return tableView
     }()
@@ -220,19 +166,12 @@ class FeedViewController: FaveVC {
         navigationItem.titleView = titleViewLabel
 
         view.addSubview(loadingIndicatorView)
-        view.addSubview(welcomeView)
         view.addSubview(feedTableView)
         view.addSubview(noEventsView)
         view.addSubview(createButton)
         view.addSubview(hintArrowImageView)
 
-        constrainToSuperview(welcomeView, exceptEdges: [.top, .bottom])
         constrainToSuperview(feedTableView, exceptEdges: [.top])
-
-        constrain(welcomeView, view) { welcomeView, view in
-            welcomeView.top == view.topMargin
-            welcomeView.bottom == view.bottomMargin
-        }
 
         constrain(feedTableView, view) { tableView, view in
             tableView.top == view.topMargin + 8
@@ -278,8 +217,6 @@ class FeedViewController: FaveVC {
         view.bringSubviewToFront(createButton)
         view.bringSubviewToFront(noEventsView)
 
-        welcomeView.alpha = 0
-        welcomeView.isHidden = true
         feedTableView.alpha = 0
         feedTableView.isHidden = true
         createButton.alpha = 0
@@ -290,15 +227,13 @@ class FeedViewController: FaveVC {
 
         isLoading = true
 
-        refreshFeed()
-
         NotificationCenter.default.addObserver(self, selector: #selector(refreshFeedFromOnboarding), name: .shouldRefreshHomeFeed, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if events.isEmpty {
+        if feedViewModel.currentCount == 0 {
             refreshFeed()
         }
     }
@@ -308,7 +243,7 @@ class FeedViewController: FaveVC {
     }
 
     @objc func refreshFeedFromOnboarding() {
-        events = []
+        feedViewModel.addNewEvents(events: [])
 
         refreshFeed()
     }
@@ -316,23 +251,11 @@ class FeedViewController: FaveVC {
     @objc func refreshFeed(completion: @escaping () -> () = {}) {
 
         if dependencyGraph.authenticator.isLoggedIn() {
-            isLoading = events.isEmpty
+            isLoading = feedViewModel.currentCount == 0
 
             loggedIn = true
 
-            dependencyGraph.faveService.getFeed(from: 0, to: 100) { response, error in
-                self.refreshControl.endRefreshing()
-
-                self.isLoading = false
-
-                completion()
-
-                guard let events = response else {
-                    return
-                }
-
-                self.events = events
-            }
+            self.fetchFeed(fromIndex: feedViewModel.currentFromIndex, toIndex: feedViewModel.currentToIndex)
 
             guard let user = dependencyGraph.storage.getUser() else {
 
@@ -364,20 +287,6 @@ class FeedViewController: FaveVC {
             self.user = user
 
             updateProfileTabPhoto()
-        } else {
-            if !topLists.isEmpty {
-                isLoading = false
-            }
-
-            loggedIn = false
-
-            dependencyGraph.faveService.topLists { topLists, error in
-                self.isLoading = false
-
-                self.topLists = topLists ?? []
-
-                completion()
-            }
         }
     }
 
@@ -405,35 +314,73 @@ class FeedViewController: FaveVC {
             tabBarItem.selectedImage = tabBarItemImage
         }
     }
+
+    private func fetchFeed(fromIndex: Int, toIndex: Int, completion: @escaping () -> () = {}) {
+        if !feedViewModel.isInfinateScrollingFetchInProgress {
+            feedViewModel.isInfinateScrollingFetchInProgress = true
+
+            dependencyGraph.faveService.getFeed(from: fromIndex, to: toIndex) { response, error in
+                DispatchQueue.main.async {
+                    self.feedViewModel.isInfinateScrollingFetchInProgress = false
+
+                    self.refreshControl.endRefreshing()
+
+                    self.isLoading = false
+
+                    completion()
+
+                    guard let newEvents = response else {
+                        return
+                    }
+
+                    self.feedViewModel.addNewEvents(events: newEvents)
+                }
+            }
+        }
+    }
 }
 
 extension FeedViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return events.count
+        return feedViewModel.totalCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(FeedEventTableViewCell.self, indexPath: indexPath)
 
-        cell.delegate = self
+        if isLoadingCell(for: indexPath) {
+            cell.populate(dependencyGraph: dependencyGraph, event: .none)
+        } else {
+            cell.delegate = self
 
-        let event = events[indexPath.row]
-        cell.populate(dependencyGraph: dependencyGraph, event: event)
+            let event = feedViewModel.event(at: indexPath.row)
+            cell.populate(dependencyGraph: dependencyGraph, event: event)
+        }
 
         return cell
+
+
+//        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.list, for: indexPath) as! ModeratorTableViewCell
+//        // 2
+//        if isLoadingCell(for: indexPath) {
+//          cell.configure(with: .none)
+//        } else {
+//          cell.configure(with: viewModel.moderator(at: indexPath.row))
+//        }
+//        return cell
     }
 }
 
 extension FeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-
-        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
-
-        UIView.animate(withDuration: 0.1, delay: minTime, animations: {
-            cell.alpha = 1
-        })
+//        cell.alpha = 0
+//
+//        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
+//
+//        UIView.animate(withDuration: 0.1, delay: minTime, animations: {
+//            cell.alpha = 1
+//        })
     }
 }
 
@@ -511,7 +458,14 @@ extension FeedViewController {
 
 extension FeedViewController: CreateListViewControllerDelegate {
     func didCreateList(list: List) {
+        showToast(title: "Created \(list.title)")
 
+        let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
+
+        let titleViewLabel = Label(text: "\(list.title)", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        listViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(listViewController, animated: true)
     }
 }
 
@@ -570,45 +524,74 @@ extension FeedViewController: CreateRecommendationViewControllerDelegate {
     }
 }
 
-extension FeedViewController: FaveLoggedOutWelcomeViewDelegate {
-    func didSelectUser(user: User) {
-        let profileViewController = ProfileViewController(dependencyGraph: dependencyGraph, user: user)
-
-        let titleViewLabel = Label(text: user.handle, font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
-        profileViewController.navigationItem.titleView = titleViewLabel
-
-        navigationController?.pushViewController(profileViewController, animated: true)
-    }
-
-    func didSelectList(list: List) {
-        let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
-
-        listViewController.delegate = self
-
-        let titleViewLabel = Label(text: "List", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
-        listViewController.navigationItem.titleView = titleViewLabel
-
-        navigationController?.pushViewController(listViewController, animated: true)
-    }
-
-    func didSelectItem(item: Item, list: List) {
-        let itemViewController = ItemViewController(dependencyGraph: dependencyGraph, item: item)
-
-        let titleViewLabel = Label(text: "Place", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
-        itemViewController.navigationItem.titleView = titleViewLabel
-
-        navigationController?.pushViewController(itemViewController, animated: true)
-    }
-
-    func didSelectSignUp() {
-        login()
-    }
-}
-
 extension FeedViewController: ListViewControllerDelegate {
     func didRemoveList(viewController: FaveVC) {
         viewController.navigationController?.popViewController(animated: true)
 
         refreshFeed()
     }
+}
+
+extension FeedViewController: FeedViewModelDelegate {
+    func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
+
+        guard let newIndexPathsToReload = newIndexPathsToReload else {
+          isLoading = false
+
+          feedTableView.isHidden = false
+          feedTableView.reloadData()
+
+          return
+        }
+
+        let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
+        feedTableView.reloadRows(at: indexPathsToReload, with: .automatic)
+    }
+
+    func didUpdateEvents(events: [FeedEvent]) {
+//        feedTableView.reloadData()
+
+        let hasEvents = !events.isEmpty
+
+        if hasEvents {
+            UIView.animate(withDuration: 0.15, animations: {
+                self.noEventsView.alpha = 0
+                self.hintArrowImageView.alpha = 0
+                self.feedTableView.alpha = 1
+            }, completion: { _ in
+                self.noEventsView.isHidden = hasEvents
+            })
+        } else {
+
+            self.noEventsView.isHidden = hasEvents
+
+            UIView.animate(withDuration: 0.15, animations: {
+                self.noEventsView.alpha = 1
+                self.hintArrowImageView.alpha = 1
+                self.feedTableView.alpha = 0
+            }, completion: { _ in
+            })
+        }
+    }
+}
+
+extension FeedViewController: UITableViewDataSourcePrefetching {
+  func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+    if indexPaths.contains(where: isLoadingCell) {
+      fetchFeed(fromIndex: feedViewModel.currentFromIndex, toIndex: feedViewModel.currentToIndex)
+    }
+  }
+}
+
+private extension FeedViewController {
+  func isLoadingCell(for indexPath: IndexPath) -> Bool {
+    return indexPath.row >= feedViewModel.currentCount
+  }
+
+  func visibleIndexPathsToReload(intersecting indexPaths: [IndexPath]) -> [IndexPath] {
+    let indexPathsForVisibleRows = feedTableView.indexPathsForVisibleRows ?? []
+    let indexPathsIntersection = Set(indexPathsForVisibleRows).intersection(indexPaths)
+
+    return Array(indexPathsIntersection)
+  }
 }

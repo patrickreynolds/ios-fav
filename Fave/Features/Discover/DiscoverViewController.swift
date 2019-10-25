@@ -15,7 +15,6 @@ class DiscoverViewController: FaveVC {
     var users: [User] = [] {
         didSet {
             print("\nUsers: \(users.count)\n")
-            discoverTableView.reloadData()
         }
     }
 
@@ -23,8 +22,9 @@ class DiscoverViewController: FaveVC {
 
     var usersUserFollows: [Int] = [] {
         didSet {
-            discoverTableView.reloadData()
             isLoadingInitialState = false
+
+            resultsTableController.usersUserFollows = usersUserFollows
         }
     }
 
@@ -33,53 +33,17 @@ class DiscoverViewController: FaveVC {
             if isLoadingInitialState {
                 loadingIndicator.startAnimating()
             } else {
-                loadingIndicator.stopAnimating()
+                delay(0.15) {
+                    self.loadingIndicator.stopAnimating()
+                }
             }
         }
     }
 
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        var indicator = UIActivityIndicatorView()
-
-        indicator = UIActivityIndicatorView(frame: CGRect.zero)
-        indicator.style = UIActivityIndicatorView.Style.gray
-        indicator.hidesWhenStopped = true
+    private lazy var loadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
 
         return indicator
-    }()
-    
-    private lazy var noSuggestionsView: UIView = {
-        let view = UIView(frame: .zero)
-        
-        view.backgroundColor = FaveColors.White
-        
-        let titleLabel = Label(text: "Friends on Fave",
-                               font: FaveFont(style: .h4, weight: .bold) ,
-                               textColor: FaveColors.Black90,
-                               textAlignment: .center,
-                               numberOfLines: 1)
-        
-        let subtitleLabel = Label(text: "After signing up with Facebook, you'll see your friends on Fave right here. \n\nMeanwhile, you can search for people above to browse around.",
-                                  font: FaveFont(style: .h5, weight: .regular) ,
-                                  textColor: FaveColors.Black70,
-                                  textAlignment: .center,
-                                  numberOfLines: 0)
-        
-        view.addSubview(titleLabel)
-        view.addSubview(subtitleLabel)
-        
-        constrain(titleLabel, subtitleLabel, view) { titleLabel, subtitleLabel, view in
-            titleLabel.top == view.top
-            titleLabel.right == view.right - 16
-            titleLabel.left == view.left + 16
-            
-            subtitleLabel.top == titleLabel.bottom + 8
-            subtitleLabel.right == view.right - 16
-            subtitleLabel.left == view.left + 16
-            subtitleLabel.bottom == view.bottom
-        }
-        
-        return view
     }()
 
     private lazy var resultsTableController: ResultsTableViewController = {
@@ -159,7 +123,6 @@ class DiscoverViewController: FaveVC {
         tableView.sectionHeaderHeight = UITableView.automaticDimension
 
         tableView.register(DiscoverUserTableViewCell.self)
-        tableView.register(UserTableViewCell.self)
 
         tableView.addSubview(self.refreshControl)
         tableView.separatorColor = FaveColors.Black20
@@ -217,7 +180,6 @@ class DiscoverViewController: FaveVC {
         */
 
         view.addSubview(discoverTableView)
-        view.addSubview(noSuggestionsView)
         view.addSubview(createButton)
         view.addSubview(loadingIndicator)
 
@@ -229,12 +191,6 @@ class DiscoverViewController: FaveVC {
         }
 
         constrainToSuperview(discoverTableView, exceptEdges: [.top])
-        
-        constrain(noSuggestionsView, view) { suggestionsView, view in
-            suggestionsView.top == view.top + 168
-            suggestionsView.right == view.right - 16
-            suggestionsView.left == view.left + 16
-        }
 
         constrain(discoverTableView, view) { tableView, view in
             tableView.top == view.topMargin
@@ -248,7 +204,6 @@ class DiscoverViewController: FaveVC {
         view.bringSubviewToFront(createButton)
         view.bringSubviewToFront(loadingIndicator)
 
-        noSuggestionsView.alpha = 0
         isLoadingInitialState = true
     }
 
@@ -265,21 +220,14 @@ class DiscoverViewController: FaveVC {
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-
         if let user = self.dependencyGraph.storage.getUser() {
-            self.dependencyGraph.faveService.usersUserFollows(userId: user.id) { response, error in
-
-                guard let usersUserFollows = response else {
-                    self.usersUserFollows = []
-
-                    completion()
-
-                    return
-                }
+            refreshUsersUserFollows(user: user) { usersUserFollows in
 
                 self.usersUserFollows = usersUserFollows
 
                 completion()
+
+                self.discoverTableView.reloadData()
             }
         } else {
             self.usersUserFollows = []
@@ -294,6 +242,21 @@ class DiscoverViewController: FaveVC {
             }
 
             self.users = users
+
+            self.discoverTableView.reloadData()
+        }
+    }
+
+    private func refreshUsersUserFollows(user: User, completion: @escaping (_ users: [Int]) -> ()) {
+        self.dependencyGraph.faveService.usersUserFollows(userId: user.id) { response, error in
+
+            guard let usersUserFollows = response else {
+                completion([])
+
+                return
+            }
+
+            completion(usersUserFollows)
         }
     }
 }
@@ -430,7 +393,14 @@ extension DiscoverViewController {
 
 extension DiscoverViewController: CreateListViewControllerDelegate {
     func didCreateList(list: List) {
+        showToast(title: "Created \(list.title)")
 
+        let listViewController = ListViewController(dependencyGraph: dependencyGraph, list: list)
+
+        let titleViewLabel = Label(text: "\(list.title)", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        listViewController.navigationItem.titleView = titleViewLabel
+
+        navigationController?.pushViewController(listViewController, animated: true)
     }
 }
 
@@ -480,10 +450,6 @@ extension DiscoverViewController: UISearchResultsUpdating {
 
             UIView.animate(withDuration: 0.3, delay: 0.3, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 searchController.searchResultsController?.view.alpha = 1
-            }, completion: nil)
-
-            UIView.animate(withDuration: 0.3, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-                self.discoverTableView.alpha = 0
             }, completion: nil)
         }
 
@@ -554,10 +520,6 @@ extension DiscoverViewController: UISearchControllerDelegate {
 
     func willDismissSearchController(_ searchController: UISearchController) {
         debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-
-        UIView.animate(withDuration: 0.3, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-            self.discoverTableView.alpha = 1
-        }, completion: nil)
     }
 
     func didDismissSearchController(_ searchController: UISearchController) {
@@ -569,12 +531,24 @@ extension DiscoverViewController: DiscoverUserTableViewCellDelegate {
 
     func didUpdateRelationship(to relationship: FaveRelationshipType, forUser user: User) {
 
+        guard let authenticatedUser = dependencyGraph.storage.getUser() else {
+            return
+        }
+
+        let row = self.users.index(of: user)
+
         if relationship == .notFollowing {
             // make call to follow list
 
             dependencyGraph.faveService.unfollowUser(userId: user.id) { success, error in
                 if success {
-                    self.refreshData()
+                    if let row = row {
+                        self.refreshUsersUserFollows(user: authenticatedUser) { usersUserFollows in
+                            self.usersUserFollows = usersUserFollows
+
+                            self.discoverTableView.reloadRows(at: [IndexPath.init(row: row, section: 0)], with: .none)
+                        }
+                    }
                 } else {
                     // throw error
                 }
@@ -584,16 +558,18 @@ extension DiscoverViewController: DiscoverUserTableViewCellDelegate {
 
             dependencyGraph.faveService.followUser(userId: user.id) { success, error in
                 if success {
-                    self.refreshData()
+                    if let row = row {
+                        self.refreshUsersUserFollows(user: authenticatedUser) { usersUserFollows in
+                            self.usersUserFollows = usersUserFollows
+
+                            self.discoverTableView.reloadRows(at: [IndexPath.init(row: row, section: 0)], with: .none)
+                        }
+                    }
                 } else {
                     // throw error
                 }
             }
         }
-    }
-
-    func showLogin() {
-        login()
     }
 }
 

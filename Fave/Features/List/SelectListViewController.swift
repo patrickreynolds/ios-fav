@@ -35,12 +35,8 @@ class SelectListViewController: FaveVC {
         }
     }
 
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        var indicator = UIActivityIndicatorView()
-
-        indicator = UIActivityIndicatorView(frame: CGRect.zero)
-        indicator.style = UIActivityIndicatorView.Style.gray
-        indicator.hidesWhenStopped = true
+    private lazy var loadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
 
         return indicator
     }()

@@ -10,13 +10,15 @@ class ResultsTableViewController: FaveVC {
         }
     }
 
+    var usersUserFollows: [Int] = []
+
     lazy var resultsTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: .plain)
 
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.register(UserTableViewCell.self)
+        tableView.register(DiscoverUserTableViewCell.self)
 
         tableView.separatorColor = UIColor.clear
 
@@ -44,6 +46,19 @@ class ResultsTableViewController: FaveVC {
             tableView.top == view.topMargin
         }
     }
+
+    private func refreshUsersUserFollows(user: User, completion: @escaping (_ users: [Int]) -> ()) {
+        self.dependencyGraph.faveService.usersUserFollows(userId: user.id) { response, error in
+
+            guard let usersUserFollows = response else {
+                completion([])
+
+                return
+            }
+
+            completion(usersUserFollows)
+        }
+    }
 }
 
 extension ResultsTableViewController: UITableViewDataSource {
@@ -52,10 +67,14 @@ extension ResultsTableViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(UserTableViewCell.self, indexPath: indexPath)
+        let cell = tableView.dequeue(DiscoverUserTableViewCell.self, indexPath: indexPath)
+
+        cell.delegate = self
 
         let user = filteredUsers[indexPath.row]
-        cell.populate(user: user)
+        let isFollowingUser = usersUserFollows.contains(user.id)
+
+        cell.populate(dependencyGraph: dependencyGraph, user: user, isUserFollowing: isFollowingUser)
 
         return cell
     }
@@ -73,5 +92,51 @@ extension ResultsTableViewController: UITableViewDelegate {
         profileViewController.navigationItem.titleView = titleViewLabel
 
         presentingViewController?.navigationController?.pushViewController(profileViewController, animated: true)
+    }
+}
+
+extension ResultsTableViewController: DiscoverUserTableViewCellDelegate {
+
+    func didUpdateRelationship(to relationship: FaveRelationshipType, forUser user: User) {
+
+        guard let authenticatedUser = dependencyGraph.storage.getUser() else {
+            return
+        }
+
+        let row = self.filteredUsers.index(of: user)
+
+        if relationship == .notFollowing {
+            // make call to follow list
+
+            dependencyGraph.faveService.unfollowUser(userId: user.id) { success, error in
+                if success {
+                    if let row = row {
+                        self.refreshUsersUserFollows(user: authenticatedUser) { usersUserFollows in
+                            self.usersUserFollows = usersUserFollows
+
+                            self.resultsTableView.reloadRows(at: [IndexPath.init(row: row, section: 0)], with: .none)
+                        }
+                    }
+                } else {
+                    // throw error
+                }
+            }
+        } else {
+            // make call to unfollow list
+
+            dependencyGraph.faveService.followUser(userId: user.id) { success, error in
+                if success {
+                    if let row = row {
+                        self.refreshUsersUserFollows(user: authenticatedUser) { usersUserFollows in
+                            self.usersUserFollows = usersUserFollows
+
+                            self.resultsTableView.reloadRows(at: [IndexPath.init(row: row, section: 0)], with: .none)
+                        }
+                    }
+                } else {
+                    // throw error
+                }
+            }
+        }
     }
 }

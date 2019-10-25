@@ -121,11 +121,8 @@ class ListViewController: FaveVC {
         return refreshControl
     }()
 
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        var indicator = UIActivityIndicatorView()
-
-        indicator = UIActivityIndicatorView(frame: CGRect.zero)
-        indicator.style = UIActivityIndicatorView.Style.gray
+    private lazy var loadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
 
         return indicator
     }()
@@ -241,6 +238,7 @@ class ListViewController: FaveVC {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         view.addSubview(listTableView)
+        view.addSubview(loadingIndicator)
         view.addSubview(createButton)
         view.addSubview(progressHud)
 
@@ -263,6 +261,11 @@ class ListViewController: FaveVC {
             hud.centerY == view.centerY
         }
 
+        constrain(loadingIndicator, view) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
+        }
+
         // TOOD: Open up recommendations to everyone to see
 //        if let currentUser = dependencyGraph.storage.getUser() {
 //            if list.title.lowercased() == "recommendations" && list.owner.id == currentUser.id {
@@ -270,6 +273,8 @@ class ListViewController: FaveVC {
                 filterType = .recommendations
             }
 //        }
+
+        view.addSubview(loadingIndicator)
     }
 
     override func viewDidLayoutSubviews() {
@@ -301,12 +306,18 @@ class ListViewController: FaveVC {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        refreshData()
+        if listItems.isEmpty {
+            loadingIndicator.startAnimating()
+        }
+
+        refreshData() {
+            self.loadingIndicator.stopAnimating()
+        }
     }
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
-            delay(1.0) {
+            delay(0.0) {
                 self.refreshControl.endRefreshing()
             }
         }
@@ -525,6 +536,8 @@ extension ListViewController {
 
 extension ListViewController: CreateListViewControllerDelegate {
     func didCreateList(list: List) {
+        showToast(title: "Created \(list.title)")
+
         refreshData()
     }
 }

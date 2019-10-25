@@ -91,11 +91,8 @@ class ProfileViewController: FaveVC {
         return refreshControl
     }()
 
-    private lazy var listTableLoadingIndicator: UIActivityIndicatorView = {
-        var indicator = UIActivityIndicatorView()
-
-        indicator = UIActivityIndicatorView(frame: CGRect.zero)
-        indicator.style = UIActivityIndicatorView.Style.gray
+    private lazy var listTableLoadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
 
         return indicator
     }()
@@ -149,6 +146,7 @@ class ProfileViewController: FaveVC {
         view.backgroundColor = FaveColors.White
 
         view.addSubview(profileTableView)
+        view.addSubview(listTableLoadingIndicator)
         view.addSubview(createButton)
 
         view.bringSubviewToFront(createButton)
@@ -166,12 +164,19 @@ class ProfileViewController: FaveVC {
             button.height == 56
         }
 
+        constrain(listTableLoadingIndicator, view) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
+        }
+
         let titleViewLabel = Label(text: user?.handle ?? "", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         if let navigationController = navigationController, navigationController.viewControllers.count > 1 {
             navigationController.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
         }
+
+        view.bringSubviewToFront(listTableLoadingIndicator)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -185,7 +190,13 @@ class ProfileViewController: FaveVC {
             self.user = storedUser
         }
 
-        refreshData()
+        if lists.isEmpty {
+            listTableLoadingIndicator.startAnimating()
+        }
+
+        refreshData() {
+            self.listTableLoadingIndicator.stopAnimating()
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -216,7 +227,7 @@ class ProfileViewController: FaveVC {
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
-            delay(0.5) {
+            delay(0) {
                 refreshControl.endRefreshing()
             }
         }
@@ -410,6 +421,20 @@ class ProfileViewController: FaveVC {
 
         present(createRecommendationNavigationViewController, animated: true, completion: nil)
     }
+
+    private func showPushNotificationsPrompt(dependencyGraph: DependencyGraphType, viewController: FaveVC) {
+        if dependencyGraph.authenticator.isLoggedIn() {
+
+            PushNotifications.shouldPromptToRegisterForNotifications(dependencyGraph: dependencyGraph) { shouldPrompt in
+
+                guard shouldPrompt else {
+                    return
+                }
+
+                PushNotifications.promptForPushNotifications(dependencyGraph: dependencyGraph, fromViewController: viewController) {}
+            }
+        }
+    }
 }
 
 extension ProfileViewController: UITableViewDelegate {
@@ -456,13 +481,18 @@ extension ProfileViewController: UITableViewDataSource {
 
 extension ProfileViewController: CreateListViewControllerDelegate {
     func didCreateList(list: List) {
+        showToast(title: "Created \(list.title)")
+
         refreshData()
+
+        showPushNotificationsPrompt(dependencyGraph: dependencyGraph, viewController: self)
     }
 }
 
 extension ProfileViewController: CreateItemViewControllerDelegate {
     func didCreateItem(item: Item) {
         showToast(title: "Created \(item.contextualItem.name)")
+
         refreshData()
     }
 }

@@ -3,10 +3,6 @@ import UIKit
 import Cartography
 
 protocol DiscoverUserTableViewCellDelegate {
-//    func faveItemButtonTapped(item: Item)
-//    func shareItemButtonTapped(item: Item)
-//    func didTapFollowButtonForList(list: List?)
-    func showLogin()
     func didUpdateRelationship(to relationship: FaveRelationshipType, forUser user: User)
 }
 
@@ -160,17 +156,11 @@ class DiscoverUserTableViewCell: UITableViewCell {
 
     @objc func didTapFollowButton(sender: UIButton!) {
 
-        sender.performImpact(style: .light)
-
-        guard let dependencyGraph = dependencyGraph, dependencyGraph.authenticator.isLoggedIn() else {
-            delegate?.showLogin()
-
-            return
-        }
-
         guard let user = user else {
             return
         }
+
+        sender.performImpact(style: .light)
 
         let newRelationship: FaveRelationshipType = relationship == .notFollowing ? .following : .notFollowing
 

@@ -148,7 +148,7 @@ class GetUpdatesOnboardingStepView: UIView {
             self.getStartedLoadingSpinner.startAnimating()
         }
 
-        delay(0.3) {
+        delay(0) {
             self.delegate?.didAdvanceOnboarding()
         }
     }

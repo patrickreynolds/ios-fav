@@ -89,11 +89,8 @@ class ItemViewController: FaveVC {
         return refreshControl
     }()
 
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        var indicator = UIActivityIndicatorView()
-
-        indicator = UIActivityIndicatorView(frame: CGRect.zero)
-        indicator.style = UIActivityIndicatorView.Style.gray
+    private lazy var loadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
 
         return indicator
     }()
@@ -235,7 +232,7 @@ class ItemViewController: FaveVC {
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
-            delay(1.0) {
+            delay(0) {
                 self.refreshControl.endRefreshing()
             }
         }
@@ -594,7 +591,7 @@ extension ItemViewController: UIGestureRecognizerDelegate {
 extension ItemViewController: UpdateItemViewControllerDelegate {
     func didUpdateItem(viewController: FaveVC) {
         refreshData {
-            delay(0.3) {
+            delay(0) {
                 viewController.view.endEditing(true)
                 viewController.dismiss(animated: true, completion: nil)
             }

@@ -25,12 +25,13 @@ class EntryTableViewCell: UITableViewCell {
             let savedPhotos = googleItem.savedPhotos
 
             if !savedPhotos.isEmpty {
-                photos = savedPhotos
+                photos = Array(savedPhotos.prefix(5))
             } else {
                 photos = Array(googleItem.photos.prefix(5))
             }
         }
     }
+
     var list: List?
     var currentUser: User?
     var mySavedItem: Item?

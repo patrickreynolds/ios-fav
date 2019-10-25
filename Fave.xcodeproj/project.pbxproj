@@ -88,6 +88,8 @@
 		4385350722333AFF00B99EC7 /* FaveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385350622333AFF00B99EC7 /* FaveService.swift */; };
 		4385350922333B3D00B99EC7 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385350822333B3D00B99EC7 /* AnalyticsService.swift */; };
 		4385350B22333B8200B99EC7 /* FaveEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385350A22333B8200B99EC7 /* FaveEndpoint.swift */; };
+		4385431723624AD8004F096D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385431623624AD8004F096D /* FeedViewModel.swift */; };
+		4385431923626A3B004F096D /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4385431823626A3B004F096D /* CircularProgressView.swift */; };
 		4386BFE022334760006A3ED7 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386BFDF22334760006A3ED7 /* LoggedOutViewController.swift */; };
 		4386BFE3223351DF006A3ED7 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386BFE2223351DF006A3ED7 /* Utility.swift */; };
 		4386BFE522335777006A3ED7 /* FaveFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386BFE422335777006A3ED7 /* FaveFont.swift */; };
@@ -250,6 +252,8 @@
 		4385350622333AFF00B99EC7 /* FaveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveService.swift; sourceTree = "<group>"; };
 		4385350822333B3D00B99EC7 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		4385350A22333B8200B99EC7 /* FaveEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveEndpoint.swift; sourceTree = "<group>"; };
+		4385431623624AD8004F096D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		4385431823626A3B004F096D /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		4386BFDF22334760006A3ED7 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
 		4386BFE2223351DF006A3ED7 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		4386BFE422335777006A3ED7 /* FaveFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveFont.swift; sourceTree = "<group>"; };
@@ -351,6 +355,7 @@
 				4334DB6E228F269800EE58BB /* TopListView.swift */,
 				431ED5E92292268E008B9A9A /* TopListItemTableViewCell.swift */,
 				431ED5EB22922CD1008B9A9A /* TopListUserSectionHeaderView.swift */,
+				4385431623624AD8004F096D /* FeedViewModel.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -494,6 +499,7 @@
 				433E4F9022B0351000B0A531 /* ToastView.swift */,
 				43ABB3CC230229CA00329F7B /* Alert */,
 				4356FD152318E28A00C060B7 /* LinearProgressView.swift */,
+				4385431823626A3B004F096D /* CircularProgressView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -966,6 +972,7 @@
 				43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */,
 				43ABB3DC2302319D00329F7B /* AlertAnimator.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
+				4385431923626A3B004F096D /* CircularProgressView.swift in Sources */,
 				43ABB3D423022BCD00329F7B /* DialogSheetAlertCollectionViewLayout.swift in Sources */,
 				43503BD8226BE449001BE92E /* ListFilterSegmentedControl.swift in Sources */,
 				438534BD223336BA00B99EC7 /* FeedViewController.swift in Sources */,
@@ -1017,6 +1024,7 @@
 				43176570223B644700C1963E /* Authenticator.swift in Sources */,
 				4305F3752240087800F6DE77 /* Item.swift in Sources */,
 				4356FD142318E08300C060B7 /* OnboardingContextualHeaderView.swift in Sources */,
+				4385431723624AD8004F096D /* FeedViewModel.swift in Sources */,
 				4356FD122318D2DF00C060B7 /* OnboardingViewController.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
 				43D63C1922D11D54006486FE /* CollectionExt.swift in Sources */,

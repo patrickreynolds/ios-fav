@@ -115,6 +115,14 @@ class FeedEventTableViewCell: UITableViewCell {
         return view
     }()
 
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView.init(style: UIActivityIndicatorView.Style.gray)
+
+        activityIndicatorView.hidesWhenStopped = true
+
+        return activityIndicatorView
+    }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -125,6 +133,7 @@ class FeedEventTableViewCell: UITableViewCell {
         contentView.addSubview(noteLabel)
         contentView.addSubview(eventItemView)
         contentView.addSubview(borderView)
+        contentView.addSubview(loadingIndicator)
 
         constrain(userProfileImageView, contentView) { imageView, view in
             imageView.top == view.top + 12
@@ -141,12 +150,12 @@ class FeedEventTableViewCell: UITableViewCell {
             noteLabel.left == titleLabel.left
             noteLabel.right == titleLabel.right
 
-            hasNoteTopLabelConstraint = noteLabel.top == titleLabel.bottom + 4
+            hasNoteTopLabelConstraint = noteLabel.top == titleLabel.bottom + 6
             noNoteTopLabelConstraint = noteLabel.top == titleLabel.bottom + 4
         }
 
         constrain(eventItemView, titleLabel, noteLabel, contentView) { eventItemView, titleLabel, noteLabel, contentView in
-            noNoteLabelConstraint = eventItemView.top == titleLabel.bottom + 24
+            noNoteLabelConstraint = eventItemView.top == titleLabel.bottom + 20
             hasNoteLabelConstraint = eventItemView.top == noteLabel.bottom + 16
 
             eventItemView.right == contentView.right - 16
@@ -159,6 +168,11 @@ class FeedEventTableViewCell: UITableViewCell {
             borderView.right == view.right - 16
             borderView.bottom == view.bottom
             borderView.height == 0.5
+        }
+
+        constrain(loadingIndicator, contentView) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
         }
     }
 
@@ -178,69 +192,90 @@ class FeedEventTableViewCell: UITableViewCell {
         layoutIfNeeded()
     }
 
-    func populate(dependencyGraph: DependencyGraphType, event: FeedEvent) {
-        self.feedEvent = event
-        self.dependencyGraph = dependencyGraph
+    func populate(dependencyGraph: DependencyGraphType, event: FeedEvent?) {
+        if let event = event {
+            loadingIndicator.stopAnimating()
 
-        let titleLabelText: NSMutableString = NSMutableString()
+            UIView.animate(withDuration: 0.15) {
+                self.userProfileImageView.alpha = 1
+                self.titleLabel.alpha = 1
+                self.noteLabel.alpha = 1
+                self.eventItemView.alpha = 1
+            }
 
-        if event.list.owner.id != event.item.addedBy.id {
-            let handleText = "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)"
-            let recommendationText = " recommended an item for "
-            
-            let lastOwnerCharacterString = String(event.list.owner.lastName.last ?? Character(""))
-            let possessiveCharacter = lastOwnerCharacterString.lowercased() == "s" ? "'" : "'s"
-            
-            let ownerText = "\(event.list.owner.firstName) \(event.list.owner.lastName)\(possessiveCharacter)"
-            let suffixText = " list. "
-            let timeText = "\(event.item.createdAt.condensedTimeSinceString())"
+            self.feedEvent = event
+            self.dependencyGraph = dependencyGraph
 
-            titleLabelText.append(handleText)
-            titleLabelText.append(recommendationText)
-            titleLabelText.append(ownerText)
-            titleLabelText.append(suffixText)
-            titleLabelText.append(timeText)
+            let titleLabelText: NSMutableString = NSMutableString()
 
-            titleLabel.text = titleLabelText as String
+            if event.list.owner.id != event.item.addedBy.id {
+                let handleText = "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)"
+                let recommendationText = " recommended an item for "
 
-            titleLabel.addLink(to: URL(string: "item-added-by")!, withRange: (titleLabelText as NSString).range(of: handleText))
-            titleLabel.addLink(to: URL(string: "item-owner")!, withRange: (titleLabelText as NSString).range(of: ownerText))
+                let lastOwnerCharacterString = String(event.list.owner.lastName.last ?? Character(""))
+                let possessiveCharacter = lastOwnerCharacterString.lowercased() == "s" ? "'" : "'s"
+
+                let ownerText = "\(event.list.owner.firstName) \(event.list.owner.lastName)\(possessiveCharacter)"
+                let suffixText = " list. "
+                let timeText = "\(event.item.createdAt.condensedTimeSinceString())"
+
+                titleLabelText.append(handleText)
+                titleLabelText.append(recommendationText)
+                titleLabelText.append(ownerText)
+                titleLabelText.append(suffixText)
+                titleLabelText.append(timeText)
+
+                titleLabel.text = titleLabelText as String
+
+                titleLabel.addLink(to: URL(string: "item-added-by")!, withRange: (titleLabelText as NSString).range(of: handleText))
+                titleLabel.addLink(to: URL(string: "item-owner")!, withRange: (titleLabelText as NSString).range(of: ownerText))
+            } else {
+                let handleText = "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)"
+                let recommendationText = " added an item. "
+                let timeText = "\(event.item.createdAt.condensedTimeSinceString())"
+
+                titleLabelText.append(handleText)
+                titleLabelText.append(recommendationText)
+                titleLabelText.append(timeText)
+
+                titleLabel.text = titleLabelText as String
+
+                titleLabel.addLink(to: URL(string: "item-added-by")!, withRange: (titleLabelText as NSString).range(of: handleText))
+            }
+
+            noteLabel.text = event.item.note
+
+            if !event.item.note.isEmpty {
+                hasNoteLabelConstraint?.isActive = true
+                noNoteTopLabelConstraint?.isActive = false
+
+                hasNoteTopLabelConstraint?.isActive = true
+                noNoteLabelConstraint?.isActive = false
+            } else {
+                hasNoteLabelConstraint?.isActive = false
+                noNoteTopLabelConstraint?.isActive = true
+
+                hasNoteTopLabelConstraint?.isActive = false
+                noNoteLabelConstraint?.isActive = true
+            }
+
+            contentView.setNeedsLayout()
+            contentView.layoutIfNeeded()
+
+            userProfileImageView.image = UIImage(base64String: event.item.addedBy.profilePicture)
+
+            eventItemView.update(dependencyGraph: dependencyGraph, withEvent: event)
         } else {
-            let handleText = "\(event.item.addedBy.firstName) \(event.item.addedBy.lastName)"
-            let recommendationText = " added an item. "
-            let timeText = "\(event.item.createdAt.condensedTimeSinceString())"
 
-            titleLabelText.append(handleText)
-            titleLabelText.append(recommendationText)
-            titleLabelText.append(timeText)
+            loadingIndicator.startAnimating()
 
-            titleLabel.text = titleLabelText as String
-
-            titleLabel.addLink(to: URL(string: "item-added-by")!, withRange: (titleLabelText as NSString).range(of: handleText))
+            UIView.animate(withDuration: 0.15) {
+                self.userProfileImageView.alpha = 0
+                self.titleLabel.alpha = 0
+                self.noteLabel.alpha = 0
+                self.eventItemView.alpha = 0
+            }
         }
-
-        noteLabel.text = event.item.note
-
-        if !event.item.note.isEmpty {
-            hasNoteLabelConstraint?.isActive = true
-            noNoteTopLabelConstraint?.isActive = false
-
-            hasNoteTopLabelConstraint?.isActive = true
-            noNoteLabelConstraint?.isActive = false
-        } else {
-            hasNoteLabelConstraint?.isActive = false
-            noNoteTopLabelConstraint?.isActive = true
-
-            hasNoteTopLabelConstraint?.isActive = false
-            noNoteLabelConstraint?.isActive = true
-        }
-
-        contentView.setNeedsLayout()
-        contentView.layoutIfNeeded()
-
-        userProfileImageView.image = UIImage(base64String: event.item.addedBy.profilePicture)
-
-        eventItemView.update(dependencyGraph: dependencyGraph, withEvent: event)
     }
 }
 

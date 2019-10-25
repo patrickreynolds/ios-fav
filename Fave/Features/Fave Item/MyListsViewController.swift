@@ -43,12 +43,10 @@ class MyListsViewController: FaveVC {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private lazy var loadingSpinnerView: UIActivityIndicatorView = {
-        let activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
+    private lazy var loadingSpinnerView: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
 
-        activityIndicatorView.hidesWhenStopped = true
-
-        return activityIndicatorView
+        return indicator
     }()
 
     private lazy var backgroundView: UIView = {
