@@ -149,6 +149,8 @@ class SelectListViewController: FaveVC {
 
             self.lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
         }
+
+        view.bringSubviewToFront(loadingIndicator)
     }
 
     override func viewWillAppear(_ animated: Bool) {
