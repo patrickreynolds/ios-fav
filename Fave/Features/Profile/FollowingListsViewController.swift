@@ -5,12 +5,6 @@ import Cartography
 class FollowingListViewController: FaveVC {
     let user: User
 
-    var state: LoadingState = .presenting {
-        didSet {
-
-        }
-    }
-
     var listsUserFollows: [List] = [] {
         didSet {
             followingTableView.reloadData()
@@ -46,6 +40,12 @@ class FollowingListViewController: FaveVC {
         refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
 
         return refreshControl
+    }()
+
+    private lazy var loadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
+
+        return indicator
     }()
 
     private lazy var followingTableView: UITableView = {
@@ -85,19 +85,27 @@ class FollowingListViewController: FaveVC {
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
 
         view.addSubview(followingTableView)
+        view.addSubview(loadingIndicator)
 
         constrainToSuperview(followingTableView)
 
-        refreshControl.refreshManually()
+        constrain(loadingIndicator, view) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
+        }
+
+        view.bringSubviewToFront(loadingIndicator)
+
+        loadingIndicator.startAnimating()
+
+        refreshData() {
+            self.loadingIndicator.stopAnimating()
+        }
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
-        state = .loading
-
         dependencyGraph.faveService.listsUserFollows(userId: user.id) { response, error in
             completion()
-
-            self.state = .presenting
 
             guard let listsUserFollows = response else {
                 return

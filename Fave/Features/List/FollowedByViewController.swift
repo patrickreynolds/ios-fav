@@ -53,6 +53,12 @@ class FollowedByViewController: FaveVC {
         return refreshControl
     }()
 
+    private lazy var loadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
+
+        return indicator
+    }()
+
     private lazy var followedByTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: .plain)
 
@@ -90,10 +96,22 @@ class FollowedByViewController: FaveVC {
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
 
         view.addSubview(followedByTableView)
+        view.addSubview(loadingIndicator)
 
         constrainToSuperview(followedByTableView)
 
-        refreshControl.refreshManually()
+        constrain(loadingIndicator, view) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
+        }
+
+        view.bringSubviewToFront(loadingIndicator)
+
+        loadingIndicator.startAnimating()
+
+        refreshData() {
+            self.loadingIndicator.stopAnimating()
+        }
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {

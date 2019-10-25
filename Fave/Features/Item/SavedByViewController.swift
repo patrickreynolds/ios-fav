@@ -34,6 +34,12 @@ class SavedByViewController: FaveVC {
         return button
     }()
 
+    private lazy var loadingIndicator: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
+
+        return indicator
+    }()
+
     private lazy var savedByTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: .plain)
 
@@ -69,11 +75,39 @@ class SavedByViewController: FaveVC {
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
 
         view.addSubview(savedByTableView)
+        view.addSubview(loadingIndicator)
 
         constrainToSuperview(savedByTableView)
 
+        constrain(loadingIndicator, view) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
+        }
+
+        view.bringSubviewToFront(loadingIndicator)
+
+        loadingIndicator.startAnimating()
+
+        refreshData() {
+            self.loadingIndicator.stopAnimating()
+        }
+    }
+
+    private func refreshData(completion: @escaping () -> () = {}) {
         // TODO: Figure out API call to get all the users and/or lists that have saved this item
-//        dependencyGraph.faveService.it
+        // dependencyGraph.faveService.usersWhoSavedItem
+
+//        dependencyGraph.faveService.usersWhoSavedItem(listId: item.id) { users, error in
+//            completion()
+//
+//            guard let users = users else {
+//                // TODO: Throw error
+//
+//                return
+//            }
+//
+//            self.users = users
+//        }
     }
 
     @objc func backButtonTapped(sender: UIButton!) {

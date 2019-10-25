@@ -131,7 +131,7 @@ class ItemTableHeaderView: UIView {
             self.delegate?.didTapSavedByOthersLabel(item: self.item)
         })
 
-//        label.isUserInteractionEnabled = true
+        label.isUserInteractionEnabled = false
 
         return label
     }()
