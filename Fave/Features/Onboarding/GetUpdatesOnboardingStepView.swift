@@ -7,6 +7,9 @@ class GetUpdatesOnboardingStepView: UIView {
     let step: OnboardingStepType
     var delegate: OnboardingViewControllerDelegate?
 
+    var dependencyGraph: DependencyGraphType? = nil
+    var viewController: FaveVC? = nil
+
     private lazy var titleLabel: Label = {
         let label = Label(
             text: step.title,
@@ -29,7 +32,7 @@ class GetUpdatesOnboardingStepView: UIView {
         return label
     }()
 
-    private lazy var getStartedLoadingSpinner: UIActivityIndicatorView = {
+    private lazy var skipButtonLoadingSpinner: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(frame: .zero)
 
         indicator.style = UIActivityIndicatorView.Style.white
@@ -38,16 +41,56 @@ class GetUpdatesOnboardingStepView: UIView {
         return indicator
     }()
 
-    private lazy var getStartedButton: UIButton = {
+    private lazy var registerNotificationsLoadingSpinner: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(frame: .zero)
+
+        indicator.style = UIActivityIndicatorView.Style.white
+        indicator.hidesWhenStopped = true
+
+        return indicator
+    }()
+
+    private lazy var skipButton: UIButton = {
+        let button = UIButton(frame: .zero)
+
+        let buttonHeight: CGFloat = 56
+
+        button.backgroundColor = FaveColors.White
+        button.layer.cornerRadius = buttonHeight / 2
+        button.layer.borderColor = FaveColors.HJCerulean.cgColor
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(skipNotificationsTapped), for: .touchUpInside)
+
+        let attributedTitle = NSAttributedString(string: "Skip".uppercased(),
+                                                 font: FaveFont(style: .h5, weight: .semiBold).font,
+                                                 textColor: FaveColors.HJCerulean)
+
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        constrain(button) { button in
+            button.height == 56
+        }
+
+        button.addSubview(skipButtonLoadingSpinner)
+
+        constrain(skipButtonLoadingSpinner, button) { spinner, button in
+            spinner.centerX == button.centerX
+            spinner.centerY == button.centerY
+        }
+
+        return button
+    }()
+
+    private lazy var registerNotificationsButton: UIButton = {
         let button = UIButton(frame: .zero)
 
         let buttonHeight: CGFloat = 56
 
         button.backgroundColor = FaveColors.HJCerulean
         button.layer.cornerRadius = buttonHeight / 2
-        button.addTarget(self, action: #selector(getStartedTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(registerNotificationsTapped), for: .touchUpInside)
 
-        let attributedTitle = NSAttributedString(string: "Get started".uppercased(),
+        let attributedTitle = NSAttributedString(string: "Get updates".uppercased(),
                                                  font: FaveFont(style: .h5, weight: .semiBold).font,
                                                  textColor: FaveColors.White)
 
@@ -57,9 +100,9 @@ class GetUpdatesOnboardingStepView: UIView {
             button.height == 56
         }
 
-        button.addSubview(getStartedLoadingSpinner)
+        button.addSubview(registerNotificationsLoadingSpinner)
 
-        constrain(getStartedLoadingSpinner, button) { spinner, button in
+        constrain(registerNotificationsLoadingSpinner, button) { spinner, button in
             spinner.centerX == button.centerX
             spinner.centerY == button.centerY
         }
@@ -88,7 +131,8 @@ class GetUpdatesOnboardingStepView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(notificationsIllustrationImageView)
-        addSubview(getStartedButton)
+        addSubview(skipButton)
+        addSubview(registerNotificationsButton)
 
         constrain(self) { view in
             view.width == UIScreen.main.bounds.width
@@ -112,7 +156,7 @@ class GetUpdatesOnboardingStepView: UIView {
             imageView.left == view.left
         }
 
-        constrain(getStartedButton, self) { button, view in
+        constrain(skipButton, registerNotificationsButton, self) { skipButton, registerNotificationsButton, view in
             let buttonBottomMargin: CGFloat
             let buttonHorizontalPadding: CGFloat
 
@@ -121,15 +165,20 @@ class GetUpdatesOnboardingStepView: UIView {
                 buttonHorizontalPadding = 16
             } else if FaveDeviceSize.isIPhone6() {
                 buttonBottomMargin = 24
-                buttonHorizontalPadding = 24
+                buttonHorizontalPadding = 16
             } else {
                 buttonBottomMargin = 40
-                buttonHorizontalPadding = 32
+                buttonHorizontalPadding = 16
             }
 
-            button.left == view.left + buttonHorizontalPadding
-            button.right == view.right - buttonHorizontalPadding
-            button.bottom == view.bottomMargin - buttonBottomMargin
+            skipButton.left == view.left + buttonHorizontalPadding
+            skipButton.right == registerNotificationsButton.left - buttonHorizontalPadding
+            skipButton.bottom == view.bottomMargin - buttonBottomMargin
+
+            registerNotificationsButton.right == view.right - buttonHorizontalPadding
+            registerNotificationsButton.bottom == view.bottomMargin - buttonBottomMargin
+
+            registerNotificationsButton.width == skipButton.width
         }
     }
 
@@ -139,13 +188,13 @@ class GetUpdatesOnboardingStepView: UIView {
 
     // MARK: - Public Methods
 
-    @objc func getStartedTapped(sender: UIButton!) {
-        getStartedButton.performImpact(style: .light)
+    @objc func skipNotificationsTapped(sender: UIButton!) {
+        skipButton.performImpact(style: .light)
 
         UIView.animate(withDuration: 0.15, animations: {
-            self.getStartedButton.titleLabel?.alpha = 0
+            self.skipButton.titleLabel?.alpha = 0
         }) { completion in
-            self.getStartedLoadingSpinner.startAnimating()
+            self.skipButtonLoadingSpinner.startAnimating()
         }
 
         delay(0) {
@@ -153,7 +202,19 @@ class GetUpdatesOnboardingStepView: UIView {
         }
     }
 
-    func showPushNotificationsPrompt(dependencyGraph: DependencyGraphType, viewController: FaveVC) {
+    @objc func registerNotificationsTapped(sender: UIButton!) {
+        registerNotificationsButton.performImpact(style: .light)
+
+        UIView.animate(withDuration: 0.15, animations: {
+            self.registerNotificationsButton.titleLabel?.alpha = 0
+        }) { completion in
+            self.registerNotificationsLoadingSpinner.startAnimating()
+        }
+
+        guard let dependencyGraph = self.dependencyGraph, let viewController = self.viewController else {
+            return
+        }
+
         if dependencyGraph.authenticator.isLoggedIn() {
 
             PushNotifications.shouldPromptToRegisterForNotifications(dependencyGraph: dependencyGraph) { shouldPrompt in
@@ -162,8 +223,15 @@ class GetUpdatesOnboardingStepView: UIView {
                     return
                 }
 
-                PushNotifications.promptForPushNotifications(dependencyGraph: dependencyGraph, fromViewController: viewController) {}
+                PushNotifications.promptForPushNotifications(dependencyGraph: dependencyGraph, fromViewController: viewController) {
+                    self.delegate?.didAdvanceOnboarding()
+                }
             }
         }
+    }
+
+    func preparePushNotificationsPrompt(dependencyGraph: DependencyGraphType, viewController: FaveVC) {
+        self.dependencyGraph = dependencyGraph
+        self.viewController = viewController
     }
 }

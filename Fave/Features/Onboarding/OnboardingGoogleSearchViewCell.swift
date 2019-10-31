@@ -63,6 +63,8 @@ class OnboardingGoogleSearchViewCell: UITableViewCell {
             button.width == 56
         }
 
+        button.isUserInteractionEnabled = false
+
         return button
     }()
 

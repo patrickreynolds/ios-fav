@@ -81,6 +81,7 @@ class AddEntryOnboardingStepView: UIView {
 
         textField.placeholder = "Search"
         textField.autocapitalizationType = .sentences
+        textField.autocorrectionType = .no
         textField.tintColor = FaveColors.HJCerulean
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 

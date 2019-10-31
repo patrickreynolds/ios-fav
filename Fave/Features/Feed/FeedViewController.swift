@@ -5,7 +5,6 @@ import MBProgressHUD
 class FeedViewController: FaveVC {
 
     var user: User?
-    var lastPage: Int = 1
     let hintArrowImageViewWidth: CGFloat = 32
 
     var isLoading: Bool = false {
@@ -254,6 +253,8 @@ class FeedViewController: FaveVC {
             isLoading = feedViewModel.currentCount == 0
 
             loggedIn = true
+
+            self.feedViewModel.resetContent()
 
             self.fetchFeed(fromIndex: feedViewModel.currentFromIndex, toIndex: feedViewModel.currentToIndex)
 
@@ -538,8 +539,8 @@ extension FeedViewController: FeedViewModelDelegate {
         guard let newIndexPathsToReload = newIndexPathsToReload else {
           isLoading = false
 
-          feedTableView.isHidden = false
-          feedTableView.reloadData()
+//          feedTableView.isHidden = false
+//          feedTableView.reloadData()
 
           return
         }

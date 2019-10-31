@@ -128,4 +128,10 @@ class OnboardingContextualHeaderView: UIView {
     @objc func skipOnboardingTapped(button: UIButton!) {
         delegate?.didTapSkipButton()
     }
+
+    func hideSkipButton() {
+        UIView.animate(withDuration: 0.15) {
+            self.skipButton.alpha = 0
+        }
+    }
 }

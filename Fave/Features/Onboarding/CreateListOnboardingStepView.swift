@@ -91,6 +91,7 @@ class CreateListOnboardingStepView: UIView {
 
         textField.placeholder = "List name"
         textField.autocapitalizationType = .sentences
+        textField.autocorrectionType = .no
         textField.tintColor = FaveColors.HJCerulean
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 

@@ -25,7 +25,7 @@ enum OnboardingStepType {
         case .createList(_, let step):
             return "Step \(step): Create a list"
         case .addEntry(_, let step):
-            return "Step \(step): Add an entry"
+            return "Step \(step): Add an entry to your list"
         case .askForReccomendations(_, let step):
             return "Step \(step): Ask for recommendations"
         case .setupNotifications(_, let step):
@@ -36,7 +36,7 @@ enum OnboardingStepType {
     var title: String {
         switch self {
         case .createList:
-            return "Welcome! Let’s get started by creating a list."
+            return "Welcome! Let’s get started by creating \na list."
         case .addEntry(_, _):
             return ""
         case .askForReccomendations:
@@ -283,7 +283,8 @@ extension OnboardingViewController: OnboardingViewControllerDelegate {
         if let view = stepViews[safeIndex: nextStepIndex] as? AddEntryOnboardingStepView {
             view.makeAddEntryFirstResponder()
         } else if let view = stepViews[safeIndex: nextStepIndex] as? GetUpdatesOnboardingStepView {
-            view.showPushNotificationsPrompt(dependencyGraph: dependencyGraph, viewController: self)
+            onboardingHeaderView.hideSkipButton()
+            view.preparePushNotificationsPrompt(dependencyGraph: dependencyGraph, viewController: self)
         }
 
         let offset = CGPoint(x: offsetForStepIndex(index: nextStepIndex), y: 0)

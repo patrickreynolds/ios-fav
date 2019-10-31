@@ -474,7 +474,7 @@ class SplashScreenViewController: FaveVC {
     func somethingWentWrong() {
         self.authenticationState = .loggedOut
 
-        showToast(title: "Oops! Something went wront. Please try again.")
+        showToast(title: "Oops! Something went wrong. Please try again.")
     }
 }
 

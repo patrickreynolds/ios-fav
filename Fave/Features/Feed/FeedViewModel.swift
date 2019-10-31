@@ -12,11 +12,10 @@ class FeedViewModel {
 
     private var events: [FeedEvent] = []
     static let increment: Int = 8
-    var currentToIndex: Int = 7
     var currentFromIndex: Int = 0
+    var currentToIndex: Int = 7
     private var total = 100
     var isInfinateScrollingFetchInProgress = false
-    var isInitialRequest: Bool = true
 
     init(delegate: FeedViewModelDelegate) {
         self.delegate = delegate
@@ -40,6 +39,12 @@ class FeedViewModel {
         delegate?.didUpdateEvents(events: self.events)
 
         bumpIncrement(newEvents: newEvents)
+    }
+
+    func resetContent() {
+        self.events = []
+        currentFromIndex = 0
+        currentToIndex = 7
     }
 
     private func bumpIncrement(newEvents: [FeedEvent]) {

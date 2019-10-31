@@ -368,7 +368,9 @@ class ProfileTableHeaderView: UIView {
 
         let followingCountText = NSAttributedString(string: "\(followingCount)", attributes: followingCount == 0 ? standardAttributes : primaryAttributes )
 
-        let listText = NSAttributedString(string: " list", attributes: standardAttributes)
+        let listString: String = followingCount == 1 ? " list" : " lists"
+
+        let listText = NSAttributedString(string: listString, attributes: standardAttributes)
 
         followingAttributedText.append(followingText)
         followingAttributedText.append(followingCountText)
