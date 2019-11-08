@@ -51,13 +51,11 @@ class ItemInfoTableViewCell: UITableViewCell {
     private lazy var googleItemInfoRatingView: ItemInfoRatingView = {
         var rating: Double = 0
 
-        if let item = item, let googleItem = item.contextualItem as? GoogleItemType {
-            rating = googleItem.rating
+        if let item = item, let googleItem = item.contextualItem as? GoogleItemType, let unwrappedRating = googleItem.rating {
+            rating = unwrappedRating
         }
 
-        let ratingView = ItemInfoRatingView(ratingType: .google, rating: rating)
-
-        return ratingView
+        return ItemInfoRatingView(ratingType: .google, rating: rating)
     }()
 
     private lazy var ratingStackView: UIStackView = {
@@ -336,7 +334,12 @@ class ItemInfoTableViewCell: UITableViewCell {
 
         websiteLabel.text = formattedWebsite.isEmpty ? "No website listed" : formattedWebsite
 
-        googleItemInfoRatingView.rating = googleItem.rating
+        if let rating = googleItem.rating {
+            googleItemInfoRatingView.rating = rating
+            googleItemInfoRatingView.alpha = 1
+        } else {
+            googleItemInfoRatingView.alpha = 0
+        }
     }
 
     @objc func faveItemButtonTapped(sender: UIButton!) {

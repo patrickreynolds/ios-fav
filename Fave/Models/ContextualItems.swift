@@ -39,7 +39,7 @@ struct GoogleItemType {
     let internationalPhoneNumber: String?
     let formattedPhoneNumber: String?
     let keywords: [String]?
-    let rating: Double
+    let rating: Double?
     let photos: [GooglePhoto]
     let savedPhotos: [SavedPhoto]
 
@@ -69,9 +69,7 @@ struct GoogleItemType {
         let internationalPhoneNumber: String? = data["internationalPhoneNumber"] as? String
         let formattedPhoneNumber: String? = data["formattedPhoneNumber"] as? String
 
-        guard let rating = data["rating"] as? Double else {
-            return nil
-        }
+        let rating = data["rating"] as? Double
 
         var photos = [GooglePhoto]()
         if let photoData = data["photos"] as? [[String: AnyObject]] {
