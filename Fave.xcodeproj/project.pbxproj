@@ -1195,7 +1195,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.18;
+				MARKETING_VERSION = 1.1.17;
 				PRODUCTION = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1321,7 +1321,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.18;
+				MARKETING_VERSION = 1.1.17;
 				PRODUCTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1508,7 +1508,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.18;
+				MARKETING_VERSION = 1.1.17;
 				PRODUCTION = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1535,7 +1535,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.18;
+				MARKETING_VERSION = 1.1.17;
 				PRODUCTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
