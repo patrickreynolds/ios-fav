@@ -7,9 +7,10 @@ class FeedViewController: FaveVC {
     var user: User?
     let hintArrowImageViewWidth: CGFloat = 32
 
-    var isLoading: Bool = false {
+    var isLoading: Bool = true {
         didSet {
             if isLoading {
+                view.bringSubviewToFront(loadingIndicatorView)
                 loadingIndicatorView.startAnimating()
             } else {
                 showCreateButton()
@@ -64,6 +65,17 @@ class FeedViewController: FaveVC {
         return indicator
     }()
 
+    private lazy var footerLoadingIndicatorView: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
+
+        constrain(indicator) { indicator in
+            indicator.width == 32
+            indicator.height == 32
+        }
+
+        return indicator
+    }()
+
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
 
@@ -73,12 +85,10 @@ class FeedViewController: FaveVC {
     }()
 
     private lazy var feedTableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), style: .grouped)
 
         tableView.delegate = self
         tableView.dataSource = self
-
-        tableView.tableFooterView = UIView(frame: .zero)
 
         tableView.register(FeedEventTableViewCell.self)
 
@@ -87,7 +97,7 @@ class FeedViewController: FaveVC {
         tableView.separatorColor = UIColor.clear
 
         tableView.estimatedRowHeight = 2.0
-        tableView.prefetchDataSource = self
+        tableView.backgroundColor = FaveColors.White
 
         return tableView
     }()
@@ -226,7 +236,7 @@ class FeedViewController: FaveVC {
 
         isLoading = true
 
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshFeedFromOnboarding), name: .shouldRefreshHomeFeed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshFeedFromNotificationCenter), name: .shouldRefreshHomeFeed, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -241,9 +251,7 @@ class FeedViewController: FaveVC {
         refreshFeed()
     }
 
-    @objc func refreshFeedFromOnboarding() {
-        feedViewModel.addNewEvents(events: [])
-
+    @objc func refreshFeedFromNotificationCenter() {
         refreshFeed()
     }
 
@@ -317,25 +325,21 @@ class FeedViewController: FaveVC {
     }
 
     private func fetchFeed(fromIndex: Int, toIndex: Int, completion: @escaping () -> () = {}) {
-        if !feedViewModel.isInfinateScrollingFetchInProgress {
-            feedViewModel.isInfinateScrollingFetchInProgress = true
+        dependencyGraph.faveService.getFeed(from: fromIndex, to: toIndex) { response, error in
+            DispatchQueue.main.async {
+                self.feedViewModel.isInfinateScrollingFetchInProgress = false
 
-            dependencyGraph.faveService.getFeed(from: fromIndex, to: toIndex) { response, error in
-                DispatchQueue.main.async {
-                    self.feedViewModel.isInfinateScrollingFetchInProgress = false
+                self.refreshControl.endRefreshing()
 
-                    self.refreshControl.endRefreshing()
+                self.isLoading = false
 
-                    self.isLoading = false
+                completion()
 
-                    completion()
-
-                    guard let newEvents = response else {
-                        return
-                    }
-
-                    self.feedViewModel.addNewEvents(events: newEvents)
+                guard let newEvents = response else {
+                    return
                 }
+
+                self.feedViewModel.addNewEvents(events: newEvents)
             }
         }
     }
@@ -344,44 +348,51 @@ class FeedViewController: FaveVC {
 extension FeedViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return feedViewModel.totalCount
+        return feedViewModel.currentCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(FeedEventTableViewCell.self, indexPath: indexPath)
 
-        if isLoadingCell(for: indexPath) {
-            cell.populate(dependencyGraph: dependencyGraph, event: .none)
-        } else {
-            cell.delegate = self
+        cell.delegate = self
 
-            let event = feedViewModel.event(at: indexPath.row)
-            cell.populate(dependencyGraph: dependencyGraph, event: event)
-        }
+        let event = feedViewModel.event(at: indexPath.row)
+        cell.populate(dependencyGraph: dependencyGraph, event: event)
 
         return cell
-
-
-//        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.list, for: indexPath) as! ModeratorTableViewCell
-//        // 2
-//        if isLoadingCell(for: indexPath) {
-//          cell.configure(with: .none)
-//        } else {
-//          cell.configure(with: viewModel.moderator(at: indexPath.row))
-//        }
-//        return cell
     }
 }
 
 extension FeedViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.alpha = 0
-//
-//        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
-//
-//        UIView.animate(withDuration: 0.1, delay: minTime, animations: {
-//            cell.alpha = 1
-//        })
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView()
+        footerView.backgroundColor = FaveColors.White
+
+        footerView.addSubview(footerLoadingIndicatorView)
+
+        constrain(footerView, footerLoadingIndicatorView) { footerView, loadingView in
+            loadingView.centerX == footerView.centerX
+            loadingView.top == footerView.top + 24
+            loadingView.bottom == footerView.bottom - 24
+        }
+
+        return footerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 80
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView.init(frame: CGRect.zero)
+
+        view.backgroundColor = FaveColors.White
+
+        return view
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.01
     }
 }
 
@@ -534,23 +545,26 @@ extension FeedViewController: ListViewControllerDelegate {
 }
 
 extension FeedViewController: FeedViewModelDelegate {
-    func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
+    func onFetchCompleted(indexPaths: [IndexPath]) {
 
-        guard let newIndexPathsToReload = newIndexPathsToReload else {
-          isLoading = false
-
-//          feedTableView.isHidden = false
-//          feedTableView.reloadData()
-
-          return
+        for path in indexPaths {
+            print("\nPath row: \(path.row)")
         }
 
-        let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
-        feedTableView.reloadRows(at: indexPathsToReload, with: .automatic)
+        if feedViewModel.currentCount == indexPaths.count {
+            feedTableView.reloadData()
+        } else {
+            feedTableView.beginUpdates()
+            feedTableView.insertRows(at: indexPaths, with: .none)
+            feedTableView.endUpdates()
+        }
+
+        footerLoadingIndicatorView.stopAnimating()
+
+        feedViewModel.isInfinateScrollingFetchInProgress = false
     }
 
     func didUpdateEvents(events: [FeedEvent]) {
-//        feedTableView.reloadData()
 
         let hasEvents = !events.isEmpty
 
@@ -576,23 +590,19 @@ extension FeedViewController: FeedViewModelDelegate {
     }
 }
 
-extension FeedViewController: UITableViewDataSourcePrefetching {
-  func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-    if indexPaths.contains(where: isLoadingCell) {
-      fetchFeed(fromIndex: feedViewModel.currentFromIndex, toIndex: feedViewModel.currentToIndex)
+extension FeedViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if feedTableView.contentOffset.y >= (feedTableView.contentSize.height - feedTableView.frame.size.height) {
+
+            if !feedViewModel.isInfinateScrollingFetchInProgress && !feedViewModel.hasReachedEndOfList {
+                feedViewModel.isInfinateScrollingFetchInProgress = true
+
+                self.fetchFeed(fromIndex: feedViewModel.currentFromIndex, toIndex: feedViewModel.currentToIndex)
+
+                if feedViewModel.currentCount != 0 {
+                    footerLoadingIndicatorView.startAnimating()
+                }
+            }
+        }
     }
-  }
-}
-
-private extension FeedViewController {
-  func isLoadingCell(for indexPath: IndexPath) -> Bool {
-    return indexPath.row >= feedViewModel.currentCount
-  }
-
-  func visibleIndexPathsToReload(intersecting indexPaths: [IndexPath]) -> [IndexPath] {
-    let indexPathsForVisibleRows = feedTableView.indexPathsForVisibleRows ?? []
-    let indexPathsIntersection = Set(indexPathsForVisibleRows).intersection(indexPaths)
-
-    return Array(indexPathsIntersection)
-  }
 }

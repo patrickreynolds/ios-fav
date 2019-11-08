@@ -547,6 +547,8 @@ extension DiscoverViewController: DiscoverUserTableViewCellDelegate {
                             self.usersUserFollows = usersUserFollows
 
                             self.discoverTableView.reloadRows(at: [IndexPath.init(row: row, section: 0)], with: .none)
+
+                            NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
                         }
                     }
                 } else {
@@ -563,6 +565,8 @@ extension DiscoverViewController: DiscoverUserTableViewCellDelegate {
                             self.usersUserFollows = usersUserFollows
 
                             self.discoverTableView.reloadRows(at: [IndexPath.init(row: row, section: 0)], with: .none)
+
+                            NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
                         }
                     }
                 } else {

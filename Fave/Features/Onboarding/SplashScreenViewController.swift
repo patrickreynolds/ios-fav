@@ -404,7 +404,7 @@ class SplashScreenViewController: FaveVC {
         self.authenticationState = .loggingIn
 
         // To not have to go through FB auth
-        let isTesting = true
+        let isTesting = false
 
         if let user = dependencyGraph.storage.getUser() {
             guard !isTesting else {

@@ -1,7 +1,7 @@
 import UIKit
 
 protocol FeedViewModelDelegate: class {
-    func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?)
+    func onFetchCompleted(indexPaths: [IndexPath])
     func didUpdateEvents(events: [FeedEvent])
 //    func onFetchFailed(with reason: String)
 }
@@ -11,18 +11,14 @@ class FeedViewModel {
     private weak var delegate: FeedViewModelDelegate?
 
     private var events: [FeedEvent] = []
-    static let increment: Int = 8
+    static let increment: Int = 10
     var currentFromIndex: Int = 0
-    var currentToIndex: Int = 7
-    private var total = 100
+    var currentToIndex: Int = FeedViewModel.increment
     var isInfinateScrollingFetchInProgress = false
+    var hasReachedEndOfList = false
 
     init(delegate: FeedViewModelDelegate) {
         self.delegate = delegate
-    }
-
-    var totalCount: Int {
-        return total
     }
 
     var currentCount: Int {
@@ -44,25 +40,28 @@ class FeedViewModel {
     func resetContent() {
         self.events = []
         currentFromIndex = 0
-        currentToIndex = 7
+        currentToIndex = FeedViewModel.increment
     }
 
     private func bumpIncrement(newEvents: [FeedEvent]) {
-        self.currentToIndex += FeedViewModel.increment
-        self.currentFromIndex += FeedViewModel.increment
+        var indexPaths: [IndexPath] = []
 
-        if self.currentCount > 0 {
-            let indexPathsToReload = self.calculateIndexPathsToReload(from: newEvents)
-            self.delegate?.onFetchCompleted(with: indexPathsToReload)
-        } else {
-            self.delegate?.onFetchCompleted(with: .none)
+        let upTo = self.currentFromIndex + newEvents.count
+
+        for index in self.currentFromIndex..<upTo {
+            indexPaths.append(IndexPath(row: index, section: 0))
         }
-    }
 
-    private func calculateIndexPathsToReload(from newEvents: [FeedEvent]) -> [IndexPath] {
-      let startIndex = events.count - newEvents.count
-      let endIndex = startIndex + newEvents.count
+        if newEvents.count < FeedViewModel.increment {
+            self.currentToIndex += newEvents.count
+            self.currentFromIndex += newEvents.count
+            hasReachedEndOfList = true
+        } else {
+            self.currentToIndex += FeedViewModel.increment
+            self.currentFromIndex += FeedViewModel.increment
+            hasReachedEndOfList = false
+        }
 
-      return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+        self.delegate?.onFetchCompleted(indexPaths: indexPaths)
     }
 }
