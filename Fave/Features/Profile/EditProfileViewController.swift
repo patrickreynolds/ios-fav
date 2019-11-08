@@ -74,6 +74,8 @@ class EditProfileViewController: FaveVC {
     private lazy var profilePictureContentView: UIView = {
         let view = UIView(frame: .zero)
 
+        let dividerView = UIView(frame: .zero)
+
         let imageSize: CGFloat = 72
 
         let imageView = UIImageView(frame: .zero)
@@ -87,35 +89,45 @@ class EditProfileViewController: FaveVC {
         let actionLabel = Label(text: "Change Profile Photo",
                                  font: FaveFont(style: .h5, weight: .semiBold),
                                  textColor: FaveColors.Accent,
-                                 textAlignment: .left,
+                                 textAlignment: .center,
                                  numberOfLines: 1)
 
-        let disclaimerLabel = Label(text: "Coming soon!",
+        let disclaimerLabel = Label(text: "Edit profile photo  soon!",
                                 font: FaveFont(style: .xsmall, weight: .regular),
                                 textColor: FaveColors.Black60,
-                                textAlignment: .left,
+                                textAlignment: .center,
                                 numberOfLines: 1)
 
         view.addSubview(imageView)
-        view.addSubview(actionLabel)
-        view.addSubview(disclaimerLabel)
+        view.addSubview(dividerView)
+//        view.addSubview(actionLabel)
+//        view.addSubview(disclaimerLabel)
 
         constrain(imageView, actionLabel, disclaimerLabel, view) { imageView, actionLabel, disclaimerLabel, view in
-            imageView.top == view.top + 12
+            imageView.top == view.top + 16
             imageView.width == imageSize
             imageView.height == imageSize
 
             imageView.centerX == view.centerX
+            imageView.bottom == view.bottom - 16
 
-            actionLabel.centerX == view.centerX
-            actionLabel.top == imageView.bottom + 12
+//            actionLabel.centerX == view.centerX
+//            actionLabel.top == imageView.bottom + 12
 
-            disclaimerLabel.centerX == view.centerX
-            disclaimerLabel.top == actionLabel.bottom + 2
-            disclaimerLabel.bottom == view.bottom - 12
+//            disclaimerLabel.centerX == view.centerX
+//            disclaimerLabel.top == imageView.bottom + 8
+//            disclaimerLabel.bottom == view.bottom - 12
         }
 
-        view.backgroundColor = FaveColors.Black20
+        constrain(dividerView, view) { divider, view in
+            divider.left == view.left
+            divider.right == view.right
+            divider.bottom == view.bottom
+            divider.height == 1
+        }
+
+        view.backgroundColor = FaveColors.White
+        dividerView.backgroundColor = FaveColors.Black20
 
         return view
     }()
