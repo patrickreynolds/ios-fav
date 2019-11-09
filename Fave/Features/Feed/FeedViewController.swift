@@ -356,8 +356,9 @@ extension FeedViewController: UITableViewDataSource {
 
         cell.delegate = self
 
-        let event = feedViewModel.event(at: indexPath.row)
-        cell.populate(dependencyGraph: dependencyGraph, event: event)
+        if let event = feedViewModel.event(at: indexPath.row) {
+            cell.populate(dependencyGraph: dependencyGraph, event: event)
+        }
 
         return cell
     }

@@ -25,8 +25,8 @@ class FeedViewModel {
         return events.count
     }
 
-    func event(at index: Int) -> FeedEvent {
-        return events[index]
+    func event(at index: Int) -> FeedEvent? {
+        return events[safe: index]
     }
 
     func addNewEvents(events newEvents: [FeedEvent]) {
