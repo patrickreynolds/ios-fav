@@ -36,7 +36,7 @@ enum OnboardingStepType {
     var title: String {
         switch self {
         case .createList:
-            return "Welcome! Let’s get started by creating \na list."
+            return "Welcome! Let’s get started by creating a list."
         case .addEntry(_, _):
             return ""
         case .askForReccomendations:

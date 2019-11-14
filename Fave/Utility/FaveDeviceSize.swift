@@ -20,4 +20,10 @@ struct FaveDeviceSize {
     static func isIPhoneX() -> Bool {
         return UIScreen.main.bounds.size.height == 812.0
     }
+
+    static func hasNotch() -> Bool {
+        let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+
+        return bottom > 0
+    }
 }

@@ -29,6 +29,7 @@
 		432B3EC522FE94F2005F7EF5 /* UpdateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B3EC422FE94F2005F7EF5 /* UpdateListViewController.swift */; };
 		4334DB6D228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */; };
 		4334DB6F228F269800EE58BB /* TopListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334DB6E228F269800EE58BB /* TopListView.swift */; };
+		43390BB9237DC91200CFC624 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43390BB8237DC91200CFC624 /* KeyboardLayoutConstraint.swift */; };
 		433E4F8422AC3F9200B0A531 /* ProfileInputTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */; };
 		433E4F8622AC40DD00B0A531 /* ProfileInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */; };
 		433E4F8822AC47AB00B0A531 /* ProfileActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */; };
@@ -188,6 +189,7 @@
 		432B3EC422FE94F2005F7EF5 /* UpdateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateListViewController.swift; sourceTree = "<group>"; };
 		4334DB6C228F24C200EE58BB /* FaveLoggedOutWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaveLoggedOutWelcomeView.swift; sourceTree = "<group>"; };
 		4334DB6E228F269800EE58BB /* TopListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListView.swift; sourceTree = "<group>"; };
+		43390BB8237DC91200CFC624 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		433E4F8322AC3F9200B0A531 /* ProfileInputTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputTitleView.swift; sourceTree = "<group>"; };
 		433E4F8522AC40DD00B0A531 /* ProfileInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputView.swift; sourceTree = "<group>"; };
 		433E4F8722AC47AB00B0A531 /* ProfileActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionView.swift; sourceTree = "<group>"; };
@@ -587,6 +589,7 @@
 				4369CF4422583E7300FCA156 /* Haptic.swift */,
 				43ABB3DF230233A000329F7B /* FaveDeviceSize.swift */,
 				437AEC3B235EBC8A00EA60EF /* TimeIntervalEventTracker.swift */,
+				43390BB8237DC91200CFC624 /* KeyboardLayoutConstraint.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -969,6 +972,7 @@
 				431A0DDC228DCC7300F2E6BD /* EventItemView.swift in Sources */,
 				4383115E2335D0650066222F /* GetUpdatesOnboardingStepView.swift in Sources */,
 				4356FD1023189D0E00C060B7 /* OnboardingWelcomePageView.swift in Sources */,
+				43390BB9237DC91200CFC624 /* KeyboardLayoutConstraint.swift in Sources */,
 				43493291229ED37A00F949D6 /* GraphQLQueryBuilder.swift in Sources */,
 				43ABB3DC2302319D00329F7B /* AlertAnimator.swift in Sources */,
 				43BF881322447BB80096CCA1 /* CreateListViewController.swift in Sources */,
