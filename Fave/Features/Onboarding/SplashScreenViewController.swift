@@ -32,16 +32,17 @@ class SplashScreenViewController: FaveVC {
                 return
             case .loggedIn(let user):
 
-                let isTestingOnboarding = true
+                let isTestingOnboarding = false
 
                 if dependencyGraph.storage.hasSeenOnboarding() || !isTestingOnboarding {
 
                     UIView.animate(withDuration: 0.3, delay: 1, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
                         self.view.alpha = 0
                     }, completion: { (completed) in
-                        NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
+                        self.navigationController?.dismiss(animated: false, completion: {
+                            NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
+                        })
 
-                        self.navigationController?.dismiss(animated: false, completion: nil)
                         self.authenticating = false
                     })
                 } else {
@@ -123,7 +124,7 @@ class SplashScreenViewController: FaveVC {
             } else {
 
                 // To trigger onboarding
-                let isTesting = true
+                let isTesting = false
 
                 if dependencyGraph.authenticator.isLoggedIn() && self.dependencyGraph.authenticator.hasJWTToken() && !isTesting {
 
@@ -406,7 +407,7 @@ class SplashScreenViewController: FaveVC {
         self.authenticationState = .loggingIn
 
         // To not have to go through FB auth
-        let isTesting = true
+        let isTesting = false
 
         if let user = dependencyGraph.storage.getUser() {
             if isTesting {

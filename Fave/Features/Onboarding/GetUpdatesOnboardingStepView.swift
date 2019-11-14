@@ -167,7 +167,7 @@ class GetUpdatesOnboardingStepView: UIView {
                 buttonBottomMargin = 24
                 buttonHorizontalPadding = 16
             } else {
-                buttonBottomMargin = 40
+                buttonBottomMargin = 32
                 buttonHorizontalPadding = 16
             }
 
@@ -224,7 +224,9 @@ class GetUpdatesOnboardingStepView: UIView {
                 }
 
                 PushNotifications.promptForPushNotifications(dependencyGraph: dependencyGraph, fromViewController: viewController) {
-                    self.delegate?.didAdvanceOnboarding()
+                    DispatchQueue.main.async {
+                        self.delegate?.didAdvanceOnboarding()
+                    }
                 }
             }
         }

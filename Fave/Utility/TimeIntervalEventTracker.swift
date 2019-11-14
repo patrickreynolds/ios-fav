@@ -23,7 +23,7 @@ class TimeIntervalEventTracker {
       shared.events.removeValue(forKey: event)
       let elapsed = Date().timeIntervalSince(startDate)
       if elapsed > printThreshold {
-        print("\n\n> time \(event.rawValue): \(elapsed) sec")
+        // print("\n\n> time \(event.rawValue): \(elapsed) sec")
       }
     }
   }
