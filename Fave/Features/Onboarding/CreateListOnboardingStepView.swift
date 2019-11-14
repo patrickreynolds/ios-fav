@@ -22,6 +22,8 @@ class CreateListOnboardingStepView: UIView {
     private var hasTappedActionButton: Bool = false
     private var createButtonOffset: CGFloat = 72
 
+    private var keyboardTracker: KeyboardLayoutConstraintTracker
+
     private var hasValidListName: Bool = false {
         didSet {
             if oldValue == hasValidListName {
@@ -200,11 +202,9 @@ class CreateListOnboardingStepView: UIView {
     init(step: OnboardingStepType) {
         self.step = step
 
+        keyboardTracker = KeyboardLayoutConstraintTracker(offset: createButtonOffset)
+
         super.init(frame: .zero)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         addSubview(titleLabel)
         addSubview(illustrationImageView)
@@ -258,6 +258,8 @@ class CreateListOnboardingStepView: UIView {
 
         creationStackView.isHidden = true
         creationStackView.alpha = 0
+
+        keyboardTracker.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -375,47 +377,82 @@ class CreateListOnboardingStepView: UIView {
         }
     }
 
-    @objc func keyboardWillShow(notification: NSNotification) {
-        guard let info = notification.userInfo,
-            let frameInfo = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-
-                return
-        }
-
-        let keyboardHeight = frameInfo.cgRectValue.height
-        delegate?.keyboardHeight = keyboardHeight
-
-        if let constant = self.createButtonBottomMargin?.constant {
-            self.createButtonBottomMargin?.constant = constant - (keyboardHeight - (createButtonOffset + 16))
-        }
-
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
-            self.layoutIfNeeded()
-        }) { completion in }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        guard let info = notification.userInfo,
-            let frameInfo = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-
-                return
-        }
-
-        let keyboardHeight = frameInfo.cgRectValue.height
-        delegate?.keyboardHeight = keyboardHeight
-
-        if let constant = self.createButtonBottomMargin?.constant {
-            self.createButtonBottomMargin?.constant = constant + (keyboardHeight - (createButtonOffset + 16))
-        }
-
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
-            self.layoutIfNeeded()
-        }) { completion in }
-    }
+//    @objc func keyboardWillShow(notification: NSNotification) {
+//        guard let info = notification.userInfo,
+//            let frameInfo = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+//
+//                return
+//        }
+//
+//        let keyboardHeight = frameInfo.cgRectValue.height
+//        delegate?.keyboardHeight = keyboardHeight
+//
+//        if let constant = self.createButtonBottomMargin?.constant {
+//            self.createButtonBottomMargin?.constant = constant - (keyboardHeight - (createButtonOffset + 16))
+//        }
+//
+//        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+//            self.layoutIfNeeded()
+//        }) { completion in }
+//    }
+//
+//    @objc func keyboardWillHide(notification: NSNotification) {
+//        guard let info = notification.userInfo,
+//            let frameInfo = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+//
+//                return
+//        }
+//
+//        let keyboardHeight = frameInfo.cgRectValue.height
+//        delegate?.keyboardHeight = keyboardHeight
+//
+//        if let constant = self.createButtonBottomMargin?.constant {
+//            self.createButtonBottomMargin?.constant = constant + (keyboardHeight - (createButtonOffset + 16))
+//        }
+//
+//        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+//            self.layoutIfNeeded()
+//        }) { completion in }
+//    }
 
     @objc func textFieldDidChange(textField: UITextField!) {
         if let text = textField.text {
             listName = text.trimmingCharacters(in: .whitespacesAndNewlines)
         }
+    }
+}
+
+// let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+
+extension CreateListOnboardingStepView: KeyboardLayoutConstraintTrackerDelegate {
+    func didUpdateKeyboardOffset(action: KeyboardLayoutTrackerKeyboardAction, constant: CGFloat) {
+
+        /*
+         Apologies to my future self, or whoever is the next person to touch this, for I have sinned.
+         This is one of the nastiest sequences of code that lives in our app to date (11/14/2019).
+         It all makes sense right now, but surely won't in as little as 24 hours time.
+         iOS devices with or without notches alike; bless you.
+         */
+
+        var adjustedOffset = constant
+
+        switch action {
+        case .hiding:
+            adjustedOffset -= 16
+        case .showing:
+            adjustedOffset += 16
+        }
+
+        if FaveDeviceSize.hasNotch() {
+
+        } else {
+            adjustedOffset -= 32
+        }
+
+        self.createButtonBottomMargin?.constant = adjustedOffset
+
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }) { completion in }
     }
 }
