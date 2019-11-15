@@ -1192,6 +1192,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 33;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
 				INFOPLIST_FILE = Fave/Info.plist;
@@ -1318,6 +1319,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 33;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
 				INFOPLIST_FILE = Fave/Info.plist;
@@ -1505,6 +1507,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 33;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
 				INFOPLIST_FILE = Fave/Info.plist;
@@ -1532,6 +1535,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 33;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
 				INFOPLIST_FILE = Fave/Info.plist;

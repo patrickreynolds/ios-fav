@@ -262,10 +262,11 @@ extension OnboardingViewController: OnboardingViewControllerDelegate {
         guard let lastStep = steps.last, lastStep != currentStep else {
             // Make sure feed is loaded
 
-            NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
-
             dependencyGraph.storage.setHasSeenOnboarding(seen: true)
-            navigationController?.dismiss(animated: true, completion: nil)
+
+            navigationController?.dismiss(animated: true, completion: {
+                NotificationCenter.default.post(name: .shouldRefreshHomeFeed, object: nil)
+            })
 
             return
         }
