@@ -202,7 +202,7 @@ class CreateItemViewController: FaveVC {
         noteTextView.layer.cornerRadius = 6
         noteTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 
-        noteTextViewPlaceholder = Label(text: "(Optional) Leave a note...", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black50, textAlignment: .left, numberOfLines: 1)
+        noteTextViewPlaceholder = Label(text: "(Optional) Leave a note...", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black60, textAlignment: .left, numberOfLines: 1)
         noteTextViewPlaceholder.translatesAutoresizingMaskIntoConstraints = false
         noteTextViewPlaceholder.isHidden = false
 
