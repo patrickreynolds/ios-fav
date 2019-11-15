@@ -14,3 +14,13 @@ extension UIApplication {
         return d
     }
 }
+
+protocol VersionManager {}
+
+extension VersionManager {
+    func shouldForceUpgrade(version remoteVersion: String) -> Bool {
+        let currentVersion = UIApplication.shared.appDelegate.dependencyGraph.appConfiguration.currentVersion
+
+        return currentVersion.isVersion(lessThan: remoteVersion)
+    }
+}

@@ -8,6 +8,7 @@ struct AppConfiguration: AppConfigType {
     let baseUrl: String
     let googleAPIKey: String
     let production: Bool
+    let currentVersion: String
 
     init() {
         self.baseUrl = Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String
@@ -15,5 +16,8 @@ struct AppConfiguration: AppConfigType {
 
         let productionString = Bundle.main.infoDictionary!["PRODUCTION"] as! String
         self.production = productionString == "YES" ? true : false
+
+        let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+        self.currentVersion = version
     }
 }
