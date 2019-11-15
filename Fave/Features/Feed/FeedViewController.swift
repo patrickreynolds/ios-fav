@@ -295,7 +295,9 @@ class FeedViewController: FaveVC {
 
             self.user = user
 
-            updateProfileTabPhoto()
+            DispatchQueue.main.async {
+                self.updateProfileTabPhoto()
+            }
         }
     }
 
