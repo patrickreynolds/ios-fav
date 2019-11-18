@@ -241,9 +241,9 @@ class RecommendationsViewController: FaveVC {
 
     private func selectListToFaveTo(item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
         let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, item: item, canceledSelection: canceledSelection, didSelectList: didSelectList)
-        myListsViewController.modalPresentationStyle = .overCurrentContext
+        let myListsNavigationController = UINavigationController(rootViewController: myListsViewController)
 
-        present(myListsViewController, animated: false, completion: nil)
+        present(myListsNavigationController, animated: true)
     }
 }
 
@@ -411,9 +411,8 @@ extension RecommendationsViewController: EntryTableViewCellDelegate {
                     }
                 })
 
-                myListsViewController.modalPresentationStyle = .overCurrentContext
-
-                self.present(myListsViewController, animated: false, completion: nil)
+                let myListsNavigationController = UINavigationController(rootViewController: myListsViewController)
+                self.present(myListsNavigationController, animated: true)
             })
         }
 

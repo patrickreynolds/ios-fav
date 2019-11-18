@@ -5,17 +5,19 @@ import Cartography
 class SelectListTableViewCell: UITableViewCell {
     private lazy var titleLabel: Label = {
         let label = Label(text: "",
-                               font: FaveFont(style: .h5, weight: .bold),
+                               font: FaveFont(style: .h5, weight: .semiBold),
                                textColor: FaveColors.Black90,
                                textAlignment: .left,
                                numberOfLines: 1)
+
+        label.lineBreakMode = .byTruncatingTail
 
         return label
     }()
 
     private lazy var subtitleLabel: Label = {
         let label = Label(text: "",
-                               font: FaveFont(style: .small, weight: .regular),
+                               font: FaveFont(style: .h5, weight: .regular),
                                textColor: FaveColors.Black70,
                                textAlignment: .left,
                                numberOfLines: 1)
@@ -39,24 +41,17 @@ class SelectListTableViewCell: UITableViewCell {
         contentView.addSubview(borderView)
 
         constrain(titleLabel, subtitleLabel, borderView, contentView) { titleLabel, subtitleLabel, borderView, view in
-            titleLabel.top == view.top + 20
+            titleLabel.top == view.top + 16
             titleLabel.right == view.right - 16
             titleLabel.left == view.left + 16
 
             subtitleLabel.top == titleLabel.bottom
             subtitleLabel.left == titleLabel.left
             subtitleLabel.right == titleLabel.right
-            subtitleLabel.bottom == borderView.top - 20
+            subtitleLabel.bottom == borderView.top - 16
 
             borderView.left == view.left + 16
-            borderView.right == view.right - 16
-            borderView.bottom == view.bottom
-            borderView.height == 1
-        }
-
-        constrain(borderView, contentView) { borderView, view in
-            borderView.left == view.left + 16
-            borderView.right == view.right - 16
+            borderView.right == view.right
             borderView.bottom == view.bottom
             borderView.height == 1
         }

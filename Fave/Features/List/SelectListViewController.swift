@@ -8,19 +8,19 @@ class SelectListViewController: FaveVC {
 
     var lists = [List]() {
         didSet {
-            if !lists.isEmpty {
+            if lists.isEmpty {
+                UIView.animate(withDuration: 0.3) {
+                                self.noListsView.alpha = 1
+                            }
+
+                listTableView.alpha = 0
+            } else {
                 UIView.animate(withDuration: 0.3) {
                     self.noListsView.alpha = 0
                 }
 
                 listTableView.alpha = 1
                 listTableView.reloadData()
-            } else {
-                UIView.animate(withDuration: 0.3) {
-                    self.noListsView.alpha = 1
-                }
-
-                listTableView.alpha = 0
             }
         }
     }
@@ -94,6 +94,8 @@ class SelectListViewController: FaveVC {
             subtitleLabel.bottom == view.bottom - 24
         }
 
+        view.alpha = 0
+
         return view
     }()
 
@@ -118,11 +120,7 @@ class SelectListViewController: FaveVC {
         view.addSubview(loadingIndicator)
         view.addSubview(noListsView)
 
-        constrainToSuperview(listTableView, exceptEdges: [.top])
-
-        constrain(listTableView, view) { tableView, view in
-            tableView.top == view.topMargin
-        }
+        constrainToSuperview(listTableView)
 
         constrain(loadingIndicator, view) { loadingIndicator, view in
             loadingIndicator.centerX == view.centerX
@@ -135,11 +133,25 @@ class SelectListViewController: FaveVC {
             noListsView.left == view.left + 16
         }
 
+        view.bringSubviewToFront(loadingIndicator)
+
+        let titleViewLabel = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        navigationItem.titleView = titleViewLabel
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        loadLists()
+    }
+
+    func loadLists() {
         guard let user = dependencyGraph.storage.getUser() else {
             return
         }
 
         isLoading = true
+
         dependencyGraph.faveService.getLists(userId: user.id) { lists, error in
             self.isLoading = false
 
@@ -149,15 +161,6 @@ class SelectListViewController: FaveVC {
 
             self.lists = unwrappedLists.filter({ $0.title.lowercased() != "recommendations" && $0.title.lowercased() != "saved for later" })
         }
-
-        view.bringSubviewToFront(loadingIndicator)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        let titleViewLabel = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
-        navigationItem.titleView = titleViewLabel
     }
 
     @objc func canceledSelection(sender: UIBarButtonItem!) {

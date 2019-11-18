@@ -372,9 +372,9 @@ class ItemViewController: FaveVC {
     func selectListToFaveTo(item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
 
         let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, item: item, canceledSelection: canceledSelection, didSelectList: didSelectList)
-        myListsViewController.modalPresentationStyle = .overCurrentContext
+        let myListsNavigationController = UINavigationController(rootViewController: myListsViewController)
 
-        present(myListsViewController, animated: false, completion: nil)
+        present(myListsNavigationController, animated: true)
     }
 
     private func removeItem(item: Item) {
@@ -399,16 +399,6 @@ class ItemViewController: FaveVC {
 extension ItemViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         itemTableView.deselectRow(at: indexPath, animated: true)
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.alpha = 0
-//
-//        let minTime = Double(min((0.01 * Double(indexPath.row)), 0.1))
-//
-//        UIView.animate(withDuration: 0.2, delay: minTime, animations: {
-//            cell.alpha = 1
-//        })
     }
 }
 

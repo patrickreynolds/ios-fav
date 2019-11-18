@@ -842,15 +842,15 @@ extension ListViewController: EntryTableViewCellDelegate {
 
         let addToListHandler: (() -> ()) = {
             self.dismiss(animated: true, completion: {
+
                 let myListsViewController = MyListsViewController(dependencyGraph: self.dependencyGraph, item: item, canceledSelection: {
                     self.dismiss(animated: true, completion: nil)
                 }, didSelectList: { selectedList in
-                    self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: "") { response, error in
+                    self.dependencyGraph.faveService.addFave(userId: user.id, listId: selectedList.id, itemId: item.id, note: item.note) { response, error in
 
                         self.dependencyGraph.analytics.logEvent(dependencyGraph: self.dependencyGraph, title: AnalyticsEvents.itemFaved.rawValue)
 
                         self.updateSaved(userId: user.id)
-
 
                         guard let _ = response else {
                             return
@@ -860,9 +860,8 @@ extension ListViewController: EntryTableViewCellDelegate {
                     }
                 })
 
-                myListsViewController.modalPresentationStyle = .overCurrentContext
-
-                self.present(myListsViewController, animated: false, completion: nil)
+                let myListsNavigationController = UINavigationController(rootViewController: myListsViewController)
+                self.present(myListsNavigationController, animated: true)
             })
         }
 
@@ -974,9 +973,9 @@ extension ListViewController: EntryTableViewCellDelegate {
     func selectListToFaveTo(item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
 
         let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, item: item, canceledSelection: canceledSelection, didSelectList: didSelectList)
-        myListsViewController.modalPresentationStyle = .overCurrentContext
+        let myListsNavigationController = UINavigationController(rootViewController: myListsViewController)
 
-        present(myListsViewController, animated: false, completion: nil)
+        present(myListsNavigationController, animated: true)
     }
 }
 
