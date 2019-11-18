@@ -78,8 +78,17 @@ class OnboardingWelcomePageView: UIView {
     }()
 
     private lazy var subtitle: Label = {
+
+        let fontStyle: FaveFontStyle
+
+        if FaveDeviceSize.isIPhone5sOrLess() || FaveDeviceSize.isIPhone6() {
+            fontStyle = .h5
+        } else {
+            fontStyle = .h4
+        }
+
         let label = Label(text: type.subtitle,
-                          font: FaveFont(style: FaveDeviceSize.isIPhone5sOrLess() ? .h5 : .h4, weight: .regular) ,
+                          font: FaveFont(style: fontStyle, weight: .regular) ,
                           textColor: type.color,
                           textAlignment: .center,
                           numberOfLines: 0)
@@ -118,9 +127,9 @@ class OnboardingWelcomePageView: UIView {
             let titleTopMargin: CGFloat
 
             if FaveDeviceSize.isIPhone5sOrLess() {
-                titleTopMargin = 24
+                titleTopMargin = 16
             } else {
-                titleTopMargin = 24
+                titleTopMargin = 20
             }
 
             title.top == view.top + titleTopMargin

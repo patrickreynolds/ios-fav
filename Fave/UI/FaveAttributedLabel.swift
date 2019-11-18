@@ -42,7 +42,7 @@ class FaveAttributedLabel: UIView {
         let attributes: [NSAttributedString.Key : Any] = [
             NSAttributedString.Key.font: fontStyle.withWeight(.regular),
             NSAttributedString.Key.foregroundColor: textColor,
-            NSAttributedString.Key.underlineStyle: [],
+            NSAttributedString.Key.underlineStyle: 0,
             NSAttributedString.Key.paragraphStyle: paragraphStyle
         ]
 

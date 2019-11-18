@@ -272,6 +272,40 @@ class SplashScreenViewController: FaveVC {
         return stackView
     }()
 
+    private lazy var termsOfServiceLabel: FaveAttributedLabel = {
+        let fragment1 = "By continuing, I agree to the Fave "
+        let fragment2 = AttributedLabelActionFragment(text: "Terms of Service") {
+            let termsOfService = "https://sites.google.com/view/faveapp/terms-and-conditions"
+
+            guard let url = URL(string: termsOfService) else {
+                return
+            }
+
+            UIApplication.shared.open(url, options: [:])
+        }
+
+        let fragment3 = " and "
+        let fragment4 = AttributedLabelActionFragment(text: "Privacy Policy") {
+            let privacyPolicy = "https://sites.google.com/view/faveapp/privacy-policy"
+
+            guard let url = URL(string: privacyPolicy) else {
+                return
+            }
+
+            UIApplication.shared.open(url, options: [:])
+        }
+
+        let fragment5 = "."
+
+        let label = FaveAttributedLabel.init(fontStyle: FaveFont.init(style: FaveFontStyle.small, weight: .regular).style,
+                                             textColor: FaveColors.Black60,
+                                             linkColor: FaveColors.Accent,
+                                             textAlignment: .center,
+                                             fragments: [fragment1, fragment2, fragment3, fragment4, fragment5])
+
+        return label
+    }()
+
     init(dependencyGraph: DependencyGraphType) {
         super.init(dependencyGraph: dependencyGraph, analyticsImpressionEvent: .splashScreenShown)
     }
@@ -287,6 +321,7 @@ class SplashScreenViewController: FaveVC {
         view.addSubview(welcomeScrollView)
         view.addSubview(welcomeScrollViewPageControl)
         view.addSubview(logInWithFacebookButton)
+        view.addSubview(termsOfServiceLabel)
 
         welcomeScrollView.addSubview(welcomeStackView)
 
@@ -339,23 +374,40 @@ class SplashScreenViewController: FaveVC {
         }
 
         constrain(logInWithFacebookButton, view) { button, view in
-            let buttonBottomMargin: CGFloat
             let buttonHorizontalPadding: CGFloat
 
             if FaveDeviceSize.isIPhone5sOrLess() {
-                buttonBottomMargin = 16
                 buttonHorizontalPadding = 16
             } else if FaveDeviceSize.isIPhone6() {
-                buttonBottomMargin = 24
                 buttonHorizontalPadding = 16
             } else {
-                buttonBottomMargin = 48
                 buttonHorizontalPadding = 24
             }
 
             button.left == view.left + buttonHorizontalPadding
             button.right == view.right - buttonHorizontalPadding
-            button.bottom == view.bottomMargin - buttonBottomMargin
+        }
+
+        constrain(termsOfServiceLabel, logInWithFacebookButton, view) { label, button, view in
+
+            let topMargin: CGFloat
+            let bottomMargin: CGFloat
+
+            if FaveDeviceSize.isIPhone5sOrLess() {
+                topMargin = 8
+                bottomMargin = 8
+            } else if FaveDeviceSize.isIPhone6() {
+                topMargin = 16
+                bottomMargin = 16
+            } else {
+                topMargin = 24
+                bottomMargin = 24
+            }
+
+            label.top == button.bottom + topMargin
+            label.left == view.left + 24
+            label.right == view.right - 24
+            label.bottom == view.bottom - bottomMargin
         }
 
         constrain(facebookLoadingSpinner, logInWithFacebookButton) { spinner, button in

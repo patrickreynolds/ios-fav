@@ -98,11 +98,25 @@ class ProfileViewController: FaveVC {
     }()
 
     private lazy var tabBarMenuButton: UIButton = {
-        let button = UIButton(type: .custom)
+        let image = UIImage(named: "icon-menu")
+        let imageView = UIImageView(image: image)
 
+        let button = UIButton(frame: .zero)
+        button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
-        button.setImage(UIImage(named: "icon-menu"), for: .normal)
+        button.tintColor = FaveColors.Black90
         button.adjustsImageWhenHighlighted = false
+        button.contentHorizontalAlignment = .right
+
+        constrain(imageView) { imageView in
+            imageView.width == 24
+            imageView.height == 24
+        }
+
+        constrain(button) { button in
+            button.width == 40
+            button.height == 24
+        }
 
         return button
     }()
@@ -174,6 +188,10 @@ class ProfileViewController: FaveVC {
 
         if let navigationController = navigationController, navigationController.viewControllers.count > 1 {
             navigationController.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
+        }
+
+        if let user = dependencyGraph.storage.getUser(), let currentPageUser = self.user, user.id != currentPageUser.id {
+            navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
         }
 
         view.bringSubviewToFront(listTableLoadingIndicator)
@@ -327,20 +345,6 @@ class ProfileViewController: FaveVC {
 
     }
 
-    @objc func menuButtonTapped(sender: UIBarButtonItem) {
-        print("\nOpen menu\n")
-
-        let alertController = UIAlertController(title: "Not yet implemented", message: "Coming soon!", preferredStyle: .alert)
-
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            switch action.style {
-            case .default, .cancel, .destructive:
-                alertController.dismiss(animated: true, completion: nil)
-            }}))
-
-        self.present(alertController, animated: true, completion: nil)
-    }
-
     @objc func backButtonTapped(sender: UIButton!) {
         _ = navigationController?.popViewController(animated: true)
     }
@@ -435,6 +439,42 @@ class ProfileViewController: FaveVC {
             }
         }
     }
+
+    @objc func menuButtonTapped(sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        guard let currentPageUser = user else {
+            return
+        }
+
+        if let user = dependencyGraph.storage.getUser(), user.id != currentPageUser.id {
+            alertController.addAction(UIAlertAction(title: "Block", style: .destructive, handler: { alertAction in
+                self.blockUser(user: currentPageUser)
+
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+
+            alertController.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { alertAction in
+                self.reportUser(user: currentPageUser)
+
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+        }
+
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { alertAction in
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+    private func blockUser(user: User) {
+        relationshipButtonTapped(relationship: UserRelationship.following, userId: user.id, forceUnfollow: true)
+    }
+
+    private func reportUser(user: User) {
+        showToast(title: "\(user.handle) reported")
+    }
 }
 
 extension ProfileViewController: UITableViewDelegate {
@@ -520,7 +560,7 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
         navigationController?.pushViewController(followingListsViewController, animated: true)
     }
 
-    func relationshipButtonTapped(relationship: UserRelationship, userId: Int) {
+    func relationshipButtonTapped(relationship: UserRelationship, userId: Int, forceUnfollow: Bool = false) {
         switch relationship {
          case .loading:
             return
@@ -533,7 +573,9 @@ extension ProfileViewController: ProfileTableHeaderViewDelegate {
                 if !success {
 
                     // Show toast that something went wrong
-                    self.profileTableHeaderView.updateRelationship(relationship: .following)
+                    if !forceUnfollow {
+                        self.profileTableHeaderView.updateRelationship(relationship: .following)
+                    }
                 }
             }
         case .notFollowing:

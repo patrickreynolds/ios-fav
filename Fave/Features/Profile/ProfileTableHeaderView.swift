@@ -5,7 +5,7 @@ import Cartography
 protocol ProfileTableHeaderViewDelegate {
     func editProfileButtonTapped()
     func didTapFollowingListsLabel(user: User)
-    func relationshipButtonTapped(relationship: UserRelationship, userId: Int)
+    func relationshipButtonTapped(relationship: UserRelationship, userId: Int, forceUnfollow: Bool)
 }
 
 enum UserRelationship {
@@ -348,7 +348,7 @@ class ProfileTableHeaderView: UIView {
             return
         }
 
-        delegate?.relationshipButtonTapped(relationship: relationshipStatus, userId: user.id)
+        delegate?.relationshipButtonTapped(relationship: relationshipStatus, userId: user.id, forceUnfollow: false)
     }
 
     func updateFollowingCountLabel(followingCount: Int) {
