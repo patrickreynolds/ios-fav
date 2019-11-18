@@ -6,29 +6,99 @@ class MyListsViewController: FaveVC {
 
     let item: Item
 
-    var sheetOffsetLayoutConstraint: NSLayoutConstraint?
-
     var didSelectList: ((_ list: List) -> ())
     var canceledSelection: (() -> ())
 
     var lists: [List] = [] {
         didSet {
-            listsTableView.reloadData()
+            if lists.isEmpty {
+                UIView.animate(withDuration: 0.3) {
+                    self.noListsView.alpha = 1
+                }
+
+                listsTableView.alpha = 0
+            } else {
+                UIView.animate(withDuration: 0.3) {
+                    self.noListsView.alpha = 0
+                }
+
+                listsTableView.alpha = 1
+                listsTableView.reloadData()
+            }
         }
     }
 
-    private lazy var listsTableView: AutoSizingTableView = {
-        let tableView = AutoSizingTableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .plain)
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                loadingIndicatorView.startAnimating()
+            } else {
+                loadingIndicatorView.stopAnimating()
+            }
+        }
+    }
+
+    private lazy var listsTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
 
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.register(UITableViewCell.self)
+        tableView.register(SelectListTableViewCell.self)
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0.01))
 
         tableView.separatorColor = FaveColors.Black30
 
         return tableView
+    }()
+
+    private lazy var noListsView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = FaveColors.White
+
+        let titleLabel = Label(text: "No lists found", font: FaveFont(style: .h4, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
+
+        let subtitleLabel = Label(text: "Create a new list to add your entry.", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
+
+        view.addSubview(titleLabel)
+        view.addSubview(subtitleLabel)
+
+        constrain(titleLabel, subtitleLabel, view) { titleLabel, subtitleLabel, view in
+            titleLabel.top == view.top + 24
+            titleLabel.right == view.right - 32
+            titleLabel.left == view.left + 32
+
+            subtitleLabel.top == titleLabel.bottom + 8
+            subtitleLabel.right == titleLabel.right
+            subtitleLabel.left == titleLabel.left
+            subtitleLabel.bottom == view.bottom - 24
+        }
+
+        view.alpha = 0
+
+        return view
+    }()
+
+    private lazy var newButton: UIButton = {
+        let button = UIButton(frame: CGRect.zero)
+
+        button.addTarget(self, action: #selector(createListButtonTapped), for: .touchUpInside)
+        button.backgroundColor = FaveColors.Accent
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        button.layer.cornerRadius = 16
+
+        let attributedTitle = NSAttributedString(string: "New",
+                                                 font: FaveFont(style: .small, weight: .semiBold).font,
+                                                 textColor: FaveColors.White)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+
+        return button
+    }()
+
+    private lazy var loadingIndicatorView: IndeterminateCircularIndicatorView = {
+        var indicator = IndeterminateCircularIndicatorView()
+
+        return indicator
     }()
 
     init(dependencyGraph: DependencyGraphType, item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
@@ -43,112 +113,41 @@ class MyListsViewController: FaveVC {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private lazy var loadingSpinnerView: IndeterminateCircularIndicatorView = {
-        var indicator = IndeterminateCircularIndicatorView()
-
-        return indicator
-    }()
-
-    private lazy var backgroundView: UIView = {
-        let view = UIView(frame: .zero)
-
-        view.backgroundColor = FaveColors.Black100
-        view.alpha = 0
-
-        return view
-    }()
-
-    private lazy var pickerView: UIView = {
-        let view = UIView(frame: .zero)
-
-        view.backgroundColor = FaveColors.White
-
-        view.layer.cornerRadius = 8
-        view.layer.masksToBounds = true
-        view.clipsToBounds = true
-
-        constrain(view) { view in
-            view.width == UIScreen.main.bounds.width
-            view.height == UIScreen.main.bounds.height
-        }
-
-        return view
-    }()
-
-    private lazy var pickerTitleLabel: Label = {
-        let label = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
-
-        self.pickerView.addSubview(label)
-
-        constrain(label, self.pickerView) { label, view in
-            label.centerX == view.centerX
-            label.top == view.top + 16
-        }
-
-        return label
-    }()
-
-    private lazy var cancelLabel: Label = {
-        let label = Label(text: "Cancel", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .left, numberOfLines: 1)
-
-        label.isUserInteractionEnabled = true
-
-        self.pickerView.addSubview(label)
-
-        constrain(label, self.pickerView) { label, view in
-            label.top == view.top + 16
-            label.left == view.left + 16
-        }
-
-        _ = label.tapped({ _ in
-            self.cancelSelection()
-        })
-
-        return label
-    }()
-
     override func viewDidLoad() {
-        super.viewDidLoad()
+        view.backgroundColor = UIColor.white
 
-        view.backgroundColor = UIColor.clear
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelSelection))
 
-        view.addSubview(backgroundView)
-        view.addSubview(pickerView)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: newButton)
 
-        pickerView.addSubview(loadingSpinnerView)
-        pickerView.addSubview(listsTableView)
+        view.addSubview(listsTableView)
+        view.addSubview(loadingIndicatorView)
+        view.addSubview(noListsView)
 
-        constrainToSuperview(backgroundView)
+        constrainToSuperview(listsTableView)
 
-        constrain(loadingSpinnerView, pickerView) { spinnerView, view in
-            spinnerView.centerX == view.centerX
-            spinnerView.centerY == view.centerY
+        constrain(loadingIndicatorView, view) { loadingIndicator, view in
+            loadingIndicator.centerX == view.centerX
+            loadingIndicator.centerY == view.centerY
         }
 
-        constrain(pickerView, view) { pickerView, view in
-            pickerView.left == view.left
-            pickerView.right == view.right
-            sheetOffsetLayoutConstraint = pickerView.top == view.bottom
+        constrain(noListsView, view) { noListsView, view in
+            noListsView.top == view.topMargin + 64
+            noListsView.right == view.right
+            noListsView.left == view.left + 16
         }
 
-        constrainToSuperview(listsTableView, exceptEdges: [.top])
+        let titleViewLabel = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        navigationItem.titleView = titleViewLabel
 
-        constrain(listsTableView, pickerTitleLabel) { tableView, label in
-            tableView.top == label.bottom + 16
-        }
+        view.bringSubviewToFront(loadingIndicatorView)
+    }
 
-        view.bringSubviewToFront(pickerView)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
 
-        _ = backgroundView.tapped { _ in
-            self.cancelSelection()
-        }
-
-        cancelLabel.alpha = 1
-
-        loadingSpinnerView.startAnimating()
-
-        loadLists {
-            self.loadingSpinnerView.stopAnimating()
+        loadLists() {
+            self.isLoading = false
         }
     }
 
@@ -156,6 +155,8 @@ class MyListsViewController: FaveVC {
         guard let user = dependencyGraph.storage.getUser() else {
             return
         }
+
+        isLoading = true
 
         dependencyGraph.faveService.getLists(userId: user.id) { lists, error in
             guard let unwrappedLists = lists, error == nil else {
@@ -173,58 +174,36 @@ class MyListsViewController: FaveVC {
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if let constraint = sheetOffsetLayoutConstraint {
-            constraint.constant -= (UIScreen.main.bounds.height - 64)
-        }
-
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.backgroundView.alpha = 0.56
-        }, completion: nil)
-
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 1.2, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
+    func didSelectList(list: List) {
+        didSelectList(list)
     }
 
-    private func dismissView() {
-        if let constraint = sheetOffsetLayoutConstraint {
-            constraint.constant += (UIScreen.main.bounds.height - 64)
-        }
-
-        UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
-            self.backgroundView.alpha = 0
-            self.view.layoutIfNeeded()
-        }, completion: { _ in
-            self.dismiss(animated: false, completion: nil)
+    @objc func cancelSelection(sender: UIBarButtonItem!) {
+        dismiss(animated: true, completion: {
+            self.canceledSelection()
         })
     }
 
-    func didSelectList(list: List) {
-        didSelectList(list)
-        dismissView()
-    }
+    @objc func createListButtonTapped(sender: UIButton!) {
+        sender.performImpact(style: .light)
 
-    func cancelSelection() {
-        self.canceledSelection()
-        self.dismissView()
+        let createListViewController = CreateListViewController(dependencyGraph: dependencyGraph)
+
+        createListViewController.delegate = self
+
+        navigationController?.pushViewController(createListViewController, animated: true)
     }
 }
 
 extension MyListsViewController: UITableViewDelegate {
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let list = self.lists[indexPath.row]
 
         self.didSelectList(list: list)
-    }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -234,13 +213,17 @@ extension MyListsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
+        let cell = tableView.dequeue(SelectListTableViewCell.self, indexPath: indexPath)
 
         let list = lists[indexPath.row]
-
-        cell.textLabel?.text = list.title
-        cell.textLabel?.font = FaveFont(style: .h5, weight: .regular).font
+        cell.populate(list: list)
 
         return cell
+    }
+}
+
+extension MyListsViewController: CreateListViewControllerDelegate {
+    func didCreateList(list: List) {
+        didSelectList(list)
     }
 }

@@ -105,6 +105,8 @@ class ItemTableHeaderView: UIView {
                           textAlignment: .left,
                           numberOfLines: 0)
 
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+
         return label
     }()
 
@@ -150,6 +152,8 @@ class ItemTableHeaderView: UIView {
 
     private lazy var savedItemContextView: SavedItemContextView = {
         let view = SavedItemContextView()
+
+        view.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
 
         return view
     }()
@@ -261,11 +265,12 @@ class ItemTableHeaderView: UIView {
                 self.savedItemContextView.alpha = 0
             }
         }
+
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
 
     @objc func faveItemButtonTapped(sender: UIButton!) {
-        print("\n Follow Item Button Tapped \n")
-
         delegate?.saveItemButtonTapped(item: item, from: itemIsSavedByUser, to: !itemIsSavedByUser)
 
         itemIsSavedByUser = !itemIsSavedByUser

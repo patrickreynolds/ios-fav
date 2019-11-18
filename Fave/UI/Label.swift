@@ -46,6 +46,12 @@ class Label: UIView, Shimmerable {
         }
     }
 
+    var lineBreakMode: NSLineBreakMode? {
+        didSet {
+            updateLabel()
+        }
+    }
+
     // MARK: - Initializers
 
     init(text: String? = nil,
@@ -128,6 +134,10 @@ class Label: UIView, Shimmerable {
             let halfLineSpacing = font.lineSpacing / 2
             topLabelConstraint?.constant = halfLineSpacing
             bottomLabelConstraint?.constant = -halfLineSpacing
+
+            if let lineBreakMode = lineBreakMode {
+                label.lineBreakMode = lineBreakMode
+            }
 
             if let compressionPriority = contentCompressionResistancePriority {
                 label.setContentCompressionResistancePriority(compressionPriority, for: NSLayoutConstraint.Axis.horizontal)
