@@ -97,6 +97,7 @@ class SplashScreenViewController: FaveVC {
                     self.welcomeScrollView.alpha = 1
                     self.welcomeScrollViewPageControl.alpha = 1
                     self.logInWithFacebookButton.alpha = 1
+                    self.termsOfServiceLabel.alpha = 1
                     self.logInWithFacebookButton.transform = CGAffineTransform(scaleX: 1, y: 1)
                 }) { completed in }
             } else {
@@ -302,6 +303,8 @@ class SplashScreenViewController: FaveVC {
                                              linkColor: FaveColors.Accent,
                                              textAlignment: .center,
                                              fragments: [fragment1, fragment2, fragment3, fragment4, fragment5])
+
+        label.alpha = 0
 
         return label
     }()
