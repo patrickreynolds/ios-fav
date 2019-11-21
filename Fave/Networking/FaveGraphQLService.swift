@@ -79,9 +79,7 @@ struct FaveGraphQLService {
 
         let listsQueryString = GraphQLQueryBuilder.listsQuery(userId: userId)
 
-        TimeIntervalEventTracker.trackStart(event: .networkListResponseTime)
         networking.sendGraphqlRequest(query: listsQueryString) { response, error in
-            TimeIntervalEventTracker.trackEnd(event: .networkListResponseTime)
 
             guard let unwrappedResponse = response, let listData = unwrappedResponse["lists"] as? [[String: AnyObject]] else {
                 completion(nil, error)
@@ -443,6 +441,23 @@ struct FaveGraphQLService {
             let items = itemData.map({ Item(data: $0)}).compactMap({ $0 })
 
             completion(items, error)
+        }
+    }
+
+    func mySavedItems(completion: @escaping (_ items: [SavedItem]?, _ error: Error?) -> ()) {
+
+        let myItemsQuery = GraphQLQueryBuilder.mySavedItems()
+
+        networking.sendGraphqlRequest(query: myItemsQuery) { response, error in
+            guard let unwrappedResponse = response, let itemData = unwrappedResponse["savedItems"] as? [[String: AnyObject]] else {
+                completion(nil, error)
+
+                return
+            }
+
+            let savedItems = itemData.map({ SavedItem(data: $0)}).compactMap({ $0 })
+
+            completion(savedItems, error)
         }
     }
 

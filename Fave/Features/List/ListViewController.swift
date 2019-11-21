@@ -54,12 +54,12 @@ class ListViewController: FaveVC {
         }
     }
 
-    var listOfCurrentItems: [Item] = [] {
+    var listOfCurrentSavedItems: [SavedItem] = [] {
         didSet {
             self.listItems = self.listItems.map({ listItem in
                 var item = listItem
 
-                let allListDataIds = listOfCurrentItems.map({ item in item.dataId })
+                let allListDataIds = listOfCurrentSavedItems.map({ item in item.dataId })
 
                 item.isSaved = allListDataIds.contains(item.dataId)
 
@@ -241,6 +241,7 @@ class ListViewController: FaveVC {
         view.addSubview(loadingIndicator)
         view.addSubview(createButton)
         view.addSubview(progressHud)
+        view.addSubview(loadingIndicator)
 
         constrainToSuperview(listTableView, exceptEdges: [.top, .bottom])
 
@@ -273,8 +274,6 @@ class ListViewController: FaveVC {
                 filterType = .recommendations
             }
 //        }
-
-        view.addSubview(loadingIndicator)
     }
 
     override func viewDidLayoutSubviews() {
@@ -308,28 +307,29 @@ class ListViewController: FaveVC {
 
         if listItems.isEmpty {
             loadingIndicator.startAnimating()
-        }
 
-        refreshData() {
-            self.loadingIndicator.stopAnimating()
+            refreshData() {
+                self.loadingIndicator.stopAnimating()
+            }
         }
     }
 
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         refreshData {
-            delay(0.0) {
-                self.refreshControl.endRefreshing()
-            }
+            self.refreshControl.endRefreshing()
         }
     }
 
     private func refreshData(completion: @escaping () -> () = {}) {
+        TimeIntervalEventTracker.trackStart(event: .userPrecievedListResponseTime)
+
         dependencyGraph.faveService.getList(listId: self.list.id) { response, error in
             guard let list = response else {
                 return
             }
 
             self.list = list
+            self.listItems = list.items
 
             if let user = self.dependencyGraph.storage.getUser() {
                 self.dependencyGraph.faveService.listsUserFollows(userId: user.id) { response, error in
@@ -338,22 +338,9 @@ class ListViewController: FaveVC {
                     }
 
                     self.listsUserFollows = listsUserFollows
+                    self.updateSaved(userId: self.list.owner.id, completion: completion)
                 }
             }
-        }
-
-        dependencyGraph.faveService.getListItems(userId: list.owner.id, listId: self.list.id) { response, error in
-            guard let items = response else {
-                completion()
-
-                return
-            }
-
-            self.listItems = items
-
-            completion()
-
-            self.updateSaved(userId: self.list.owner.id)
         }
 
         dependencyGraph.faveService.followersOfList(listId: list.id) { response, error in
@@ -609,18 +596,18 @@ extension ListViewController: UITableViewDataSource {
             item = recommendations[indexPath.row]
         }
 
-        var mySavedItem: Item? = nil
+        var savedItem: SavedItem? = nil
         if item.isSaved ?? false {
-            let combinedSavedItems = listOfCurrentItems.filter({$0.dataId == item.dataId})
+            let combinedSavedItems = listOfCurrentSavedItems.filter({$0.dataId == item.dataId})
 
             if combinedSavedItems.count > 1 {
-                mySavedItem = combinedSavedItems.filter({ !$0.isRecommendation }).first
+                savedItem = combinedSavedItems.filter({ !$0.isRecommendation }).first
             } else {
-                mySavedItem = combinedSavedItems.first
+                savedItem = combinedSavedItems.first
             }
         }
 
-        cell.populate(dependencyGraph: dependencyGraph, item: item, list: list, mySavedItem: mySavedItem)
+        cell.populate(dependencyGraph: dependencyGraph, item: item, list: list, mySavedItem: savedItem)
 
         return cell
     }
@@ -810,16 +797,19 @@ extension ListViewController: EntryTableViewCellDelegate {
         navigationController?.pushViewController(profileViewController, animated: true)
     }
 
-    func updateSaved(userId: Int) {
-        dependencyGraph.faveService.myItems() { response, error in
+    func updateSaved(userId: Int, completion: @escaping () -> () = {}) {
+        dependencyGraph.faveService.mySavedItems() { response, error in
 
             guard let items = response else {
-                self.listOfCurrentItems = []
+                self.listOfCurrentSavedItems = []
 
                 return
             }
 
-            self.listOfCurrentItems = items
+            self.listOfCurrentSavedItems = items
+
+            TimeIntervalEventTracker.trackEnd(event: .userPrecievedListResponseTime)
+            completion()
         }
     }
 
@@ -971,7 +961,6 @@ extension ListViewController: EntryTableViewCellDelegate {
     }
 
     func selectListToFaveTo(item: Item, canceledSelection: @escaping () -> (), didSelectList: @escaping (_ list: List) -> ()) {
-
         let myListsViewController = MyListsViewController(dependencyGraph: dependencyGraph, item: item, canceledSelection: canceledSelection, didSelectList: didSelectList)
         let myListsNavigationController = UINavigationController(rootViewController: myListsViewController)
 

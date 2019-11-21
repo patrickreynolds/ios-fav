@@ -2,6 +2,7 @@ import Foundation
 
 enum TimeIntervalEventType: String {
     case userPrecievedListResponseTime = "userPrecievedListResponseTime"
+    case userPrecievedProfileResponseTime = "userPrecievedProfileResponseTime"
     case networkListResponseTime = "networkListResponseTime"
     case rawNetworkListResponseTime = "rawNetworkListResponseTime"
 }
@@ -23,7 +24,7 @@ class TimeIntervalEventTracker {
       shared.events.removeValue(forKey: event)
       let elapsed = Date().timeIntervalSince(startDate)
       if elapsed > printThreshold {
-        // print("\n\n> time \(event.rawValue): \(elapsed) sec")
+//        print("\n\n> time \(event.rawValue): \(elapsed) sec")
       }
     }
   }

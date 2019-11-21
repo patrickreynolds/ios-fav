@@ -312,6 +312,21 @@ struct GraphQLQueryBuilder {
         """
     }
 
+    static func mySavedItems() -> String {
+        return """
+            query {
+                savedItems: myItems {
+                    dataId
+                    isRecommendation
+                    list {
+                        id
+                        title
+                    }
+                }
+            }
+        """
+    }
+
     static func getTopLists() -> String {
         return """
             query {

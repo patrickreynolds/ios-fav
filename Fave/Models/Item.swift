@@ -138,6 +138,8 @@ struct Item {
     }
 }
 
+extension Item: SavedItemType {}
+
 /*
 
  0 : 7 elements

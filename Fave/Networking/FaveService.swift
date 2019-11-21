@@ -32,6 +32,7 @@ protocol FaveServiceType {
     func addFave(userId: Int, listId: Int, itemId: Int, note: String, completion: @escaping (_ item: Item?, _ error: Error?) -> ())
     func removeFave(userId: Int, itemId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ())
     func myItems(completion: @escaping (_ items: [Item]?, _ error: Error?) -> ())
+    func mySavedItems(completion: @escaping (_ items: [SavedItem]?, _ error: Error?) -> ())
     func submitFeedback(feedback: String, completion: @escaping (_ success: Bool?, _ error: Error?) -> ())
     func addDeviceToken(deviceToken: String, uuid: String, completion: @escaping (_ success: Bool?, _ error: Error?) -> ())
     func followUser(userId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ())

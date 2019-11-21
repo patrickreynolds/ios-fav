@@ -49,6 +49,7 @@
 		4356FD162318E28A00C060B7 /* LinearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD152318E28A00C060B7 /* LinearProgressView.swift */; };
 		4356FD182319D15800C060B7 /* CreateListOnboardingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD172319D15800C060B7 /* CreateListOnboardingStepView.swift */; };
 		4356FD1A2319D8C800C060B7 /* OnboardingCreationStackViewOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4356FD192319D8C800C060B7 /* OnboardingCreationStackViewOptionView.swift */; };
+		4365514023862325007A3CBE /* SavedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4365513F23862325007A3CBE /* SavedItem.swift */; };
 		4369CF432257C11300FCA156 /* FaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438534CF223336BB00B99EC7 /* FaveTests.swift */; };
 		4369CF4522583E7300FCA156 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF4422583E7300FCA156 /* Haptic.swift */; };
 		4369CF472258409D00FCA156 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369CF462258409D00FCA156 /* UIViewExt.swift */; };
@@ -209,6 +210,7 @@
 		4356FD152318E28A00C060B7 /* LinearProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearProgressView.swift; sourceTree = "<group>"; };
 		4356FD172319D15800C060B7 /* CreateListOnboardingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListOnboardingStepView.swift; sourceTree = "<group>"; };
 		4356FD192319D8C800C060B7 /* OnboardingCreationStackViewOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCreationStackViewOptionView.swift; sourceTree = "<group>"; };
+		4365513F23862325007A3CBE /* SavedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedItem.swift; sourceTree = "<group>"; };
 		4369CF4422583E7300FCA156 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		4369CF462258409D00FCA156 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		4369CF48225982F900FCA156 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -525,6 +527,7 @@
 				43A69B2D2254FDC100DA2BA1 /* ContextualItems.swift */,
 				43BEA2F92268E13C001F930E /* TopLists.swift */,
 				439AB513230F2DD90031D3CB /* FavePhoto.swift */,
+				4365513F23862325007A3CBE /* SavedItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1031,6 +1034,7 @@
 				4385431723624AD8004F096D /* FeedViewModel.swift in Sources */,
 				4356FD122318D2DF00C060B7 /* OnboardingViewController.swift in Sources */,
 				431ED5EC22922CD1008B9A9A /* TopListUserSectionHeaderView.swift in Sources */,
+				4365514023862325007A3CBE /* SavedItem.swift in Sources */,
 				43D63C1922D11D54006486FE /* CollectionExt.swift in Sources */,
 				4383115A233588280066222F /* OnboardingGoogleSearchViewCell.swift in Sources */,
 				433E4F8F22AF589700B0A531 /* ShareItemUserSearchResultTableViewCell.swift in Sources */,

@@ -12,7 +12,7 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
                 return
             }
 
-            FaveImageCache.downloadImage(url: photo.url) { lastestURL, image in
+            FaveImageCache.downloadImage(url: photo.url) { latestURL, image in
                 guard let image = image else {
                     return
                 }
@@ -20,7 +20,7 @@ class ItemGooglePhotoCollectionViewCell: UICollectionViewCell {
                 print("Image URL: \(photo.url.absoluteString)\n")
 
                 DispatchQueue.main.async {
-                    if photo.url.absoluteString == lastestURL {
+                    if photo.url.absoluteString == latestURL {
                         self.googlePhotoImageView.setNeedsDisplay()
                         self.googlePhotoImageView.setNeedsLayout()
                         self.googlePhotoImageView.layoutIfNeeded()

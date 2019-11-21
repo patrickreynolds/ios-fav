@@ -34,7 +34,7 @@ class EntryTableViewCell: UITableViewCell {
 
     var list: List?
     var currentUser: User?
-    var mySavedItem: Item?
+    var mySavedItem: SavedItemType?
     var delegate: EntryTableViewCellDelegate?
 
     var itemIsAlreadySavedConstraint: NSLayoutConstraint?
@@ -45,10 +45,34 @@ class EntryTableViewCell: UITableViewCell {
 
     var photos: [FavePhotoType] = [] {
         didSet {
-            print("\nItem ID: \(item?.id)")
+            heroImage = photos.first
+        }
+    }
 
-            for photo in photos {
-                print("\(photo.url.absoluteString)")
+    var heroImage: FavePhotoType? {
+        didSet {
+            guard let heroImage = heroImage else {
+                return
+            }
+
+            FaveImageCache.downloadImage(url: heroImage.url) { latestURL, image in
+                guard let image = image else {
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    if heroImage.url.absoluteString == latestURL {
+                        UIView.transition(with: self.heroImageView,
+                                            duration: 0.2,
+                                            options: .transitionCrossDissolve,
+                                            animations: {
+                                              self.heroImageView.image = image
+                                            },
+                                            completion: nil)
+                    } else {
+                        print("\n\nSkipping outdated image call\n\n")
+                    }
+                }
             }
         }
     }
@@ -82,6 +106,21 @@ class EntryTableViewCell: UITableViewCell {
         numberOfLines: 0)
     
     let ownerImageView = UIImageView(frame: .zero)
+
+    private lazy var heroImageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+
+        imageView.backgroundColor = FaveColors.Black20
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = true
+
+        constrain(imageView) { imageView in
+            imageView.height == 96
+        }
+
+        return imageView
+    }()
 
     private lazy var titleLabel: Label = {
         let label = Label(text: "",
@@ -337,8 +376,8 @@ class EntryTableViewCell: UITableViewCell {
 
         shadowView.layer.shadowColor = FaveColors.Black100.cgColor
         shadowView.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        shadowView.layer.shadowRadius = 6
-        shadowView.layer.shadowOpacity = 0.08
+        shadowView.layer.shadowRadius = 7
+        shadowView.layer.shadowOpacity = 0.12
 
         return shadowView
     }()
@@ -392,32 +431,6 @@ class EntryTableViewCell: UITableViewCell {
         return view
     }()
 
-
-    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 80, height: 80)
-
-        return layout
-    }()
-
-    private lazy var photosCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-
-        collectionView.allowsMultipleSelection = false
-        collectionView.allowsSelection = false
-        collectionView.register(ItemGooglePhotoCollectionViewCell.self)
-        collectionView.backgroundColor = FaveColors.White
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-
-        collectionView.delegate = self
-        collectionView.dataSource = self
-
-        return collectionView
-    }()
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -432,10 +445,10 @@ class EntryTableViewCell: UITableViewCell {
 
         constrainToSuperview(cardView)
 
+        cardView.addSubview(heroImageView)
         cardView.addSubview(titleLabel)
         cardView.addSubview(ownerView)
         cardView.addSubview(subtitleLabel)
-        cardView.addSubview(photosCollectionView)
         cardView.addSubview(actionStackView)
 
         cardView.addSubview(borderView)
@@ -448,15 +461,21 @@ class EntryTableViewCell: UITableViewCell {
             cardShadowView.left == contentView.left + 16
         }
 
-        constrain(savedItemContextView, titleLabel, cardView) { savedItemContextView, titleLabel, view in
-            itemIsAlreadySavedConstraint = savedItemContextView.top == view.top + 16
+        constrain(heroImageView, cardView) { imageView, cardView in
+            imageView.top == cardView.top
+            imageView.right == cardView.right
+            imageView.left == cardView.left
+        }
+
+        constrain(savedItemContextView, titleLabel, heroImageView, cardView) { savedItemContextView, titleLabel, heroImageView, view in
+            savedItemContextView.top == heroImageView.bottom + 12
             savedItemContextView.right == view.right - 16
-            savedItemContextView.bottom == titleLabel.top - 2
             savedItemContextView.left == view.left + 16
         }
 
-        constrain(titleLabel, cardView) { label, view in
-            itemIsNotAlreadySavedConstraint = label.top == view.top + 16
+        constrain(titleLabel, savedItemContextView, heroImageView, cardView) { label, savedItemContextView, heroImageView, view in
+            itemIsAlreadySavedConstraint = label.top == savedItemContextView.bottom + 4
+            itemIsNotAlreadySavedConstraint = label.top == heroImageView.bottom + 16
             label.right == view.right - 16
             label.left == view.left + 16
         }
@@ -474,15 +493,8 @@ class EntryTableViewCell: UITableViewCell {
             subtitleLabel.left == titleLabel.left
         }
 
-        constrain(photosCollectionView, subtitleLabel, cardView) { collectionView, subtitleLabel, cardView in
-            collectionView.top == subtitleLabel.bottom + 16
-            collectionView.right == cardView.right
-            collectionView.left == cardView.left
-            collectionView.height == 80
-        }
-
-        constrain(actionStackView, borderView, photosCollectionView, cardView) { actionStackView, borderView, photosCollectionView, contentView in
-            actionStackView.top == photosCollectionView.bottom + 16
+        constrain(actionStackView, borderView, subtitleLabel, cardView) { actionStackView, borderView, subtitleLabel, contentView in
+            actionStackView.top == subtitleLabel.bottom + 12
             actionStackView.right == contentView.right - 16
             actionStackView.bottom == borderView.top - 8
             actionStackView.left == contentView.left + 16
@@ -503,13 +515,10 @@ class EntryTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-//        contentView.setNeedsLayout()
-//        contentView.layoutIfNeeded()
-
-//        photosCollectionView.reloadData()
+        resetImage()
     }
 
-    func populate(dependencyGraph: DependencyGraphType, item: Item, list: List?, mySavedItem: Item?) {
+    func populate(dependencyGraph: DependencyGraphType, item: Item, list: List?, mySavedItem: SavedItemType?) {
         self.dependencyGraph = dependencyGraph
         self.item = item
         self.list = list
@@ -592,8 +601,6 @@ class EntryTableViewCell: UITableViewCell {
 
         contentView.setNeedsLayout()
         contentView.layoutIfNeeded()
-
-        photosCollectionView.reloadData()
     }
 
     private func updateSavedItemContext(item: Item) {
@@ -630,6 +637,10 @@ class EntryTableViewCell: UITableViewCell {
 
         faveActionIcon.image = itemIsSavedByUser ? UIImage(named: "icon-fave-faved") : UIImage(named: "icon-fave-not-faved")
         faveActionLabel.text = itemIsSavedByUser ? "Saved" : "Save"
+    }
+
+    private func resetImage() {
+        self.heroImageView.image = nil
     }
 
     @objc func faveItemButtonTapped() {
@@ -678,39 +689,5 @@ class EntryTableViewCell: UITableViewCell {
         }
 
         delegate?.dismissButtonTapped(item: item)
-    }
-}
-
-extension EntryTableViewCell: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let item = item else {
-            return
-        }
-
-        delegate?.photoTapped(item: item, list: list)
-    }
-}
-
-extension EntryTableViewCell: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
-        return photos.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeue(ItemGooglePhotoCollectionViewCell.self, indexPath: indexPath)
-
-        let photo = photos[indexPath.row]
-
-        cell.photo = nil
-        cell.populate(photo: photo)
-
-        return cell
-    }
-}
-
-extension EntryTableViewCell: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 80)
     }
 }

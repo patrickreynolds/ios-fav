@@ -27,7 +27,7 @@ class ProfileViewController: FaveVC {
             view.setNeedsLayout()
 
             self.profileTableView.reloadData()
-            TimeIntervalEventTracker.trackEnd(event: .userPrecievedListResponseTime)
+            TimeIntervalEventTracker.trackEnd(event: .userPrecievedProfileResponseTime)
         }
     }
 
@@ -253,7 +253,7 @@ class ProfileViewController: FaveVC {
 
     private func refreshData(completion: @escaping () -> () = {}) {
 
-        TimeIntervalEventTracker.trackStart(event: .userPrecievedListResponseTime)
+        TimeIntervalEventTracker.trackStart(event: .userPrecievedProfileResponseTime)
 
         let currentUser: User
 
