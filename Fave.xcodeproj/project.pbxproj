@@ -1195,7 +1195,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 40;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
@@ -1204,7 +1204,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.19;
+				MARKETING_VERSION = 1.1.20;
 				PRODUCTION = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1322,7 +1322,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 40;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
@@ -1331,7 +1331,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.19;
+				MARKETING_VERSION = 1.1.20;
 				PRODUCTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1510,7 +1510,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 40;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
@@ -1519,7 +1519,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.19;
+				MARKETING_VERSION = 1.1.20;
 				PRODUCTION = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1538,7 +1538,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Fave/Fave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 40;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 24GW4727H7;
 				GOOGLE_API_KEY = "AIzaSyD6FEl0NDT39cAifz2AZctH8enh-b_gLs4";
@@ -1547,7 +1547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.19;
+				MARKETING_VERSION = 1.1.20;
 				PRODUCTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.patrickreynolds.Fave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
