@@ -343,36 +343,6 @@ struct FaveGraphQLService {
         }
     }
 
-    func followList(listId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
-
-        let followListQuery = GraphQLQueryBuilder.followList(listId: listId)
-
-        networking.sendGraphqlRequest(query: followListQuery) { response, error in
-            guard let statusResponse = response as? [String: AnyObject], let status = statusResponse["status"] as? Bool else {
-                completion(false, error)
-
-                return
-            }
-
-            completion(status, error)
-        }
-    }
-
-    func unfollowList(listId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
-
-        let unfollowListQuery = GraphQLQueryBuilder.unfollowList(listId: listId)
-
-        networking.sendGraphqlRequest(query: unfollowListQuery) { response, error in
-            guard let statusResponse = response as? [String: AnyObject], let status = statusResponse["status"] as? Bool else {
-                completion(false, error)
-
-                return
-            }
-
-            completion(status, error)
-        }
-    }
-
     func getFaves(userId: Int, completion: @escaping (_ faveIds: [Int]?, _ error: Error?) -> ()) {
 
         let myFavesQuery = GraphQLQueryBuilder.myFavesQuery()

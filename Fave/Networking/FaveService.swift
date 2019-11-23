@@ -26,8 +26,6 @@ protocol FaveServiceType {
     func getUsers(completion: @escaping (_ lists: [User]?, _ error: Error?) -> ())
     func followersOfList(listId: Int, completion: @escaping (_ lists: [User]?, _ error: Error?) -> ())
     func listsUserFollows(userId: Int, completion: @escaping (_ lists: [List]?, _ error: Error?) -> ())
-    func followList(listId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ())
-    func unfollowList(listId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ())
     func getFaves(userId: Int, completion: @escaping (_ faveIds: [Int]?, _ error: Error?) -> ())
     func addFave(userId: Int, listId: Int, itemId: Int, note: String, completion: @escaping (_ item: Item?, _ error: Error?) -> ())
     func removeFave(userId: Int, itemId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ())
@@ -283,45 +281,6 @@ protocol FaveServiceType {
 //        }
 //    }
 //
-//    func followList(listId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
-//
-//        let data = [String: String]()
-//
-//        networking.sendPostRequest(endpoint: .followUnfollow(listId: listId), data: data) { response, error in
-//            guard let followResponseData = response as? [String: AnyObject] else {
-//                completion(false, error)
-//
-//                return
-//            }
-//
-//            var success = true
-//            if let message = followResponseData["message"] as? String, message == "ok" {
-//                success = true
-//            }
-//
-//            completion(success, error)
-//        }
-//    }
-//
-//    func unfollowList(listId: Int, completion: @escaping (_ success: Bool, _ error: Error?) -> ()) {
-//
-//        let data = [String: String]()
-//
-//        networking.sendDeleteRequest(endpoint: .followUnfollow(listId: listId), data: data) { response, error in
-//            guard let unfollowResponseData = response as? [String: AnyObject] else {
-//                completion(false, error)
-//
-//                return
-//            }
-//
-//            var success = true
-//            if let message = unfollowResponseData["message"] as? String, message == "ok" {
-//                success = true
-//            }
-//
-//            completion(success, error)
-//        }
-//    }
 //
 //    func getFaves(userId: Int, completion: @escaping (_ faveIds: [Int]?, _ error: Error?) -> ()) {
 //        networking.sendGetRequest(endpoint: .faves(userId: userId)) { response, error in

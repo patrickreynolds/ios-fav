@@ -230,22 +230,6 @@ struct GraphQLQueryBuilder {
         """
     }
 
-    static func followList(listId: Int) -> String {
-        return """
-            mutation {
-                status: followList(listId: \(listId))
-            }
-        """
-    }
-
-    static func unfollowList(listId: Int) -> String {
-        return """
-            mutation {
-                status: unfollowList(listId: \(listId))
-            }
-        """
-    }
-
     static func listSuggestions() -> String {
         return """
             query {
