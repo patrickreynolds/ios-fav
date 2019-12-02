@@ -181,7 +181,7 @@ class ItemViewController: FaveVC {
 
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.leftBarButton)
 
-        if let user = dependencyGraph.storage.getUser(), user.id == item.addedBy.id {
+        if let user = dependencyGraph.storage.getUser(), user.id == item.owner.id {
             navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.tabBarMenuButton)
         }
 

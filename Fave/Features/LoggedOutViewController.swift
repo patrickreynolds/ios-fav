@@ -169,7 +169,6 @@ class LoggedOutViewController: FaveVC {
         loginState = .loggingIn
 
         let loginManager = LoginManager()
-
         loginManager.logOut()
 
         loginManager.logIn(permissions: [Permission.publicProfile, Permission.email, Permission.userFriends], viewController: self) { loginResult in

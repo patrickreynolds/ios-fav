@@ -33,7 +33,6 @@ class SplashScreenViewController: FaveVC {
             case .loggedIn(let user):
 
                 if dependencyGraph.storage.hasSeenOnboarding() {
-
                     UIView.animate(withDuration: 0.3, delay: 1, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
                         self.view.alpha = 0
                     }, completion: { (completed) in
