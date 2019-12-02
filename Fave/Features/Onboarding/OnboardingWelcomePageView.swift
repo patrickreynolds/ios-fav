@@ -10,7 +10,7 @@ enum OnboardingWelcomePageContentType {
     var title: String {
         switch self {
         case .createList:
-            return "Create lists"
+            return "Create collections"
         case .shareRecommendation:
             return "Share recommendations"
         case .discoverNewPlace:
@@ -21,11 +21,11 @@ enum OnboardingWelcomePageContentType {
     var subtitle: String {
         switch self {
         case .createList:
-            return "Create lists of all your \nfavorite spots in one place."
+            return "Create collections of all your favorite spots in one place."
         case .shareRecommendation:
-            return "Send and receive trusted \nrecommendations from friends."
+            return "Send and receive trusted recommendations from friends."
         case .discoverNewPlace:
-            return "See where everyone’s going and \nwhat they’re saying about it."
+            return "See where everyone’s going and what they’re saying about it."
         }
     }
 

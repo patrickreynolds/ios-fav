@@ -137,7 +137,7 @@ class MyListsViewController: FaveVC {
             noListsView.left == view.left + 16
         }
 
-        let titleViewLabel = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Select a collection", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
 
         view.bringSubviewToFront(loadingIndicatorView)

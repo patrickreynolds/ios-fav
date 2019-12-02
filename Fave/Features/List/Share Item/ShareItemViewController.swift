@@ -336,7 +336,7 @@ extension ShareItemViewController: ShareItemActionViewDelegate {
     }
 
     func shareToActionTapped() {
-        let alertController = UIAlertController(title: "Coming soon!", message: "We're actively working on the ability to share links to Fave lists and entries. Hold tight, and it'll be out before you know it.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Coming soon!", message: "We're actively working on the ability to share links to Fave collections and entries. Hold tight, and it'll be out before you know it.", preferredStyle: .alert)
         
         alertController.addAction(UIAlertAction(title: "Got it", style: .default, handler: { action in
             switch action.style {
@@ -352,7 +352,7 @@ extension ShareItemViewController: ShareItemActionViewDelegate {
     }
 
     func copyLinkActionTapped() {
-        let alertController = UIAlertController(title: "Coming soon!", message: "We're actively working on the ability to share links to Fave lists and entries. Hold tight, and it'll be out before you know it.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Coming soon!", message: "We're actively working on the ability to share links to Fave collections and entries. Hold tight, and it'll be out before you know it.", preferredStyle: .alert)
         
         alertController.addAction(UIAlertAction(title: "Got it", style: .default, handler: { action in
             switch action.style {

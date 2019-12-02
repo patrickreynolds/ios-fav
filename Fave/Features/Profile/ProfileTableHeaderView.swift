@@ -80,7 +80,7 @@ class ProfileTableHeaderView: UIView {
 
     private lazy var listsLabel: Label = {
 
-        let titleString = "0 Lists"
+        let titleString = "0 Collections"
 
         let label = Label(text: titleString, font: FaveFont(style: .small, weight: .semiBold), textColor: FaveColors.Black70, textAlignment: .left, numberOfLines: 0)
 
@@ -138,7 +138,7 @@ class ProfileTableHeaderView: UIView {
 
     lazy var followingLabel: Label = {
         let label = Label(
-            text: "Not following any lists",
+            text: "Not following any collections",
             font: FaveFont(style: .h5, weight: .regular),
             textColor: FaveColors.Black90,
             textAlignment: .left,
@@ -324,10 +324,10 @@ class ProfileTableHeaderView: UIView {
     func updateListInfo(lists: [List]) {
 
         if lists.count > 0 {
-            let listString = lists.count == 1 ? "List".uppercased() : "Lists".uppercased()
+            let listString = lists.count == 1 ? "Collection".uppercased() : "Collections".uppercased()
             listCountLabel.text = "\(lists.count) \(listString)"
         } else {
-            listCountLabel.text = "No lists".uppercased()
+            listCountLabel.text = "No collections".uppercased()
         }
 
         UIView.animate(withDuration: 0.15) {

@@ -76,9 +76,9 @@ class SelectListViewController: FaveVC {
         let view = UIView(frame: .zero)
         view.backgroundColor = FaveColors.White
 
-        let titleLabel = Label(text: "No lists found", font: FaveFont(style: .h4, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
+        let titleLabel = Label(text: "No collections found", font: FaveFont(style: .h4, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
 
-        let subtitleLabel = Label(text: "Create a new list to add your entry.", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
+        let subtitleLabel = Label(text: "Create a new collection to add your entry.", font: FaveFont(style: .h5, weight: .regular), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 0)
 
         view.addSubview(titleLabel)
         view.addSubview(subtitleLabel)
@@ -135,7 +135,7 @@ class SelectListViewController: FaveVC {
 
         view.bringSubviewToFront(loadingIndicator)
 
-        let titleViewLabel = Label(text: "Select a list", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Select a collection", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         navigationItem.titleView = titleViewLabel
     }
 

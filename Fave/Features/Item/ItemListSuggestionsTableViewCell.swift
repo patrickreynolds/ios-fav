@@ -12,7 +12,7 @@ class ItemListSuggestionsTableViewCell: UITableViewCell {
     var delegate: ItemListSuggestionsTableViewCellDelegate?
 
     private lazy var titleLabel: Label = {
-        let label = Label(text: "Found on other lists",
+        let label = Label(text: "Found on other collections",
                           font: FaveFont(style: .h4, weight: .bold),
                           textColor: FaveColors.Black90,
                           textAlignment: .left,

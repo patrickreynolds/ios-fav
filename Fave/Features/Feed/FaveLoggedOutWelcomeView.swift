@@ -126,7 +126,7 @@ class FaveLoggedOutWelcomeView: UIView {
     }()
 
     private lazy var subtitleLabel: Label = {
-        let label = Label(text: "Create lists, share recommendations, and discover places with friends.",
+        let label = Label(text: "Create collections, share recommendations, and discover places with friends.",
                                   font: FaveFont(style: .h5, weight: .regular),
                                   textColor: FaveColors.Black70,
                                   textAlignment: .center,

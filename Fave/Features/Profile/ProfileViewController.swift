@@ -487,7 +487,7 @@ extension ProfileViewController: UITableViewDelegate {
 
         listViewController.delegate = self
 
-        let titleViewLabel = Label(text: "List", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
+        let titleViewLabel = Label(text: "Collection", font: FaveFont(style: .h5, weight: .bold), textColor: FaveColors.Black90, textAlignment: .center, numberOfLines: 1)
         listViewController.navigationItem.titleView = titleViewLabel
 
         navigationController?.pushViewController(listViewController, animated: true)
